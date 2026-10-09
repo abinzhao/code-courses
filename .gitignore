@@ -30,3 +30,4 @@ pnpm-debug.log*
 dist/
 build/
 coverage/
+docs/
