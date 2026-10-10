@@ -48,6 +48,12 @@
 
 详细路线见[学习路径](./00-course-map/01-learning-path.md)。
 
+## 全量索引与生成进度
+
+课程共有 48 周、9 个阶段和 96 个知识单元，每周固定两个单元。单元路径、前后导航、阶段成果和 Node.js 基线见[全量课程清单](./progress/course-manifest.json)，分批范围和当前完成状态见[课程生成进度](./progress/README.md)。
+
+当前 B0 已建立 U01–U96 的结构化入口；实际正文和实验以文件存在并通过完整性校验为准。当前只有 W1 的 U01、U02 完整，U03–U96 会由后续批次补齐。
+
 ## NoteFlow 主线
 
 NoteFlow 是一个面向小型团队的知识库和内容发布平台：
@@ -133,8 +139,16 @@ NoteFlow 是一个面向小型团队的知识库和内容发布平台：
 校验命令：
 
 ```bash
-node scripts/check-course-links.js
+# 在仓库根目录执行
+. "$HOME/.nvm/nvm.sh"
+nvm use 24
+node --check web-fullstack-course/scripts/check-course-links.js
+node --check web-fullstack-course/scripts/check-course-completeness.js
+node web-fullstack-course/scripts/check-course-links.js
+node web-fullstack-course/scripts/check-course-completeness.js
 ```
+
+B0 阶段链接检查应通过；完整性检查会在 U03–U96 尚未生成时以非零状态列出对应的 lesson 和 lab 缺失项。
 
 ## 当前版本边界
 
