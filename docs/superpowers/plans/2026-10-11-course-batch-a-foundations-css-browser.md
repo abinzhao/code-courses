@@ -32,11 +32,11 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/00-guide/03-computer-first-page/02-url-http-first-page.md`
 - Create: `web-fullstack-course/00-guide/03-computer-first-page/03-devtools-first-request-evidence.md`
 
-- [ ] Write `01-files-paths-editors.md`: files versus folders, absolute/relative paths, extensions, encodings, editors, save state, and a visible wrong-file diagnosis.
-- [ ] Write `02-url-http-first-page.md`: URL parts, `file:` versus HTTP, local server, request/response, MIME type, 200/404, and the first Neighbor Market page.
-- [ ] Write `03-devtools-first-request-evidence.md`: Elements, Console, Network, Sources, reload behavior, screenshots, and a first evidence record.
-- [ ] Rewrite the hub with route, prerequisites, three-step project, and W1 acceptance links.
-- [ ] Verify all three lessons and relative links.
+- [x] Write `01-files-paths-editors.md`: files versus folders, absolute/relative paths, extensions, encodings, editors, save state, and a visible wrong-file diagnosis.
+- [x] Write `02-url-http-first-page.md`: URL parts, `file:` versus HTTP, local server, request/response, MIME type, 200/404, and the first Neighbor Market page.
+- [x] Write `03-devtools-first-request-evidence.md`: Elements, Console, Network, Sources, reload behavior, screenshots, and a first evidence record.
+- [x] Rewrite the hub with route, prerequisites, three-step project, and W1 acceptance links.
+- [x] Verify all three lessons and relative links.
 
 ## 3. Task 2: Split the Terminal, Git, and Debugging Practice Chapter
 
@@ -46,11 +46,11 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/00-guide/04-terminal-git-debugging/02-git-three-trees-commits-branches.md`
 - Create: `web-fullstack-course/00-guide/04-terminal-git-debugging/03-evidence-driven-debugging-loop.md`
 
-- [ ] Write `01-terminal-processes-ports.md`: shell, working directory, quoting, exit code, environment, process, signal, port ownership, and safe termination.
-- [ ] Write `02-git-three-trees-commits-branches.md`: working tree, index, repository, diff, commit, branch, merge conflict, ignored files, and non-destructive recovery.
-- [ ] Write `03-evidence-driven-debugging-loop.md`: reproduce, minimise, hypothesise, instrument, fix, regress, and report using a broken local page.
-- [ ] Rewrite the hub with route, command safety, project evidence, and acceptance.
-- [ ] Verify all three lessons without running destructive Git commands.
+- [x] Write `01-terminal-processes-ports.md`: shell, working directory, quoting, exit code, environment, process, signal, port ownership, and safe termination.
+- [x] Write `02-git-three-trees-commits-branches.md`: working tree, index, repository, diff, commit, branch, merge conflict, ignored files, and non-destructive recovery.
+- [x] Write `03-evidence-driven-debugging-loop.md`: reproduce, minimise, hypothesise, instrument, fix, regress, and report using a broken local page.
+- [x] Rewrite the hub with route, command safety, project evidence, and acceptance.
+- [x] Verify all three lessons without running destructive Git commands.
 
 ## 4. Task 3: CSS Syntax, Cascade, and Selectors
 
@@ -60,10 +60,10 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/02-css/01-syntax-cascade-selectors/02-cascade-layers-specificity.md`
 - Create: `web-fullstack-course/02-css/01-syntax-cascade-selectors/03-selectors-pseudo-classes-inheritance.md`
 
-- [ ] Cover CSS token/rule parsing, declarations, invalid-at-computed-value behavior, inline/internal/external styles and resource evidence.
-- [ ] Cover origin, importance, context, style attributes, layers, specificity, scope proximity and source order with a deterministic decision table.
-- [ ] Cover type/class/ID/attribute/relationship selectors, functional pseudo-classes, pseudo-elements, inheritance and selector debugging.
-- [ ] Rewrite the hub and verify three standalone pages.
+- [x] Cover CSS token/rule parsing, declarations, invalid-at-computed-value behavior, inline/internal/external styles and resource evidence.
+- [x] Cover origin, importance, context, style attributes, layers, specificity, scope proximity and source order with a deterministic decision table.
+- [x] Cover type/class/ID/attribute/relationship selectors, functional pseudo-classes, pseudo-elements, inheritance and selector debugging.
+- [x] Rewrite the hub and verify three standalone pages.
 
 ## 5. Task 4: CSS Values, Units, and Color
 
@@ -73,10 +73,10 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/02-css/02-values-colors-units/02-font-viewport-container-math.md`
 - Create: `web-fullstack-course/02-css/02-values-colors-units/03-color-spaces-transparency-contrast.md`
 
-- [ ] Explain specified, computed, used and actual values; absolute/relative units; percentages and containing references.
-- [ ] Explain font, root-font, viewport and container units plus `calc`, `min`, `max`, `clamp` and typed arithmetic boundaries.
-- [ ] Explain sRGB, HSL, modern color functions, alpha, interpolation, system colors, contrast and fallback ordering.
-- [ ] Rewrite the hub and verify computed-style observations.
+- [x] Explain specified, computed, used and actual values; absolute/relative units; percentages and containing references.
+- [x] Explain font, root-font, viewport and container units plus `calc`, `min`, `max`, `clamp` and typed arithmetic boundaries.
+- [x] Explain sRGB, HSL, modern color functions, alpha, interpolation, system colors, contrast and fallback ordering.
+- [x] Rewrite the hub and verify computed-style observations.
 
 ## 6. Task 5: Box Model, Flow, and Positioning
 
@@ -86,10 +86,10 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/02-css/03-box-sizing-flow-position/02-normal-flow-formatting-contexts-margins.md`
 - Create: `web-fullstack-course/02-css/03-box-sizing-flow-position/03-containing-block-position-stacking.md`
 
-- [ ] Explain content/padding/border/margin, `box-sizing`, min/max content, replaced elements, overflow and scroll containers.
-- [ ] Explain block/inline formatting, margin collapse, floats, BFC creation and normal-flow reading order.
-- [ ] Explain containing blocks, relative/absolute/fixed/sticky positioning, z-order, stacking contexts and top-layer boundaries.
-- [ ] Rewrite the hub and verify overflow and stacking failure cases.
+- [x] Explain content/padding/border/margin, `box-sizing`, min/max content, replaced elements, overflow and scroll containers.
+- [x] Explain block/inline formatting, margin collapse, floats, BFC creation and normal-flow reading order.
+- [x] Explain containing blocks, relative/absolute/fixed/sticky positioning, z-order, stacking contexts and top-layer boundaries.
+- [x] Rewrite the hub and verify overflow and stacking failure cases.
 
 ## 7. Task 6: Typography and Decoration
 
@@ -99,10 +99,10 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/02-css/04-typography-decoration/02-line-breaking-i18n-readability.md`
 - Create: `web-fullstack-course/02-css/04-typography-decoration/03-background-border-shadow-filter-clip.md`
 
-- [ ] Explain font families, faces, loading, fallback metrics, variable fonts and layout-shift mitigation.
-- [ ] Explain line boxes, spacing, wrapping, hyphenation, overflow, vertical/bidirectional text and readability.
-- [ ] Explain layered backgrounds, borders, radii, shadows, filters, masks/clip boundaries and accessible alternatives.
-- [ ] Rewrite the hub and verify local/fallback font behavior without bundling font files.
+- [x] Explain font families, faces, loading, fallback metrics, variable fonts and layout-shift mitigation.
+- [x] Explain line boxes, spacing, wrapping, hyphenation, overflow, vertical/bidirectional text and readability.
+- [x] Explain layered backgrounds, borders, radii, shadows, filters, masks/clip boundaries and accessible alternatives.
+- [x] Rewrite the hub and verify local/fallback font behavior without bundling font files.
 
 ## 8. Task 7: Flexbox
 
@@ -112,10 +112,10 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/02-css/05-flexbox/02-grow-shrink-basis-auto-minimum.md`
 - Create: `web-fullstack-course/02-css/05-flexbox/03-responsive-toolbar-reading-order.md`
 
-- [ ] Explain flex axes, direction, wrapping, gaps and alignment.
-- [ ] Derive base size, free space, grow/shrink distribution and automatic minimum-size failures.
-- [ ] Build a responsive Neighbor Market toolbar/card row while preserving DOM, focus and reading order.
-- [ ] Rewrite the hub and verify 320 px overflow behavior.
+- [x] Explain flex axes, direction, wrapping, gaps and alignment.
+- [x] Derive base size, free space, grow/shrink distribution and automatic minimum-size failures.
+- [x] Build a responsive Neighbor Market toolbar/card row while preserving DOM, focus and reading order.
+- [x] Rewrite the hub and verify 320 px overflow behavior.
 
 ## 9. Task 8: Grid and Subgrid
 
@@ -125,10 +125,10 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/02-css/06-grid/02-auto-placement-implicit-responsive-repeat.md`
 - Create: `web-fullstack-course/02-css/06-grid/03-subgrid-alignment-fallback.md`
 
-- [ ] Explain explicit tracks, lines, named areas, `fr`, intrinsic sizing and track overflow.
-- [ ] Explain auto placement, dense risks, implicit tracks, `repeat`, `auto-fit`, `auto-fill` and `minmax`.
-- [ ] Explain Subgrid alignment, support detection, ordinary Grid fallback and semantic order.
-- [ ] Rewrite the hub and verify Grid/Subgrid representative layouts.
+- [x] Explain explicit tracks, lines, named areas, `fr`, intrinsic sizing and track overflow.
+- [x] Explain auto placement, dense risks, implicit tracks, `repeat`, `auto-fit`, `auto-fill` and `minmax`.
+- [x] Explain Subgrid alignment, support detection, ordinary Grid fallback and semantic order.
+- [x] Rewrite the hub and verify Grid/Subgrid representative layouts.
 
 ## 10. Task 9: Responsive and Container Queries
 
@@ -138,10 +138,10 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/02-css/07-responsive-container/02-container-queries-units.md`
 - Create: `web-fullstack-course/02-css/07-responsive-container/03-logical-properties-input-safe-area-preferences.md`
 
-- [ ] Explain mobile-first media queries, content breakpoints, range syntax, viewport and print boundaries.
-- [ ] Explain query containers, containment side effects, style/size queries and container units.
-- [ ] Explain logical properties, writing modes, pointer/hover, safe areas, forced colors, contrast and user preferences.
-- [ ] Rewrite the hub and verify narrow, wide, print and preference states.
+- [x] Explain mobile-first media queries, content breakpoints, range syntax, viewport and print boundaries.
+- [x] Explain query containers, containment side effects, style/size queries and container units.
+- [x] Explain logical properties, writing modes, pointer/hover, safe areas, forced colors, contrast and user preferences.
+- [x] Rewrite the hub and verify narrow, wide, print and preference states.
 
 ## 11. Task 10: Transform, Transition, and Animation
 
@@ -151,10 +151,10 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/02-css/08-transforms-transitions-animation/02-transitions-keyframes-cancelable-state.md`
 - Create: `web-fullstack-course/02-css/08-transforms-transitions-animation/03-waapi-scroll-timeline-reduced-motion.md`
 
-- [ ] Explain transform functions, origins, matrices at an intuitive level, containing-block effects and compositing.
-- [ ] Explain transition lists, discrete behavior, keyframes, fill/direction, interruption and state-machine ownership.
-- [ ] Explain WAAPI, scroll/view timelines, feature detection, cancellation and reduced-motion alternatives.
-- [ ] Rewrite the hub and label experimental/limited support accurately.
+- [x] Explain transform functions, origins, matrices at an intuitive level, containing-block effects and compositing.
+- [x] Explain transition lists, discrete behavior, keyframes, fill/direction, interruption and state-machine ownership.
+- [x] Explain WAAPI, scroll/view timelines, feature detection, cancellation and reduced-motion alternatives.
+- [x] Rewrite the hub and label experimental/limited support accurately.
 
 ## 12. Task 11: Modern CSS Components
 
@@ -164,10 +164,10 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/02-css/09-components-modern-css/02-layers-nesting-scope.md`
 - Create: `web-fullstack-course/02-css/09-components-modern-css/03-forms-scroll-print-forced-colors.md`
 
-- [ ] Explain custom-property substitution, invalid values, inheritance, `@property` and theme contracts.
-- [ ] Explain architecture with `@layer`, native nesting, `@scope`, component boundaries and specificity budgets.
-- [ ] Explain form control styling, accent, appearance boundaries, scrolling, print and forced-colors support.
-- [ ] Rewrite the hub and verify theme and high-contrast states.
+- [x] Explain custom-property substitution, invalid values, inheritance, `@property` and theme contracts.
+- [x] Explain architecture with `@layer`, native nesting, `@scope`, component boundaries and specificity budgets.
+- [x] Explain form control styling, accent, appearance boundaries, scrolling, print and forced-colors support.
+- [x] Rewrite the hub and verify theme and high-contrast states.
 
 ## 13. Task 12: CSS Reference
 
@@ -178,11 +178,11 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/02-css/10-property-reference/03-limited-experimental-fallback-register.md`
 - Create: `web-fullstack-course/02-css/CSS-COVERAGE.md`
 
-- [ ] Move the stable property and module index into a searchable detailed lesson while preserving all 476 property entries.
-- [ ] Build an at-rule, function, descriptor and syntax reference with purpose, context, example and primary lesson.
-- [ ] Separate limited, experimental, deprecated and non-standard features with detection and fallback records.
-- [ ] Build `CSS-COVERAGE.md` mapping every required concept and the 476-property audit.
-- [ ] Rewrite the hub and verify no property names were lost.
+- [x] Move the stable property and module index into a searchable detailed lesson while preserving all 476 property entries.
+- [x] Build an at-rule, function, descriptor and syntax reference with purpose, context, example and primary lesson.
+- [x] Separate limited, experimental, deprecated and non-standard features with detection and fallback records.
+- [x] Build `CSS-COVERAGE.md` mapping every required concept and the 476-property audit.
+- [x] Rewrite the hub and verify no property names were lost.
 
 ## 14. Task 13: Browser Network, HTTP, and Cache
 
@@ -192,10 +192,10 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/03-browser/01-network-http-cache/02-http-messages-status-negotiation.md`
 - Create: `web-fullstack-course/03-browser/01-network-http-cache/03-cache-validation-cors-observation.md`
 
-- [ ] Explain URL processing, DNS evidence, connection reuse, TLS identity and protocol boundaries.
-- [ ] Explain request/response messages, methods, status, headers, content negotiation, compression and body framing.
-- [ ] Build conditional-cache and CORS observations with 200/304/failure evidence.
-- [ ] Rewrite the hub using the shared `browser-lab` contract.
+- [x] Explain URL processing, DNS evidence, connection reuse, TLS identity and protocol boundaries.
+- [x] Explain request/response messages, methods, status, headers, content negotiation, compression and body framing.
+- [x] Build conditional-cache and CORS observations with 200/304/failure evidence.
+- [x] Rewrite the hub using the shared `browser-lab` contract.
 
 ## 15. Task 14: Rendering and Event Loop
 
@@ -205,10 +205,10 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/03-browser/02-rendering-event-loop/02-tasks-microtasks-rendering-opportunities.md`
 - Create: `web-fullstack-course/03-browser/02-rendering-event-loop/03-long-tasks-layout-thrashing-animation.md`
 
-- [ ] Explain DOM/CSSOM, style, layout, paint, layers and compositing without presenting an obsolete fixed pipeline.
-- [ ] Explain tasks, microtasks, animation frames, timers and rendering opportunities with an observable order log.
-- [ ] Diagnose long tasks, forced synchronous layout and unstable animation; implement chunking and read/write batching.
-- [ ] Rewrite the hub and verify timing assertions in Chromium.
+- [x] Explain DOM/CSSOM, style, layout, paint, layers and compositing without presenting an obsolete fixed pipeline.
+- [x] Explain tasks, microtasks, animation frames, timers and rendering opportunities with an observable order log.
+- [x] Diagnose long tasks, forced synchronous layout and unstable animation; implement chunking and read/write batching.
+- [x] Rewrite the hub and verify timing assertions in Chromium.
 
 ## 16. Task 15: Storage and Security
 
@@ -218,10 +218,10 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/03-browser/03-storage-security/02-indexeddb-transactions-upgrades.md`
 - Create: `web-fullstack-course/03-browser/03-storage-security/03-origin-cookie-xss-csrf-authorization.md`
 
-- [ ] Compare memory, sessionStorage and localStorage, serialization, quota, storage events and cross-tab conflicts.
-- [ ] Explain IndexedDB requests, transactions, version upgrades, indexes, migration failure and cleanup.
-- [ ] Explain origin/site, Cookie attributes, XSS, CSRF, CORS and object authorization using distinct threat models.
-- [ ] Rewrite the hub and keep all authentication/authorization boundaries explicit.
+- [x] Compare memory, sessionStorage and localStorage, serialization, quota, storage events and cross-tab conflicts.
+- [x] Explain IndexedDB requests, transactions, version upgrades, indexes, migration failure and cleanup.
+- [x] Explain origin/site, Cookie attributes, XSS, CSRF, CORS and object authorization using distinct threat models.
+- [x] Rewrite the hub and keep all authentication/authorization boundaries explicit.
 
 ## 17. Task 16: Fetch, Streams, and Realtime
 
@@ -231,10 +231,10 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/03-browser/04-fetch-streams-realtime/02-readable-stream-incremental-parsing.md`
 - Create: `web-fullstack-course/03-browser/04-fetch-streams-realtime/03-sse-websocket-polling-recovery.md`
 
-- [ ] Explain Fetch resolution/rejection, HTTP errors, timeout, AbortSignal, stale-response guards and retry boundaries.
-- [ ] Explain streams, readers, decoding, framing, backpressure and malformed incremental data.
-- [ ] Compare SSE, WebSocket and polling; implement reconnect, duplicate suppression and visible connection state.
-- [ ] Rewrite the hub and verify local stream/SSE examples.
+- [x] Explain Fetch resolution/rejection, HTTP errors, timeout, AbortSignal, stale-response guards and retry boundaries.
+- [x] Explain streams, readers, decoding, framing, backpressure and malformed incremental data.
+- [x] Compare SSE, WebSocket and polling; implement reconnect, duplicate suppression and visible connection state.
+- [x] Rewrite the hub and verify local stream/SSE examples.
 
 ## 18. Task 17: Workers, Offline, and Platform APIs
 
@@ -245,11 +245,11 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/03-browser/05-workers-offline-webapis/03-offline-consistency-updates.md`
 - Create: `web-fullstack-course/03-browser/05-workers-offline-webapis/04-observers-permissions-api-fallback.md`
 
-- [ ] Explain worker creation, structured clone, transferable objects, message correlation, error and termination.
-- [ ] Explain Service Worker registration, install, activate, control, Cache API and navigation fallback.
-- [ ] Explain offline data freshness, update activation, versioned caches and destructive-cache mistakes.
-- [ ] Cover Intersection/Resize/Mutation observers, Clipboard and permission-aware progressive enhancement.
-- [ ] Rewrite the hub and verify page restoration recreates required resources.
+- [x] Explain worker creation, structured clone, transferable objects, message correlation, error and termination.
+- [x] Explain Service Worker registration, install, activate, control, Cache API and navigation fallback.
+- [x] Explain offline data freshness, update activation, versioned caches and destructive-cache mistakes.
+- [x] Cover Intersection/Resize/Mutation observers, Clipboard and permission-aware progressive enhancement.
+- [x] Rewrite the hub and verify page restoration recreates required resources.
 
 ## 19. Task 18: DevTools and Performance
 
@@ -259,10 +259,10 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Create: `web-fullstack-course/03-browser/06-devtools-performance/02-core-web-vitals-budgets-diagnosis.md`
 - Create: `web-fullstack-course/03-browser/BROWSER-COVERAGE.md`
 
-- [ ] Teach Network, Performance, Rendering, Memory, Application, Coverage and Accessibility evidence collection.
-- [ ] Teach LCP, CLS, INP, long tasks, resource budgets, before/after measurements and non-causal metric traps.
-- [ ] Build `BROWSER-COVERAGE.md` for protocols, rendering, storage, security, networking, workers, APIs and diagnostics.
-- [ ] Rewrite the hub and verify reproducible evidence paths.
+- [x] Teach Network, Performance, Rendering, Memory, Application, Coverage and Accessibility evidence collection.
+- [x] Teach LCP, CLS, INP, long tasks, resource budgets, before/after measurements and non-causal metric traps.
+- [x] Build `BROWSER-COVERAGE.md` for protocols, rendering, storage, security, networking, workers, APIs and diagnostics.
+- [x] Rewrite the hub and verify reproducible evidence paths.
 
 ## 20. Task 19: Batch A Navigation and Verification
 
@@ -271,11 +271,11 @@ No repository source project, package manifest, lock file, or `labs/` directory 
 - Modify: `web-fullstack-course/02-css/README.md`
 - Modify: `web-fullstack-course/03-browser/README.md`
 
-- [ ] Link all 54 lessons from their hubs and volume READMEs.
-- [ ] Verify 6 guide, 30 CSS and 18 browser lesson files.
-- [ ] Verify the 13-section contract and code fences.
-- [ ] Run relative-link, placeholder and `git diff --check` checks.
-- [ ] Extract complete CSS/browser examples to `/tmp/full-course-verification/batch-a/`.
-- [ ] Run available HTML/CSS/JavaScript syntax and Chromium behavior checks.
-- [ ] Remove temporary files.
-- [ ] Commit guide, CSS and browser changes in separate commits.
+- [x] Link all 54 lessons from their hubs and volume READMEs.
+- [x] Verify 6 guide, 30 CSS and 18 browser lesson files.
+- [x] Verify the 13-section contract and code fences.
+- [x] Run relative-link, placeholder and `git diff --check` checks.
+- [x] Extract complete CSS/browser examples to `/tmp/full-course-verification/batch-a/`.
+- [x] Run available HTML/CSS/JavaScript syntax and Chromium behavior checks.
+- [x] Remove temporary files.
+- [x] Commit guide, CSS and browser changes in separate commits.

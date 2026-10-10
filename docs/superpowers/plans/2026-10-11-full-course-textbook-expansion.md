@@ -174,11 +174,11 @@ git commit -m "docs: plan full course textbook expansion"
 - Modify: `web-fullstack-course/02-css/**/*.md`
 - Modify: `web-fullstack-course/03-browser/**/*.md`
 
-- [ ] Follow every task in `2026-10-11-course-batch-a-foundations-css-browser.md`.
-- [ ] Verify exactly 54 new detailed lessons.
-- [ ] Verify CSS and browser coverage matrices.
-- [ ] Extract and validate representative HTML, CSS, JavaScript, server, Worker, Service Worker, stream, storage, and DevTools examples.
-- [ ] Commit only Batch A paths.
+- [x] Follow every task in `2026-10-11-course-batch-a-foundations-css-browser.md`.
+- [x] Verify exactly 54 new detailed lessons.
+- [x] Verify CSS and browser coverage matrices.
+- [x] Extract and validate representative HTML, CSS, JavaScript, server, Worker, Service Worker, stream, storage, and DevTools examples.
+- [x] Commit only Batch A paths.
 
 ## 8. Task 3: Execute Batch B
 
