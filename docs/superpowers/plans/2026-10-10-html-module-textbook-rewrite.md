@@ -193,7 +193,7 @@ Expected: `24 detailed HTML lessons: PASS`.
 - Create: `web-fullstack-course/01-html/HTML-COVERAGE.md`
 - Modify: `web-fullstack-course/01-html/README.md`
 
-- [ ] **Step 1: Record the current baseline**
+- [x] **Step 1: Record the current baseline**
 
 Run:
 
@@ -204,7 +204,7 @@ wc -l web-fullstack-course/01-html/*.md
 
 Expected: nine current Markdown files and no detailed lesson subdirectories.
 
-- [ ] **Step 2: Write the complete coverage matrix structure**
+- [x] **Step 2: Write the complete coverage matrix structure**
 
 Create `HTML-COVERAGE.md` with these sections and stable ID prefixes:
 
@@ -233,7 +233,7 @@ ID | 知识点 | 主要教程 | 理论 | 最小案例 | 项目案例 | 错误诊
 
 Populate every required knowledge point with its final lesson path. Use `是` only when the planned lesson contract explicitly includes that dimension; do not use vague status words.
 
-- [ ] **Step 3: Rewrite the module README route**
+- [x] **Step 3: Rewrite the module README route**
 
 Update `01-html/README.md` to:
 
@@ -244,7 +244,7 @@ Update `01-html/README.md` to:
 - link `HTML-COVERAGE.md`;
 - include the HTML stage progression and final acceptance evidence.
 
-- [ ] **Step 4: Verify only the two edited files**
+- [x] **Step 4: Verify only the two edited files**
 
 Run:
 
@@ -261,11 +261,11 @@ Expected: no output and exit status `0`.
 **Files:**
 - Create: `web-fullstack-course/01-html/01-document-text/01-parser-document-model.md`
 
-- [ ] **Step 1: Write task, outcomes, and prerequisite sections**
+- [x] **Step 1: Write task, outcomes, and prerequisite sections**
 
 Use the task “repair a product page whose source and DOM differ.” Define observable outcomes for tags, elements, attributes, document root, parsing recovery, and DOM inspection.
 
-- [ ] **Step 2: Write the full theory sequence**
+- [x] **Step 2: Write the full theory sequence**
 
 Use these theory subsections:
 
@@ -280,7 +280,7 @@ content categories and allowed parent/child relationships
 browser error recovery and why visible output is insufficient
 ```
 
-- [ ] **Step 3: Add complete cases**
+- [x] **Step 3: Add complete cases**
 
 Include:
 
@@ -290,11 +290,11 @@ Include:
 - `disabled="false"` as a boolean-attribute counterexample;
 - a recovery record using source view and Elements.
 
-- [ ] **Step 4: Complete the remaining lesson contract**
+- [x] **Step 4: Complete the remaining lesson contract**
 
 Add API table, Neighbor Market integration, diagnosis table, questions with answer reasoning, three exercises, acceptance checklist, FAQ, official HTML parsing references, summary, and links to the chapter hub and next lesson.
 
-- [ ] **Step 5: Run the one-lesson verification command**
+- [x] **Step 5: Run the one-lesson verification command**
 
 Use the reusable one-lesson command with:
 
@@ -309,11 +309,11 @@ Expected: structure PASS.
 **Files:**
 - Create: `web-fullstack-course/01-html/01-document-text/02-head-metadata-resources.md`
 
-- [ ] **Step 1: Write the task and learning model**
+- [x] **Step 1: Write the task and learning model**
 
 Use the task “make the product page identifiable, correctly encoded, mobile-readable, and explicit about resource loading.”
 
-- [ ] **Step 2: Explain every required mechanism**
+- [x] **Step 2: Explain every required mechanism**
 
 Use these theory subsections:
 
@@ -329,7 +329,7 @@ noscript behavior in head and body
 HTTP headers versus http-equiv limits
 ```
 
-- [ ] **Step 3: Add progressive examples**
+- [x] **Step 3: Add progressive examples**
 
 Include:
 
@@ -339,11 +339,11 @@ Include:
 - a `base` element link-target failure and recovery;
 - a preload mismatch counterexample.
 
-- [ ] **Step 4: Add exercises and acceptance**
+- [x] **Step 4: Add exercises and acceptance**
 
 Require learners to predict script order, inspect Network initiators, compare title with h1, and explain which security behavior cannot be provided by metadata alone.
 
-- [ ] **Step 5: Verify structure and commit Chapter 1 only after Task 4**
+- [x] **Step 5: Verify structure and commit Chapter 1 only after Task 4**
 
 Run the one-lesson check with this lesson path. Do not commit yet.
 
@@ -352,7 +352,7 @@ Run the one-lesson check with this lesson path. Do not commit yet.
 **Files:**
 - Create: `web-fullstack-course/01-html/01-document-text/03-text-semantics-i18n.md`
 
-- [ ] **Step 1: Write the task and theory**
+- [x] **Step 1: Write the task and theory**
 
 Use the task “turn an unstructured seller message into meaningful product copy.” Cover:
 
@@ -367,7 +367,7 @@ sub, sup, span and u
 lang, dir, bdi, bdo, ruby, rt, rp and wbr
 ```
 
-- [ ] **Step 2: Add contrast cases**
+- [x] **Step 2: Add contrast cases**
 
 Compare:
 
@@ -378,15 +378,15 @@ Compare:
 - UTC machine time versus localized visible text;
 - unknown-direction username with and without `bdi`.
 
-- [ ] **Step 3: Add a complete integration case**
+- [x] **Step 3: Add a complete integration case**
 
 Build one full product-description document containing price in integer cents, UTC time, safety warning, model code, quoted rule, seller name direction isolation, and revision history.
 
-- [ ] **Step 4: Add exercises, answers, and acceptance**
+- [x] **Step 4: Add exercises, answers, and acceptance**
 
 Require an independent second product, a semantic-choice explanation, one parser/DOM inspection, and one internationalization check.
 
-- [ ] **Step 5: Verify all Chapter 1 lessons**
+- [x] **Step 5: Verify all Chapter 1 lessons**
 
 Run:
 
@@ -406,7 +406,7 @@ Expected: no output and exit status `0`.
 - Modify: `web-fullstack-course/01-html/01-document-text.md`
 - Modify: `web-fullstack-course/01-html/HTML-COVERAGE.md`
 
-- [ ] **Step 1: Replace overview theory with chapter routing**
+- [x] **Step 1: Replace overview theory with chapter routing**
 
 Write:
 
@@ -419,11 +419,11 @@ Write:
 
 Do not repeat detailed theory from the lesson files.
 
-- [ ] **Step 2: Complete DOC and TXT coverage rows**
+- [x] **Step 2: Complete DOC and TXT coverage rows**
 
 Verify each DOC/TXT row links to one of the three lesson files and marks all required dimensions as present only when the content exists.
 
-- [ ] **Step 3: Run links and chapter verification**
+- [x] **Step 3: Run links and chapter verification**
 
 Run:
 
@@ -443,7 +443,7 @@ PY
 
 Then run the reusable Markdown link checker.
 
-- [ ] **Step 4: Commit Chapter 1**
+- [x] **Step 4: Commit Chapter 1**
 
 ```bash
 git add \
@@ -459,7 +459,7 @@ git commit -m "docs: expand HTML document and text tutorials"
 **Files:**
 - Create: `web-fullstack-course/01-html/02-structure-links-lists/01-landmarks-headings-outline.md`
 
-- [ ] **Step 1: Write theory in browser-reading order**
+- [x] **Step 1: Write theory in browser-reading order**
 
 Cover:
 
@@ -474,15 +474,15 @@ section versus div decision
 DOM order versus visual placement
 ```
 
-- [ ] **Step 2: Add structure cases**
+- [x] **Step 2: Add structure cases**
 
 Include a complete listing page, a landmark map, duplicate unlabeled navigation as an error, skipped heading levels as a reasoning case, and a no-CSS reading-order test.
 
-- [ ] **Step 3: Complete exercises and acceptance**
+- [x] **Step 3: Complete exercises and acceptance**
 
 Require learners to transform a div-only page, navigate by headings/landmarks, and explain article independence.
 
-- [ ] **Step 4: Run the one-lesson structure check**
+- [x] **Step 4: Run the one-lesson structure check**
 
 Use this lesson path and expect structure PASS.
 
@@ -491,7 +491,7 @@ Use this lesson path and expect structure PASS.
 **Files:**
 - Create: `web-fullstack-course/01-html/02-structure-links-lists/02-urls-links-navigation.md`
 
-- [ ] **Step 1: Write complete URL theory**
+- [x] **Step 1: Write complete URL theory**
 
 Cover:
 
@@ -506,15 +506,15 @@ link versus button
 noopener, noreferrer and untrusted URL schemes
 ```
 
-- [ ] **Step 2: Add observable navigation cases**
+- [x] **Step 2: Add observable navigation cases**
 
 Create a two-page product/help example, a URL resolution table, a broken fragment diagnosis, a `file:` root-relative trap, and a safe new-tab example.
 
-- [ ] **Step 3: Add exercises and acceptance**
+- [x] **Step 3: Add exercises and acceptance**
 
 Require back/forward navigation, keyboard activation, target prediction, and one unsafe-link correction.
 
-- [ ] **Step 4: Verify the lesson**
+- [x] **Step 4: Verify the lesson**
 
 Run the one-lesson command with this path.
 
@@ -523,7 +523,7 @@ Run the one-lesson command with this path.
 **Files:**
 - Create: `web-fullstack-course/01-html/02-structure-links-lists/03-lists-figures-content-groups.md`
 
-- [ ] **Step 1: Explain each relationship**
+- [x] **Step 1: Explain each relationship**
 
 Cover:
 
@@ -538,15 +538,15 @@ blockquote, pre and hr as content groups
 when lists, descriptions, tables and sections differ
 ```
 
-- [ ] **Step 2: Add complete cases**
+- [x] **Step 2: Add complete cases**
 
 Build product features, ordered handoff steps, status definitions, a quoted community rule, and a code figure. Include an invalid nested-list example and recovery.
 
-- [ ] **Step 3: Add transfer exercises**
+- [x] **Step 3: Add transfer exercises**
 
 Require a learner to model a new product, choose between `dl` and table, and explain why visual bullets do not create list semantics.
 
-- [ ] **Step 4: Verify Chapter 2 lesson files**
+- [x] **Step 4: Verify Chapter 2 lesson files**
 
 Run heading and diff checks for all three files.
 
@@ -556,15 +556,15 @@ Run heading and diff checks for all three files.
 - Modify: `web-fullstack-course/01-html/02-structure-links-lists.md`
 - Modify: `web-fullstack-course/01-html/HTML-COVERAGE.md`
 
-- [ ] **Step 1: Rewrite the hub**
+- [x] **Step 1: Rewrite the hub**
 
 Add the three-lesson route, dependency map, study time, navigable-product capstone, chapter exercises, and chapter acceptance.
 
-- [ ] **Step 2: Complete STR, LNK, and LST coverage rows**
+- [x] **Step 2: Complete STR, LNK, and LST coverage rows**
 
 Every row must link to an existing heading or lesson and indicate theory, cases, diagnosis, practice, and acceptance.
 
-- [ ] **Step 3: Run Batch A verification**
+- [x] **Step 3: Run Batch A verification**
 
 Run:
 
@@ -584,7 +584,7 @@ git diff --check -- web-fullstack-course/01-html
 
 Expected: no diff errors.
 
-- [ ] **Step 4: Commit Chapter 2 and Batch A coverage**
+- [x] **Step 4: Commit Chapter 2 and Batch A coverage**
 
 ```bash
 git add \
