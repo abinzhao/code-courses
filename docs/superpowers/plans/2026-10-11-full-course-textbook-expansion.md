@@ -158,7 +158,7 @@ print("Plan arithmetic: PASS")
 PY
 ```
 
-- [ ] **Step 5: Commit all implementation plans**
+- [x] **Step 5: Commit all implementation plans**
 
 ```bash
 git add docs/superpowers/plans/2026-10-11-course-batch-*.md \
