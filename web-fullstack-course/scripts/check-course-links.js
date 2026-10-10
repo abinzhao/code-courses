@@ -21,30 +21,101 @@ function collectMarkdownFiles(directory) {
 }
 
 function isExternalLink(target) {
-  return /^(?:https?:|mailto:|tel:|data:)/i.test(target);
+  return /^(?:https?:|ftp:|\/\/|mailto:|tel:|data:)/i.test(target);
+}
+
+function parseFenceStart(line) {
+  const match = line.match(/^ {0,3}(`{3,}|~{3,})/);
+  if (!match) {
+    return null;
+  }
+
+  return {
+    marker: match[1][0],
+    length: match[1].length,
+  };
+}
+
+function isFenceClose(line, fence) {
+  const match = line.match(/^ {0,3}(`{3,}|~{3,})\s*$/);
+  return Boolean(
+    match &&
+      match[1][0] === fence.marker &&
+      match[1].length >= fence.length,
+  );
+}
+
+function isIndentedCodeLine(line) {
+  return /^(?: {4}|\t)/.test(line);
+}
+
+function stripInlineCode(line) {
+  let result = '';
+  let index = 0;
+
+  while (index < line.length) {
+    if (line[index] !== '`') {
+      result += line[index];
+      index += 1;
+      continue;
+    }
+
+    let delimiterLength = 1;
+    while (line[index + delimiterLength] === '`') {
+      delimiterLength += 1;
+    }
+
+    const delimiter = '`'.repeat(delimiterLength);
+    const closingIndex = line.indexOf(delimiter, index + delimiterLength);
+    if (closingIndex === -1) {
+      result += line.slice(index);
+      break;
+    }
+
+    result += ' '.repeat(closingIndex + delimiterLength - index);
+    index = closingIndex + delimiterLength;
+  }
+
+  return result;
 }
 
 function checkLinks(filePath, rootDirectory = courseRoot) {
   const source = fs.readFileSync(filePath, 'utf8');
   const errors = [];
-  let inCodeFence = false;
+  let fence = null;
+  let inIndentedCode = false;
   let linkCount = 0;
   const lines = source.split(/\r?\n/);
 
   lines.forEach((line, index) => {
-    if (/^\s*```/.test(line)) {
-      inCodeFence = !inCodeFence;
+    if (fence) {
+      if (isFenceClose(line, fence)) {
+        fence = null;
+      }
       return;
     }
 
-    if (inCodeFence) {
+    if (isIndentedCodeLine(line)) {
+      inIndentedCode = true;
+      return;
+    }
+
+    if (inIndentedCode && line.trim() === '') {
+      return;
+    }
+    inIndentedCode = false;
+
+    const fenceStart = parseFenceStart(line);
+    if (fenceStart) {
+      fence = fenceStart;
       return;
     }
 
     const linkPattern = /\[[^\]]+\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
     let match;
+    const searchableLine = stripInlineCode(line);
 
-    while ((match = linkPattern.exec(line)) !== null) {
+    while ((match = linkPattern.exec(searchableLine)) !== null) {
       const rawTarget = match[1].replace(/^<|>$/g, '');
 
       if (rawTarget.startsWith('#') || isExternalLink(rawTarget)) {
@@ -97,6 +168,8 @@ function scanCourseLinks(rootDirectory = courseRoot) {
 module.exports = {
   checkLinks,
   collectMarkdownFiles,
+  isExternalLink,
+  stripInlineCode,
   scanCourseLinks,
 };
 

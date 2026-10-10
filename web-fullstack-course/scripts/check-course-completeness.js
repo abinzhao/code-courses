@@ -68,6 +68,167 @@ const debugPatterns = [
   /\bconsole\.log\s*\(\s*['"`](?:debug|temporary|temp|todo|wip)\b/i,
 ];
 
+function parseFenceStart(line) {
+  const match = line.match(/^ {0,3}(`{3,}|~{3,})/);
+  if (!match) {
+    return null;
+  }
+
+  return {
+    marker: match[1][0],
+    length: match[1].length,
+  };
+}
+
+function isFenceClose(line, fence) {
+  const match = line.match(/^ {0,3}(`{3,}|~{3,})\s*$/);
+  return Boolean(
+    match &&
+      match[1][0] === fence.marker &&
+      match[1].length >= fence.length,
+  );
+}
+
+function isIndentedCodeLine(line) {
+  return /^(?: {4}|\t)/.test(line);
+}
+
+function stripInlineCode(line) {
+  let result = '';
+  let index = 0;
+
+  while (index < line.length) {
+    if (line[index] !== '`') {
+      result += line[index];
+      index += 1;
+      continue;
+    }
+
+    let delimiterLength = 1;
+    while (line[index + delimiterLength] === '`') {
+      delimiterLength += 1;
+    }
+
+    const delimiter = '`'.repeat(delimiterLength);
+    const closingIndex = line.indexOf(delimiter, index + delimiterLength);
+    if (closingIndex === -1) {
+      result += line.slice(index);
+      break;
+    }
+
+    result += ' '.repeat(closingIndex + delimiterLength - index);
+    index = closingIndex + delimiterLength;
+  }
+
+  return result;
+}
+
+function isCodeCommentLine(line) {
+  return /^(?:#|\/\/|\/\*|\*|<!--|;)/.test(line.trim());
+}
+
+function getMarkdownLines(source) {
+  const lines = source.split(/\r?\n/);
+  const markdownLines = [];
+  let fence = null;
+  let inIndentedCode = false;
+
+  for (const line of lines) {
+    if (fence) {
+      if (isFenceClose(line, fence)) {
+        fence = null;
+      }
+      markdownLines.push('');
+      continue;
+    }
+
+    if (isIndentedCodeLine(line)) {
+      inIndentedCode = true;
+      markdownLines.push('');
+      continue;
+    }
+
+    if (inIndentedCode && line.trim() === '') {
+      markdownLines.push('');
+      continue;
+    }
+    inIndentedCode = false;
+
+    const fenceStart = parseFenceStart(line);
+    if (fenceStart) {
+      fence = fenceStart;
+      markdownLines.push('');
+      continue;
+    }
+
+    markdownLines.push(line);
+  }
+
+  return markdownLines;
+}
+
+function parseHeading(line) {
+  const match = line.match(/^ {0,3}(#{1,6})(?:[ \t]+|$)(.*?)\s*$/);
+  if (!match) {
+    return null;
+  }
+
+  return {
+    level: match[1].length,
+    text: match[2].replace(/[ \t]+#+[ \t]*$/, '').trim(),
+  };
+}
+
+function extractMarkdownHeadings(source) {
+  return getMarkdownLines(source).map(parseHeading).filter(Boolean);
+}
+
+function collectReadmeEvidence(source) {
+  const lines = source.split(/\r?\n/);
+  const evidence = [];
+  let fence = null;
+  let inIndentedCode = false;
+
+  lines.forEach((line, index) => {
+    const lineNumber = index + 1;
+
+    if (fence) {
+      if (isFenceClose(line, fence)) {
+        fence = null;
+      } else if (!isCodeCommentLine(line)) {
+        evidence.push({ lineNumber, kind: 'code', text: line });
+      }
+      return;
+    }
+
+    if (isIndentedCodeLine(line)) {
+      inIndentedCode = true;
+      if (!isCodeCommentLine(line)) {
+        evidence.push({ lineNumber, kind: 'code', text: line });
+      }
+      return;
+    }
+
+    if (inIndentedCode && line.trim() === '') {
+      return;
+    }
+    inIndentedCode = false;
+
+    const fenceStart = parseFenceStart(line);
+    if (fenceStart) {
+      fence = fenceStart;
+      return;
+    }
+
+    const plainText = stripInlineCode(line).trim();
+    if (plainText) {
+      evidence.push({ lineNumber, kind: 'markdown', text: line, plainText });
+    }
+  });
+
+  return evidence;
+}
+
 function formatPath(filePath) {
   return path.relative(courseRoot, filePath) || '.';
 }
@@ -148,23 +309,44 @@ function checkLesson(errors, unit, lessonPath) {
 
   const source = fs.readFileSync(lessonPath, 'utf8');
   const relativePath = formatPath(lessonPath);
-  const headingPattern = new RegExp(`^#\\s+${unit.id}(?:\\s|:|：)`, 'm');
+  const headings = extractMarkdownHeadings(source);
+  const headingPattern = new RegExp(`^${unit.id}(?:\\s|:|：)`);
 
-  if (!headingPattern.test(source)) {
+  if (
+    !headings.some(
+      (heading) => heading.level === 1 && headingPattern.test(heading.text),
+    )
+  ) {
     errors.push(`${unit.id} ${relativePath} 标题未包含单元 ID`);
   }
-  if (!source.includes(unit.title)) {
+  if (
+    !headings.some(
+      (heading) => heading.level === 1 && heading.text.includes(unit.title),
+    )
+  ) {
     errors.push(`${unit.id} ${relativePath} 标题未包含 manifest 标题：${unit.title}`);
   }
 
   for (const section of requiredSections) {
-    if (!source.includes(section)) {
+    const sectionHeading = parseHeading(section);
+    if (
+      !headings.some(
+        (heading) =>
+          heading.level === sectionHeading.level &&
+          heading.text === sectionHeading.text,
+      )
+    ) {
       errors.push(`${unit.id} ${relativePath} 缺少固定章节：${section}`);
     }
   }
 
   for (const [label, pattern] of requiredContentMarkers) {
-    if (!pattern.test(source)) {
+    if (
+      !headings.some(
+        (heading) =>
+          heading.level === 2 && pattern.test(`## ${heading.text}`),
+      )
+    ) {
       errors.push(`${unit.id} ${relativePath} 缺少内容契约：${label}`);
     }
   }
@@ -189,20 +371,41 @@ function checkLab(errors, unit, labPath) {
   }
 
   const source = fs.readFileSync(readmePath, 'utf8');
+  const evidence = collectReadmeEvidence(source);
   const requirements = [
     ['环境说明', /环境|版本/],
     [
       '运行命令',
-      /```(?:bash|sh|shell)|\b(?:node|pnpm|npm|npx|docker|curl|git)\s+/,
+      /\b(?:node|pnpm|npm|npx|docker|curl|git)\s+(?:--?[A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9_./:-]*)/,
     ],
-    ['预期结果', /预期结果|预期输出|应该看到|成功时/],
+    ['预期结果', /预期结果|预期输出|应该看到|你会看到|成功时/],
     ['失败诊断', /失败|错误|排查|诊断|常见问题/],
   ];
 
+  const matchedEvidence = [];
   for (const [label, pattern] of requirements) {
-    if (!pattern.test(source)) {
+    const match = evidence.find((item) => {
+      const text = item.kind === 'markdown' ? item.plainText : item.text;
+      return pattern.test(text);
+    });
+    if (match) {
+      matchedEvidence.push(match);
+    } else {
       errors.push(`${unit.id} ${formatPath(readmePath)} 实验 README 缺少：${label}`);
     }
+  }
+
+  const lineUsage = new Map();
+  for (const match of matchedEvidence) {
+    lineUsage.set(match.lineNumber, (lineUsage.get(match.lineNumber) || 0) + 1);
+  }
+  if (
+    matchedEvidence.length === requirements.length &&
+    matchedEvidence.some((match) => lineUsage.get(match.lineNumber) > 1)
+  ) {
+    errors.push(
+      `${unit.id} ${formatPath(readmePath)} 实验 README 的环境、运行命令、预期结果、失败诊断不能由同一行同时满足`,
+    );
   }
 
   addQualityErrors(errors, unit.id, readmePath, source);
@@ -437,5 +640,8 @@ if (require.main === module) {
 
 module.exports = {
   checkManifest,
+  collectReadmeEvidence,
+  extractMarkdownHeadings,
   expectedStageForWeek,
+  getMarkdownLines,
 };
