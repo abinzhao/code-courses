@@ -1,0 +1,98 @@
+# 浏览器与 Web 平台覆盖矩阵
+
+> 口径日期：2026-10-11
+>
+> 范围：`03-browser` 的 6 个稳定章入口与 Batch A 定义的 18 篇详细教程。
+>
+> 证据口径：`§4` 理论推导、`§6` 最小可运行案例、`§7` 邻里集市集成、`§8` 错误与五段诊断、`§9–10` 题目/三档练习、`§11` 阶段验收。
+
+## 1. 使用方式
+
+矩阵回答“某个知识点在哪篇教程形成完整证据”。每行的“主要教程”是完整推导归属，其他章节只引用，不重复展开。
+
+| 标记 | 含义 |
+| --- | --- |
+| `§4` | 机制、状态或协议推导 |
+| `§6` | 含文件位置、创建方式、命令、预期结果和失败证据的最小案例 |
+| `§7` | 邻里集市领域集成、安全/离线/性能边界 |
+| `§8` | 明确错误示例与“现象、证据、原因、修复、复验”记录 |
+| `§9–10` | 可判定题目答案与基础、进阶、故障注入练习 |
+| `§11` | 逐项验收与未验证边界 |
+
+## 2. 18 篇教程主覆盖
+
+| ID | 知识点 | 主要教程 | 理论 | 最小案例 | 项目案例 | 错误诊断 | 练习 | 验收 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| B-NET-01 | URL 处理、DNS 证据、连接复用、TLS 身份与协议边界 | [URL、DNS、连接与 TLS](01-network-http-cache/01-url-dns-connections-tls.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-HTTP-01 | 方法、状态、Header、协商、压缩与消息体 framing | [HTTP 消息、状态与内容协商](01-network-http-cache/02-http-messages-status-negotiation.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-CACHE-01 | 新鲜度、条件请求、`200/304`、CORS 与 Network 观察 | [缓存验证、CORS 与观察](01-network-http-cache/03-cache-validation-cors-observation.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-RENDER-01 | DOM/CSSOM、样式、布局、绘制、层与合成机会 | [DOM、CSSOM、布局、绘制与合成](02-rendering-event-loop/01-dom-cssom-layout-paint-composite.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-LOOP-01 | task、microtask、动画帧、计时器与渲染机会 | [任务、微任务与渲染机会](02-rendering-event-loop/02-tasks-microtasks-rendering-opportunities.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-RESP-01 | Long Task、同步布局、读写批处理、分片与稳定动画 | [长任务、布局抖动与动画](02-rendering-event-loop/03-long-tasks-layout-thrashing-animation.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-STORAGE-01 | 内存、session/localStorage、序列化、配额与跨标签冲突 | [内存、Web Storage 与跨标签页](03-storage-security/01-memory-web-storage-cross-tab.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-IDB-01 | IndexedDB 请求、事务、索引、升级、迁移失败与清理 | [IndexedDB 事务与升级](03-storage-security/02-indexeddb-transactions-upgrades.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-SEC-01 | origin/site、Cookie、XSS、CSRF、CORS 与对象授权 | [源、Cookie、XSS、CSRF 与授权](03-storage-security/03-origin-cookie-xss-csrf-authorization.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-FETCH-01 | Fetch 兑现/拒绝、HTTP 错误、全程超时、取消、竞态与重试预算 | [可靠 Fetch：超时、取消、竞态与有限重试](04-fetch-streams-realtime/01-reliable-fetch-timeout-cancel-race.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-STREAM-01 | ReadableStream、reader、UTF-8 增量解码、NDJSON framing 与背压 | [可读流与增量解析](04-fetch-streams-realtime/02-readable-stream-incremental-parsing.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-REALTIME-01 | SSE、WebSocket、轮询、重连、事件游标、缺口与重复抑制 | [SSE、WebSocket 与轮询](04-fetch-streams-realtime/03-sse-websocket-polling-recovery.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-WORKER-01 | Dedicated Worker、结构化克隆、Transferable、消息关联、错误与终止 | [Web Worker：消息、所有权转移与可取消计算](05-workers-offline-webapis/01-web-worker-messaging-transfer-cancel.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-SW-01 | Service Worker 注册、install/waiting/activate/control 与 Cache API | [Service Worker：生命周期、控制权与版本化缓存](05-workers-offline-webapis/02-service-worker-lifecycle-cache.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-OFFLINE-01 | 外壳、快照、离线草稿、幂等键、预期版本与更新迁移 | [离线一致性与更新](05-workers-offline-webapis/03-offline-consistency-updates.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-API-01 | Intersection/Resize/Mutation Observer、Clipboard、权限与渐进回退 | [观察器、权限与平台 API](05-workers-offline-webapis/04-observers-permissions-api-fallback.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-DEVTOOLS-01 | Network、Performance、Rendering、Memory、Application、Coverage、Accessibility | [DevTools 证据链](06-devtools-performance/01-network-performance-memory-evidence.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-VITALS-01 | LCP、CLS、INP、Long Task、资源预算、字段/实验数据与因果边界 | [Core Web Vitals 与性能预算](06-devtools-performance/02-core-web-vitals-budgets-diagnosis.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+
+## 3. 跨章节边界覆盖
+
+| ID | 知识点 | 主要教程 | 理论 | 最小案例 | 项目案例 | 错误诊断 | 练习 | 验收 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| B-BOUNDARY-01 | TLS 证明连接身份，不替代应用身份、对象授权或内容可信 | [URL、DNS、连接与 TLS](01-network-http-cache/01-url-dns-connections-tls.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-BOUNDARY-02 | CORS 控制脚本读取跨源响应，不是 CSRF 防护或对象授权 | [源、Cookie、XSS、CSRF 与授权](03-storage-security/03-origin-cookie-xss-csrf-authorization.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-BOUNDARY-03 | 取消 Fetch/reader/连接不证明服务端写操作回滚 | [可靠 Fetch](04-fetch-streams-realtime/01-reliable-fetch-timeout-cancel-race.md) | §4.3 | §6 | §7 | §8 | §9–10 | §11 |
+| B-BOUNDARY-04 | 实时通知送达不等于业务一致性；权威读取与事务决定预约结果 | [SSE、WebSocket 与轮询](04-fetch-streams-realtime/03-sse-websocket-polling-recovery.md) | §4.2–4.5 | §6 | §7 | §8 | §9–10 | §11 |
+| B-BOUNDARY-05 | Worker 保护主线程响应性，不减少总 CPU，也不执行服务端授权 | [Web Worker](05-workers-offline-webapis/01-web-worker-messaging-transfer-cancel.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-BOUNDARY-06 | 离线可读不等于离线可交易；草稿、快照与确认分别标记 | [离线一致性与更新](05-workers-offline-webapis/03-offline-consistency-updates.md) | §4.1–4.4 | §6 | §7 | §8 | §9–10 | §11 |
+| B-BOUNDARY-07 | 权限查询、API 支持与实际调用结果是不同证据 | [观察器、权限与平台 API](05-workers-offline-webapis/04-observers-permissions-api-fallback.md) | §4.4–4.5 | §6 | §7 | §8 | §9–10 | §11 |
+| B-BOUNDARY-08 | DevTools/Lighthouse 单次实验不替代真实用户分布与辅助技术验证 | [Core Web Vitals 与性能预算](06-devtools-performance/02-core-web-vitals-budgets-diagnosis.md) | §4 | §6 | §7 | §8 | §9–10 | §11 |
+
+## 4. 安全、离线与隐私覆盖
+
+| ID | 检查项 | 证据教程 | 可判定标准 |
+| --- | --- | --- | --- |
+| B-SAFE-01 | URL、Header、HAR、截图和日志脱敏 | [DevTools 证据链 §7](06-devtools-performance/01-network-performance-memory-evidence.md#7-邻里集市集成案例) | 不含 Cookie、Authorization、Token、私人响应和真实用户标识 |
+| B-SAFE-02 | Fetch/流响应结构与大小边界 | [可靠 Fetch §6](04-fetch-streams-realtime/01-reliable-fetch-timeout-cancel-race.md#6-最小可运行案例)、[增量解析 §6](04-fetch-streams-realtime/02-readable-stream-incremental-parsing.md#6-最小可运行案例) | 校验 Content-Type、字段、整数分、单行 64 KiB 与总条数 |
+| B-SAFE-03 | 实时订阅身份、Origin 与对象权限 | [SSE、WebSocket 与轮询 §7](04-fetch-streams-realtime/03-sse-websocket-polling-recovery.md#7-邻里集市集成案例) | 连接、主题和每个对象均有服务端授权；URL 不携带长期密钥 |
+| B-SAFE-04 | Cache 命名空间和私人数据排除 | [Service Worker §7–8](05-workers-offline-webapis/02-service-worker-lifecycle-cache.md#7-邻里集市集成案例) | 只删除自身前缀；API、私人响应和非 GET 不进通用缓存 |
+| B-SAFE-05 | 离线草稿用户隔离与敏感数据最小化 | [离线一致性 §7](05-workers-offline-webapis/03-offline-consistency-updates.md#7-邻里集市集成案例) | 不存 Token/Cookie/支付/私人联系数据；退出登录有清理/锁定策略 |
+| B-SAFE-06 | Clipboard 最小权限与拒绝回退 | [观察器与权限 §6](05-workers-offline-webapis/04-observers-permissions-api-fallback.md#6-最小可运行案例) | 只在点击后写公开文本；不读取剪贴板；拒绝后可手动选择 |
+
+## 5. 性能与证据覆盖
+
+| ID | 检查项 | 主要证据 | 完成标准 |
+| --- | --- | --- | --- |
+| B-PERF-01 | 网络等待拆分 | [DevTools 证据链 §4.2](06-devtools-performance/01-network-performance-memory-evidence.md#42-network-回答等待在哪里) | 区分 queueing、TTFB、download、状态与 initiator，不凭总耗时猜后端 |
+| B-PERF-02 | 主线程与渲染 | [长任务、布局抖动与动画](02-rendering-event-loop/03-long-tasks-layout-thrashing-animation.md) | 有调用栈、读写批处理/分片前后证据，结果语义不变 |
+| B-PERF-03 | Worker 成本 | [Web Worker §4.5](05-workers-offline-webapis/01-web-worker-messaging-transfer-cancel.md#45-是否使用-worker-要测量) | 同时报告主线程响应性、总耗时、传输与内存 |
+| B-PERF-04 | 流式处理边界 | [增量解析 §7](04-fetch-streams-realtime/02-readable-stream-incremental-parsing.md#7-邻里集市集成案例) | 报告首条、总耗时、最大残片和 DOM 提交，不无限累积 |
+| B-PERF-05 | 内存保留路径 | [DevTools 证据链 §4.4](06-devtools-performance/01-network-performance-memory-evidence.md#44-memory-回答为什么还活着) | 固定动作、GC 辅助、retainers、最小修复与同条件复验 |
+| B-PERF-06 | Web Vitals 与预算 | [Core Web Vitals §7](06-devtools-performance/02-core-web-vitals-budgets-diagnosis.md#7-邻里集市集成案例) | 环境/页面/构建/统计口径明确；至少 5 次实验并区分字段 p75 |
+
+## 6. 版本、兼容性与人工验证边界
+
+| ID | 范围 | 已有证据 | 不得外推的范围 |
+| --- | --- | --- | --- |
+| B-VERSION-01 | Node.js 与浏览器基线 | 各课 `§6` 的 Node 内置模块实验；[版本基线](../00-guide/02-version-baseline.md) | 当前机器不是目标 Node 24 时，语法检查结果需记录实际版本 |
+| B-COMPAT-01 | Web API 支持 | 各课 `§5` API 清单、能力检测和 `§13` 官方来源 | 不以 Chromium 成功宣称 Safari/Firefox/嵌入 WebView 通过 |
+| B-MANUAL-01 | 键盘与辅助技术 | [观察器与权限 §11](05-workers-offline-webapis/04-observers-permissions-api-fallback.md#11-阶段验收)、[DevTools 证据链 §11](06-devtools-performance/01-network-performance-memory-evidence.md#11-阶段验收) | Accessibility tree 不替代 VoiceOver、NVDA、JAWS 和真实键盘复测 |
+| B-MANUAL-02 | 网络与代理 | [增量解析 §13](04-fetch-streams-realtime/02-readable-stream-incremental-parsing.md#13-扩展阅读)、[实时通信 §13](04-fetch-streams-realtime/03-sse-websocket-polling-recovery.md#13-扩展阅读) | 本地分块/重连不证明 CDN、反向代理、HTTP/2/3 或跨区域行为 |
+| B-MANUAL-03 | 离线与存储 | [Service Worker §13](05-workers-offline-webapis/02-service-worker-lifecycle-cache.md#13-扩展阅读)、[离线一致性 §13](05-workers-offline-webapis/03-offline-consistency-updates.md#13-扩展阅读) | 未验证存储压力驱逐、后台调度、共享设备与生产迁移 |
+| B-MANUAL-04 | 性能字段数据 | [Core Web Vitals §11](06-devtools-performance/02-core-web-vitals-budgets-diagnosis.md#11-阶段验收) | 本地候选不等于 CrUX、正式 INP、真实设备或用户 p75 |
+
+## 7. 审计结论
+
+- 计划路径：18 篇，矩阵主覆盖：18 行，每篇恰有一个主要归属。
+- 固定证据维度：理论、最小案例、项目案例、错误诊断、练习、验收，六项均映射到正文固定章节。
+- 跨章节边界：TLS/身份、CORS/CSRF/授权、取消/回滚、通知/一致性、Worker/授权、离线/确认、权限/调用、实验/字段数据分别独立列出。
+- 人工缺口：Safari、Firefox、WebView、真实移动设备、VoiceOver/NVDA/JAWS、生产代理、生产 RUM、存储驱逐与真实多用户事务均保持为未验证，不写成通过。
+
+[本卷目录](README.md) · [全书目录](../README.md)
