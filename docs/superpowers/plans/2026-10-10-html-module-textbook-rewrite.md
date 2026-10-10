@@ -601,30 +601,30 @@ git commit -m "docs: expand HTML structure and navigation tutorials"
 **Files:**
 - Create: `web-fullstack-course/01-html/03-images-media-embedding/01-images-responsive-performance.md`
 
-- [ ] Write theory for `img`, `picture`, image `source`, `alt`, intrinsic dimensions, `srcset`, `sizes`, `loading`, `decoding`, `fetchpriority`, CORS, referrer policy, `complete`, `naturalWidth`, `currentSrc`, and `decode()`.
-- [ ] Add a self-contained SVG data URL example, a real-resource exercise contract, decorative/informative alt contrasts, a layout-shift case, and a failed decode diagnosis.
-- [ ] Add Neighbor Market responsive product-photo integration, three exercises, answers, acceptance, FAQ, and official references.
-- [ ] Run the one-lesson verification command.
+- [x] Write theory for `img`, `picture`, image `source`, `alt`, intrinsic dimensions, `srcset`, `sizes`, `loading`, `decoding`, `fetchpriority`, CORS, referrer policy, `complete`, `naturalWidth`, `currentSrc`, and `decode()`.
+- [x] Add a self-contained SVG data URL example, a real-resource exercise contract, decorative/informative alt contrasts, a layout-shift case, and a failed decode diagnosis.
+- [x] Add Neighbor Market responsive product-photo integration, three exercises, answers, acceptance, FAQ, and official references.
+- [x] Run the one-lesson verification command.
 
 ### Task 11: Write audio, video, and tracks tutorial
 
 **Files:**
 - Create: `web-fullstack-course/01-html/03-images-media-embedding/02-audio-video-tracks.md`
 
-- [ ] Explain `audio`, `video`, media `source`, `track`, controls, preload, autoplay policy, muted, poster, playsinline, loop, media states, `play()` Promise, `pause()`, `load()`, and relevant events.
-- [ ] Include a generated short WAV example, an explicit external-video exercise contract, valid WebVTT content, captions versus subtitles versus descriptions, and rejected playback recovery.
-- [ ] Add project integration for a product inspection clip without claiming that media files are bundled.
-- [ ] Verify the lesson structure and code fences.
+- [x] Explain `audio`, `video`, media `source`, `track`, controls, preload, autoplay policy, muted, poster, playsinline, loop, media states, `play()` Promise, `pause()`, `load()`, and relevant events.
+- [x] Include a generated short WAV example, an explicit external-video exercise contract, valid WebVTT content, captions versus subtitles versus descriptions, and rejected playback recovery.
+- [x] Add project integration for a product inspection clip without claiming that media files are bundled.
+- [x] Verify the lesson structure and code fences.
 
 ### Task 12: Write embedding, image maps, SVG, and Canvas tutorial
 
 **Files:**
 - Create: `web-fullstack-course/01-html/03-images-media-embedding/03-embedding-svg-canvas.md`
 
-- [ ] Explain `iframe`, `srcdoc`, `sandbox`, `allow`, lazy loading, frame denial, same-origin limits, `object`, `embed`, fallback links, `map`, `area`, inline/external SVG, Canvas dimensions, pixel density, and tainted canvases.
-- [ ] Add a sandboxed rules card, a keyboard-accessible map alternative, inline SVG product diagram, Canvas price chart plus text/table alternative, and a cross-origin failure analysis.
-- [ ] Add exercises that require choosing between image, SVG, Canvas, iframe, object, and ordinary links.
-- [ ] Verify the lesson.
+- [x] Explain `iframe`, `srcdoc`, `sandbox`, `allow`, lazy loading, frame denial, same-origin limits, `object`, `embed`, fallback links, `map`, `area`, inline/external SVG, Canvas dimensions, pixel density, and tainted canvases.
+- [x] Add a sandboxed rules card, a keyboard-accessible map alternative, inline SVG product diagram, Canvas price chart plus text/table alternative, and a cross-origin failure analysis.
+- [x] Add exercises that require choosing between image, SVG, Canvas, iframe, object, and ordinary links.
+- [x] Verify the lesson.
 
 ### Task 13: Rewrite Chapter 3 hub and commit
 
@@ -632,10 +632,10 @@ git commit -m "docs: expand HTML structure and navigation tutorials"
 - Modify: `web-fullstack-course/01-html/03-images-media-embedding.md`
 - Modify: `web-fullstack-course/01-html/HTML-COVERAGE.md`
 
-- [ ] Route the three lessons and define the media inspection capstone.
-- [ ] Complete MED coverage rows with theory, performance, accessibility, security, and diagnosis evidence.
-- [ ] Run links, heading checks, and `git diff --check`.
-- [ ] Commit:
+- [x] Route the three lessons and define the media inspection capstone.
+- [x] Complete MED coverage rows with theory, performance, accessibility, security, and diagnosis evidence.
+- [x] Run links, heading checks, and `git diff --check`.
+- [x] Commit:
 
 ```bash
 git add \
@@ -650,21 +650,21 @@ git commit -m "docs: expand HTML media and embedding tutorials"
 **Files:**
 - Create: `web-fullstack-course/01-html/04-tables-data/01-table-model-headers-spans.md`
 
-- [ ] Explain when data is two-dimensional and when `dl`, lists, or cards are better.
-- [ ] Cover `table`, `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`, `scope`, `headers`, unique header IDs, `colspan`, `rowspan`, `colgroup`, and `col`.
-- [ ] Add simple and multi-level product comparison tables, a grid-position walkthrough, an incorrect layout-table case, and a broken `headers` diagnosis.
-- [ ] Add exercises, answers, acceptance, and run lesson verification.
+- [x] Explain when data is two-dimensional and when `dl`, lists, or cards are better.
+- [x] Cover `table`, `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`, `scope`, `headers`, unique header IDs, `colspan`, `rowspan`, `colgroup`, and `col`.
+- [x] Add simple and multi-level product comparison tables, a grid-position walkthrough, an incorrect layout-table case, and a broken `headers` diagnosis.
+- [x] Add exercises, answers, acceptance, and run lesson verification.
 
 ### Task 15: Write table accessibility, responsiveness, and DOM tutorial
 
 **Files:**
 - Create: `web-fullstack-course/01-html/04-tables-data/02-table-accessibility-responsive-dom.md`
 
-- [ ] Explain horizontal-scroll containers, keyboard access, long content, print, `table-layout`, table display overrides, and preserving header relationships.
-- [ ] Cover `HTMLTableElement`, caption/head/body/foot references, rows/cells collections, `insertRow`, `deleteRow`, `insertCell`, and safe DOM generation using `textContent`.
-- [ ] Add a complete in-memory listing table with integer-cent totals, empty state, assertions, and failure-first diagnosis.
-- [ ] Add keyboard and screen-reader manual checks, exercises, and acceptance.
-- [ ] Verify lesson structure and JavaScript syntax.
+- [x] Explain horizontal-scroll containers, keyboard access, long content, print, `table-layout`, table display overrides, and preserving header relationships.
+- [x] Cover `HTMLTableElement`, caption/head/body/foot references, rows/cells collections, `insertRow`, `deleteRow`, `insertCell`, and safe DOM generation using `textContent`.
+- [x] Add a complete in-memory listing table with integer-cent totals, empty state, assertions, and failure-first diagnosis.
+- [x] Add keyboard and screen-reader manual checks, exercises, and acceptance.
+- [x] Verify lesson structure and JavaScript syntax.
 
 ### Task 16: Rewrite Chapter 4 hub and commit
 
@@ -672,10 +672,10 @@ git commit -m "docs: expand HTML media and embedding tutorials"
 - Modify: `web-fullstack-course/01-html/04-tables-data.md`
 - Modify: `web-fullstack-course/01-html/HTML-COVERAGE.md`
 
-- [ ] Route both table lessons and define the product-comparison capstone.
-- [ ] Complete TBL coverage rows.
-- [ ] Run links, headings, duplicate-ID checks on complete examples, and diff check.
-- [ ] Commit:
+- [x] Route both table lessons and define the product-comparison capstone.
+- [x] Complete TBL coverage rows.
+- [x] Run links, headings, duplicate-ID checks on complete examples, and diff check.
+- [x] Commit:
 
 ```bash
 git add \
@@ -690,40 +690,40 @@ git commit -m "docs: expand HTML table tutorials"
 **Files:**
 - Create: `web-fullstack-course/01-html/05-forms-validation/01-form-submission-successful-controls.md`
 
-- [ ] Explain `form` action, method, enctype, target, accept-charset, autocomplete, novalidate, `name`, `value`, submitter data, successful controls, GET/POST boundaries, disabled controls, unchecked boxes, and same-name values.
-- [ ] Add a query form, a no-network intercepted publish form, `FormData` and `URLSearchParams` inspection, `getAll`, and `requestSubmit` versus `submit`.
-- [ ] Add a missing-name failure and a disabled-field omission diagnosis.
-- [ ] Add exercises, acceptance, and verify.
+- [x] Explain `form` action, method, enctype, target, accept-charset, autocomplete, novalidate, `name`, `value`, submitter data, successful controls, GET/POST boundaries, disabled controls, unchecked boxes, and same-name values.
+- [x] Add a query form, a no-network intercepted publish form, `FormData` and `URLSearchParams` inspection, `getAll`, and `requestSubmit` versus `submit`.
+- [x] Add a missing-name failure and a disabled-field omission diagnosis.
+- [x] Add exercises, acceptance, and verify.
 
 ### Task 18: Write all input types and value-state tutorial
 
 **Files:**
 - Create: `web-fullstack-course/01-html/05-forms-validation/02-input-types-values.md`
 
-- [ ] Teach the 22 current input types in related groups, not only in one reference table.
-- [ ] Explain current versus default value, `checked` versus `defaultChecked`, `valueAsNumber`, date/time machine formats, hidden-field trust boundaries, file input limits, and button type behavior.
-- [ ] Include one observable mini-case per group, a full type gallery, fallback behavior for unknown types, and a numeric-versus-identifier choice exercise.
-- [ ] Add answers, acceptance, and verify.
+- [x] Teach the 22 current input types in related groups, not only in one reference table.
+- [x] Explain current versus default value, `checked` versus `defaultChecked`, `valueAsNumber`, date/time machine formats, hidden-field trust boundaries, file input limits, and button type behavior.
+- [x] Include one observable mini-case per group, a full type gallery, fallback behavior for unknown types, and a numeric-versus-identifier choice exercise.
+- [x] Add answers, acceptance, and verify.
 
 ### Task 19: Write form controls and grouping tutorial
 
 **Files:**
 - Create: `web-fullstack-course/01-html/05-forms-validation/03-form-controls-groups.md`
 
-- [ ] Explain `label`, `textarea`, `select`, `option`, `optgroup`, `button`, `fieldset`, `legend`, `datalist`, `output`, `progress`, and `meter`.
-- [ ] Cover `for`, `form`, `selected`, `multiple`, `size`, `disabled`, `readonly`, initial/current values, and selection APIs.
-- [ ] Add a categorized listing form, multi-select observation, fieldset-disabled exception, output calculation, and progress-versus-meter contrast.
-- [ ] Add exercises, acceptance, and verify.
+- [x] Explain `label`, `textarea`, `select`, `option`, `optgroup`, `button`, `fieldset`, `legend`, `datalist`, `output`, `progress`, and `meter`.
+- [x] Cover `for`, `form`, `selected`, `multiple`, `size`, `disabled`, `readonly`, initial/current values, and selection APIs.
+- [x] Add a categorized listing form, multi-select observation, fieldset-disabled exception, output calculation, and progress-versus-meter contrast.
+- [x] Add exercises, acceptance, and verify.
 
 ### Task 20: Write constraints, validation, and files tutorial
 
 **Files:**
 - Create: `web-fullstack-course/01-html/05-forms-validation/04-constraint-validation-files.md`
 
-- [ ] Explain `required`, `pattern`, `min`, `max`, `step`, `minlength`, `maxlength`, `accept`, `multiple`, and all relevant `ValidityState` members.
-- [ ] Cover `checkValidity`, `reportValidity`, `setCustomValidity`, invalid event capture, browser messages, custom visible errors, file type/size checks, and server-side validation boundaries.
-- [ ] Add a complete publish-preview form, first-invalid-field recovery, stale custom-error failure, and file-filter bypass analysis.
-- [ ] Add exercises, acceptance, and verify complete example syntax.
+- [x] Explain `required`, `pattern`, `min`, `max`, `step`, `minlength`, `maxlength`, `accept`, `multiple`, and all relevant `ValidityState` members.
+- [x] Cover `checkValidity`, `reportValidity`, `setCustomValidity`, invalid event capture, browser messages, custom visible errors, file type/size checks, and server-side validation boundaries.
+- [x] Add a complete publish-preview form, first-invalid-field recovery, stale custom-error failure, and file-filter bypass analysis.
+- [x] Add exercises, acceptance, and verify complete example syntax.
 
 ### Task 21: Rewrite Chapter 5 hub, validate Batch B, and commit
 
@@ -731,9 +731,9 @@ git commit -m "docs: expand HTML table tutorials"
 - Modify: `web-fullstack-course/01-html/05-forms-validation.md`
 - Modify: `web-fullstack-course/01-html/HTML-COVERAGE.md`
 
-- [ ] Route all four form lessons and define the publish-form capstone.
-- [ ] Complete FRM coverage rows, including every required attribute and current input type.
-- [ ] Run:
+- [x] Route all four form lessons and define the publish-form capstone.
+- [x] Complete FRM coverage rows, including every required attribute and current input type.
+- [x] Run:
 
 ```bash
 find web-fullstack-course/01-html/03-images-media-embedding \
@@ -744,8 +744,8 @@ find web-fullstack-course/01-html/03-images-media-embedding \
 
 Expected: `9`.
 
-- [ ] Run link, heading, fence, and diff checks.
-- [ ] Commit:
+- [x] Run link, heading, fence, and diff checks.
+- [x] Commit:
 
 ```bash
 git add \
@@ -762,38 +762,38 @@ git commit -m "docs: expand HTML form and validation tutorials"
 **Files:**
 - Create: `web-fullstack-course/01-html/06-interactive-dom/01-native-interactive-elements.md`
 
-- [ ] Explain `details`, `summary`, open state, toggle event, named groups, `dialog`, show/showModal/close, cancel/close, method=dialog, popover modes, invoker attributes, top layer, modality, focus, and feature detection.
-- [ ] Add rules disclosure, reservation dialog, price-help popover, unsupported-feature fallback, and focus recovery cases.
-- [ ] Add misuse contrasts for CSS-visible dialog and popover-as-modal.
-- [ ] Complete exercises and verify.
+- [x] Explain `details`, `summary`, open state, toggle event, named groups, `dialog`, show/showModal/close, cancel/close, method=dialog, popover modes, invoker attributes, top layer, modality, focus, and feature detection.
+- [x] Add rules disclosure, reservation dialog, price-help popover, unsupported-feature fallback, and focus recovery cases.
+- [x] Add misuse contrasts for CSS-visible dialog and popover-as-modal.
+- [x] Complete exercises and verify.
 
 ### Task 23: Write DOM query and mutation tutorial
 
 **Files:**
 - Create: `web-fullstack-course/01-html/06-interactive-dom/02-dom-query-mutation.md`
 
-- [ ] Cover `getElementById`, `querySelector`, `querySelectorAll`, static and live collections, node versus element traversal, create/append/prepend/before/after/remove/replaceChildren, `classList`, `dataset`, attributes, properties, and `textContent` versus `innerHTML`.
-- [ ] Add product-card creation, safe user-text insertion, moving an existing node, class/state synchronization, and null-selection diagnosis.
-- [ ] Add exercises and verify JavaScript syntax.
+- [x] Cover `getElementById`, `querySelector`, `querySelectorAll`, static and live collections, node versus element traversal, create/append/prepend/before/after/remove/replaceChildren, `classList`, `dataset`, attributes, properties, and `textContent` versus `innerHTML`.
+- [x] Add product-card creation, safe user-text insertion, moving an existing node, class/state synchronization, and null-selection diagnosis.
+- [x] Add exercises and verify JavaScript syntax.
 
 ### Task 24: Write events, forms, and delegation tutorial
 
 **Files:**
 - Create: `web-fullstack-course/01-html/06-interactive-dom/03-events-forms-delegation.md`
 
-- [ ] Explain event registration/removal, AbortSignal cleanup, capture/target/bubble, target/currentTarget, closest/matches, default action, propagation, passive listeners, click/input/change/submit/invalid/toggle/close, and event delegation.
-- [ ] Add a dynamic listing collection with delegated favorite buttons, form submission handling, link-versus-button default behavior, nested-target failure, and listener cleanup.
-- [ ] Add propagation prediction exercises, acceptance, and verify.
+- [x] Explain event registration/removal, AbortSignal cleanup, capture/target/bubble, target/currentTarget, closest/matches, default action, propagation, passive listeners, click/input/change/submit/invalid/toggle/close, and event delegation.
+- [x] Add a dynamic listing collection with delegated favorite buttons, form submission handling, link-versus-button default behavior, nested-target failure, and listener cleanup.
+- [x] Add propagation prediction exercises, acceptance, and verify.
 
 ### Task 25: Write templates and Web Components tutorial
 
 **Files:**
 - Create: `web-fullstack-course/01-html/06-interactive-dom/04-templates-web-components.md`
 
-- [ ] Explain `template`, `.content`, DocumentFragment, cloning, listener behavior, autonomous custom elements, lifecycle callbacks, observed attributes, Shadow DOM, slots, fallback content, assigned elements, and slotchange.
-- [ ] Add a listing template, a `market-note` component, a slotted title, reconnect-safe initialization, and duplicate-registration diagnosis.
-- [ ] Explain encapsulation versus security and compatibility boundaries.
-- [ ] Add exercises, acceptance, and verify.
+- [x] Explain `template`, `.content`, DocumentFragment, cloning, listener behavior, autonomous custom elements, lifecycle callbacks, observed attributes, Shadow DOM, slots, fallback content, assigned elements, and slotchange.
+- [x] Add a listing template, a `market-note` component, a slotted title, reconnect-safe initialization, and duplicate-registration diagnosis.
+- [x] Explain encapsulation versus security and compatibility boundaries.
+- [x] Add exercises, acceptance, and verify.
 
 ### Task 26: Rewrite Chapter 6 hub and commit
 
@@ -801,10 +801,10 @@ git commit -m "docs: expand HTML form and validation tutorials"
 - Modify: `web-fullstack-course/01-html/06-interactive-dom.md`
 - Modify: `web-fullstack-course/01-html/HTML-COVERAGE.md`
 
-- [ ] Route all four lessons and define the in-memory favorite/reservation capstone.
-- [ ] Complete DOM, EVT, and INT coverage rows.
-- [ ] Run links, headings, JavaScript syntax, and diff checks.
-- [ ] Commit:
+- [x] Route all four lessons and define the in-memory favorite/reservation capstone.
+- [x] Complete DOM, EVT, and INT coverage rows.
+- [x] Run links, headings, JavaScript syntax, and diff checks.
+- [x] Commit:
 
 ```bash
 git add \
@@ -819,29 +819,29 @@ git commit -m "docs: expand HTML DOM and interaction tutorials"
 **Files:**
 - Create: `web-fullstack-course/01-html/07-accessibility-seo/01-accessible-name-landmarks-keyboard.md`
 
-- [ ] Explain semantic roles, landmarks, headings, accessible name sources, descriptions, states, visible-label consistency, native controls, keyboard activation, focus order, focus visibility, skip links, and ARIA boundaries.
-- [ ] Add an accessibility-tree inspection, conflicting aria-label failure, div-button replacement, duplicate landmark naming, and keyboard-only listing path.
-- [ ] Add manual checks, exercises, acceptance, and references.
+- [x] Explain semantic roles, landmarks, headings, accessible name sources, descriptions, states, visible-label consistency, native controls, keyboard activation, focus order, focus visibility, skip links, and ARIA boundaries.
+- [x] Add an accessibility-tree inspection, conflicting aria-label failure, div-button replacement, duplicate landmark naming, and keyboard-only listing path.
+- [x] Add manual checks, exercises, acceptance, and references.
 
 ### Task 28: Write dynamic status, focus, and media alternatives tutorial
 
 **Files:**
 - Create: `web-fullstack-course/01-html/07-accessibility-seo/02-dynamic-status-focus-media.md`
 
-- [ ] Explain status/alert/live regions, aria-busy, form-error summaries, first-invalid focus, dialog focus restoration, dynamic lists, image alternatives, captions, audio description, chart/table alternatives, zoom, touch target, color-only state, and reduced motion boundaries.
-- [ ] Add search results, favorite status, failed form, media alternative, and Canvas text/table alternative cases.
-- [ ] Add fast-update announcement limitations and manual screen-reader scope notes.
-- [ ] Add exercises, acceptance, and verify.
+- [x] Explain status/alert/live regions, aria-busy, form-error summaries, first-invalid focus, dialog focus restoration, dynamic lists, image alternatives, captions, audio description, chart/table alternatives, zoom, touch target, color-only state, and reduced motion boundaries.
+- [x] Add search results, favorite status, failed form, media alternative, and Canvas text/table alternative cases.
+- [x] Add fast-update announcement limitations and manual screen-reader scope notes.
+- [x] Add exercises, acceptance, and verify.
 
 ### Task 29: Write metadata, SEO, and structured-data tutorial
 
 **Files:**
 - Create: `web-fullstack-course/01-html/07-accessibility-seo/03-metadata-seo-structured-data.md`
 
-- [ ] Explain title, description, canonical, robots, robots.txt boundary, sitemap, valid links, HTTP status, crawl versus index, client rendering boundary, Microdata, JSON-LD, visible-content consistency, and fabricated-review risk.
-- [ ] Add a real listing metadata case, noindex teaching page, incorrect 200-for-not-found analysis, canonical misconception, and matching structured-data example.
-- [ ] Add exercises, acceptance, and official search-engine/HTML references.
-- [ ] Verify JSON syntax and Markdown structure.
+- [x] Explain title, description, canonical, robots, robots.txt boundary, sitemap, valid links, HTTP status, crawl versus index, client rendering boundary, Microdata, JSON-LD, visible-content consistency, and fabricated-review risk.
+- [x] Add a real listing metadata case, noindex teaching page, incorrect 200-for-not-found analysis, canonical misconception, and matching structured-data example.
+- [x] Add exercises, acceptance, and official search-engine/HTML references.
+- [x] Verify JSON syntax and Markdown structure.
 
 ### Task 30: Rewrite Chapter 7 hub and commit
 
@@ -849,10 +849,10 @@ git commit -m "docs: expand HTML DOM and interaction tutorials"
 - Modify: `web-fullstack-course/01-html/07-accessibility-seo.md`
 - Modify: `web-fullstack-course/01-html/HTML-COVERAGE.md`
 
-- [ ] Route the three lessons and define a keyboard-accessible searchable listing capstone.
-- [ ] Complete A11Y and SEO coverage rows.
-- [ ] Run links, headings, JSON syntax, and diff checks.
-- [ ] Commit:
+- [x] Route the three lessons and define a keyboard-accessible searchable listing capstone.
+- [x] Complete A11Y and SEO coverage rows.
+- [x] Run links, headings, JSON syntax, and diff checks.
+- [x] Commit:
 
 ```bash
 git add \
@@ -867,22 +867,22 @@ git commit -m "docs: expand HTML accessibility and SEO tutorials"
 **Files:**
 - Create: `web-fullstack-course/01-html/08-html-element-reference/01-element-attribute-api-index.md`
 
-- [ ] Build a searchable index by responsibility, not alphabet alone.
-- [ ] For each current element group, list purpose, allowed context, key attributes, DOM interface/default behavior, primary tutorial, minimum example, and compatibility note.
-- [ ] Include global attributes, ARIA boundary notes, SVG/MathML root entries, and custom-element scope.
-- [ ] Add “choose the right element” cases, lookup exercises, acceptance, and references.
-- [ ] Verify that all current element names from the existing reference remain represented.
+- [x] Build a searchable index by responsibility, not alphabet alone.
+- [x] For each current element group, list purpose, allowed context, key attributes, DOM interface/default behavior, primary tutorial, minimum example, and compatibility note.
+- [x] Include global attributes, ARIA boundary notes, SVG/MathML root entries, and custom-element scope.
+- [x] Add “choose the right element” cases, lookup exercises, acceptance, and references.
+- [x] Verify that all current element names from the existing reference remain represented.
 
 ### Task 32: Write deprecated history and migration tutorial
 
 **Files:**
 - Create: `web-fullstack-course/01-html/08-html-element-reference/02-deprecated-history-migration.md`
 
-- [ ] Explain why browsers retain obsolete parsing behavior and why that does not make old markup suitable.
-- [ ] Cover obsolete/non-standard elements and attributes by historical purpose: presentation, frames, plugins, scrolling text, document metadata, alignment, colors, and event patterns.
-- [ ] For each category, show old code, current replacement, migration steps, visible regression risk, and verification.
-- [ ] Include `font`, `center`, `big`, `tt`, `strike`, `frameset`, `frame`, `noframes`, `marquee`, `blink`, `applet`, `acronym`, `align`, `bgcolor`, `border`, `cellpadding`, `cellspacing`, and `language`.
-- [ ] Add a legacy product-page migration case, exercises, acceptance, and references.
+- [x] Explain why browsers retain obsolete parsing behavior and why that does not make old markup suitable.
+- [x] Cover obsolete/non-standard elements and attributes by historical purpose: presentation, frames, plugins, scrolling text, document metadata, alignment, colors, and event patterns.
+- [x] For each category, show old code, current replacement, migration steps, visible regression risk, and verification.
+- [x] Include `font`, `center`, `big`, `tt`, `strike`, `frameset`, `frame`, `noframes`, `marquee`, `blink`, `applet`, `acronym`, `align`, `bgcolor`, `border`, `cellpadding`, `cellspacing`, and `language`.
+- [x] Add a legacy product-page migration case, exercises, acceptance, and references.
 
 ### Task 33: Rewrite Chapter 8 hub and complete coverage
 
@@ -890,10 +890,10 @@ git commit -m "docs: expand HTML accessibility and SEO tutorials"
 - Modify: `web-fullstack-course/01-html/08-html-element-reference.md`
 - Modify: `web-fullstack-course/01-html/HTML-COVERAGE.md`
 
-- [ ] Route both reference tutorials and explain reference-versus-teaching responsibilities.
-- [ ] Add the HTML stage audit task and deprecated-page migration acceptance.
-- [ ] Complete HIS rows and audit every matrix row for existing lesson targets and all `是` dimensions.
-- [ ] Run:
+- [x] Route both reference tutorials and explain reference-versus-teaching responsibilities.
+- [x] Add the HTML stage audit task and deprecated-page migration acceptance.
+- [x] Complete HIS rows and audit every matrix row for existing lesson targets and all `是` dimensions.
+- [x] Run:
 
 ```bash
 python3 - <<'PY'
@@ -916,7 +916,7 @@ Expected: `Coverage prefixes: PASS`.
 **Files:**
 - Verify all Chapter 6-8 files
 
-- [ ] Run:
+- [x] Run:
 
 ```bash
 find web-fullstack-course/01-html/06-interactive-dom \
@@ -927,8 +927,8 @@ find web-fullstack-course/01-html/06-interactive-dom \
 
 Expected: `9`.
 
-- [ ] Run all reusable lesson-count, heading, link, and diff checks.
-- [ ] Commit:
+- [x] Run all reusable lesson-count, heading, link, and diff checks.
+- [x] Commit:
 
 ```bash
 git add \
@@ -945,7 +945,7 @@ git commit -m "docs: expand HTML reference and migration tutorials"
 **Files:**
 - Verify: `web-fullstack-course/01-html/**/*.md`
 
-- [ ] **Step 1: Verify all expected files**
+- [x] **Step 1: Verify all expected files**
 
 Run:
 
@@ -955,11 +955,11 @@ find web-fullstack-course/01-html -type f -name '*.md' | wc -l
 
 Expected: `34` Markdown files, consisting of one module README, eight hubs, twenty-four detailed lessons, and one coverage matrix.
 
-- [ ] **Step 2: Verify lesson structure**
+- [x] **Step 2: Verify lesson structure**
 
 Run the reusable 24-lesson heading and file-count command.
 
-- [ ] **Step 3: Verify links and placeholders**
+- [x] **Step 3: Verify links and placeholders**
 
 Run the reusable link checker, then:
 
@@ -970,7 +970,7 @@ rg -n '\b(TO[D]O|TB[D]|FIX[M]E|WI[P])\b|待完[善]|自行补[充]|占位[符]' 
 
 Expected: no output.
 
-- [ ] **Step 4: Verify scope**
+- [x] **Step 4: Verify scope**
 
 Run:
 
@@ -983,7 +983,7 @@ find web-fullstack-course -type f \
 
 Expected: no paths created by this rewrite.
 
-- [ ] **Step 5: Verify whitespace and final diff**
+- [x] **Step 5: Verify whitespace and final diff**
 
 ```bash
 git diff --check
@@ -998,24 +998,24 @@ Expected: no whitespace errors; status lists only intended documentation changes
 - Read complete HTML, JSON, WebVTT, and JavaScript examples from all detailed lessons
 - Create only temporary files under `/tmp/html-course-verification/`
 
-- [ ] Extract every code block explicitly labeled as a complete file into `/tmp/html-course-verification/`.
-- [ ] Parse complete HTML with Python `HTMLParser`; check balanced authored tags where applicable, unique IDs, and existing same-document fragment targets.
-- [ ] Parse every complete JSON example with `JSON.parse` or Python `json.loads`.
-- [ ] Run `node --check` on standalone JavaScript examples.
-- [ ] Run pure in-memory assertions for integer-cent totals, status labels, form extraction, delegated favorite state, and generated table row counts.
-- [ ] Remove `/tmp/html-course-verification/` after verification.
-- [ ] Record browser-only, media-resource, screen-reader, Safari, Firefox, and experimental-feature checks as explicit manual scope in the module README or validation section.
+- [x] Extract every code block explicitly labeled as a complete file into `/tmp/html-course-verification/`.
+- [x] Parse complete HTML with Python `HTMLParser`; check balanced authored tags where applicable, unique IDs, and existing same-document fragment targets.
+- [x] Parse every complete JSON example with `JSON.parse` or Python `json.loads`.
+- [x] Run `node --check` on standalone JavaScript examples.
+- [x] Run pure in-memory assertions for integer-cent totals, status labels, form extraction, delegated favorite state, and generated table row counts.
+- [x] Remove `/tmp/html-course-verification/` after verification.
+- [x] Record browser-only, media-resource, screen-reader, Safari, Firefox, and experimental-feature checks as explicit manual scope in the module README or validation section.
 
 ### Task 37: Perform browser and keyboard smoke test
 
 **Files:**
 - Use temporary extracted examples only
 
-- [ ] Open representative examples from Chapters 1, 2, 3, 5, 6, and 7 in a modern Chromium browser.
-- [ ] Check DOM repair, Network resource selection, form validation, dialog/popover behavior, event delegation, keyboard focus, live status, and accessibility names.
-- [ ] Test all primary paths using keyboard only.
-- [ ] Verify that no example claims server persistence or authorization.
-- [ ] Record untested screen-reader/browser combinations instead of claiming universal compatibility.
+- [x] Open representative examples from Chapters 1, 2, 3, 5, 6, and 7 in a modern Chromium browser.
+- [x] Check DOM repair, Network resource selection, form validation, dialog/popover behavior, event delegation, keyboard focus, live status, and accessibility names.
+- [x] Test all primary paths using keyboard only.
+- [x] Verify that no example claims server persistence or authorization.
+- [x] Record untested screen-reader/browser combinations instead of claiming universal compatibility.
 
 ### Task 38: Reconcile module and book navigation
 
@@ -1024,22 +1024,22 @@ Expected: no whitespace errors; status lists only intended documentation changes
 - Modify: `web-fullstack-course/README.md`
 - Verify: `web-fullstack-course/00-guide/06-coverage-map.md`
 
-- [ ] Ensure the HTML README routes to all eight hubs, all twenty-four lessons, the coverage matrix, and the HTML stage acceptance.
-- [ ] Check the global coverage map links still resolve; change only HTML paths that actually moved or gained detailed routes.
-- [ ] Recalculate the root book document count using the same classification currently used by the root README. If the current 81 count excludes README/validation files, add twenty-four learning files plus one reference matrix and update the statement to 106; otherwise document and use the measured classification result.
-- [ ] Preserve all other user-authored root README wording.
-- [ ] Run the repository-wide relative-link check for Markdown files.
+- [x] Ensure the HTML README routes to all eight hubs, all twenty-four lessons, the coverage matrix, and the HTML stage acceptance.
+- [x] Check the global coverage map links still resolve; change only HTML paths that actually moved or gained detailed routes.
+- [x] Recalculate the root book document count using the same classification currently used by the root README. If the current 81 count excludes README/validation files, add twenty-four learning files plus one reference matrix and update the statement to 106; otherwise document and use the measured classification result.
+- [x] Preserve all other user-authored root README wording.
+- [x] Run the repository-wide relative-link check for Markdown files.
 
 ### Task 39: Final audit and commit
 
 **Files:**
 - Review all files changed by Tasks 1-38
 
-- [ ] Compare every design requirement against a task and against the resulting files.
-- [ ] Randomly sample at least one matrix row from every ID prefix and navigate to theory, example, error, exercise, and acceptance.
-- [ ] Review `git diff --stat`, `git diff --check`, and `git status --short`.
-- [ ] Confirm no unrelated course module was reformatted or rewritten.
-- [ ] Commit final navigation and validation corrections:
+- [x] Compare every design requirement against a task and against the resulting files.
+- [x] Randomly sample at least one matrix row from every ID prefix and navigate to theory, example, error, exercise, and acceptance.
+- [x] Review `git diff --stat`, `git diff --check`, and `git status --short`.
+- [x] Confirm no unrelated course module was reformatted or rewritten.
+- [x] Commit final navigation and validation corrections:
 
 ```bash
 git add \
