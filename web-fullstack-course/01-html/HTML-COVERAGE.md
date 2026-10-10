@@ -4,7 +4,7 @@
 
 ## 1. 阅读方式
 
-表格中的“是”表示对应详细教程必须落实该维度。A 批教程完成后使用可点击链接；B、C 批在交付前使用精确代码路径，不能把路径存在于计划中误写成正文已经完成。
+表格中的“是”表示对应详细教程已经落实该维度。全部主要教程均使用可点击链接；验收时应从每一行进入正文，抽查理论、案例、诊断、练习和验收证据，不能只凭文件存在判断完成。
 
 | 标记 | 含义 |
 | --- | --- |
@@ -91,149 +91,149 @@
 
 ## 5. 媒体与嵌入
 
-以下教程将在 B 批交付，路径已经固定：
+以下教程已在 B 批交付：
 
 | ID | 知识点 | 主要教程 | 理论 | 最小案例 | 项目案例 | 错误诊断 | 练习 | 验收 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| MED-001 | `img` 的 `src`、`alt`、固有尺寸 | `03-images-media-embedding/01-images-responsive-performance.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| MED-002 | 装饰图、信息图和链接图替代文本 | `03-images-media-embedding/01-images-responsive-performance.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| MED-003 | `srcset`、`sizes` 与 `currentSrc` | `03-images-media-embedding/01-images-responsive-performance.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| MED-004 | `picture` 与图片 `source` | `03-images-media-embedding/01-images-responsive-performance.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| MED-005 | `loading`、`decoding`、`fetchpriority` | `03-images-media-embedding/01-images-responsive-performance.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| MED-006 | 图片 CORS、referrer 与解码失败 | `03-images-media-embedding/01-images-responsive-performance.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| MED-007 | `audio`、`video` 与媒体 `source` | `03-images-media-embedding/02-audio-video-tracks.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| MED-008 | controls、preload、autoplay、muted、poster、playsinline | `03-images-media-embedding/02-audio-video-tracks.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| MED-009 | `track`、WebVTT、字幕、描述、章节 | `03-images-media-embedding/02-audio-video-tracks.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| MED-010 | 媒体状态、事件和 `play()` Promise | `03-images-media-embedding/02-audio-video-tracks.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| MED-011 | `iframe`、`object`、`embed` | `03-images-media-embedding/03-embedding-svg-canvas.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| MED-012 | sandbox、allow、同源与嵌入拒绝 | `03-images-media-embedding/03-embedding-svg-canvas.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| MED-013 | `map`、`area` 与文本替代 | `03-images-media-embedding/03-embedding-svg-canvas.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| MED-014 | HTML 中的 SVG 与外部 SVG | `03-images-media-embedding/03-embedding-svg-canvas.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| MED-015 | Canvas 尺寸、像素、跨源污染与替代 | `03-images-media-embedding/03-embedding-svg-canvas.md` | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-001 | `img` 的 `src`、`alt`、固有尺寸 | [响应式图片](03-images-media-embedding/01-images-responsive-performance.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-002 | 装饰图、信息图和链接图替代文本 | [响应式图片](03-images-media-embedding/01-images-responsive-performance.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-003 | `srcset`、`sizes` 与 `currentSrc` | [响应式图片](03-images-media-embedding/01-images-responsive-performance.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-004 | `picture` 与图片 `source` | [响应式图片](03-images-media-embedding/01-images-responsive-performance.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-005 | `loading`、`decoding`、`fetchpriority` | [响应式图片](03-images-media-embedding/01-images-responsive-performance.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-006 | 图片 CORS、referrer 与解码失败 | [响应式图片](03-images-media-embedding/01-images-responsive-performance.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-007 | `audio`、`video` 与媒体 `source` | [音视频与字幕](03-images-media-embedding/02-audio-video-tracks.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-008 | controls、preload、autoplay、muted、poster、playsinline | [音视频与字幕](03-images-media-embedding/02-audio-video-tracks.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-009 | `track`、WebVTT、字幕、描述、章节 | [音视频与字幕](03-images-media-embedding/02-audio-video-tracks.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-010 | 媒体状态、事件和 `play()` Promise | [音视频与字幕](03-images-media-embedding/02-audio-video-tracks.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-011 | `iframe`、`object`、`embed` | [嵌入、SVG 与 Canvas](03-images-media-embedding/03-embedding-svg-canvas.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-012 | sandbox、allow、同源与嵌入拒绝 | [嵌入、SVG 与 Canvas](03-images-media-embedding/03-embedding-svg-canvas.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-013 | `map`、`area` 与文本替代 | [嵌入、SVG 与 Canvas](03-images-media-embedding/03-embedding-svg-canvas.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-014 | HTML 中的 SVG 与外部 SVG | [嵌入、SVG 与 Canvas](03-images-media-embedding/03-embedding-svg-canvas.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| MED-015 | Canvas 尺寸、像素、跨源污染与替代 | [嵌入、SVG 与 Canvas](03-images-media-embedding/03-embedding-svg-canvas.md) | 是 | 是 | 是 | 是 | 是 | 是 |
 
 ## 6. 表格
 
 | ID | 知识点 | 主要教程 | 理论 | 最小案例 | 项目案例 | 错误诊断 | 练习 | 验收 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TBL-001 | 二维数据与非表格内容选择 | `04-tables-data/01-table-model-headers-spans.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| TBL-002 | `table`、`caption`、行组 | `04-tables-data/01-table-model-headers-spans.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| TBL-003 | `tr`、`th`、`td` | `04-tables-data/01-table-model-headers-spans.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| TBL-004 | `scope` 的 row/col/rowgroup/colgroup | `04-tables-data/01-table-model-headers-spans.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| TBL-005 | `id`、`headers` 复杂关联 | `04-tables-data/01-table-model-headers-spans.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| TBL-006 | `colspan`、`rowspan` 与网格位置 | `04-tables-data/01-table-model-headers-spans.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| TBL-007 | `colgroup`、`col` | `04-tables-data/01-table-model-headers-spans.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| TBL-008 | 小屏滚动、长内容和打印 | `04-tables-data/02-table-accessibility-responsive-dom.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| TBL-009 | 键盘、读屏与表头测试 | `04-tables-data/02-table-accessibility-responsive-dom.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| TBL-010 | HTMLTableElement 与 rows/cells 集合 | `04-tables-data/02-table-accessibility-responsive-dom.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| TBL-011 | insert/delete row/cell 与安全生成 | `04-tables-data/02-table-accessibility-responsive-dom.md` | 是 | 是 | 是 | 是 | 是 | 是 |
+| TBL-001 | 二维数据与非表格内容选择 | [表格模型与表头](04-tables-data/01-table-model-headers-spans.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| TBL-002 | `table`、`caption`、行组 | [表格模型与表头](04-tables-data/01-table-model-headers-spans.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| TBL-003 | `tr`、`th`、`td` | [表格模型与表头](04-tables-data/01-table-model-headers-spans.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| TBL-004 | `scope` 的 row/col/rowgroup/colgroup | [表格模型与表头](04-tables-data/01-table-model-headers-spans.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| TBL-005 | `id`、`headers` 复杂关联 | [表格模型与表头](04-tables-data/01-table-model-headers-spans.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| TBL-006 | `colspan`、`rowspan` 与网格位置 | [表格模型与表头](04-tables-data/01-table-model-headers-spans.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| TBL-007 | `colgroup`、`col` | [表格模型与表头](04-tables-data/01-table-model-headers-spans.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| TBL-008 | 小屏滚动、长内容和打印 | [响应式表格与 DOM](04-tables-data/02-table-accessibility-responsive-dom.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| TBL-009 | 键盘、读屏与表头测试 | [响应式表格与 DOM](04-tables-data/02-table-accessibility-responsive-dom.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| TBL-010 | HTMLTableElement 与 rows/cells 集合 | [响应式表格与 DOM](04-tables-data/02-table-accessibility-responsive-dom.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| TBL-011 | insert/delete row/cell 与安全生成 | [响应式表格与 DOM](04-tables-data/02-table-accessibility-responsive-dom.md) | 是 | 是 | 是 | 是 | 是 | 是 |
 
 ## 7. 表单
 
 | ID | 知识点 | 主要教程 | 理论 | 最小案例 | 项目案例 | 错误诊断 | 练习 | 验收 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| FRM-001 | form action、method、target、accept-charset | `05-forms-validation/01-form-submission-successful-controls.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-002 | enctype 三种编码与文件上传 | `05-forms-validation/01-form-submission-successful-controls.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-003 | name、value、提交按钮和成功控件 | `05-forms-validation/01-form-submission-successful-controls.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-004 | 禁用、未选中、只读控件的提交行为 | `05-forms-validation/01-form-submission-successful-controls.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-005 | FormData、同名多值、getAll | `05-forms-validation/01-form-submission-successful-controls.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-006 | URLSearchParams 与 GET 查询 | `05-forms-validation/01-form-submission-successful-controls.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-007 | requestSubmit 与 submit | `05-forms-validation/01-form-submission-successful-controls.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-008 | text、search、email、url、tel、password | `05-forms-validation/02-input-types-values.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-009 | number、range | `05-forms-validation/02-input-types-values.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-010 | date、time、datetime-local、month、week | `05-forms-validation/02-input-types-values.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-011 | color | `05-forms-validation/02-input-types-values.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-012 | checkbox、radio | `05-forms-validation/02-input-types-values.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-013 | file、hidden | `05-forms-validation/02-input-types-values.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-014 | button、submit、reset、image | `05-forms-validation/02-input-types-values.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-015 | 当前值、默认值、checked/defaultChecked | `05-forms-validation/02-input-types-values.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-016 | valueAsNumber、valueAsDate、stepUp/stepDown | `05-forms-validation/02-input-types-values.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-017 | label 与可见名称 | `05-forms-validation/03-form-controls-groups.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-018 | textarea 的初始值、当前值、rows/cols/wrap | `05-forms-validation/03-form-controls-groups.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-019 | select、option、optgroup、selectedOptions | `05-forms-validation/03-form-controls-groups.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-020 | button 元素与 type/form/name/value | `05-forms-validation/03-form-controls-groups.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-021 | fieldset、legend 与 disabled 传播 | `05-forms-validation/03-form-controls-groups.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-022 | datalist 与建议值边界 | `05-forms-validation/03-form-controls-groups.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-023 | output、progress、meter | `05-forms-validation/03-form-controls-groups.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-024 | autocomplete、inputmode、enterkeyhint 等输入辅助 | `05-forms-validation/03-form-controls-groups.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-025 | required、长度、pattern | `05-forms-validation/04-constraint-validation-files.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-026 | min、max、step 与数值/日期约束 | `05-forms-validation/04-constraint-validation-files.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-027 | accept、multiple 与文件检查 | `05-forms-validation/04-constraint-validation-files.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-028 | ValidityState 全部相关状态 | `05-forms-validation/04-constraint-validation-files.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-029 | checkValidity、reportValidity、validationMessage | `05-forms-validation/04-constraint-validation-files.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-030 | setCustomValidity 与 customError 生命周期 | `05-forms-validation/04-constraint-validation-files.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-031 | invalid 事件、错误汇总与焦点 | `05-forms-validation/04-constraint-validation-files.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| FRM-032 | 浏览器校验、业务校验、服务端校验边界 | `05-forms-validation/04-constraint-validation-files.md` | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-001 | form action、method、target、accept-charset | [提交与成功控件](05-forms-validation/01-form-submission-successful-controls.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-002 | enctype 三种编码与文件上传 | [提交与成功控件](05-forms-validation/01-form-submission-successful-controls.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-003 | name、value、提交按钮和成功控件 | [提交与成功控件](05-forms-validation/01-form-submission-successful-controls.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-004 | 禁用、未选中、只读控件的提交行为 | [提交与成功控件](05-forms-validation/01-form-submission-successful-controls.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-005 | FormData、同名多值、getAll | [提交与成功控件](05-forms-validation/01-form-submission-successful-controls.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-006 | URLSearchParams 与 GET 查询 | [提交与成功控件](05-forms-validation/01-form-submission-successful-controls.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-007 | requestSubmit 与 submit | [提交与成功控件](05-forms-validation/01-form-submission-successful-controls.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-008 | text、search、email、url、tel、password | [input 类型和值](05-forms-validation/02-input-types-values.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-009 | number、range | [input 类型和值](05-forms-validation/02-input-types-values.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-010 | date、time、datetime-local、month、week | [input 类型和值](05-forms-validation/02-input-types-values.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-011 | color | [input 类型和值](05-forms-validation/02-input-types-values.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-012 | checkbox、radio | [input 类型和值](05-forms-validation/02-input-types-values.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-013 | file、hidden | [input 类型和值](05-forms-validation/02-input-types-values.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-014 | button、submit、reset、image | [input 类型和值](05-forms-validation/02-input-types-values.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-015 | 当前值、默认值、checked/defaultChecked | [input 类型和值](05-forms-validation/02-input-types-values.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-016 | valueAsNumber、valueAsDate、stepUp/stepDown | [input 类型和值](05-forms-validation/02-input-types-values.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-017 | label 与可见名称 | [控件与分组](05-forms-validation/03-form-controls-groups.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-018 | textarea 的初始值、当前值、rows/cols/wrap | [控件与分组](05-forms-validation/03-form-controls-groups.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-019 | select、option、optgroup、selectedOptions | [控件与分组](05-forms-validation/03-form-controls-groups.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-020 | button 元素与 type/form/name/value | [控件与分组](05-forms-validation/03-form-controls-groups.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-021 | fieldset、legend 与 disabled 传播 | [控件与分组](05-forms-validation/03-form-controls-groups.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-022 | datalist 与建议值边界 | [控件与分组](05-forms-validation/03-form-controls-groups.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-023 | output、progress、meter | [控件与分组](05-forms-validation/03-form-controls-groups.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-024 | autocomplete、inputmode、enterkeyhint 等输入辅助 | [控件与分组](05-forms-validation/03-form-controls-groups.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-025 | required、长度、pattern | [约束验证与文件](05-forms-validation/04-constraint-validation-files.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-026 | min、max、step 与数值/日期约束 | [约束验证与文件](05-forms-validation/04-constraint-validation-files.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-027 | accept、multiple 与文件检查 | [约束验证与文件](05-forms-validation/04-constraint-validation-files.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-028 | ValidityState 全部相关状态 | [约束验证与文件](05-forms-validation/04-constraint-validation-files.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-029 | checkValidity、reportValidity、validationMessage | [约束验证与文件](05-forms-validation/04-constraint-validation-files.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-030 | setCustomValidity 与 customError 生命周期 | [约束验证与文件](05-forms-validation/04-constraint-validation-files.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-031 | invalid 事件、错误汇总与焦点 | [约束验证与文件](05-forms-validation/04-constraint-validation-files.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| FRM-032 | 浏览器校验、业务校验、服务端校验边界 | [约束验证与文件](05-forms-validation/04-constraint-validation-files.md) | 是 | 是 | 是 | 是 | 是 | 是 |
 
 ## 8. DOM、事件与原生交互
 
 | ID | 知识点 | 主要教程 | 理论 | 最小案例 | 项目案例 | 错误诊断 | 练习 | 验收 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| INT-001 | `details`、`summary`、open、toggle | `06-interactive-dom/01-native-interactive-elements.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| INT-002 | `dialog`、show/showModal/close | `06-interactive-dom/01-native-interactive-elements.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| INT-003 | cancel、close、method=dialog、焦点恢复 | `06-interactive-dom/01-native-interactive-elements.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| INT-004 | popover 模式与 invoker 属性 | `06-interactive-dom/01-native-interactive-elements.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| DOM-001 | getElementById、querySelector、querySelectorAll | `06-interactive-dom/02-dom-query-mutation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| DOM-002 | 静态 NodeList 与动态集合 | `06-interactive-dom/02-dom-query-mutation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| DOM-003 | 节点/元素导航、closest、matches | `06-interactive-dom/02-dom-query-mutation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| DOM-004 | createElement、createTextNode | `06-interactive-dom/02-dom-query-mutation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| DOM-005 | append、prepend、before、after | `06-interactive-dom/02-dom-query-mutation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| DOM-006 | remove、replaceWith、replaceChildren | `06-interactive-dom/02-dom-query-mutation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| DOM-007 | textContent 与 innerHTML 安全边界 | `06-interactive-dom/02-dom-query-mutation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| DOM-008 | classList | `06-interactive-dom/02-dom-query-mutation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| DOM-009 | dataset 与 data-* | `06-interactive-dom/02-dom-query-mutation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| DOM-010 | getAttribute、setAttribute、toggleAttribute | `06-interactive-dom/02-dom-query-mutation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| DOM-011 | 内容属性与 DOM 属性 | `06-interactive-dom/02-dom-query-mutation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| EVT-001 | addEventListener、removeEventListener、AbortSignal | `06-interactive-dom/03-events-forms-delegation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| EVT-002 | 捕获、目标、冒泡 | `06-interactive-dom/03-events-forms-delegation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| EVT-003 | target、currentTarget、closest | `06-interactive-dom/03-events-forms-delegation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| EVT-004 | preventDefault、stopPropagation、passive | `06-interactive-dom/03-events-forms-delegation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| EVT-005 | click、input、change | `06-interactive-dom/03-events-forms-delegation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| EVT-006 | submit、invalid | `06-interactive-dom/03-events-forms-delegation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| EVT-007 | toggle、close | `06-interactive-dom/03-events-forms-delegation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| EVT-008 | 事件委托与动态列表 | `06-interactive-dom/03-events-forms-delegation.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| INT-005 | `template`、DocumentFragment、cloneNode | `06-interactive-dom/04-templates-web-components.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| INT-006 | 自定义元素命名与 define | `06-interactive-dom/04-templates-web-components.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| INT-007 | connected/disconnected/attributeChanged 生命周期 | `06-interactive-dom/04-templates-web-components.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| INT-008 | Shadow DOM 封装边界 | `06-interactive-dom/04-templates-web-components.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| INT-009 | `slot`、fallback、assignedElements、slotchange | `06-interactive-dom/04-templates-web-components.md` | 是 | 是 | 是 | 是 | 是 | 是 |
+| INT-001 | `details`、`summary`、open、toggle | [原生交互元素](06-interactive-dom/01-native-interactive-elements.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| INT-002 | `dialog`、show/showModal/close | [原生交互元素](06-interactive-dom/01-native-interactive-elements.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| INT-003 | cancel、close、method=dialog、焦点恢复 | [原生交互元素](06-interactive-dom/01-native-interactive-elements.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| INT-004 | popover 模式与 invoker 属性 | [原生交互元素](06-interactive-dom/01-native-interactive-elements.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| DOM-001 | getElementById、querySelector、querySelectorAll | [DOM 查询与修改](06-interactive-dom/02-dom-query-mutation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| DOM-002 | 静态 NodeList 与动态集合 | [DOM 查询与修改](06-interactive-dom/02-dom-query-mutation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| DOM-003 | 节点/元素导航、closest、matches | [DOM 查询与修改](06-interactive-dom/02-dom-query-mutation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| DOM-004 | createElement、createTextNode | [DOM 查询与修改](06-interactive-dom/02-dom-query-mutation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| DOM-005 | append、prepend、before、after | [DOM 查询与修改](06-interactive-dom/02-dom-query-mutation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| DOM-006 | remove、replaceWith、replaceChildren | [DOM 查询与修改](06-interactive-dom/02-dom-query-mutation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| DOM-007 | textContent 与 innerHTML 安全边界 | [DOM 查询与修改](06-interactive-dom/02-dom-query-mutation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| DOM-008 | classList | [DOM 查询与修改](06-interactive-dom/02-dom-query-mutation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| DOM-009 | dataset 与 data-* | [DOM 查询与修改](06-interactive-dom/02-dom-query-mutation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| DOM-010 | getAttribute、setAttribute、toggleAttribute | [DOM 查询与修改](06-interactive-dom/02-dom-query-mutation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| DOM-011 | 内容属性与 DOM 属性 | [DOM 查询与修改](06-interactive-dom/02-dom-query-mutation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| EVT-001 | addEventListener、removeEventListener、AbortSignal | [事件与委托](06-interactive-dom/03-events-forms-delegation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| EVT-002 | 捕获、目标、冒泡 | [事件与委托](06-interactive-dom/03-events-forms-delegation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| EVT-003 | target、currentTarget、closest | [事件与委托](06-interactive-dom/03-events-forms-delegation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| EVT-004 | preventDefault、stopPropagation、passive | [事件与委托](06-interactive-dom/03-events-forms-delegation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| EVT-005 | click、input、change | [事件与委托](06-interactive-dom/03-events-forms-delegation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| EVT-006 | submit、invalid | [事件与委托](06-interactive-dom/03-events-forms-delegation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| EVT-007 | toggle、close | [事件与委托](06-interactive-dom/03-events-forms-delegation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| EVT-008 | 事件委托与动态列表 | [事件与委托](06-interactive-dom/03-events-forms-delegation.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| INT-005 | `template`、DocumentFragment、cloneNode | [模板与组件](06-interactive-dom/04-templates-web-components.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| INT-006 | 自定义元素命名与 define | [模板与组件](06-interactive-dom/04-templates-web-components.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| INT-007 | connected/disconnected/attributeChanged 生命周期 | [模板与组件](06-interactive-dom/04-templates-web-components.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| INT-008 | Shadow DOM 封装边界 | [模板与组件](06-interactive-dom/04-templates-web-components.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| INT-009 | `slot`、fallback、assignedElements、slotchange | [模板与组件](06-interactive-dom/04-templates-web-components.md) | 是 | 是 | 是 | 是 | 是 | 是 |
 
 ## 9. 无障碍与 SEO
 
 | ID | 知识点 | 主要教程 | 理论 | 最小案例 | 项目案例 | 错误诊断 | 练习 | 验收 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| A11Y-001 | 原生角色、地标和标题导航 | `07-accessibility-seo/01-accessible-name-landmarks-keyboard.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| A11Y-002 | 可访问名称来源 | `07-accessibility-seo/01-accessible-name-landmarks-keyboard.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| A11Y-003 | 描述、状态和可见标签一致性 | `07-accessibility-seo/01-accessible-name-landmarks-keyboard.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| A11Y-004 | 键盘激活、焦点顺序、焦点可见 | `07-accessibility-seo/01-accessible-name-landmarks-keyboard.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| A11Y-005 | 跳过导航与 tabindex 边界 | `07-accessibility-seo/01-accessible-name-landmarks-keyboard.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| A11Y-006 | ARIA 优先级与误用 | `07-accessibility-seo/01-accessible-name-landmarks-keyboard.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| A11Y-007 | status、alert、live region、aria-busy | `07-accessibility-seo/02-dynamic-status-focus-media.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| A11Y-008 | 表单错误汇总与焦点 | `07-accessibility-seo/02-dynamic-status-focus-media.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| A11Y-009 | 对话框和动态列表焦点恢复 | `07-accessibility-seo/02-dynamic-status-focus-media.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| A11Y-010 | 图片、字幕、音频描述和图表替代 | `07-accessibility-seo/02-dynamic-status-focus-media.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| A11Y-011 | 缩放、触控、颜色与减少动效 | `07-accessibility-seo/02-dynamic-status-focus-media.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| SEO-001 | title、description 与真实正文 | `07-accessibility-seo/03-metadata-seo-structured-data.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| SEO-002 | canonical 与 URL 规范化边界 | `07-accessibility-seo/03-metadata-seo-structured-data.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| SEO-003 | robots meta 与 robots.txt 边界 | `07-accessibility-seo/03-metadata-seo-structured-data.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| SEO-004 | sitemap、有效链接与 HTTP 状态 | `07-accessibility-seo/03-metadata-seo-structured-data.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| SEO-005 | 抓取与索引差异 | `07-accessibility-seo/03-metadata-seo-structured-data.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| SEO-006 | Microdata、JSON-LD 与可见内容一致 | `07-accessibility-seo/03-metadata-seo-structured-data.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| SEO-007 | 客户端渲染、SSR 和预渲染边界 | `07-accessibility-seo/03-metadata-seo-structured-data.md` | 是 | 是 | 是 | 是 | 是 | 是 |
+| A11Y-001 | 原生角色、地标和标题导航 | [名称、地标与键盘](07-accessibility-seo/01-accessible-name-landmarks-keyboard.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| A11Y-002 | 可访问名称来源 | [名称、地标与键盘](07-accessibility-seo/01-accessible-name-landmarks-keyboard.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| A11Y-003 | 描述、状态和可见标签一致性 | [名称、地标与键盘](07-accessibility-seo/01-accessible-name-landmarks-keyboard.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| A11Y-004 | 键盘激活、焦点顺序、焦点可见 | [名称、地标与键盘](07-accessibility-seo/01-accessible-name-landmarks-keyboard.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| A11Y-005 | 跳过导航与 tabindex 边界 | [名称、地标与键盘](07-accessibility-seo/01-accessible-name-landmarks-keyboard.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| A11Y-006 | ARIA 优先级与误用 | [名称、地标与键盘](07-accessibility-seo/01-accessible-name-landmarks-keyboard.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| A11Y-007 | status、alert、live region、aria-busy | [动态状态与替代](07-accessibility-seo/02-dynamic-status-focus-media.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| A11Y-008 | 表单错误汇总与焦点 | [动态状态与替代](07-accessibility-seo/02-dynamic-status-focus-media.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| A11Y-009 | 对话框和动态列表焦点恢复 | [动态状态与替代](07-accessibility-seo/02-dynamic-status-focus-media.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| A11Y-010 | 图片、字幕、音频描述和图表替代 | [动态状态与替代](07-accessibility-seo/02-dynamic-status-focus-media.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| A11Y-011 | 缩放、触控、颜色与减少动效 | [动态状态与替代](07-accessibility-seo/02-dynamic-status-focus-media.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| SEO-001 | title、description 与真实正文 | [SEO 与结构化数据](07-accessibility-seo/03-metadata-seo-structured-data.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| SEO-002 | canonical 与 URL 规范化边界 | [SEO 与结构化数据](07-accessibility-seo/03-metadata-seo-structured-data.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| SEO-003 | robots meta 与 robots.txt 边界 | [SEO 与结构化数据](07-accessibility-seo/03-metadata-seo-structured-data.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| SEO-004 | sitemap、有效链接与 HTTP 状态 | [SEO 与结构化数据](07-accessibility-seo/03-metadata-seo-structured-data.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| SEO-005 | 抓取与索引差异 | [SEO 与结构化数据](07-accessibility-seo/03-metadata-seo-structured-data.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| SEO-006 | Microdata、JSON-LD 与可见内容一致 | [SEO 与结构化数据](07-accessibility-seo/03-metadata-seo-structured-data.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| SEO-007 | 客户端渲染、SSR 和预渲染边界 | [SEO 与结构化数据](07-accessibility-seo/03-metadata-seo-structured-data.md) | 是 | 是 | 是 | 是 | 是 | 是 |
 
 ## 10. 元素参考、历史与迁移
 
 | ID | 知识点 | 主要教程 | 理论 | 最小案例 | 项目案例 | 错误诊断 | 练习 | 验收 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| HIS-001 | 现行元素按职责检索 | `08-html-element-reference/01-element-attribute-api-index.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| HIS-002 | 全局属性与元素专属属性 | `08-html-element-reference/01-element-attribute-api-index.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| HIS-003 | DOM 接口和关键默认行为 | `08-html-element-reference/01-element-attribute-api-index.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| HIS-004 | SVG、MathML 根入口与自定义元素 | `08-html-element-reference/01-element-attribute-api-index.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| HIS-005 | 废弃呈现元素与 CSS 替代 | `08-html-element-reference/02-deprecated-history-migration.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| HIS-006 | frameset/frame/noframes 与现代页面 | `08-html-element-reference/02-deprecated-history-migration.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| HIS-007 | applet/embed 旧插件历史与当前嵌入 | `08-html-element-reference/02-deprecated-history-migration.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| HIS-008 | marquee/blink 与可访问动效替代 | `08-html-element-reference/02-deprecated-history-migration.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| HIS-009 | align/bgcolor/border/cellpadding/cellspacing | `08-html-element-reference/02-deprecated-history-migration.md` | 是 | 是 | 是 | 是 | 是 | 是 |
-| HIS-010 | 浏览器容错与新代码标准的区别 | `08-html-element-reference/02-deprecated-history-migration.md` | 是 | 是 | 是 | 是 | 是 | 是 |
+| HIS-001 | 现行元素按职责检索 | [元素、属性与 API 索引](08-html-element-reference/01-element-attribute-api-index.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| HIS-002 | 全局属性与元素专属属性 | [元素、属性与 API 索引](08-html-element-reference/01-element-attribute-api-index.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| HIS-003 | DOM 接口和关键默认行为 | [元素、属性与 API 索引](08-html-element-reference/01-element-attribute-api-index.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| HIS-004 | SVG、MathML 根入口与自定义元素 | [元素、属性与 API 索引](08-html-element-reference/01-element-attribute-api-index.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| HIS-005 | 废弃呈现元素与 CSS 替代 | [历史与迁移](08-html-element-reference/02-deprecated-history-migration.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| HIS-006 | frameset/frame/noframes 与现代页面 | [历史与迁移](08-html-element-reference/02-deprecated-history-migration.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| HIS-007 | applet/embed 旧插件历史与当前嵌入 | [历史与迁移](08-html-element-reference/02-deprecated-history-migration.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| HIS-008 | marquee/blink 与可访问动效替代 | [历史与迁移](08-html-element-reference/02-deprecated-history-migration.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| HIS-009 | align/bgcolor/border/cellpadding/cellspacing | [历史与迁移](08-html-element-reference/02-deprecated-history-migration.md) | 是 | 是 | 是 | 是 | 是 | 是 |
+| HIS-010 | 浏览器容错与新代码标准的区别 | [历史与迁移](08-html-element-reference/02-deprecated-history-migration.md) | 是 | 是 | 是 | 是 | 是 | 是 |
 
 ## 11. 阶段完成检查
 
