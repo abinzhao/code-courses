@@ -47,11 +47,11 @@ Do not add a repository source project, `labs/`, package manifests, lock files, 
 - Create: `web-fullstack-course/04-javascript-typescript/01-values-control-flow/02-operators-conditions-short-circuit.md`
 - Create: `web-fullstack-course/04-javascript-typescript/01-values-control-flow/03-loops-iteration-state-tracing.md`
 
-- [ ] Write `01-values-variables-types-conversion.md`: execution order; statements and expressions; `const` and `let`; identifiers; string, number, boolean, `undefined`, `null`, `bigint`, and symbol orientation; `typeof` limits; `NaN`; explicit conversion; binary floating-point; safe integer cents; and wrong-file/unsaved-file diagnosis.
-- [ ] Write `02-operators-conditions-short-circuit.md`: arithmetic and precedence, strict equality, comparison, template strings, truthy/falsy values, `if`/`else`, ternaries, `&&`/`||`/`??`, short-circuit effects, zero-price handling, discount validation, and a case where syntactically valid code violates a business rule.
-- [ ] Write `03-loops-iteration-state-tracing.md`: `for`, `while`, `break`, `continue`, termination conditions, off-by-one errors, accumulators, total overflow checks, paper state tables, safe interruption of an infinite loop, and a Neighbor Market multi-item total.
-- [ ] Rewrite `01-values-control-flow.md` as the route from observable values to validated branches and terminating iteration. The chapter project must calculate a cents-based cart total, reject invalid discounts, and retain a trace showing each state transition.
-- [ ] Verify all three lessons with Node 24 syntax checks and exact output predictions before execution.
+- [x] Write `01-values-variables-types-conversion.md`: execution order; statements and expressions; `const` and `let`; identifiers; string, number, boolean, `undefined`, `null`, `bigint`, and symbol orientation; `typeof` limits; `NaN`; explicit conversion; binary floating-point; safe integer cents; and wrong-file/unsaved-file diagnosis.
+- [x] Write `02-operators-conditions-short-circuit.md`: arithmetic and precedence, strict equality, comparison, template strings, truthy/falsy values, `if`/`else`, ternaries, `&&`/`||`/`??`, short-circuit effects, zero-price handling, discount validation, and a case where syntactically valid code violates a business rule.
+- [x] Write `03-loops-iteration-state-tracing.md`: `for`, `while`, `break`, `continue`, termination conditions, off-by-one errors, accumulators, total overflow checks, paper state tables, safe interruption of an infinite loop, and a Neighbor Market multi-item total.
+- [x] Rewrite `01-values-control-flow.md` as the route from observable values to validated branches and terminating iteration. The chapter project must calculate a cents-based cart total, reject invalid discounts, and retain a trace showing each state transition.
+- [x] Verify all three lessons with Node 24 syntax checks and exact output predictions before execution.
 
 ## 4. Task 2: Functions, Scope, and Errors
 
@@ -61,11 +61,11 @@ Do not add a repository source project, `labs/`, package manifests, lock files, 
 - Create: `web-fullstack-course/04-javascript-typescript/02-functions-scope-errors/02-scope-closures-lifetime.md`
 - Create: `web-fullstack-course/04-javascript-typescript/02-functions-scope-errors/03-errors-stacks-cleanup-boundaries.md`
 
-- [ ] Write `01-function-contracts-parameters-returns.md`: declarations, calls, parameters and arguments, return values versus logging, default parameters, arrow functions, callbacks, pure calculation boundaries, strict yuan-to-cents parsing, cents formatting, and input/output unit contracts.
-- [ ] Write `02-scope-closures-lifetime.md`: lexical, function, and block scope; shadowing; temporal initialization boundaries; closures; independent retained state; captured bindings rather than snapshots; resource lifetime; and a request-generation counter.
-- [ ] Write `03-errors-stacks-cleanup-boundaries.md`: `Error`, `TypeError`, and `RangeError`; `throw`; propagation; `try`/`catch`/`finally`; arbitrary thrown values; stack reading; cleanup without return suppression; Node inspector steps; and failure messages that do not convert invalid prices into zero.
-- [ ] Rewrite `02-functions-scope-errors.md` as the route from reusable calculation contracts to controlled state and explainable failure. The chapter project must expose tested price parsing and discount functions plus one closure-owned counter without hidden global state.
-- [ ] Verify valid, empty, negative, exponential, trailing-text, three-decimal, unsafe-integer, and zero-price inputs.
+- [x] Write `01-function-contracts-parameters-returns.md`: declarations, calls, parameters and arguments, return values versus logging, default parameters, arrow functions, callbacks, pure calculation boundaries, strict yuan-to-cents parsing, cents formatting, and input/output unit contracts.
+- [x] Write `02-scope-closures-lifetime.md`: lexical, function, and block scope; shadowing; temporal initialization boundaries; closures; independent retained state; captured bindings rather than snapshots; resource lifetime; and a request-generation counter.
+- [x] Write `03-errors-stacks-cleanup-boundaries.md`: `Error`, `TypeError`, and `RangeError`; `throw`; propagation; `try`/`catch`/`finally`; arbitrary thrown values; stack reading; cleanup without return suppression; Node inspector steps; and failure messages that do not convert invalid prices into zero.
+- [x] Rewrite `02-functions-scope-errors.md` as the route from reusable calculation contracts to controlled state and explainable failure. The chapter project must expose tested price parsing and discount functions plus one closure-owned counter without hidden global state.
+- [x] Verify valid, empty, negative, exponential, trailing-text, three-decimal, unsafe-integer, and zero-price inputs.
 
 ## 5. Task 3: Objects, Arrays, and Data Boundaries
 
@@ -75,11 +75,11 @@ Do not add a repository source project, `labs/`, package manifests, lock files, 
 - Create: `web-fullstack-course/04-javascript-typescript/03-objects-arrays-data/02-arrays-collections-pagination.md`
 - Create: `web-fullstack-course/04-javascript-typescript/03-objects-arrays-data/03-json-serialization-data-boundaries.md`
 
-- [ ] Write `01-objects-references-immutable-updates.md`: object literals, fixed and computed property access, stable IDs versus indexes, aliases, identity, shallow copying, nested sharing, `Object.hasOwn`, `Object.freeze`, `structuredClone`, targeted immutable updates, and a price change that preserves the old listing.
-- [ ] Write `02-arrays-collections-pagination.md`: indexes and absence, `find`, `some`, `filter`, `map`, `reduce`, `slice`, `sort` versus `toSorted`, empty collections, safe totals, filter-before-count pagination, legal empty pages, locale-aware text matching, and stable identity across filtering and sorting.
-- [ ] Write `03-json-serialization-data-boundaries.md`: JSON text versus JavaScript values, parse and stringify loss boundaries, `null` and array rejection, known-field mapping, UTC strings, prototype-pollution avoidance, malformed record evidence, and the distinction among a complete Listing, an algorithm projection, and an external API response.
-- [ ] Rewrite `03-objects-arrays-data.md` as the route from record identity to collection transforms and external-data admission. The chapter project must return `{ items, page, pageSize, total }`, reject contradictory input, and update one listing without mutating the source collection.
-- [ ] Verify reference identity, original ordering, filtered totals, out-of-range pages, string prices, `null`, and malformed JSON separately.
+- [x] Write `01-objects-references-immutable-updates.md`: object literals, fixed and computed property access, stable IDs versus indexes, aliases, identity, shallow copying, nested sharing, `Object.hasOwn`, `Object.freeze`, `structuredClone`, targeted immutable updates, and a price change that preserves the old listing.
+- [x] Write `02-arrays-collections-pagination.md`: indexes and absence, `find`, `some`, `filter`, `map`, `reduce`, `slice`, `sort` versus `toSorted`, empty collections, safe totals, filter-before-count pagination, legal empty pages, locale-aware text matching, and stable identity across filtering and sorting.
+- [x] Write `03-json-serialization-data-boundaries.md`: JSON text versus JavaScript values, parse and stringify loss boundaries, `null` and array rejection, known-field mapping, UTC strings, prototype-pollution avoidance, malformed record evidence, and the distinction among a complete Listing, an algorithm projection, and an external API response.
+- [x] Rewrite `03-objects-arrays-data.md` as the route from record identity to collection transforms and external-data admission. The chapter project must return `{ items, page, pageSize, total }`, reject contradictory input, and update one listing without mutating the source collection.
+- [x] Verify reference identity, original ordering, filtered totals, out-of-range pages, string prices, `null`, and malformed JSON separately.
 
 ## 6. Task 4: Prototypes, Classes, and Modules
 
@@ -89,11 +89,11 @@ Do not add a repository source project, `labs/`, package manifests, lock files, 
 - Create: `web-fullstack-course/04-javascript-typescript/04-prototypes-modules/02-esm-import-export-resolution.md`
 - Create: `web-fullstack-course/04-javascript-typescript/04-prototypes-modules/03-module-graphs-state-dynamic-import.md`
 
-- [ ] Write `01-prototype-chain-this-classes.md`: own and inherited properties, prototype traversal, method sharing, shadowing, dynamic `this`, detached methods, `bind`, arrow lexical capture, class syntax, private fields, `instanceof` limits, and the decision between plain records, functions, and stateful classes.
-- [ ] Write `02-esm-import-export-resolution.md`: module scope, named and default exports, aliases, static imports, explicit relative paths and extensions, Node `.mjs`, browser `type="module"` over HTTP, source-relative resolution, missing-export evidence, and a three-file money/catalog/main Neighbor Market example.
-- [ ] Write `03-module-graphs-state-dynamic-import.md`: one-time module evaluation, live bindings, shared mutable exports, side-effect ownership, dependency direction, dynamic `import()`, top-level await boundaries, circular initialization hazards, and a lazy notice module with observable load count.
-- [ ] Rewrite `04-prototypes-modules.md` as the route from property lookup to explicit dependency graphs. The chapter project must separate pure money formatting, catalog reading, summary calculation, and the entry module without modifying built-in prototypes or importing the page from a utility.
-- [ ] Verify direct method calls, detached calls, module path failures, export-name failures, dynamic import identity, and dependency direction.
+- [x] Write `01-prototype-chain-this-classes.md`: own and inherited properties, prototype traversal, method sharing, shadowing, dynamic `this`, detached methods, `bind`, arrow lexical capture, class syntax, private fields, `instanceof` limits, and the decision between plain records, functions, and stateful classes.
+- [x] Write `02-esm-import-export-resolution.md`: module scope, named and default exports, aliases, static imports, explicit relative paths and extensions, Node `.mjs`, browser `type="module"` over HTTP, source-relative resolution, missing-export evidence, and a three-file money/catalog/main Neighbor Market example.
+- [x] Write `03-module-graphs-state-dynamic-import.md`: one-time module evaluation, live bindings, shared mutable exports, side-effect ownership, dependency direction, dynamic `import()`, top-level await boundaries, circular initialization hazards, and a lazy notice module with observable load count.
+- [x] Rewrite `04-prototypes-modules.md` as the route from property lookup to explicit dependency graphs. The chapter project must separate pure money formatting, catalog reading, summary calculation, and the entry module without modifying built-in prototypes or importing the page from a utility.
+- [x] Verify direct method calls, detached calls, module path failures, export-name failures, dynamic import identity, and dependency direction.
 
 ## 7. Task 5: DOM, Events, and Accessible State
 
@@ -103,11 +103,11 @@ Do not add a repository source project, `labs/`, package manifests, lock files, 
 - Create: `web-fullstack-course/04-javascript-typescript/05-dom-events/02-events-forms-delegation.md`
 - Create: `web-fullstack-course/04-javascript-typescript/05-dom-events/03-state-focus-accessible-interactions.md`
 
-- [ ] Write `01-dom-query-create-safe-rendering.md`: DOM tree orientation, nullable queries, node creation, fragments, `append`, `replaceChildren`, `textContent` versus `innerHTML`, state-to-view rendering, authoritative data ownership, safe title rendering, and a visible XSS error experiment.
-- [ ] Write `02-events-forms-delegation.md`: listener registration, event phases, `target` and `currentTarget`, `preventDefault`, propagation, `closest`, containment checks, submit semantics, `FormData`, HTML validation versus program validation, one-time event delegation, and duplicate-listener diagnosis.
-- [ ] Write `03-state-focus-accessible-interactions.md`: complete in-memory add/favorite/remove flow, Set-backed favorites, status feedback, `aria-pressed`, live regions, keyboard activation, focus restoration after rerender or deletion, filtered views without destroying source state, and refresh/persistence/authorization boundaries.
-- [ ] Rewrite `05-dom-events.md` as the route from safe nodes to event-driven state and accessible interaction recovery. The chapter project must retain the current complete HTML/script/server flow and distribute its concepts without duplicating two authoritative copies of the full application.
-- [ ] Run a Chromium keyboard smoke path for initial render, valid publish, invalid publish, favorite toggle, favorite removal, filter recovery, refresh reset, focus position, and zero unhandled console errors.
+- [x] Write `01-dom-query-create-safe-rendering.md`: DOM tree orientation, nullable queries, node creation, fragments, `append`, `replaceChildren`, `textContent` versus `innerHTML`, state-to-view rendering, authoritative data ownership, safe title rendering, and a visible XSS error experiment.
+- [x] Write `02-events-forms-delegation.md`: listener registration, event phases, `target` and `currentTarget`, `preventDefault`, propagation, `closest`, containment checks, submit semantics, `FormData`, HTML validation versus program validation, one-time event delegation, and duplicate-listener diagnosis.
+- [x] Write `03-state-focus-accessible-interactions.md`: complete in-memory add/favorite/remove flow, Set-backed favorites, status feedback, `aria-pressed`, live regions, keyboard activation, focus restoration after rerender or deletion, filtered views without destroying source state, and refresh/persistence/authorization boundaries.
+- [x] Rewrite `05-dom-events.md` as the route from safe nodes to event-driven state and accessible interaction recovery. The chapter project must retain the current complete HTML/script/server flow and distribute its concepts without duplicating two authoritative copies of the full application.
+- [x] Run a Chromium keyboard smoke path for initial render, valid publish, invalid publish, favorite toggle, favorite removal, filter recovery, refresh reset, focus position, and zero unhandled console errors.
 
 ## 8. Task 6: Async, Fetch, and Event Loop
 
@@ -117,11 +117,11 @@ Do not add a repository source project, `labs/`, package manifests, lock files, 
 - Create: `web-fullstack-course/04-javascript-typescript/06-async-fetch-event-loop/02-fetch-http-errors-runtime-validation.md`
 - Create: `web-fullstack-course/04-javascript-typescript/06-async-fetch-event-loop/03-cancellation-races-concurrency.md`
 
-- [ ] Write `01-promises-async-event-loop.md`: Promise states, settlement, chaining, rejection, `finally`, async return values, await suspension, synchronous stack, microtasks, timers, rendering opportunities, Node/browser ordering boundaries, starvation, and an observable order log.
-- [ ] Write `02-fetch-http-errors-runtime-validation.md`: URLSearchParams, Request/Response, body consumption, network rejection versus HTTP failure, `response.ok`, JSON decoding failure, error-body/requestId handling, page-shape checks, same-origin cookies, CORS/CSRF distinctions, 401 and 409 handling, and a self-closing local Node teaching API.
-- [ ] Write `03-cancellation-races-concurrency.md`: AbortController and signals, generation freshness, disposal, stale-success and stale-error suppression, debouncing, cleanup ownership, `Promise.all`, `allSettled`, serial dependency, retry and idempotency boundaries, and deterministic late-response demonstrations.
-- [ ] Rewrite `06-async-fetch-event-loop.md` as the route from scheduling to protocol handling and race-safe UI state. The chapter project must search twice, show only the newest valid page, classify 500 separately from network failure, and prevent disposed controllers from rendering.
-- [ ] Verify event-loop output, 200/400/404/500 behavior, malformed success data, explicit cancellation, ignored-signal stale completion, current-request failure, and cleanup after server shutdown.
+- [x] Write `01-promises-async-event-loop.md`: Promise states, settlement, chaining, rejection, `finally`, async return values, await suspension, synchronous stack, microtasks, timers, rendering opportunities, Node/browser ordering boundaries, starvation, and an observable order log.
+- [x] Write `02-fetch-http-errors-runtime-validation.md`: URLSearchParams, Request/Response, body consumption, network rejection versus HTTP failure, `response.ok`, JSON decoding failure, error-body/requestId handling, page-shape checks, same-origin cookies, CORS/CSRF distinctions, 401 and 409 handling, and a self-closing local Node teaching API.
+- [x] Write `03-cancellation-races-concurrency.md`: AbortController and signals, generation freshness, disposal, stale-success and stale-error suppression, debouncing, cleanup ownership, `Promise.all`, `allSettled`, serial dependency, retry and idempotency boundaries, and deterministic late-response demonstrations.
+- [x] Rewrite `06-async-fetch-event-loop.md` as the route from scheduling to protocol handling and race-safe UI state. The chapter project must search twice, show only the newest valid page, classify 500 separately from network failure, and prevent disposed controllers from rendering.
+- [x] Verify event-loop output, 200/400/404/500 behavior, malformed success data, explicit cancellation, ignored-signal stale completion, current-request failure, and cleanup after server shutdown.
 
 ## 9. Task 7: TypeScript Core
 
@@ -131,11 +131,11 @@ Do not add a repository source project, `labs/`, package manifests, lock files, 
 - Create: `web-fullstack-course/04-javascript-typescript/07-typescript-core/02-unions-narrowing-state-modeling.md`
 - Create: `web-fullstack-course/04-javascript-typescript/07-typescript-core/03-generics-utility-types-soundness.md`
 
-- [ ] Write `01-inference-annotations-strict-config.md`: type erasure, inference versus boundary annotations, structural typing, arrays and optional properties, `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noEmitOnError`, `skipLibCheck` scope, typecheck versus emit versus execution, and a complete temporary project using the recorded Node/pnpm/TypeScript versions.
-- [ ] Write `02-unions-narrowing-state-modeling.md`: `unknown`, `typeof`, literal unions, discriminated results, control-flow narrowing, exhaustive `never`, optional versus absent values, UI phase modeling, and explicit handling of empty lists and `NaN`.
-- [ ] Write `03-generics-utility-types-soundness.md`: type parameters that preserve relationships, `readonly`, generic Page mapping, interface/type trade-offs, indexed access and `as const`, `Pick`, `Omit`, `Partial` limits, unsafe `fetchJson<T>`, `any`, assertions, non-null assertions, and compile-time versus runtime guarantees.
-- [ ] Rewrite `07-typescript-core.md` as the route from inferred local values to strict contracts and reusable type relations. The chapter project must typecheck the same valid examples on TS 7.0.2 and the declared TS 6 compatibility path while documenting which command owns each compiler.
-- [ ] Verify `pnpm exec tsc --version` reports 7.0.2, `pnpm exec tsc6 --version` and the imported old compiler API report 6.0.3 in the verified lock resolution, then run both typecheck commands without presenting TS 6 as current.
+- [x] Write `01-inference-annotations-strict-config.md`: type erasure, inference versus boundary annotations, structural typing, arrays and optional properties, `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noEmitOnError`, `skipLibCheck` scope, typecheck versus emit versus execution, and a complete temporary project using the recorded Node/pnpm/TypeScript versions.
+- [x] Write `02-unions-narrowing-state-modeling.md`: `unknown`, `typeof`, literal unions, discriminated results, control-flow narrowing, exhaustive `never`, optional versus absent values, UI phase modeling, and explicit handling of empty lists and `NaN`.
+- [x] Write `03-generics-utility-types-soundness.md`: type parameters that preserve relationships, `readonly`, generic Page mapping, interface/type trade-offs, indexed access and `as const`, `Pick`, `Omit`, `Partial` limits, unsafe `fetchJson<T>`, `any`, assertions, non-null assertions, and compile-time versus runtime guarantees.
+- [x] Rewrite `07-typescript-core.md` as the route from inferred local values to strict contracts and reusable type relations. The chapter project must typecheck the same valid examples on TS 7.0.2 and the declared TS 6 compatibility path while documenting which command owns each compiler.
+- [x] Verify `pnpm exec tsc --version` reports 7.0.2, `pnpm exec tsc6 --version` and the imported old compiler API report 6.0.3 in the verified lock resolution, then run both typecheck commands without presenting TS 6 as current.
 
 ## 10. Task 8: TypeScript Domain Design
 
@@ -145,11 +145,11 @@ Do not add a repository source project, `labs/`, package manifests, lock files, 
 - Create: `web-fullstack-course/04-javascript-typescript/08-typescript-domain-design/02-unknown-runtime-parsers-errors.md`
 - Create: `web-fullstack-course/04-javascript-typescript/08-typescript-domain-design/03-state-machines-conflicts-authorization.md`
 
-- [ ] Write `01-domain-contracts-branded-values-dtos.md`: complete Listing, ListingStatus, Page, ApiErrorBody, Reservation, ListingPatch, Cents brand construction, form draft versus valid command, server-owned fields, query projections, editable-field allowlists, and when branding reduces unit confusion.
-- [ ] Write `02-unknown-runtime-parsers-errors.md`: reusable record/text/integer/status/time parsers, ContractError paths, known-field reconstruction, valid UTC normalization, invalid calendar round trips, page metadata consistency, duplicate IDs, extra fields, optional error details, and `unknown -> parser -> domain` as the only admission path.
-- [ ] Write `03-state-machines-conflicts-authorization.md`: editing/saving/saved/conflict states, typed client return boundaries, 201 success, versioned PATCH, 409 recovery, stale reads, same-origin identity, object authorization, reservation uniqueness, transactional ownership, and the limits of disabled buttons and frontend types.
-- [ ] Rewrite `08-typescript-domain-design.md` as the route from contracts to trusted parsing and cross-layer guarantees. The chapter project must parse a complete page, preserve an exact error path, normalize a valid UTC timestamp, reject contradictory metadata, and explain who owns version, permission, and uniqueness checks.
-- [ ] Verify every Listing field missing or malformed, zero and unsafe cents, all status values, valid and invalid UTC dates, empty and overfull pages, duplicate IDs, missing request IDs, and a documented 409 state transition.
+- [x] Write `01-domain-contracts-branded-values-dtos.md`: complete Listing, ListingStatus, Page, ApiErrorBody, Reservation, ListingPatch, Cents brand construction, form draft versus valid command, server-owned fields, query projections, editable-field allowlists, and when branding reduces unit confusion.
+- [x] Write `02-unknown-runtime-parsers-errors.md`: reusable record/text/integer/status/time parsers, ContractError paths, known-field reconstruction, valid UTC normalization, invalid calendar round trips, page metadata consistency, duplicate IDs, extra fields, optional error details, and `unknown -> parser -> domain` as the only admission path.
+- [x] Write `03-state-machines-conflicts-authorization.md`: editing/saving/saved/conflict states, typed client return boundaries, 201 success, versioned PATCH, 409 recovery, stale reads, same-origin identity, object authorization, reservation uniqueness, transactional ownership, and the limits of disabled buttons and frontend types.
+- [x] Rewrite `08-typescript-domain-design.md` as the route from contracts to trusted parsing and cross-layer guarantees. The chapter project must parse a complete page, preserve an exact error path, normalize a valid UTC timestamp, reject contradictory metadata, and explain who owns version, permission, and uniqueness checks.
+- [x] Verify every Listing field missing or malformed, zero and unsafe cents, all status values, valid and invalid UTC dates, empty and overfull pages, duplicate IDs, missing request IDs, and a documented 409 state transition.
 
 ## 11. Task 9: Testing, Debugging, and Algorithms
 
@@ -159,11 +159,11 @@ Do not add a repository source project, `labs/`, package manifests, lock files, 
 - Create: `web-fullstack-course/04-javascript-typescript/09-testing-debugging-algorithms/02-deterministic-async-testing-debugging.md`
 - Create: `web-fullstack-course/04-javascript-typescript/09-testing-debugging-algorithms/03-data-structures-complexity-search-sort.md`
 
-- [ ] Write `01-node-test-assertions-tdd-boundaries.md`: `node:test`, strict assertions, scalar and structural equality, synchronous throws, asynchronous rejection, mutation checks, table-driven price cases, test-first failure evidence, coverage limits, and the difference between testing behavior and spying on implementation. Its complete fixture owns `js-lab/testing/money.mjs` and `js-lab/testing/money.test.mjs`.
-- [ ] Write `02-deterministic-async-testing-debugging.md`: manually controlled Promises, stale-result and disposal tests, shared-state cleanup, why timing sleeps are unstable, Node inspector, browser Sources and Network evidence, reproduce/minimize/hypothesize/instrument/fix/regress records, and sensitive-log boundaries. Its complete fixture owns `js-lab/search-controller.mjs` and `js-lab/search-controller.test.mjs`.
-- [ ] Write `03-data-structures-complexity-search-sort.md`: Big O interpretation, array scans, Map and Set semantics, index build/maintenance cost, insertion sort as a teaching algorithm, binary-search invariants, stable IDs versus sorted indexes, input preservation, measurement boundaries, and why backend pagination remains necessary. Its complete fixtures are `js-lab/algorithms.mjs` and `js-lab/unique.test.mjs`.
-- [ ] Rewrite `09-testing-debugging-algorithms.md` as the route from executable rules to deterministic diagnosis and justified data structures. The chapter project must pass three money tests, two race/disposal tests, and one unique-ID test, then run search/sort examples without mutating the source.
-- [ ] Deliberately demonstrate one failing money test, one stale-response regression, one unsorted-binary-search precondition violation, and one accidental in-place sort; restore each implementation and retain the before/after evidence in its lesson.
+- [x] Write `01-node-test-assertions-tdd-boundaries.md`: `node:test`, strict assertions, scalar and structural equality, synchronous throws, asynchronous rejection, mutation checks, table-driven price cases, test-first failure evidence, coverage limits, and the difference between testing behavior and spying on implementation. Its complete fixture owns `js-lab/testing/money.mjs` and `js-lab/testing/money.test.mjs`.
+- [x] Write `02-deterministic-async-testing-debugging.md`: manually controlled Promises, stale-result and disposal tests, shared-state cleanup, why timing sleeps are unstable, Node inspector, browser Sources and Network evidence, reproduce/minimize/hypothesize/instrument/fix/regress records, and sensitive-log boundaries. Its complete fixture owns `js-lab/search-controller.mjs` and `js-lab/search-controller.test.mjs`.
+- [x] Write `03-data-structures-complexity-search-sort.md`: Big O interpretation, array scans, Map and Set semantics, index build/maintenance cost, insertion sort as a teaching algorithm, binary-search invariants, stable IDs versus sorted indexes, input preservation, measurement boundaries, and why backend pagination remains necessary. Its complete fixtures are `js-lab/algorithms.mjs` and `js-lab/unique.test.mjs`.
+- [x] Rewrite `09-testing-debugging-algorithms.md` as the route from executable rules to deterministic diagnosis and justified data structures. The chapter project must pass three money tests, two race/disposal tests, and one unique-ID test, then run search/sort examples without mutating the source.
+- [x] Deliberately demonstrate one failing money test, one stale-response regression, one unsorted-binary-search precondition violation, and one accidental in-place sort; restore each implementation and retain the before/after evidence in its lesson.
 
 ## 12. Task 10: Volume Navigation and Coverage Matrix
 
@@ -171,16 +171,16 @@ Do not add a repository source project, `labs/`, package manifests, lock files, 
 - Modify: `web-fullstack-course/04-javascript-typescript/README.md`
 - Create: `web-fullstack-course/04-javascript-typescript/JS-TS-COVERAGE.md`
 
-- [ ] Rewrite the volume README with all nine chapter hubs, all 27 detailed lessons, the coverage matrix, runtime conventions, TS 7/TS 6 separation, shared Neighbor Market constraints, final outputs, and volume-level acceptance.
-- [ ] Build `JS-TS-COVERAGE.md` with columns `ID | 知识点 | 主要教程 | 理论 | 最小案例 | 项目案例 | 错误诊断 | 练习 | 验收`.
-- [ ] Give every row a unique `JS-TS-###` ID, link every primary tutorial, and make every one of the 27 detailed lessons the primary tutorial for at least one row.
-- [ ] Cover values/types, operators/control flow, iteration, functions, scope/closures, errors, objects/references, arrays/pagination, JSON boundaries, prototypes/`this`/classes, ESM/module graphs, DOM rendering, events/forms, focus/accessibility, Promise/event loop, Fetch/protocol errors, cancellation/races, TypeScript strictness, unions/narrowing, generics/soundness, domain DTOs, runtime parsers, conflicts/authorization, Node tests, deterministic debugging, and complexity/data structures as separate auditable rows.
-- [ ] Add separate matrix rows for integer cents, UTC ISO 8601, full Listing/page contracts, browser-versus-Node APIs, TS 7 mainline versus TS 6 compatibility, XSS/CSRF/CORS/cookie/authorization boundaries, version and reservation consistency, Chromium evidence, and unverified Safari/Firefox/assistive-technology gaps.
-- [ ] Verify each matrix evidence cell points to a concrete heading in the linked lesson rather than using a status word or repeating the lesson title.
+- [x] Rewrite the volume README with all nine chapter hubs, all 27 detailed lessons, the coverage matrix, runtime conventions, TS 7/TS 6 separation, shared Neighbor Market constraints, final outputs, and volume-level acceptance.
+- [x] Build `JS-TS-COVERAGE.md` with columns `ID | 知识点 | 主要教程 | 理论 | 最小案例 | 项目案例 | 错误诊断 | 练习 | 验收`.
+- [x] Give every row a unique `JS-TS-###` ID, link every primary tutorial, and make every one of the 27 detailed lessons the primary tutorial for at least one row.
+- [x] Cover values/types, operators/control flow, iteration, functions, scope/closures, errors, objects/references, arrays/pagination, JSON boundaries, prototypes/`this`/classes, ESM/module graphs, DOM rendering, events/forms, focus/accessibility, Promise/event loop, Fetch/protocol errors, cancellation/races, TypeScript strictness, unions/narrowing, generics/soundness, domain DTOs, runtime parsers, conflicts/authorization, Node tests, deterministic debugging, and complexity/data structures as separate auditable rows.
+- [x] Add separate matrix rows for integer cents, UTC ISO 8601, full Listing/page contracts, browser-versus-Node APIs, TS 7 mainline versus TS 6 compatibility, XSS/CSRF/CORS/cookie/authorization boundaries, version and reservation consistency, Chromium evidence, and unverified Safari/Firefox/assistive-technology gaps.
+- [x] Verify each matrix evidence cell points to a concrete heading in the linked lesson rather than using a status word or repeating the lesson title.
 
 ## 13. Task 11: Structure and Link Verification
 
-- [ ] Verify the exact 27-file inventory:
+- [x] Verify the exact 27-file inventory:
 
 ```bash
 python3 - <<'PY'
@@ -228,7 +228,7 @@ print("Batch B lesson inventory: PASS (27)")
 PY
 ```
 
-- [ ] Verify the detailed-lesson heading contract and closed code fences:
+- [x] Verify the detailed-lesson heading contract and closed code fences:
 
 ```bash
 python3 - <<'PY'
@@ -250,8 +250,8 @@ print("Batch B lesson structure: PASS (27)")
 PY
 ```
 
-- [ ] Verify every hub links exactly its three local lessons, the README reaches all nine hubs and 27 lessons, `JS-TS-COVERAGE.md` reaches every lesson, and every relative Markdown link in the volume resolves.
-- [ ] Run unfinished-marker, artifact, and whitespace checks:
+- [x] Verify every hub links exactly its three local lessons, the README reaches all nine hubs and 27 lessons, `JS-TS-COVERAGE.md` reaches every lesson, and every relative Markdown link in the volume resolves.
+- [x] Run unfinished-marker, artifact, and whitespace checks:
 
 ```bash
 rg -n '\b(TO[D]O|TB[D]|FIX[M]E|WI[P])\b|待完[善]|自行补[充]|占位[符]' \
@@ -267,8 +267,8 @@ Expected: no marker matches, no repository artifacts, and no whitespace errors.
 
 ## 14. Task 12: Example and Runtime Verification
 
-- [ ] Recreate every block labeled as a complete file under `/tmp/full-course-verification/batch-b/<chapter>/<lesson>/`, preserving its declared `js-lab/` or `ts-lab/` relative path. Incorrect snippets remain explicitly labeled and are not substituted for valid fixture files.
-- [ ] Record the actual environment before execution:
+- [x] Recreate every block labeled as a complete file under `/tmp/full-course-verification/batch-b/<chapter>/<lesson>/`, preserving its declared `js-lab/` or `ts-lab/` relative path. Incorrect snippets remain explicitly labeled and are not substituted for valid fixture files.
+- [x] Record the actual environment before execution:
 
 ```bash
 node --version
@@ -277,7 +277,7 @@ pnpm --version
 
 Expected: Node output starts with `v24.` and pnpm output is `12.10.1`; otherwise record the mismatch and do not claim the target baseline passed.
 
-- [ ] Syntax-check every extracted JavaScript module:
+- [x] Syntax-check every extracted JavaScript module:
 
 ```bash
 find /tmp/full-course-verification/batch-b -type f -name '*.mjs' -print0 |
@@ -286,8 +286,8 @@ find /tmp/full-course-verification/batch-b -type f -name '*.mjs' -print0 |
 
 Expected: every file exits zero.
 
-- [ ] Execute each lesson's declared Node entry command and compare complete observable output. Run the self-closing local API fixtures, verify their declared status/error paths, and confirm no process or listening port remains after completion.
-- [ ] Run the extracted Node tests:
+- [x] Execute each lesson's declared Node entry command and compare complete observable output. Run the self-closing local API fixtures, verify their declared status/error paths, and confirm no process or listening port remains after completion.
+- [x] Run the extracted Node tests:
 
 ```bash
 node --test \
@@ -298,8 +298,8 @@ node --test \
 
 Expected: six tests pass and zero fail: three money tests, two race/disposal tests, and one unique-ID test.
 
-- [ ] In each extracted TypeScript fixture, install only its declared fixed dependencies, retain the generated lock file under `/tmp`, run frozen installation, then run `pnpm typecheck`, `pnpm typecheck:compat` where declared, `pnpm build`, and the documented generated JavaScript entry points.
-- [ ] For the dual-compiler fixture, run:
+- [x] In each extracted TypeScript fixture, install only its declared fixed dependencies, retain the generated lock file under `/tmp`, run frozen installation, then run `pnpm typecheck`, `pnpm typecheck:compat` where declared, `pnpm build`, and the documented generated JavaScript entry points.
+- [x] For the dual-compiler fixture, run:
 
 ```bash
 pnpm exec tsc --version
@@ -311,14 +311,14 @@ pnpm typecheck:all
 
 Expected for the verified lock resolution: `tsc` 7.0.2, `tsc6` 6.0.3, old compiler API 6.0.3, and a zero exit from both type checks.
 
-- [ ] Run the DOM lesson through its fixed local server in Chromium. Complete the keyboard path for publish, validation failure, favorite, remove, filter, focus recovery, and refresh reset; inspect Console and Network and record only observed behavior.
-- [ ] Remove `/tmp/full-course-verification/batch-b/` after retaining command summaries and manual evidence in the appropriate lessons or volume acceptance record.
+- [x] Run the DOM lesson through its fixed local server in Chromium. Complete the keyboard path for publish, validation failure, favorite, remove, filter, focus recovery, and refresh reset; inspect Console and Network and record only observed behavior.
+- [x] Remove `/tmp/full-course-verification/batch-b/` after retaining command summaries and manual evidence in the appropriate lessons or volume acceptance record.
 
 ## 15. Task 13: Commit Boundaries
 
 The implementation uses four local commits. Creating this plan does not stage or commit any file. Do not push, deploy, amend unrelated commits, or stage any path outside `web-fullstack-course/04-javascript-typescript/`.
 
-- [ ] After Tasks 1-3 pass their focused checks, stage only chapter hubs and directories 01-03:
+- [x] After Tasks 1-3 pass their focused checks, stage only chapter hubs and directories 01-03:
 
 ```bash
 git add \
@@ -331,7 +331,7 @@ git add \
 git commit -m "docs: expand JavaScript language foundations"
 ```
 
-- [ ] After Tasks 4-6 pass Node and Chromium checks, stage only chapter hubs and directories 04-06:
+- [x] After Tasks 4-6 pass Node and Chromium checks, stage only chapter hubs and directories 04-06:
 
 ```bash
 git add \
@@ -344,7 +344,7 @@ git add \
 git commit -m "docs: expand native JavaScript applications"
 ```
 
-- [ ] After Tasks 7-9 pass dual-compiler and Node test checks, stage only chapter hubs and directories 07-09:
+- [x] After Tasks 7-9 pass dual-compiler and Node test checks, stage only chapter hubs and directories 07-09:
 
 ```bash
 git add \
@@ -357,7 +357,7 @@ git add \
 git commit -m "docs: expand TypeScript reliability lessons"
 ```
 
-- [ ] After Tasks 10-12 and the final diff review pass, stage only navigation, coverage, and any verified Batch B corrections:
+- [x] After Tasks 10-12 and the final diff review pass, stage only navigation, coverage, and any verified Batch B corrections:
 
 ```bash
 git add \

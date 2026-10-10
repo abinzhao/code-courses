@@ -185,11 +185,11 @@ git commit -m "docs: plan full course textbook expansion"
 **Files:**
 - Modify: `web-fullstack-course/04-javascript-typescript/**/*.md`
 
-- [ ] Follow every task in `2026-10-11-course-batch-b-javascript-typescript.md`.
-- [ ] Verify exactly 27 new detailed lessons.
-- [ ] Run Node syntax and `node:test` checks on extracted examples.
-- [ ] Compile TypeScript examples using their declared TS 7 or TS 6 path.
-- [ ] Commit only JavaScript / TypeScript paths.
+- [x] Follow every task in `2026-10-11-course-batch-b-javascript-typescript.md`.
+- [x] Verify exactly 27 new detailed lessons.
+- [x] Run Node syntax and `node:test` checks on extracted examples.
+- [x] Compile TypeScript examples using their declared TS 7 or TS 6 path.
+- [x] Commit only JavaScript / TypeScript paths.
 
 ## 9. Task 4: Execute Batch C
 
