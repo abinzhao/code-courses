@@ -197,11 +197,11 @@ git commit -m "docs: plan full course textbook expansion"
 - Modify: `web-fullstack-course/05-react/**/*.md`
 - Modify: `web-fullstack-course/06-vue/**/*.md`
 
-- [ ] Follow every task in `2026-10-11-course-batch-c-react-vue.md`.
-- [ ] Verify exactly 24 React and 24 Vue detailed lessons.
-- [ ] Preserve equal business scope and shared API contracts.
-- [ ] Run extracted type checks, unit tests, builds, SSR checks, and representative Chromium E2E.
-- [ ] Commit React and Vue separately.
+- [x] Follow every task in `2026-10-11-course-batch-c-react-vue.md`.
+- [x] Verify exactly 24 React and 24 Vue detailed lessons.
+- [x] Preserve equal business scope and shared API contracts.
+- [x] Run extracted type checks, unit tests, builds, SSR checks, and representative Chromium E2E.
+- [x] Commit React and Vue separately.
 
 ## 10. Task 5: Execute Batch D
 
