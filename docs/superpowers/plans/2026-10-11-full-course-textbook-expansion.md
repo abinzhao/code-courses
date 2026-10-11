@@ -208,12 +208,12 @@ git commit -m "docs: plan full course textbook expansion"
 **Files:**
 - Modify: `web-fullstack-course/07-engineering/**/*.md`
 
-- [ ] Follow every task in `2026-10-11-course-batch-d-engineering.md`.
-- [ ] Verify exactly 22 detailed lessons.
-- [ ] Rebuild the capstone in a fresh `/tmp` directory.
-- [ ] Run format, lint, TS 7, TS 6 compatibility, unit, integration, build, budget, and E2E gates.
-- [ ] Update `SELF-CHECK.md` using observed results only.
-- [ ] Commit only engineering paths.
+- [x] Follow every task in `2026-10-11-course-batch-d-engineering.md`.
+- [x] Verify exactly 22 detailed lessons.
+- [x] Rebuild the capstone in a fresh `/tmp` directory.
+- [x] Run format, lint, TS 7, TS 6 compatibility, unit, integration, build, budget, and E2E gates.
+- [x] Update `SELF-CHECK.md` using observed results only.
+- [x] Commit only engineering paths.
 
 ## 11. Task 6: Execute Batch E
 
