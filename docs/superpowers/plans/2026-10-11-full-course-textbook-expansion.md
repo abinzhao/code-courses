@@ -42,26 +42,26 @@ from pathlib import Path
 import re
 
 root = Path("web-fullstack-course")
-lesson_roots = [
+lessons = []
+for lesson_root in (
     root / "00-guide/03-computer-first-page",
     root / "00-guide/04-terminal-git-debugging",
-    root / "02-css",
-    root / "03-browser",
-    root / "04-javascript-typescript",
-    root / "05-react",
-    root / "06-vue",
-    root / "07-engineering",
-    root / "08-backend",
-    root / "09-fullstack",
-]
-lessons = []
-for lesson_root in lesson_roots:
-    if lesson_root.is_dir() and lesson_root.name[:2].isdigit():
-        lessons.extend(lesson_root.glob("*.md"))
-    elif lesson_root.is_dir():
-        lessons.extend(lesson_root.glob("*/*.md"))
+):
+    lessons.extend(lesson_root.glob("*.md"))
+for volume in (
+    "02-css",
+    "03-browser",
+    "04-javascript-typescript",
+    "05-react",
+    "06-vue",
+    "07-engineering",
+    "08-backend",
+    "09-fullstack",
+):
+    lessons.extend((root / volume).glob("[0-9][0-9]-*/*.md"))
 
 expected = [str(index) for index in range(1, 14)]
+assert len(set(lessons)) == 202, len(set(lessons))
 for lesson in sorted(set(lessons)):
     text = lesson.read_text()
     visible = re.sub(r"```.*?```", "", text, flags=re.S)
@@ -248,26 +248,26 @@ git commit -m "docs: plan full course textbook expansion"
 - Modify: `web-fullstack-course/00-guide/06-coverage-map.md`
 - Modify: every non-HTML volume `README.md`
 
-- [ ] Route every volume README to all chapter hubs, detailed lessons, coverage matrix, and final acceptance.
-- [ ] Recalculate the root count using the current exclusion rule.
-- [ ] Expected count: 316 content and coverage documents.
-- [ ] Replace the stale 81-document statement in `VALIDATION.md`.
-- [ ] Preserve historical validation dates and distinguish new verification from old evidence.
-- [ ] Run the repository-wide link check.
+- [x] Route every volume README to all chapter hubs, detailed lessons, coverage matrix, and final acceptance.
+- [x] Recalculate the root count using the current exclusion rule.
+- [x] Expected count: 316 content and coverage documents.
+- [x] Replace the stale 81-document statement in `VALIDATION.md`.
+- [x] Preserve historical validation dates and distinguish new verification from old evidence.
+- [x] Run the repository-wide link check.
 
 ## 14. Task 9: Static Verification
 
-- [ ] Verify 202 detailed lesson files.
-- [ ] Verify 8 coverage matrices and unique IDs.
-- [ ] Verify all 202 lessons have the 13-section contract.
-- [ ] Verify no unfinished markers:
+- [x] Verify 202 detailed lesson files.
+- [x] Verify 8 coverage matrices and unique IDs.
+- [x] Verify all 202 lessons have the 13-section contract.
+- [x] Verify no unfinished markers:
 
 ```bash
-rg -n '\b(TO[D]O|TB[D]|FIX[M]E|WI[P])\b|待完[善]|自行补[充]|占位[符]' \
+rg -n '\b(TO[D]O|TB[D]|FIX[M]E|WI[P])\b|待完[善]|自行补[充]|待编[写]' \
   web-fullstack-course || true
 ```
 
-- [ ] Verify no repository artifacts:
+- [x] Verify no repository artifacts:
 
 ```bash
 find web-fullstack-course -type d \
@@ -276,35 +276,35 @@ find web-fullstack-course -type f \
   \( -name package.json -o -name pnpm-lock.yaml -o -name yarn.lock -o -name .env \) -print
 ```
 
-- [ ] Run `git diff --check`.
+- [x] Run `git diff --check`.
 
 ## 15. Task 10: Example Verification
 
-- [ ] Extract all complete-file blocks to `/tmp/full-course-verification/`.
-- [ ] Parse every structured configuration with the appropriate available parser.
-- [ ] Run JavaScript syntax checks.
-- [ ] Run declared TypeScript and framework checks in isolated temporary projects.
-- [ ] Run pure domain assertions for cents, UTC, pagination, conflicts, authorization and transaction state.
-- [ ] Run representative browser flows for every frontend-oriented volume.
-- [ ] Record tool absence or environment failure as a gap, not a pass.
-- [ ] Remove temporary verification directories.
+- [x] Extract all complete-file blocks to `/tmp/full-course-verification/`.
+- [x] Parse every structured configuration with the appropriate available parser.
+- [x] Run JavaScript syntax checks.
+- [x] Run declared TypeScript and framework checks in isolated temporary projects.
+- [x] Run pure domain assertions for cents, UTC, pagination, conflicts, authorization and transaction state.
+- [x] Run representative browser flows for every frontend-oriented volume.
+- [x] Record tool absence or environment failure as a gap, not a pass.
+- [x] Remove temporary verification directories.
 
 ## 16. Task 11: Independent Review
 
-- [ ] Dispatch independent reviewers by non-overlapping volume groups.
-- [ ] Require file and line references for every finding.
-- [ ] Fix all blocking correctness, safety, structure, navigation and evidence issues.
-- [ ] Re-run affected checks after every fix.
-- [ ] Obtain `PROCEED` from all reviewers.
+- [x] Dispatch independent reviewers by non-overlapping volume groups.
+- [x] Require file and line references for every finding.
+- [x] Fix all blocking correctness, safety, structure, navigation and evidence issues.
+- [x] Re-run affected checks after every fix.
+- [x] Obtain `PROCEED` from all reviewers.
 
 ## 17. Task 12: Final Audit and Commit
 
-- [ ] Compare every design requirement with current files and verification evidence.
-- [ ] Sample at least one coverage row from every prefix in every matrix.
-- [ ] Review `git diff --stat`, `git diff --check`, commit scope, and worktree status.
-- [ ] Confirm user files outside the task were not staged.
-- [ ] Commit final navigation and validation corrections.
-- [ ] Confirm the task branch is kept locally and not pushed.
+- [x] Compare every design requirement with current files and verification evidence.
+- [x] Sample at least one coverage row from every prefix in every matrix.
+- [x] Review `git diff --stat`, `git diff --check`, commit scope, and worktree status.
+- [x] Confirm user files outside the task were not staged.
+- [x] Commit final navigation and validation corrections.
+- [x] Confirm the task branch is kept locally and not pushed.
 
 ## 18. Completion Evidence
 

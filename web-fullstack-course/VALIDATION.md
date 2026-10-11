@@ -108,7 +108,22 @@ HTML/CSS Chromium、JavaScript 金额与竞态、React/Vue 教学 API、SSR 和�
 历史后端尝试使用 PostgreSQL 16.13，准备阶段遇到本机角色问题；PostgreSQL 18 本地启动又因
 缺少动态库中止。这些失败继续作为环境证据保留，没有改写成数据库通过。
 
-## 5. 尚未验证与禁止外推
+## 5. 独立复审
+
+2026-10-11 最终审计按互不重叠范围派发只读复审：
+
+- 基础与导航组检查根目录、起步、HTML、CSS、浏览器，发现 CSS/全书 ID 计数和 HTML
+  Reservation 状态归属问题；修复后复审 `PROCEED`。
+- 前端与工程组检查 JavaScript/TypeScript、React、Vue、工程化，发现 Vue 矩阵 55/54 漂移和
+  330 个裸节号；修复后复审 `PROCEED`。
+- 后端与交付组检查后端、全栈、验证记录和总计划，确认 Docker/PG18/外部系统缺口没有被写成
+  通过，并要求修正链接计数、Batch B 陈旧证据和最终计划状态。
+- CSS/浏览器矩阵的 366 个新增证据锚点另经定向复审，结果 `PROCEED`；全栈卷在容器隔离修复后
+  也完成整卷 `PROCEED`。
+
+所有阻塞问题均在原审查域复验；发现、修复和复验没有通过放宽断言或删除检查完成。
+
+## 6. 尚未验证与禁止外推
 
 - 本机没有 Docker/Compose 或 Nginx 可执行文件，只有 PostgreSQL 16.13 client/server；因此未
   执行 Docker build、Compose runtime、`nginx -t`、PG18 迁移/并发/负载/备份恢复/轮换。
