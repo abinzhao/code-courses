@@ -1656,13 +1656,10 @@ market-learning/practice/html-12-native-interactive/neighbor-market-reservation.
         listing: {
           id: "NM-204",
           title: "胡桃木阅读灯",
-          priceCents: 3900
+          priceCents: 3900,
+          status: "available"
         },
-        reservation: {
-          status: "available",
-          listingId: null,
-          pickupWindow: null
-        }
+        reservation: null
       };
 
       const pageTitle = document.querySelector("#page-title");
@@ -1715,8 +1712,11 @@ market-learning/practice/html-12-native-interactive/neighbor-market-reservation.
       }
 
       function renderState() {
+        const listing = marketState.listing;
         const reservation = marketState.reservation;
-        reservationState.textContent = reservation.status === "reserved"
+        reservationState.textContent =
+          listing.status === "reserved" &&
+          reservation?.status === "pending"
           ? `当前状态：本页已预约，交接时间 ${reservation.pickupWindow}。`
           : "当前状态：可预约；尚未记录本页预约。";
 
@@ -1760,8 +1760,9 @@ market-learning/practice/html-12-native-interactive/neighbor-market-reservation.
       }
 
       function applyInMemoryReservation(windowValue, source) {
+        marketState.listing.status = "reserved";
         marketState.reservation = {
-          status: "reserved",
+          status: "pending",
           listingId: marketState.listing.id,
           pickupWindow: windowValue
         };
@@ -1812,7 +1813,7 @@ market-learning/practice/html-12-native-interactive/neighbor-market-reservation.
         reserveButton.hidden = false;
 
         reserveButton.addEventListener("click", (event) => {
-          if (marketState.reservation.status === "reserved") {
+          if (marketState.listing.status === "reserved") {
             return;
           }
 
@@ -1895,7 +1896,7 @@ market-learning/practice/html-12-native-interactive/neighbor-market-reservation.
 
 页面初始化时：
 
-1. 创建固定商品对象和 `available` 预约状态；
+1. 创建 `available` 商品，尚未生成 Reservation；
 2. 检测 `details[name]`、dialog 与 Popover；
 3. 能用 dialog 时隐藏内联回退并显示预约按钮；
 4. 不能用 dialog 时保留内联表单；
@@ -1997,8 +1998,8 @@ Popover 检测：
 cancel 日志：
 close 日志：
 returnValue：
-关闭前 reservation.status：
-关闭后 reservation.status：
+关闭前 listing.status / reservation.status：
+关闭后 listing.status / reservation.status：
 入口 isConnected：
 入口 disabled：
 商品标题 isConnected：

@@ -109,12 +109,13 @@ Dockerfile、Compose、Nginx、workflow 和 shell 的解析结果必须分别记
 验证日期：2026-10-11。以下为教材扩展时的实际观察，不是容器或生产环境的预期值：
 
 - 文档：20 篇教程、6 个章入口、68 个连续唯一覆盖 ID、696 条卷内相对链接通过；28 个 Markdown 文件无未闭合围栏、尾随空白或未完成标记。
-- 抽取：42 个唯一完整文件重建到 `/tmp`，没有同路径多 owner 漂移。Node 24.21.0 对 6 个 MJS 做语法检查；18 个 TS/TSX 文件和 2 个 Vue SFC 通过解析。
+- 抽取：42 个唯一完整文件重建到 `/tmp`，没有同路径多 owner 漂移。最终复验使用 Node 24.19.0 对 6 个 MJS 做语法检查；18 个 TS/TSX 文件和 2 个 Vue SFC 通过解析。
 - 契约：共享 client/runtime 在 TypeScript 7.0.2 与 6.0.3 下通过类型检查；整数分、规范 UTC、UUID、分页和 CSRF 解析与编辑规则共 18 条 Vitest 通过。
-- 配置：105 个 Bash 围栏通过 `bash -n`，8 个 JSON 与 7 个 YAML 围栏可解析；两个 Dockerfile 通过 AST 与非 root/文件树断言，Compose/workflow 通过静态语义检查。
+- 配置：106 个 Bash 围栏通过 `bash -n`，8 个 JSON 与 8 个 YAML 围栏可解析；两个 Dockerfile 通过 AST 与非 root/文件树断言，Compose/workflow 通过可用静态检查。
 - 边缘：完整 Nginx 配置通过 Crossplane 0.5.8 解析；LibreSSL 3.3.6 实际生成并验证本地 CA、SAN `market.example.test` 与 owner-only 私钥。该结果不等于 `nginx -t`、公共 PKI 或浏览器信任。
-- 安全门：负载、预约 verifier、备份、恢复、凭据轮换、发布和回滚示例均验证了目标/版本/证据拒绝路径；评分示例只有 18 个真实、非空、受保护文件同时存在时才得到 80 分 PASS。
+- 安全门：负载、预约 verifier、备份、恢复、凭据轮换、发布和回滚示例均验证了目标/版本/证据拒绝路径；预约 verifier 的 fake Docker runbook 覆盖 44 个写前拒绝调用，最终只允许 1 次 sentinel GET、POST 为 0。评分示例只有 18 个真实、非空、受保护文件同时存在时才得到 80 分 PASS。
 - Action 供应链：`checkout v4.2.2`、`setup-node v4.4.0`、`upload-artifact v4.6.2` 的 40 位 SHA 通过官方仓库 tag 查询核对。
+- 独立复审：容器隔离问题经 Unix context、固定 IPv4 internal bridge、宿主 `INPUT` profile、immutable probe、无 host device/mount/capability 与数值 UID:GID 修正后取得 `PROCEED`；随后整卷复审再次 `PROCEED`。
 
 环境阻塞：本机没有 Docker/Compose、Nginx、actionlint、hadolint、shellcheck 或 yq；`psql` 与
 `postgres` 只有 16.13，没有 PostgreSQL 18。因此未执行镜像 build、Compose 合并/runtime、
