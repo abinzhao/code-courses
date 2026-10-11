@@ -232,11 +232,11 @@ git commit -m "docs: plan full course textbook expansion"
 **Files:**
 - Modify: `web-fullstack-course/09-fullstack/**/*.md`
 
-- [ ] Follow every task in `2026-10-11-course-batch-f-fullstack.md`.
-- [ ] Verify exactly 20 detailed lessons.
-- [ ] Validate Dockerfile, Compose, Nginx, CI, shell, backup and restore examples with available local tools.
-- [ ] Do not claim hosted CI, production TLS, registry, rollout or disaster recovery without actual evidence.
-- [ ] Commit only full-stack paths.
+- [x] Follow every task in `2026-10-11-course-batch-f-fullstack.md`.
+- [x] Verify exactly 20 detailed lessons.
+- [x] Validate Dockerfile, Compose, Nginx, CI, shell, backup and restore examples with available local tools.
+- [x] Do not claim hosted CI, production TLS, registry, rollout or disaster recovery without actual evidence.
+- [x] Commit only full-stack paths.
 
 ## 13. Task 8: Reconcile Navigation and Counts
 
