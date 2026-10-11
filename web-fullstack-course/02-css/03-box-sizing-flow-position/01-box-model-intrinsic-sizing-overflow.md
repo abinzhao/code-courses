@@ -321,5 +321,5 @@ html, body { overflow-x: hidden; }
 
 ## 单元导航
 
-- 上一单元：[章入口](../03-box-sizing-flow-position.md)
+- 章节目录：[本章目录](../README.md#第三章盒模型常规流与定位)
 - 下一单元：[常规流、格式化上下文与外边距](./02-normal-flow-formatting-contexts-margins.md)

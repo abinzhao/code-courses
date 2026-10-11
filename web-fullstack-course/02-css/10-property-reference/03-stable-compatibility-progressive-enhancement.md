@@ -443,6 +443,6 @@ if (navigator.userAgent.includes("ExampleBrowser")) {
 ## 单元导航
 
 - [上一课：At-rule、函数与描述符](02-at-rules-functions-descriptors.md)
-- [返回第十章入口](../10-property-reference.md)
+- [返回第十章目录](../README.md#第十章属性语法与兼容参考)
 - [下一步：CSS 覆盖矩阵](../CSS-COVERAGE.md)
 - [返回 CSS 模块](../README.md)

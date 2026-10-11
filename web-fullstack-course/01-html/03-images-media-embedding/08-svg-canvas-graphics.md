@@ -1083,4 +1083,4 @@ Network 请求范围：
 
 ## 单元导航
 
-[上一课：嵌入文档、安全边界与图像映射](07-embedded-documents-image-maps.md) · [下一章](../04-tables-data.md) · [返回 HTML 模块](../README.md)
+[上一课：嵌入文档、安全边界与图像映射](07-embedded-documents-image-maps.md) · [下一章](../04-tables-data/01-table-model-structure.md) · [返回 HTML 模块](../README.md)

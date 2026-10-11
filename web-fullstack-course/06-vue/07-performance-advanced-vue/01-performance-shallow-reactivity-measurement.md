@@ -246,4 +246,4 @@ console.timeEnd('fast')
 
 ## 单元导航
 
-[返回章入口](../07-performance-advanced-vue.md) · [下一课：Teleport、Transition 与对话框](02-teleport-transition-dialog-accessibility.md)
+[返回章目录](../README.md#第七章性能证据与进阶-vue) · [下一课：Teleport、Transition 与对话框](02-teleport-transition-dialog-accessibility.md)

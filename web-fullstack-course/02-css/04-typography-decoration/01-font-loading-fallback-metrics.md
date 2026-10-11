@@ -320,5 +320,5 @@ html { visibility: hidden; }
 
 ## 单元导航
 
-- 上一单元：[章入口](../04-typography-decoration.md)
+- 章节目录：[本章目录](../README.md#第四章字体文本与视觉装饰)
 - 下一单元：[换行、国际化与可读性](./02-line-breaking-i18n-readability.md)

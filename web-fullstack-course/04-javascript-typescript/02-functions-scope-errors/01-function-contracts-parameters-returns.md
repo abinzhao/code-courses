@@ -332,6 +332,6 @@ return Math.round(parseFloat(input) * 100);
 
 ## 单元导航
 
-[上一章：值、运算与控制流程](../01-values-control-flow.md) ·
-[返回第 2 章入口](../02-functions-scope-errors.md) ·
+[上一章：值、运算与控制流程](../README.md#第一章值运算与控制流程) ·
+[返回第 2 章目录](../README.md#第二章函数作用域与可解释错误) ·
 [下一篇：作用域、闭包与生命周期](02-scope-closures-lifetime.md)

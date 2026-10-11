@@ -288,4 +288,5 @@ lint/typecheck/unit/build/e2e 退出码与测试数:
 ## 单元导航
 
 - 上一单元：[路由、浏览器、无障碍与错误恢复](./02-router-browser-accessibility-errors.md)
-- 下一单元：[第 07 章入口](../07-performance-modern-react.md)
+- 下一单元：[第 07 章首课](../07-performance-modern-react/01-performance-measurement-memo-concurrency.md)
+- 分卷目录：[React](../README.md)

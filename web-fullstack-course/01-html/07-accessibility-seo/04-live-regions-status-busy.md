@@ -938,7 +938,7 @@ live region 的主要目的，是通知建立之后的变化。页面加载时�
 
 ### 项目与测试边界
 
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对整数分、收藏接口、会话、授权和当前 HTML 阶段边界。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：核对整数分、收藏接口、会话、授权和当前 HTML 阶段边界。
 - [W3C WAI：Easy Checks](https://www.w3.org/WAI/test-evaluate/preliminary/)：建立键盘、标题、图片、放大等初步人工检查，但不把初查当完整评估。
 - [ARIA-AT](https://aria-at.w3.org/)：了解辅助技术互操作测试如何按特定断言和组合记录结果；本课仍需测试自己的页面和目标矩阵。
 

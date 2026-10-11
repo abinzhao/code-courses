@@ -12,7 +12,8 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
 
 ## 本卷定位与教材结构
 
-本卷采用与 HTML 模块一致的两层结构：
+本 README 统筹章节顺序、前置、阶段产出与本卷验收，学习路线直接连接每篇详细教程。
+下方只示意导航与正文的职责分工，不表示当前目录中存在独立章节导航文件。
 
 ```text
 章入口
@@ -27,9 +28,9 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
   └── 用练习与阶段验收确认能力
 ```
 
-章入口负责路线和章级综合任务，不重复完整理论与源码。每篇详细教程按统一 13 节契约提供
-理论、API 清单、最小案例、项目案例、诊断、练习和验收。学习时先打开章入口，再依次完成
-本章教程，最后回到章入口完成综合验收。
+本 README 负责路线和成果整合，不重复完整理论与源码。每篇详细教程按统一 13 节契约提供
+理论、API 清单、最小案例、项目案例、诊断、练习和验收。学习时按章节表格依次完成正文，
+再按本卷验收清单和唯一 Capstone 的场景矩阵综合验收。
 
 全部知识点及其六类证据位置见 [React 教材覆盖矩阵](REACT-COVERAGE.md)。矩阵用于审计，
 不能替代正文，也不能把“存在链接”解释成目标环境已经运行通过。
@@ -37,8 +38,6 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
 ## 学习路线
 
 ### 第一章：JSX、组件与第一版集市
-
-章入口：[JSX、组件与第一版邻里集市](01-jsx-components.md)
 
 | 顺序 | 详细教程 | 你会解决的问题 |
 | ---: | --- | --- |
@@ -50,8 +49,6 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
 
 ### 第二章：事件、状态与表单
 
-章入口：[事件、状态快照与可提交表单](02-events-state-forms.md)
-
 | 顺序 | 详细教程 | 你会解决的问题 |
 | ---: | --- | --- |
 | 1 | [事件、状态快照与不可变更新](02-events-state-forms/01-events-state-snapshots-updates.md) | 解释批处理、函数式更新和旧快照，避免改写对象与数组 |
@@ -61,8 +58,6 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
 阶段产出：刷新即重置、但交互和失败边界完整的本地集市。建议投入约 6 小时。
 
 ### 第三章：Effect、HTTP 与自定义 Hook
-
-章入口：[Effect、HTTP 与自定义 Hook](03-effects-reuse.md)
 
 | 顺序 | 详细教程 | 你会解决的问题 |
 | ---: | --- | --- |
@@ -75,8 +70,6 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
 
 ### 第四章：Data Router 与服务端数据
 
-章入口：[Data Router、URL 与服务端数据](04-routing-data.md)
-
 | 顺序 | 详细教程 | 你会解决的问题 |
 | ---: | --- | --- |
 | 1 | [Data Router、URL 状态与导航语义](04-routing-data/01-data-router-url-state-navigation.md) | 让搜索、页码和详情 ID 可分享、刷新及前进后退 |
@@ -87,8 +80,6 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
 8 小时。
 
 ### 第五章：状态架构
-
-章入口：[状态架构：让所有权、并发与 SSR 隔离可解释](05-state-architecture.md)
 
 | 顺序 | 详细教程 | 你会解决的问题 |
 | ---: | --- | --- |
@@ -101,8 +92,6 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
 
 ### 第六章：测试与无障碍
 
-章入口：[测试与无障碍：用分层证据约束用户可见行为](06-testing-accessibility.md)
-
 | 顺序 | 详细教程 | 你会解决的问题 |
 | ---: | --- | --- |
 | 1 | [纯函数与组件契约测试](06-testing-accessibility/01-pure-component-contract-tests.md) | 用 Vitest 和 Testing Library 固定金额、草稿、收藏与异步顺序 |
@@ -114,8 +103,6 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
 
 ### 第七章：性能与现代 React
 
-章入口：[性能与现代 React：先测量，再采用并发与新 API](07-performance-modern-react.md)
-
 | 顺序 | 详细教程 | 你会解决的问题 |
 | ---: | --- | --- |
 | 1 | [性能测量、memo 与并发更新](07-performance-modern-react/01-performance-measurement-memo-concurrency.md) | 先区分网络、计算和 DOM 成本，再选择缓存、延迟或 transition |
@@ -125,8 +112,6 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
 阶段产出：三组互相隔离、完成后可恢复主入口的现代 React 实验。建议投入约 9 小时。
 
 ### 第八章：SSR 与综合项目
-
-章入口：[SSR 与综合项目：从原始 HTML 到安全水合](08-ssr-capstone.md)
 
 | 顺序 | 详细教程 | 你会解决的问题 |
 | ---: | --- | --- |
@@ -177,7 +162,7 @@ neighborhood-market/
 #### 版本
 
 精确技术选择、核验日期和 TypeScript 兼容线统一见
-[版本基线](../00-guide/02-version-baseline.md)。读者安装结果以版本探针、`pnpm list --depth 0`
+[版本基线](../00-guide/version-baseline.md)。读者安装结果以版本探针、`pnpm list --depth 0`
 和锁文件为准；Vite 转译不能替代项目类型检查，也不使用 canary、未发布 RFC 或只有新闻描述的
 新接口。
 
@@ -331,7 +316,7 @@ ssr-html-and-hydration
 
 本卷应用与后端卷教学示例不应被假定为已经位于同一 workspace。正式整合需对齐目录、共享类型、
 认证响应、动态 CSRF 与精确 Origin，并按
-[契约联调与整合](../09-fullstack/01-contract-integration.md)操作。
+[契约联调与整合](../09-fullstack/01-contract-integration/01-workspace-contract-runtime-validation.md)操作。
 
 ## 资料与导航
 
@@ -339,5 +324,5 @@ ssr-html-and-hydration
 - [React Router](https://reactrouter.com/)
 - [React 教材覆盖矩阵](REACT-COVERAGE.md)
 
-[返回全书目录](../README.md) · [开始第一章](01-jsx-components.md) ·
+[返回全书目录](../README.md) · [开始第一章](01-jsx-components/01-rendering-jsx-purity.md) ·
 [下一卷：Vue](../06-vue/README.md)

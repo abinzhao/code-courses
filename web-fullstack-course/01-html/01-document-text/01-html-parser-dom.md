@@ -558,4 +558,4 @@ HTML 长期承担兼容大量历史文档的任务，规范定义了容错解析
 
 ## 单元导航
 
-[返回本章入口](../01-document-text.md) · [下一课：HTML 语法与内容模型：写出可预测的合法结构](02-html-syntax-content-models.md) · [返回 HTML 模块](../README.md)
+[返回本章目录](../README.md#第一章文档解析与文本) · [下一课：HTML 语法与内容模型：写出可预测的合法结构](02-html-syntax-content-models.md) · [返回 HTML 模块](../README.md)

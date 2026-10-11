@@ -63,7 +63,7 @@ market-learning/
 node --version
 ```
 
-预期输出以 `v24.` 开头。若命令不存在，先按[版本基线](../02-version-baseline.md)记录实际环境，不要把安装问题伪装成代码错误。
+预期输出以 `v24.` 开头。若命令不存在，先按[版本基线](../version-baseline.md)记录实际环境，不要把安装问题伪装成代码错误。
 
 还需会打开浏览器开发者工具的 Network 面板。不会终端导航时，可以先看下一章的[终端与进程教程](../04-terminal-git-debugging/01-terminal-processes-ports.md)，再返回本课。
 
@@ -627,4 +627,4 @@ fragment，也就是 `#contact-note`。它通常由浏览器处理页内定位�
 
 ## 单元导航
 
-[上一课：文件、路径与编辑器](01-files-paths-editors.md) · [下一课：DevTools 与第一份请求证据](03-devtools-first-request-evidence.md) · [章节入口](../03-computer-first-page.md)
+[上一课：文件、路径与编辑器](01-files-paths-editors.md) · [下一课：DevTools 与第一份请求证据](03-devtools-first-request-evidence.md) · [文件到请求路线](../README.md#从文件到请求证据) · [起步实操目录](../README.md)

@@ -1114,7 +1114,7 @@ NOLOGIN 可立即阻止新连接并保留审计/owner 关系；DROP 可能因对
 - [BullMQ Idempotent Jobs](https://docs.bullmq.io/patterns/idempotent-jobs)：幂等任务模式。
 - [OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)：
   session 生命周期与撤销。
-- [下一章：毕业项目](../06-graduation-project.md)。
+- [下一章：毕业项目](../06-graduation-project/01-capstone-scope-business-evidence.md)。
 
 ## 我现在能做到什么
 
@@ -1124,6 +1124,6 @@ NOLOGIN 可立即阻止新连接并保留审计/owner 关系；DROP 可能因对
 ## 单元导航
 
 - 上一课：[备份完整性与隔离恢复](03-backup-integrity-isolated-restore.md)
-- 本章入口：[05 性能、安全与运维](../05-performance-security-operations.md)
-- 下一章：[06 毕业项目](../06-graduation-project.md)
+- 章节目录：[05 性能、安全与运维](../README.md#05-性能安全与运维)
+- 下一章：[06 毕业项目](../06-graduation-project/01-capstone-scope-business-evidence.md)
 - 分卷入口：[全栈联调与交付](../README.md)

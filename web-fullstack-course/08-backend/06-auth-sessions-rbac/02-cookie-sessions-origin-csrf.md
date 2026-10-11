@@ -573,6 +573,6 @@ CSRF；浏览器隐私策略还可能限制第三方 Cookie。
 
 ## 单元导航
 
-[本章入口](../06-auth-sessions-rbac.md) ·
+[本章目录](../README.md#06-认证会话与授权) ·
 [上一课：密码哈希与账号边界](01-password-hashing-account-boundaries.md) ·
 [下一课：认证、对象授权与 RBAC](03-authentication-object-authorization-rbac.md)

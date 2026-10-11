@@ -294,4 +294,4 @@ pnpm build
 
 ## 单元导航
 
-[上一课：会话与收藏并发](02-session-favorites-concurrency.md) · [返回章入口](../05-pinia-architecture.md) · [下一章：测试与无障碍](../06-testing-accessibility.md)
+[上一课：会话与收藏并发](02-session-favorites-concurrency.md) · [返回章目录](../README.md#第五章pinia依赖注入与状态架构) · [下一章：测试与无障碍](../06-testing-accessibility/01-pure-component-store-tests.md)

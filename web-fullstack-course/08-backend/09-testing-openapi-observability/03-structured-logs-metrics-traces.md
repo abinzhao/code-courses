@@ -609,6 +609,6 @@ request/body/SQL 参数展开。
 
 ## 单元导航
 
-- 章入口：[09 测试、OpenAPI 与可观测性](../09-testing-openapi-observability.md)
+- 章节目录：[09 测试、OpenAPI 与可观测性](../README.md#09-测试openapi-与可观测性)
 - 上一课：[OpenAPI 生成与契约验证](02-openapi-generation-contract-validation.md)
-- 下一章：[10 API 综合项目](../10-api-capstone.md)
+- 下一章：[10 API 综合项目](../10-api-capstone/01-workspace-config-migration-bootstrap.md)

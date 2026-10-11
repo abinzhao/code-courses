@@ -744,6 +744,6 @@ Vue SFC、真实 JSON 或整个生态已经兼容。
 
 ## 单元导航
 
-[返回本章 Hub](../01-pnpm-vite-esm.md) ·
+[返回章目录](../README.md#01-pnpmvite-与-esm) ·
 [上一课：Vite、ESM、开发构建与预览](02-vite-esm-dev-build-preview.md) ·
 [下一课：Prettier 格式范围](../02-lint-format-quality/01-prettier-format-scope.md)

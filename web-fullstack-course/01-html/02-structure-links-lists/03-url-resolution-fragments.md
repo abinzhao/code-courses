@@ -845,7 +845,7 @@ file:///Users/you/practice/html-02-links/help.html
 - [MDN：`URL` API](https://developer.mozilla.org/en-US/docs/Web/API/URL)：用结构化 API 解析和检查 URL。
 - [MDN：Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)：来源三元组和浏览器安全边界。
 - [MDN：Referrer-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Referrer-Policy)：引用来源策略及各取值。
-- [OWASP：Reverse Tabnabbing](https://owasp.org/www-community/attacks/Reverse_Tabnabbing)：新标签 opener 风险与现代浏览器变化。
+- [OWASP：Reverse Tabnabbing](https://community.owasp.org/attacks/Reverse_Tabnabbing)：新标签 opener 风险与现代浏览器变化。
 
 查阅资料时区分三类结论：
 

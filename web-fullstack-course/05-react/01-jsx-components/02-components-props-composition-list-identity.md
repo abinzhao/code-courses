@@ -330,4 +330,4 @@ pnpm dev --host 127.0.0.1
 
 ## 单元导航
 
-[上一课：JSX 与渲染纯度](01-rendering-jsx-purity.md) · [返回章节入口](../01-jsx-components.md) · [下一课：Vite、TypeScript 与第一版集市](03-vite-typescript-first-market.md)
+[上一课：JSX 与渲染纯度](01-rendering-jsx-purity.md) · [返回章目录](../README.md#第一章jsx组件与第一版集市) · [下一课：Vite、TypeScript 与第一版集市](03-vite-typescript-first-market.md)

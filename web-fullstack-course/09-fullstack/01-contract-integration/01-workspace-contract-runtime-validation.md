@@ -12,8 +12,8 @@
 | 环境标签 | **local** 工作区整合；不证明浏览器会话、PostgreSQL 18 或容器运行 |
 
 后端第 10 章仍是 `packages/contracts/index.ts` 和 API 完整源码的唯一 owner。本课只拥有
-`scripts/integrate-workspace.mjs` 与 `packages/contracts/runtime.ts`。后面三课分别拥有客户端、
-框架接线和编辑页，不重复这些完整文件。
+`scripts/integrate-workspace.mjs`、contracts 的 `tsconfig.json`、`runtime.ts/runtime.test.ts`。
+后面三课分别拥有客户端、框架接线和编辑页，不重复这些完整文件。
 
 ## 1. 任务背景
 
@@ -26,7 +26,7 @@ React 卷、Vue 卷和后端卷都曾建立可独立学习的工程。如果把�
 1. **文件责任**：哪个工程提供根工作区、应用目录、领域类型和锁文件；
 2. **数据责任**：编译期类型、运行时 JSON、显示模型和服务端授权分别由谁保证。
 
-本课以[后端 API 综合项目](../../08-backend/10-api-capstone.md)的 `market/` 为目标根，只迁入两个
+本课以[后端 API 综合项目](../../08-backend/10-api-capstone/01-workspace-config-migration-bootstrap.md)的 `market/` 为目标根，只迁入两个
 前端应用目录。旧根 manifest、旧锁文件、`node_modules`、`dist`、`.env` 和模拟 API 不迁入。
 
 ## 2. 学习目标
@@ -44,10 +44,10 @@ React 卷、Vue 卷和后端卷都曾建立可独立学习的工程。如果把�
 
 ## 3. 预备知识
 
-- 完成[Workspace、组件库与 Design Tokens](../../07-engineering/04-workspace-component-library.md)；
-- 完成[API 综合项目](../../08-backend/10-api-capstone.md)，并保留其真实 manifest 和迁移；
-- 阅读[版本基线](../../00-guide/02-version-baseline.md)和
-  [邻里集市项目契约](../../00-guide/05-project-assessment.md)；
+- 完成[Workspace、组件库与 Design Tokens](../../07-engineering/04-workspace-component-library/01-pnpm-workspace-dependency-graph.md)；
+- 完成[API 综合项目](../../08-backend/10-api-capstone/01-workspace-config-migration-bootstrap.md)，并保留其真实 manifest 和迁移；
+- 阅读[版本基线](../../00-guide/version-baseline.md)和
+  [邻里集市项目契约](../../00-guide/project-contract.md)；
 - 能运行 `git status --short`、`node --version`、`pnpm --version` 和 `pnpm --filter`；
 - 两个来源前端都应先通过自己的类型检查和构建。
 
@@ -189,6 +189,7 @@ rsync -an --exclude=node_modules --exclude=dist --exclude=.env \
 import { access, readFile, writeFile } from "node:fs/promises";
 
 const checkOnly = process.argv.includes("--check");
+const initialOnly = process.argv.includes("--initial");
 const required = [
   "package.json",
   "pnpm-workspace.yaml",
@@ -200,9 +201,23 @@ const required = [
   "packages/contracts/tsconfig.json",
   "packages/contracts/runtime.ts",
   "packages/contracts/runtime.test.ts",
-  "packages/contracts/edit.ts",
-  "packages/contracts/edit.test.ts",
 ];
+
+if (checkOnly && !initialOnly) {
+  required.push(
+    "packages/contracts/client.ts",
+    "packages/contracts/browser-api.ts",
+    "packages/contracts/browser-api.test.ts",
+    "packages/contracts/edit.ts",
+    "packages/contracts/edit.test.ts",
+    "apps/react-web/src/api.ts",
+    "apps/vue-web/src/api.ts",
+    "apps/react-web/src/auth/AuthProvider.tsx",
+    "apps/vue-web/src/stores/auth.ts",
+    "apps/react-web/src/listings/EditListingPage.tsx",
+    "apps/vue-web/src/pages/EditListingPage.vue",
+  );
+}
 
 for (const path of required) {
   await access(path).catch(() => {
@@ -282,7 +297,7 @@ await updateJson("packages/contracts/package.json", (value) => {
 });
 
 console.log(checkOnly
-  ? "workspace integration check: PASS"
+  ? `workspace integration ${initialOnly ? "initial" : "complete"} check: PASS`
   : "workspace manifests integrated; review the diff before pnpm install");
 ```
 
@@ -308,18 +323,10 @@ console.log(checkOnly
 }
 ```
 
-在 `market/` 根运行：
-
-```bash
-node scripts/integrate-workspace.mjs
-git diff -- package.json apps/react-web/package.json \
-  apps/vue-web/package.json packages/contracts/package.json
-node scripts/integrate-workspace.mjs --check
-```
-
-预期 diff 只增加约定键，原脚本和依赖仍在；检查模式输出
-`workspace integration check: PASS`。若 JSON 无法解析或 exports 形状未知，脚本非零退出，先人工理解，
-不能改成字符串替换。
+先保存脚本与 tsconfig，再创建下一节的 `runtime.ts/runtime.test.ts`，最后运行 7.1 的命令。
+不提前要求第 02 课的客户端或第 04 课的编辑文件。`--check --initial` 只验证当前课输入与
+manifest；默认 `--check` 是完整检查，必须等 01..04 的文件和接线全部完成后运行。
+后续本地/CI 若使用 `--check`，保持默认完整模式，不加 `--initial` 绕过缺文件。
 
 ### 6.3 运行时解析器
 
@@ -332,18 +339,21 @@ import type {
   ListingPage,
   ListingStatus,
   PublicUser,
+  Reservation,
 } from "./index.js";
+
+export class ResponseValidationError extends TypeError {}
 
 function record(value: unknown, label: string): Record<string, unknown> {
   if (value === null || typeof value !== "object" || Array.isArray(value)) {
-    throw new TypeError(`${label}: expected object`);
+    throw new ResponseValidationError(`${label}: expected object`);
   }
   return value as Record<string, unknown>;
 }
 
 function text(value: unknown, label: string): string {
   if (typeof value !== "string" || value.length === 0) {
-    throw new TypeError(`${label}: expected non-empty string`);
+    throw new ResponseValidationError(`${label}: expected non-empty string`);
   }
   return value;
 }
@@ -351,7 +361,7 @@ function text(value: unknown, label: string): string {
 function nonBlankText(value: unknown, label: string): string {
   const result = text(value, label).trim();
   if (result.length === 0) {
-    throw new TypeError(`${label}: expected non-blank string`);
+    throw new ResponseValidationError(`${label}: expected non-blank string`);
   }
   return result;
 }
@@ -362,14 +372,14 @@ function uuid(value: unknown, label: string): string {
     !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
       .test(result)
   ) {
-    throw new TypeError(`${label}: expected UUID`);
+    throw new ResponseValidationError(`${label}: expected UUID`);
   }
   return result.toLowerCase();
 }
 
 function integer(value: unknown, label: string, min: number, max: number): number {
   if (!Number.isSafeInteger(value) || Number(value) < min || Number(value) > max) {
-    throw new TypeError(`${label}: expected safe integer ${min}..${max}`);
+    throw new ResponseValidationError(`${label}: expected safe integer ${min}..${max}`);
   }
   return Number(value);
 }
@@ -382,7 +392,7 @@ function utcIso(value: unknown, label: string): string {
     !Number.isFinite(time) ||
     new Date(time).toISOString() !== result
   ) {
-    throw new TypeError(`${label}: expected UTC ISO 8601 string`);
+    throw new ResponseValidationError(`${label}: expected UTC ISO 8601 string`);
   }
   return result;
 }
@@ -391,14 +401,14 @@ export function parseListing(value: unknown): Listing {
   const source = record(value, "listing");
   const status = text(source.status, "listing.status");
   if (!["available", "reserved", "sold"].includes(status)) {
-    throw new TypeError("listing.status: unknown value");
+    throw new ResponseValidationError("listing.status: unknown value");
   }
   return {
     id: uuid(source.id, "listing.id"),
     title: text(source.title, "listing.title"),
     description: typeof source.description === "string"
       ? source.description
-      : (() => { throw new TypeError("listing.description: expected string"); })(),
+      : (() => { throw new ResponseValidationError("listing.description: expected string"); })(),
     priceCents: integer(source.priceCents, "listing.priceCents", 0, 100000000),
     status: status as ListingStatus,
     ownerId: uuid(source.ownerId, "listing.ownerId"),
@@ -410,7 +420,7 @@ export function parseListing(value: unknown): Listing {
 export function parseListingPage(value: unknown): ListingPage {
   const source = record(value, "listingPage");
   if (!Array.isArray(source.items)) {
-    throw new TypeError("listingPage.items: expected array");
+    throw new ResponseValidationError("listingPage.items: expected array");
   }
   const items = source.items.map(parseListing);
   const page = integer(
@@ -436,30 +446,49 @@ export function parseListingPage(value: unknown): ListingPage {
     items.length > maximumItems ||
     new Set(items.map((item) => item.id)).size !== items.length
   ) {
-    throw new TypeError("listingPage: inconsistent pagination");
+    throw new ResponseValidationError("listingPage: inconsistent pagination");
   }
   return { items, page, pageSize, total };
+}
+
+export function parsePublicUser(value: unknown): PublicUser {
+  const user = record(value, "session.user");
+  if (user.role !== "user" && user.role !== "admin") {
+    throw new ResponseValidationError("session.user.role: unknown value");
+  }
+  return {
+    id: uuid(user.id, "session.user.id"),
+    email: nonBlankText(user.email, "session.user.email"),
+    role: user.role,
+  };
 }
 
 export function parseSession(
   value: unknown,
 ): { user: PublicUser; csrfToken: string } {
   const source = record(value, "session");
-  const user = record(source.user, "session.user");
-  if (user.role !== "user" && user.role !== "admin") {
-    throw new TypeError("session.user.role: unknown value");
-  }
   const csrfToken = text(source.csrfToken, "session.csrfToken");
   if (!/^[a-f0-9]{64}$/.test(csrfToken)) {
-    throw new TypeError("session.csrfToken: invalid token shape");
+    throw new ResponseValidationError("session.csrfToken: invalid token shape");
   }
   return {
-    user: {
-      id: uuid(user.id, "session.user.id"),
-      email: nonBlankText(user.email, "session.user.email"),
-      role: user.role,
-    },
+    user: parsePublicUser(source.user),
     csrfToken,
+  };
+}
+
+export function parseReservation(value: unknown): Reservation {
+  const source = record(value, "reservation");
+  const status = text(source.status, "reservation.status");
+  if (!["pending", "confirmed", "cancelled"].includes(status)) {
+    throw new ResponseValidationError("reservation.status: unknown value");
+  }
+  return {
+    id: uuid(source.id, "reservation.id"),
+    listingId: uuid(source.listingId, "reservation.listingId"),
+    buyerId: uuid(source.buyerId, "reservation.buyerId"),
+    status: status as Reservation["status"],
+    createdAt: utcIso(source.createdAt, "reservation.createdAt"),
   };
 }
 
@@ -607,9 +636,13 @@ actor 并执行对象授权。
 
 ### 7.1 安装与成员证据
 
-完成两个应用迁入和两个完整文件后，在 `market/` 根执行：
+完成两个应用迁入，并保存本课四个完整文件（脚本、tsconfig、runtime 与测试）后，在 `market/` 根执行：
 
 ```bash
+node scripts/integrate-workspace.mjs
+git diff -- package.json apps/react-web/package.json \
+  apps/vue-web/package.json packages/contracts/package.json
+node scripts/integrate-workspace.mjs --check --initial
 pnpm --version
 pnpm install
 pnpm install --frozen-lockfile
@@ -624,7 +657,8 @@ pnpm build:all
 find . -name pnpm-lock.yaml -not -path "*/node_modules/*" -print
 ```
 
-预期 pnpm 为 `12.11.2`；列表中有四个成员；最后只打印根锁文件。第一次普通安装负责生成或更新
+预期初始检查输出 `workspace integration initial check: PASS`，diff 保留原脚本和依赖；pnpm 为
+`12.11.2`；列表中有四个成员；最后只打印根锁文件。第一次普通安装负责生成或更新
 锁文件，第二次 frozen 安装证明清单与锁一致。当前主机若不是 Node 24，应记录实际版本并在符合
 基线的临时环境复验，不把 Node 22 结果冒充 Node 24。
 
@@ -746,7 +780,7 @@ pnpm install --frozen-lockfile
 
 - [ ] dry-run 输出经过人工审查，实际迁移只包含两个应用目录。
 - [ ] 根 manifest、API 应用和后端 contracts 类型没有被覆盖。
-- [ ] `node scripts/integrate-workspace.mjs --check` 退出 0。
+- [ ] 本课 `node scripts/integrate-workspace.mjs --check --initial` 退出 0；默认完整 `--check` 留到第 04 课。
 - [ ] pnpm 精确为 `12.11.2`，根锁文件唯一，frozen 安装通过。
 - [ ] API、React、Vue 能按包名选中并执行各自 build/typecheck。
 - [ ] `priceCents`、UTC、owner、status、version 和 `409` 语义保持统一。
@@ -764,8 +798,9 @@ pnpm install --frozen-lockfile
 安装边界，但不能在同一 workspace 中混用两套口径。
 
 **为什么整合脚本预先写入后面课程的 exports？**
-它只声明稳定公共路径，后面课程分别创建对应文件。执行后应立即按本章顺序完成文件，不能在中间
-状态运行全量构建。
+它只预留稳定公共路径，后面课程分别创建对应文件。本课只检查已创建的 runtime 与原应用，可以
+执行 7.1 的原应用构建；第 02 课创建 client/browser-api 后，第 03 课再覆盖应用桥接并迁移调用点。
+默认完整 `--check` 在第 04 课检查全部输入，不能用初始检查结果冒充完成整合。
 
 **能直接共享后端 parser 吗？**
 只能共享环境无关、浏览器可构建的 contracts 代码。不能把 Nest、Node crypto、数据库或 server
@@ -784,7 +819,7 @@ pnpm install --frozen-lockfile
 - [Node.js Package Exports](https://nodejs.org/api/packages.html#package-entry-points)：理解公共子路径。
 - [TypeScript Modules Reference](https://www.typescriptlang.org/docs/handbook/modules/reference.html)：区分类型解析与运行时解析。
 - [MDN：Date time string format](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format)：核对 ISO 时间解析边界。
-- [项目契约](../../00-guide/05-project-assessment.md)：复核金额、状态、权限和 HTTP 约定。
+- [项目契约](../../00-guide/project-contract.md)：复核金额、状态、权限和 HTTP 约定。
 
 ## 我现在能做到什么
 
@@ -794,7 +829,7 @@ workspace；我能让外部 JSON 在进入框架状态前接受金额、UTC、�
 
 ## 单元导航
 
-[章节 hub](../01-contract-integration.md) ·
-[上一卷：API 综合项目](../../08-backend/10-api-capstone.md) ·
+[本章目录](../README.md#01-契约集成) ·
+[上一卷：API 综合项目](../../08-backend/10-api-capstone/01-workspace-config-migration-bootstrap.md) ·
 [下一课：同源 Session、CSRF 与共享客户端](02-same-origin-session-csrf-client.md) ·
 [全栈交付卷目录](../README.md)

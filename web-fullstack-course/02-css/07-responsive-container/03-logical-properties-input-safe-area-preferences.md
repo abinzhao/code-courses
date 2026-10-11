@@ -319,7 +319,7 @@ python3 -m http.server 8000
 - 强制颜色下使用系统边界和原生控件，不全页关闭调整；
 - 减少动作只改变呈现，不能让操作失效。
 
-项目仍处 CSS 静态/内存阶段；认证、对象授权和预约并发边界见[项目契约](../../00-guide/05-project-assessment.md)。
+项目仍处 CSS 静态/内存阶段；认证、对象授权和预约并发边界见[项目契约](../../00-guide/project-contract.md)。
 
 ## 8. 常见错误与排查路径
 
@@ -448,6 +448,6 @@ python3 -m http.server 8000
 ## 单元导航
 
 - [上一课：容器查询与容器单位](02-container-queries-units.md)
-- [返回第七章入口](../07-responsive-container.md)
-- [下一章：变换、过渡与动画](../08-transforms-transitions-animation.md)
+- [返回第七章目录](../README.md#第七章响应式布局与容器查询)
+- [下一章：变换、过渡与动画](../08-transforms-transitions-animation/01-transforms-coordinates-compositing.md)
 - [返回 CSS 模块](../README.md)

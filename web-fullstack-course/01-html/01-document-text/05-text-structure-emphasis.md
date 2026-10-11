@@ -438,7 +438,7 @@ HTML 语法没有把所有多 `h1` 页面判为非法，但浏览器不会可靠
 - [W3C Internationalization：在 HTML 中声明语言](https://www.w3.org/International/questions/qa-html-language-declarations)：核对文档语言和局部语言标记。
 - [W3C Internationalization：内联双向文本标记](https://www.w3.org/International/articles/inline-bidi-markup/)：观察混合 LTR/RTL 内容为什么需要隔离边界。
 - [Unicode 双向算法 UAX #9](https://www.unicode.org/reports/tr9/)：了解标点和数字顺序不是简单的“字符串反转”；初学阶段先读概述。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：复核价格整数分、时间 UTC 与真实业务校验边界。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：复核价格整数分、时间 UTC 与真实业务校验边界。
 
 阅读时持续追问四件事：元素表达什么、允许放在哪里、机器值是什么、怎样在 DOM 中证明。
 

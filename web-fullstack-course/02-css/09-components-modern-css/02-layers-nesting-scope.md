@@ -520,6 +520,6 @@ reset → base → vendor → components → utilities → overrides
 ## 单元导航
 
 - [上一课：自定义属性、@property 与主题契约](01-custom-properties-property-themes.md)
-- [返回第九章入口](../09-components-modern-css.md)
+- [返回第九章目录](../README.md#第九章现代-css-组件与系统环境)
 - [下一课：表单、滚动、打印与强制颜色](03-forms-scroll-print-forced-colors.md)
 - [返回 CSS 模块](../README.md)

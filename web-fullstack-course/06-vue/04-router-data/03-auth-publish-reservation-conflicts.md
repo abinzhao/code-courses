@@ -728,7 +728,7 @@ PUT/DELETE 表达目标状态，网络重试不会意外反转两次。
 - [MDN：HTTP 403](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403)
 - [MDN：HTTP 409](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/409)
 - [OWASP：授权速查表](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
-- [邻里集市统一契约](../../00-guide/05-project-assessment.md)
+- [邻里集市统一契约](../../00-guide/project-contract.md)
 
 ## 我现在能做到什么
 
@@ -738,5 +738,5 @@ PUT/DELETE 表达目标状态，网络重试不会意外反转两次。
 ## 单元导航
 
 [上一课：路由取数与错误恢复](02-route-data-fetch-cancellation-errors.md) ·
-[返回章入口](../04-router-data.md) ·
-[下一章：Pinia 与状态架构](../05-pinia-architecture.md)
+[返回章目录](../README.md#第四章路由url-与服务端数据) ·
+[下一章：Pinia 与状态架构](../05-pinia-architecture/01-state-ownership-pinia-store.md)

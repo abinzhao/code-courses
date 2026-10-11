@@ -658,4 +658,4 @@ Node 的内置 Fetch 不提供浏览器式 Cookie jar。`credentials` 在浏览�
 
 - 上一单元：[Promise、`async` 与事件循环](./01-promises-async-event-loop.md)
 - 下一单元：[取消、竞态与并发决策](./03-cancellation-races-concurrency.md)
-- 章入口：[异步、Fetch 与事件循环](../06-async-fetch-event-loop.md)
+- 章节目录：[异步、Fetch 与事件循环](../README.md#第六章异步fetch-与事件循环)

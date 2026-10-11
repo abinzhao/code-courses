@@ -752,6 +752,6 @@ ACME、HSTS 和真实 DNS 尚未由本地实验证明。
 
 ## 单元导航
 
-- 章入口：[03 Nginx、HTTPS 与同源部署](../03-nginx-https-deployment.md)
+- 章节目录：[03 Nginx、HTTPS 与同源部署](../README.md#03-nginxhttps-与边缘部署)
 - 上一课：[Nginx 反向代理、HTTPS 与同源安全](02-nginx-proxy-https-same-origin.md)
-- 下一章：[04 CI、发布与回滚](../04-ci-release-rollback.md)
+- 下一章：[04 CI、发布与回滚](../04-ci-release-rollback/01-local-quality-gates-clean-install.md)

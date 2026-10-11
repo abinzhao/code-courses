@@ -922,6 +922,6 @@ worker 隔离后再并行。
 
 ## 单元导航
 
-[返回第 07 章入口](../07-engineering-capstone.md) ·
+[返回第 07 章目录](../README.md#07-工程结业) ·
 [上一课：领域、页面与本机教学 API](02-capstone-domain-app-teaching-api.md) ·
 [下一课：干净环境重建与证据记录](04-clean-room-verification-evidence.md)

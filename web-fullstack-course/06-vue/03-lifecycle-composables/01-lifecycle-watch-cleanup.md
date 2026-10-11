@@ -75,7 +75,7 @@ watch 回调拿到的 `onCleanup` 应在创建资源后立即同步注册：
 
 ```ts
 watch(source, (_value, _old, onCleanup) => {
-  const timer = window.setTimeout(...)
+  const timer = window.setTimeout(() => console.info('refresh visible data'), 1000)
   onCleanup(() => window.clearTimeout(timer))
 })
 ```
@@ -343,5 +343,5 @@ onUnmounted(() => {
 
 ## 单元导航
 
-[返回章入口](../03-lifecycle-composables.md) ·
+[返回章目录](../README.md#第三章生命周期请求竞争与-composable) ·
 [下一课：HTTP 错误、取消与资源状态](02-fetch-http-abort-resource-state.md)

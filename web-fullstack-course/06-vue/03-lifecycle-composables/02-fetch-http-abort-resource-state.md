@@ -497,5 +497,5 @@ return response.json() as Promise<Page<Listing>>
 ## 单元导航
 
 [上一课：生命周期与清理](01-lifecycle-watch-cleanup.md) ·
-[返回章入口](../03-lifecycle-composables.md) ·
+[返回章目录](../README.md#第三章生命周期请求竞争与-composable) ·
 [下一课：Composable、重试与教学 API](03-composables-local-api-retry.md)

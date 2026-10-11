@@ -488,4 +488,4 @@ python3 -m http.server 8000
 
 ## 单元导航
 
-[返回本章入口](../03-images-media-embedding.md) · [下一课：响应式图片选源与艺术指导](02-responsive-image-selection.md) · [返回 HTML 模块](../README.md)
+[返回本章目录](../README.md#第三章图片媒体与嵌入) · [下一课：响应式图片选源与艺术指导](02-responsive-image-selection.md) · [返回 HTML 模块](../README.md)

@@ -1161,7 +1161,7 @@ sortButton.addEventListener("click", () => {
 - [MDN：`table-layout`](https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout)：自动与固定表格布局算法。
 - [MDN：Printing](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Printing)：打印媒体查询与打印样式。
 - [MDN：`textContent`](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)：文字读写与 `innerHTML` 的区别。
-- [OWASP Cross Site Scripting Prevention Cheat Sheet](https://owasp.org/www-community/xss-prevention)：输出上下文与安全 DOM API 边界。
+- [OWASP Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)：输出上下文与安全 DOM API 边界。
 
 查阅资料时区分：
 

@@ -291,4 +291,4 @@ await page.locator('.toolbar > button:nth-child(2)').click()
 
 ## 单元导航
 
-[上一课：纯函数、组件与 Store 测试](01-pure-component-store-tests.md) · [返回章入口](../06-testing-accessibility.md) · [下一课：ESLint、CI 与证据边界](03-eslint-ci-test-evidence-boundaries.md)
+[上一课：纯函数、组件与 Store 测试](01-pure-component-store-tests.md) · [返回章目录](../README.md#第六章测试无障碍与错误恢复) · [下一课：ESLint、CI 与证据边界](03-eslint-ci-test-evidence-boundaries.md)

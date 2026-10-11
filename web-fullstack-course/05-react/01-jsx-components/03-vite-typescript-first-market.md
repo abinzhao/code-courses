@@ -494,4 +494,4 @@ Vite 会转译 TypeScript，但不保证执行完整类型检查。正确构建�
 
 ## 单元导航
 
-[上一课：组件、组合与列表身份](02-components-props-composition-list-identity.md) · [返回章节入口](../01-jsx-components.md) · [下一章：事件、状态与表单](../02-events-state-forms.md)
+[上一课：组件、组合与列表身份](02-components-props-composition-list-identity.md) · [返回章目录](../README.md#第一章jsx组件与第一版集市) · [下一章：事件、状态与表单](../02-events-state-forms/01-events-state-snapshots-updates.md)

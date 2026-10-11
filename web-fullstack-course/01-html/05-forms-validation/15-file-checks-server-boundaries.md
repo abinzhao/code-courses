@@ -1071,4 +1071,4 @@ HTML file input 没有通用 `maxsize` 约束。页面只能在获得 `File` 后
 
 ## 单元导航
 
-[上一课：ValidityState、自定义错误与 invalid](14-validity-custom-errors-invalid.md) · [下一章](../06-interactive-dom.md) · [返回 HTML 模块](../README.md)
+[上一课：ValidityState、自定义错误与 invalid](14-validity-custom-errors-invalid.md) · [下一章](../06-interactive-dom/01-details-summary-toggle.md) · [返回 HTML 模块](../README.md)

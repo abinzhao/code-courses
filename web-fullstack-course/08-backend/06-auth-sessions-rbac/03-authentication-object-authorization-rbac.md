@@ -536,6 +536,6 @@ PUT 目标状态相同；用户不能替别人收藏。
 
 ## 单元导航
 
-[本章入口](../06-auth-sessions-rbac.md) ·
+[本章目录](../README.md#06-认证会话与授权) ·
 [上一课：Cookie 会话、Origin 与 CSRF](02-cookie-sessions-origin-csrf.md) ·
-[下一章：搜索、分页与文件](../07-search-pagination-files.md)
+[下一章：搜索、分页与文件](../07-search-pagination-files/01-safe-search-dynamic-queries.md)

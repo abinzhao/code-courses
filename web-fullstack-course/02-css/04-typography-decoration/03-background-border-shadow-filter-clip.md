@@ -315,4 +315,5 @@
 ## 单元导航
 
 - 上一单元：[换行、国际化与可读性](./02-line-breaking-i18n-readability.md)
-- 下一单元：[05 Flexbox 章入口](../05-flexbox.md)
+- 下一单元：[05 Flexbox 章首课](../05-flexbox/01-axes-wrapping-alignment.md)
+- 分卷目录：[CSS](../README.md)

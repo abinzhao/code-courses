@@ -42,7 +42,7 @@ MIME 错误；若 `/api/v1/listings/missing` 返回 HTML 和 200，客户端会�
 
 ## 3. 预备知识
 
-先完成[第 02 章：Docker Compose](../02-docker-compose.md)，并确认个人 `market` 工作区至少有：
+先完成[第 02 章：Docker Compose](../02-docker-compose/01-multi-stage-image-build-context.md)，并确认个人 `market` 工作区至少有：
 
 ```text
 market/
@@ -463,6 +463,6 @@ docker build -f deploy/web.Dockerfile --build-arg WEB_APP=vue-web -t market-web:
 
 ## 单元导航
 
-- 章入口：[03 Nginx、HTTPS 与同源部署](../03-nginx-https-deployment.md)
-- 上一章：[02 Docker Compose](../02-docker-compose.md)
+- 章节目录：[03 Nginx、HTTPS 与同源部署](../README.md#03-nginxhttps-与边缘部署)
+- 上一章：[02 Docker Compose](../README.md#02-docker-与-compose)
 - 下一课：[Nginx 反向代理、HTTPS 与同源安全](02-nginx-proxy-https-same-origin.md)

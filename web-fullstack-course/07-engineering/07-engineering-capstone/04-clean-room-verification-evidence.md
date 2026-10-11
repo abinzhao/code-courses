@@ -731,6 +731,6 @@ marker 计数和 expected；普通围栏不会命中。
 
 ## 单元导航
 
-[返回第 07 章入口](../07-engineering-capstone.md) ·
+[返回第 07 章目录](../README.md#07-工程结业) ·
 [上一课：测试、构建、预算与浏览器门禁](03-capstone-tests-build-budget-browser.md) ·
 [返回工程化卷目录](../README.md)

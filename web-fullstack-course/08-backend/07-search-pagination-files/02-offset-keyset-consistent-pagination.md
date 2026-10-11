@@ -521,6 +521,6 @@ Keyset 在并发变化下改善了什么、没有保证什么。
 
 ## 单元导航
 
-- 章入口：[07 搜索、分页与文件](../07-search-pagination-files.md)
+- 章节目录：[07 搜索、分页与文件](../README.md#07-搜索分页与文件)
 - 上一课：[安全搜索与动态查询](01-safe-search-dynamic-queries.md)
 - 下一课：[上传流、类型、存储与清理](03-upload-streams-type-storage-cleanup.md)

@@ -358,7 +358,7 @@ pnpm build
 - [Pinia Actions](https://pinia.vuejs.org/core-concepts/actions.html)：异步 action 与错误传播。
 - [MDN HTTP PUT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PUT)：目标资源替换和幂等语义。
 - [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)：中止只影响客户端等待的边界。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：收藏、会话和授权要求。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：收藏、会话和授权要求。
 
 ## 我现在能做到什么
 
@@ -366,4 +366,4 @@ pnpm build
 
 ## 单元导航
 
-[上一课：状态所有权](01-state-ownership-pinia-store.md) · [返回章入口](../05-pinia-architecture.md) · [下一课：provide/inject 与 SSR 隔离](03-provide-inject-store-ssr.md)
+[上一课：状态所有权](01-state-ownership-pinia-store.md) · [返回章目录](../README.md#第五章pinia依赖注入与状态架构) · [下一课：provide/inject 与 SSR 隔离](03-provide-inject-store-ssr.md)

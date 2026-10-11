@@ -394,4 +394,4 @@ ES 模块已被浏览器加载并缓存。复验首次请求应禁用缓存并�
 
 ## 单元导航
 
-[返回章入口](../03-build-assets-performance.md) · [上一课：质量门禁与失败诊断](../02-lint-format-quality/03-quality-gates-failure-diagnostics.md) · [下一课：客户端环境、Source Map、缓存与发布](02-client-env-sourcemaps-cache-release.md)
+[返回章目录](../README.md#03-构建资源缓存与性能预算) · [上一课：质量门禁与失败诊断](../02-lint-format-quality/03-quality-gates-failure-diagnostics.md) · [下一课：客户端环境、Source Map、缓存与发布](02-client-env-sourcemaps-cache-release.md)

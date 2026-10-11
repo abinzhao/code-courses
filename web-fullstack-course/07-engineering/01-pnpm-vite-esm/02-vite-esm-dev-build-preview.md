@@ -659,6 +659,6 @@ pnpm preview
 
 ## 单元导航
 
-[返回本章 Hub](../01-pnpm-vite-esm.md) ·
+[返回章目录](../README.md#01-pnpmvite-与-esm) ·
 [上一课：Node、pnpm、清单与锁文件](01-node-pnpm-manifests-lockfiles.md) ·
 [下一课：TS 7 / TS 6 并行类型检查](03-ts7-ts6-parallel-typecheck.md)

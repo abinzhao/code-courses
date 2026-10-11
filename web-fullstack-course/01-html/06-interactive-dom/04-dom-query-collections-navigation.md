@@ -931,7 +931,7 @@ DOM 可被任意修改，也不知道其他用户是否同时预约。真实系�
 - [MDN：Element.toggleAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element/toggleAttribute)：复习布尔属性存在性切换。
 - [WAI-ARIA：button role](https://www.w3.org/WAI/ARIA/apg/patterns/button/)：核对切换按钮状态、键盘行为与可见标签。
 - [OWASP Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)：理解不同输出上下文和安全 sink。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对整数分、UTC、收藏、预约、权限和并发边界。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：核对整数分、UTC、收藏、预约、权限和并发边界。
 
 阅读时区分：
 

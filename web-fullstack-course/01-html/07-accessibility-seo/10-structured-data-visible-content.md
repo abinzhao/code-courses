@@ -1172,4 +1172,4 @@ Schema.org Product 可以描述商品，但具体搜索功能可能把图片列�
 
 ## 单元导航
 
-[上一课：抓取、索引、HTTP 与渲染：交付真实页面状态](09-crawling-indexing-http-rendering.md) · [下一章](../08-html-element-reference.md) · [返回 HTML 模块](../README.md)
+[上一课：抓取、索引、HTTP 与渲染：交付真实页面状态](09-crawling-indexing-http-rendering.md) · [下一章](../08-html-element-reference/01-current-elements-by-responsibility.md) · [返回 HTML 模块](../README.md)

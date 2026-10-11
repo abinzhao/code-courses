@@ -415,5 +415,5 @@ function withCleanup(work, cleanup) {
 ## 单元导航
 
 [上一篇：作用域、闭包与生命周期](02-scope-closures-lifetime.md) ·
-[返回第 2 章入口](../02-functions-scope-errors.md) ·
-[下一章：对象、数组与数据边界](../03-objects-arrays-data.md)
+[返回第 2 章目录](../README.md#第二章函数作用域与可解释错误) ·
+[下一章：对象、数组与数据边界](../03-objects-arrays-data/01-objects-references-immutable-updates.md)

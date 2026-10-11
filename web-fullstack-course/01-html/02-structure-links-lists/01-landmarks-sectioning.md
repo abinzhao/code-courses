@@ -739,4 +739,4 @@ HTML 语法并不把多个 `h1` 一概判为解析错误，但浏览器不会可
 
 ## 单元导航
 
-[返回本章入口](../02-structure-links-lists.md) · [下一课：标题大纲、阅读顺序与 ARIA：保持结构一致](02-headings-reading-order-aria.md) · [返回 HTML 模块](../README.md)
+[返回本章目录](../README.md#第二章页面结构链接与列表) · [下一课：标题大纲、阅读顺序与 ARIA：保持结构一致](02-headings-reading-order-aria.md) · [返回 HTML 模块](../README.md)

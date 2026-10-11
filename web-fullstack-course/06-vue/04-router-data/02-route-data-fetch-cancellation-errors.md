@@ -376,5 +376,5 @@ watch 立即进入新 loading 并清空旧 operation message，错误不会跨�
 ## 单元导航
 
 [上一课：Router 与 URL 状态](01-router-url-state-navigation.md) ·
-[返回章入口](../04-router-data.md) ·
+[返回章目录](../README.md#第四章路由url-与服务端数据) ·
 [下一课：教学登录、发布与预约冲突](03-auth-publish-reservation-conflicts.md)

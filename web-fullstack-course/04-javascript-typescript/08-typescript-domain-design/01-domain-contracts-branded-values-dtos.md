@@ -371,5 +371,5 @@ export function toSearchRow(listing: Listing): ListingSearchRow {
 
 ## 单元导航
 
-- 上一单元：[章入口](../08-typescript-domain-design.md)
+- 章节目录：[本章目录](../README.md#第八章typescript-领域设计)
 - 下一单元：[`unknown`、运行时解析器与错误路径](./02-unknown-runtime-parsers-errors.md)

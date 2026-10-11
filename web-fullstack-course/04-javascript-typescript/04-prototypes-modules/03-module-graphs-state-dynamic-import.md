@@ -304,4 +304,4 @@ export function createCatalog(initialItems) {
 
 - 上一单元：[ESM 导入、导出与路径解析](./02-esm-import-export-resolution.md)
 - 下一单元：[DOM 查询、节点创建与安全渲染](../05-dom-events/01-dom-query-create-safe-rendering.md)
-- 章入口：[原型、类与 ECMAScript 模块](../04-prototypes-modules.md)
+- 章节目录：[原型、类与 ECMAScript 模块](../README.md#第四章原型类与-ecmascript-模块)

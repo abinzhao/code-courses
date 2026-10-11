@@ -379,5 +379,5 @@ const ordered = items.sort((a, b) => a.priceCents - b.priceCents);
 ## 单元导航
 
 [上一篇：对象、引用与定向不可变更新](01-objects-references-immutable-updates.md) ·
-[返回第 3 章入口](../03-objects-arrays-data.md) ·
+[返回第 3 章目录](../README.md#第三章对象数组与数据边界) ·
 [下一篇：JSON、序列化与数据边界](03-json-serialization-data-boundaries.md)

@@ -2071,4 +2071,4 @@ stream.on('error', () => res.writeHead(503))
 
 ## 单元导航
 
-[上一课：Vite Vue SSR 与请求隔离](02-vite-vue-ssr-serialization-isolation.md) · [返回章入口](../08-ssr-capstone.md) · [Vue 覆盖矩阵](../VUE-COVERAGE.md)
+[上一课：Vite Vue SSR 与请求隔离](02-vite-vue-ssr-serialization-isolation.md) · [返回章目录](../README.md#第八章渲染模式ssr-与结业验收) · [Vue 覆盖矩阵](../VUE-COVERAGE.md)

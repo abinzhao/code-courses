@@ -526,6 +526,6 @@ WAAPI 核心在现代浏览器中较成熟；`commitStyles()` 细节、CSS scrol
 ## 单元导航
 
 - [上一课：过渡、关键帧与可取消状态](02-transitions-keyframes-cancelable-state.md)
-- [返回第八章入口](../08-transforms-transitions-animation.md)
-- [下一章：现代 CSS 组件](../09-components-modern-css.md)
+- [返回第八章目录](../README.md#第八章变换过渡与可取消动画)
+- [下一章：现代 CSS 组件](../09-components-modern-css/01-custom-properties-property-themes.md)
 - [返回 CSS 模块](../README.md)

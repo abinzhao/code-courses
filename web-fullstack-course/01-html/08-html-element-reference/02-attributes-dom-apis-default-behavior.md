@@ -164,7 +164,7 @@ input.value;                 // 当前值：用户编辑后可不同
   > 最后才是完整自造组件
 ```
 
-详细检查见[第七章：无障碍、SEO 与质量](../07-accessibility-seo.md)。ARIA 不修复错误父子关系，不改变 DOM 阅读顺序，不让 `div` 自动响应 Space/Enter，也不提供认证、授权或业务状态。
+详细检查见[第七章：无障碍、SEO 与质量](../07-accessibility-seo/01-semantic-roles-landmarks-headings.md)。ARIA 不修复错误父子关系，不改变 DOM 阅读顺序，不让 `div` 自动响应 Space/Enter，也不提供认证、授权或业务状态。
 
 ### 5.3 DOM 接口与属性操作速查
 

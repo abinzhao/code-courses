@@ -45,7 +45,7 @@ Read Committed 下，如果没有锁、条件写或唯一约束，两个事务�
 
 先完成：
 
-- [SQL 约束、外键与不变量](../03-sql-modeling.md)；
+- [SQL 约束、外键与不变量](../03-sql-modeling/02-constraints-foreign-keys-invariants.md)；
 - [仓储契约与连接所有权](../04-postgres-data-access/03-repositories-connection-ownership.md)。
 
 确认第 3 章迁移包含类似数据库兜底：
@@ -432,6 +432,6 @@ JavaScript 在 `await` I/O 时允许事件循环处理其他请求；数据库�
 
 ## 单元导航
 
-[本章入口](../05-transactions-concurrency.md) ·
+[本章目录](../README.md#05-事务与并发) ·
 [下一课：原子预约与真实并发复现](02-atomic-reservations-concurrency-reproduction.md) ·
 [后端卷目录](../README.md)

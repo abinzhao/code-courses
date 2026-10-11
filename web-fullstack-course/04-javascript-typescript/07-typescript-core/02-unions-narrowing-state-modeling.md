@@ -341,3 +341,4 @@ function describeExtended(state: ExtendedSearchState): string {
 
 - 上一单元：[推断、注解与严格配置](./01-inference-annotations-strict-config.md)
 - 下一单元：[泛型、工具类型与健全性边界](./03-generics-utility-types-soundness.md)
+- 分卷目录：[JavaScript / TypeScript](../README.md)

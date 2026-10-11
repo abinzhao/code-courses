@@ -495,4 +495,4 @@ CORS 排查顺序：确认两个源 → 看有无 OPTIONS → 看实际 Origin �
 
 ## 单元导航
 
-[上一课：HTTP 消息、状态与协商](02-http-messages-status-negotiation.md) · [章入口：请求、HTTP 与缓存](../01-network-http-cache.md) · [下一章：渲染与事件循环](../02-rendering-event-loop.md)
+[上一课：HTTP 消息、状态与协商](02-http-messages-status-negotiation.md) · [章目录：请求、HTTP 与缓存](../README.md#01-请求http-与缓存) · [下一章：渲染与事件循环](../02-rendering-event-loop/01-dom-cssom-layout-paint-composite.md)

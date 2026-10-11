@@ -522,6 +522,6 @@ single-flight 和回源预算控制击穿，并明确关键业务仍由 PostgreS
 
 ## 单元导航
 
-- 章入口：[08 Redis、Outbox 与队列](../08-redis-queues-reliability.md)
+- 章节目录：[08 Redis、Outbox 与队列](../README.md#08-redisoutbox-与队列)
 - 上一课：[上传流、类型、存储与清理](../07-search-pagination-files/03-upload-streams-type-storage-cleanup.md)
 - 下一课：[事务 Outbox 与一致性](02-transactional-outbox-consistency.md)

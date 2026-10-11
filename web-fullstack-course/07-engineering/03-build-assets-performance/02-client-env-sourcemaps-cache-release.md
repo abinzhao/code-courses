@@ -429,4 +429,4 @@ find dist -type f -name '*.map' -print
 
 ## 单元导航
 
-[返回章入口](../03-build-assets-performance.md) · [上一课：Vite 8 构建图、Chunk 与动态导入](01-vite-build-graph-chunks-dynamic-import.md) · [下一课：递归资源预算与生产预览](03-asset-budget-production-preview.md)
+[返回章目录](../README.md#03-构建资源缓存与性能预算) · [上一课：Vite 8 构建图、Chunk 与动态导入](01-vite-build-graph-chunks-dynamic-import.md) · [下一课：递归资源预算与生产预览](03-asset-budget-production-preview.md)

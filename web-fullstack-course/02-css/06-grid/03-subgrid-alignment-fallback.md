@@ -452,7 +452,7 @@ python3 -m http.server 8000
 - [MDN：Subgrid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Subgrid)：带着“为什么必须先跨父轨道”阅读。
 - [MDN：网格对齐](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Box_alignment_in_grid_layout)：区分 items、self 与 content。
 - [MDN：@supports](https://developer.mozilla.org/en-US/docs/Web/CSS/@supports)：理解语法检测边界。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对收藏、价格与阶段能力边界。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：核对收藏、价格与阶段能力边界。
 
 现有章节快照记录基础 Subgrid 起始支持为 Chrome 117、Firefox 71、Safari 16；这不是“所有版本与组合已通过”的承诺。目标 WebView、Safari、Firefox、缩放与辅助技术仍需人工验证。
 
@@ -463,6 +463,6 @@ python3 -m http.server 8000
 ## 单元导航
 
 - [上一课：自动放置、隐式网格与响应式重复](02-auto-placement-implicit-responsive-repeat.md)
-- [返回第六章入口](../06-grid.md)
-- [下一章：响应式与容器查询](../07-responsive-container.md)
+- [返回第六章目录](../README.md#第六章grid-与-subgrid)
+- [下一章：响应式与容器查询](../07-responsive-container/01-media-queries-content-breakpoints.md)
 - [返回 CSS 模块](../README.md)

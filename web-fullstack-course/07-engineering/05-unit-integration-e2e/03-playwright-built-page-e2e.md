@@ -49,7 +49,7 @@ E2E 的价值来自跨边界观察，但范围越大，定位成本越高。本�
 
 - [领域边界单元测试](01-vitest-unit-domain-boundaries.md)；
 - [HTTP 与竞态集成测试](02-vitest-integration-http-races.md)；
-- [Vite 构建、资源与 preview](../03-build-assets-performance.md)。
+- [Vite 构建、资源与 preview](../03-build-assets-performance/01-vite-build-graph-chunks-dynamic-import.md)。
 
 保留前两课创建的 `src/domain/`、`src/http/` 和 `src/state/`。在练习根目录执行：
 
@@ -791,6 +791,6 @@ Chromium 结果外推。
 
 ## 单元导航
 
-[本章入口](../05-unit-integration-e2e.md) ·
+[本章目录](../README.md#05-单元集成与端到端测试) ·
 [上一课：集成 HTTP、解析器与请求竞态](02-vitest-integration-http-races.md) ·
 [下一课：Git 范围、审查与可回退提交](../06-ci-git-release/01-git-scope-reviewable-commits.md)

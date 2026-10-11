@@ -347,4 +347,5 @@ if (item !== undefined) console.log(getProperty(item, "title"));
 ## 单元导航
 
 - 上一单元：[联合、收窄与状态建模](./02-unions-narrowing-state-modeling.md)
-- 下一单元：[第 08 章入口](../08-typescript-domain-design.md)
+- 下一单元：[第 08 章首课](../08-typescript-domain-design/01-domain-contracts-branded-values-dtos.md)
+- 分卷目录：[JavaScript / TypeScript](../README.md)

@@ -479,4 +479,4 @@ JSON 不原生保留 Set 类型。应转换为数组并在读取时校验，再�
 
 ## 单元导航
 
-[章入口：存储与安全](../03-storage-security.md) · [下一课：IndexedDB 事务与升级](02-indexeddb-transactions-upgrades.md) · [浏览器卷](../README.md)
+[章目录：存储与安全](../README.md#03-存储会话与安全边界) · [下一课：IndexedDB 事务与升级](02-indexeddb-transactions-upgrades.md) · [浏览器卷](../README.md)

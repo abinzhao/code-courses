@@ -283,4 +283,4 @@ console.log(show());
 
 - 上一单元：[JSON 序列化与数据边界](../03-objects-arrays-data/03-json-serialization-data-boundaries.md)
 - 下一单元：[ESM 导入、导出与路径解析](./02-esm-import-export-resolution.md)
-- 章入口：[原型、类与 ECMAScript 模块](../04-prototypes-modules.md)
+- 章节目录：[原型、类与 ECMAScript 模块](../README.md#第四章原型类与-ecmascript-模块)

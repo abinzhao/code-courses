@@ -499,4 +499,4 @@ console.log(performance.memory?.usedJSHeapSize);
 
 ## 单元导航
 
-[上一章：Worker、离线与平台能力](../05-workers-offline-webapis.md) · [本章入口](../06-devtools-performance.md) · [下一课：Core Web Vitals 与预算](02-core-web-vitals-budgets-diagnosis.md)
+[上一章：Worker、离线与平台能力](../README.md#05-worker离线与平台能力) · [本章目录](../README.md#06-devtools-与性能诊断) · [下一课：Core Web Vitals 与预算](02-core-web-vitals-budgets-diagnosis.md)

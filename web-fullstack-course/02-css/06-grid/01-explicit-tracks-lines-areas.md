@@ -34,7 +34,7 @@ Grid 容器把直接子盒放进由行轨道和列轨道组成的二维网格。
 
 ## 3. 预备知识
 
-先完成[盒模型、流与定位](../03-box-sizing-flow-position.md)和[Flexbox](../05-flexbox.md)，并能使用浏览器 Elements、Styles、Computed 与 Grid overlay。
+先完成[盒模型、流与定位](../03-box-sizing-flow-position/01-box-model-intrinsic-sizing-overflow.md)和[Flexbox](../05-flexbox/01-axes-wrapping-alignment.md)，并能使用浏览器 Elements、Styles、Computed 与 Grid overlay。
 
 个人练习只需浏览器和任意静态服务器。教程仓库不创建实验工程；文件放在个人目录：
 
@@ -242,7 +242,7 @@ python3 -m http.server 8000
   → Grid overlay 和无 CSS 阅读顺序复验
 ```
 
-项目边界见[邻里集市契约](../../00-guide/05-project-assessment.md)。
+项目边界见[邻里集市契约](../../00-guide/project-contract.md)。
 
 ## 8. 常见错误与排查路径
 
@@ -366,7 +366,7 @@ python3 -m http.server 8000
 - [MDN：Grid 基础概念](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Basic_concepts_of_grid_layout)：带着“线、轨道、区域怎样区分”阅读。
 - [MDN：网格模板区域](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Grid_template_areas)：核对矩形和格数规则。
 - [MDN：minmax()](https://developer.mozilla.org/en-US/docs/Web/CSS/minmax)：核对允许的最小值与最大值。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对金额、状态与 CSS 阶段边界。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：核对金额、状态与 CSS 阶段边界。
 
 本课只使用通过稳定状态门禁的 Grid 主线。Safari、Firefox、目标 WebView 和真实移动设备仍需在
 产品支持范围内人工复验。
@@ -377,7 +377,7 @@ python3 -m http.server 8000
 
 ## 单元导航
 
-- [上一章：Flexbox](../05-flexbox.md)
-- [返回第六章入口](../06-grid.md)
+- [上一章：Flexbox](../README.md#第五章flexbox)
+- [返回第六章目录](../README.md#第六章grid-与-subgrid)
 - [下一课：自动放置、隐式网格与响应式重复](02-auto-placement-implicit-responsive-repeat.md)
 - [返回 CSS 模块](../README.md)

@@ -951,6 +951,6 @@ API smoke、RTO 和 RPO 说明恢复能力及其边界。
 ## 单元导航
 
 - 上一课：[日志、指标、告警与磁盘](02-logs-metrics-alerts-disk.md)
-- 本章入口：[05 性能、安全与运维](../05-performance-security-operations.md)
+- 章节目录：[05 性能、安全与运维](../README.md#05-性能安全与运维)
 - 下一课：[故障演练与凭据轮换](04-failure-drills-credential-rotation.md)
 - 分卷入口：[全栈联调与交付](../README.md)

@@ -2093,5 +2093,5 @@ CDN、真实数据库、TLS、部署、负载、Safari/Firefox、VoiceOver/NVDA/
 ## 单元导航
 
 - 上一单元：[Vite SSR、序列化与请求隔离](./02-vite-ssr-serialization-isolation.md)
-- 返回：[第 08 章入口](../08-ssr-capstone.md)
+- 返回：[第 08 章目录](../README.md#第八章ssr-与综合项目)
 - 后续：[React 覆盖矩阵](../REACT-COVERAGE.md)

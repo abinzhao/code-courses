@@ -298,4 +298,5 @@ transform、filter、perspective 或特定 containment 祖先可为 fixed 建立
 ## 单元导航
 
 - 上一单元：[常规流、格式化上下文与外边距](./02-normal-flow-formatting-contexts-margins.md)
-- 下一单元：[04 字体、文本与视觉装饰章入口](../04-typography-decoration.md)
+- 下一单元：[04 字体、文本与视觉装饰章首课](../04-typography-decoration/01-font-loading-fallback-metrics.md)
+- 分卷目录：[CSS](../README.md)

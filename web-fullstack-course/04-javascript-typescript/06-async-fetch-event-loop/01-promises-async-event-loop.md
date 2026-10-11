@@ -314,4 +314,4 @@ console.log(result.items.length);
 
 - 上一单元：[内存状态、焦点与可访问交互](../05-dom-events/03-state-focus-accessible-interactions.md)
 - 下一单元：[Fetch、HTTP 错误与运行时校验](./02-fetch-http-errors-runtime-validation.md)
-- 章入口：[异步、Fetch 与事件循环](../06-async-fetch-event-loop.md)
+- 章节目录：[异步、Fetch 与事件循环](../README.md#第六章异步fetch-与事件循环)

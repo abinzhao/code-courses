@@ -301,5 +301,5 @@ expect(componentState.price).toBe("120.00");
 
 ## 单元导航
 
-- 上一单元：[第 06 章入口](../06-testing-accessibility.md)
+- 章节目录：[第 06 章目录](../README.md#第六章测试与无障碍)
 - 下一单元：[路由、浏览器、无障碍与错误恢复](./02-router-browser-accessibility-errors.md)

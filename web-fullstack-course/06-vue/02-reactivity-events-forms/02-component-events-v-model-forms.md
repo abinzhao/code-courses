@@ -495,5 +495,5 @@ Object.assign(draft, { title: '', description: '', price: '' })
 ## 单元导航
 
 [上一课：响应式与更新队列](01-ref-reactive-computed-updates.md) ·
-[返回章入口](../02-reactivity-events-forms.md) ·
+[返回章目录](../README.md#第二章响应式事件与可提交表单) ·
 [下一课：搜索、发布与状态所有权](03-search-publish-state-ownership.md)

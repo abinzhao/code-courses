@@ -317,4 +317,4 @@ Set 按插入顺序迭代；契约明确后，调用者不会因去重意外改�
 ## 单元导航
 
 - 上一单元：[确定性异步测试与系统调试](./02-deterministic-async-testing-debugging.md)
-- 下一单元：[第 09 章入口](../09-testing-debugging-algorithms.md)
+- 完成本卷：[本卷验收](../README.md#验收)

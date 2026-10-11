@@ -712,7 +712,7 @@ PostgreSQL 18 migration/fixture/HTTP/concurrency/shutdown：environment block
 
 ## 单元导航
 
-[返回第 10 章入口](../10-api-capstone.md) ·
+[返回第 10 章目录](../README.md#10-api-综合项目) ·
 [上一课：Session、Controller 与授权接线](03-session-controllers-authorization-wiring.md) ·
 [返回后端卷目录](../README.md) ·
 [进入全栈交付卷](../../09-fullstack/README.md)

@@ -4,7 +4,9 @@
 
 ## 本卷定位与教材结构
 
-本卷正文采用“章入口 → 详细教程”两层结构。先读章入口，确认前置、章级产出和综合验收；再按顺序完成详细教程。覆盖矩阵只用于审计知识点归属，不替代正文。
+本 README 统筹章节顺序、运行契约与本卷验收，学习路线直接连接详细教程；前置、练习和阶段验收以每篇正文为准。覆盖矩阵只用于审计知识点归属，不替代正文。
+
+下方仅作导航职责示意，不是当前文件清单；实际路径以学习路线中的可点击正文链接为准。
 
 ```text
 03-browser/
@@ -16,7 +18,7 @@
 
 ## 学习路线
 
-### [01 请求、HTTP 与缓存](01-network-http-cache.md)
+### 01 请求、HTTP 与缓存
 
 | 顺序 | 详细教程 | 学习结果 |
 | --- | --- | --- |
@@ -24,7 +26,7 @@
 | 2 | [HTTP 消息、状态与协商](01-network-http-cache/02-http-messages-status-negotiation.md) | 按方法、状态、媒体类型、编码和消息边界处理响应 |
 | 3 | [缓存验证、CORS 与观测](01-network-http-cache/03-cache-validation-cors-observation.md) | 复现条件请求、跨源读取与服务端到达证据 |
 
-### [02 渲染、事件循环与交互](02-rendering-event-loop.md)
+### 02 渲染、事件循环与交互
 
 | 顺序 | 详细教程 | 学习结果 |
 | --- | --- | --- |
@@ -32,7 +34,7 @@
 | 2 | [任务、微任务与呈现机会](02-rendering-event-loop/02-tasks-microtasks-rendering-opportunities.md) | 用顺序日志解释任务、微任务、动画帧和计时器 |
 | 3 | [长任务、同步布局与稳定动画](02-rendering-event-loop/03-long-tasks-layout-thrashing-animation.md) | 复现阻塞和布局压力，并以同输入证据验证修复 |
 
-### [03 存储、会话与安全边界](03-storage-security.md)
+### 03 存储、会话与安全边界
 
 | 顺序 | 详细教程 | 学习结果 |
 | --- | --- | --- |
@@ -40,7 +42,7 @@
 | 2 | [IndexedDB 事务、索引与升级](03-storage-security/02-indexeddb-transactions-upgrades.md) | 建立事务提交、回滚、迁移和阻塞恢复证据 |
 | 3 | [源、Cookie、XSS、CSRF 与对象授权](03-storage-security/03-origin-cookie-xss-csrf-authorization.md) | 分开判断脚本读取、登录身份、跨站写入和对象权限 |
 
-### [04 请求、流与实时通信](04-fetch-streams-realtime.md)
+### 04 请求、流与实时通信
 
 | 顺序 | 详细教程 | 学习结果 |
 | --- | --- | --- |
@@ -48,7 +50,7 @@
 | 2 | [可读流与增量解析](04-fetch-streams-realtime/02-readable-stream-incremental-parsing.md) | 跨任意字节块恢复 UTF-8 与 NDJSON 业务帧 |
 | 3 | [SSE、WebSocket 与轮询](04-fetch-streams-realtime/03-sse-websocket-polling-recovery.md) | 处理连接状态、游标恢复、缺口与重复事件 |
 
-### [05 Worker、离线与平台能力](05-workers-offline-webapis.md)
+### 05 Worker、离线与平台能力
 
 | 顺序 | 详细教程 | 学习结果 |
 | --- | --- | --- |
@@ -57,7 +59,7 @@
 | 3 | [离线一致性与更新](05-workers-offline-webapis/03-offline-consistency-updates.md) | 区分快照、离线草稿、服务端确认和版本冲突 |
 | 4 | [观察器、权限与平台 API](05-workers-offline-webapis/04-observers-permissions-api-fallback.md) | 为观察器、Clipboard 和权限拒绝保留渐进回退 |
 
-### [06 DevTools 与性能诊断](06-devtools-performance.md)
+### 06 DevTools 与性能诊断
 
 | 顺序 | 详细教程 | 学习结果 |
 | --- | --- | --- |
@@ -178,7 +180,7 @@ createServer(async (req, res) => {
 
 ### 运行规则与服务边界
 
-精确运行时选择统一见[版本基线](../00-guide/02-version-baseline.md)。先记录实际版本，再在
+精确运行时选择统一见[版本基线](../00-guide/version-baseline.md)。先记录实际版本，再在
 `browser-lab` 目录运行：
 
 ```bash
@@ -208,7 +210,7 @@ node server.mjs ./public
 
 ## 验收
 
-- [ ] 所有章入口和详细教程均按顺序完成，章级综合验收有逐项证据。
+- [ ] 按本 README 路线完成所有详细教程，每篇阶段验收及本卷综合验收都有逐项证据。
 - [ ] 每篇教程的完整文件都能从空练习目录按说明启动，不依赖上一次实验遗留状态。
 - [ ] 能分层解释 URL/连接/HTTP、渲染/事件循环、存储/安全、Fetch/流/实时、Worker/离线和性能诊断。
 - [ ] 网络、主线程、存储、Service Worker 与性能实验都记录环境、固定动作、实际结果和失败证据。

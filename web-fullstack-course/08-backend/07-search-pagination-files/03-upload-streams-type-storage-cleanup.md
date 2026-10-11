@@ -48,7 +48,7 @@ JPEG。文件名、扩展名、MIME、`Content-Length` 和 multipart 字段都�
 - 理解 Node Readable、Transform、Writable 与 `pipeline`；
 - 理解认证只证明身份，对象授权还需验证当前用户拥有 Listing；
 - 理解文件系统路径和 URL 是不同命名空间；
-- 已阅读[统一项目契约](../../00-guide/05-project-assessment.md)。
+- 已阅读[统一项目契约](../../00-guide/project-contract.md)。
 
 创建源码目录：
 
@@ -502,6 +502,6 @@ bytes；文档仍标注 `signature-only`。
 
 ## 单元导航
 
-- 章入口：[07 搜索、分页与文件](../07-search-pagination-files.md)
+- 章节目录：[07 搜索、分页与文件](../README.md#07-搜索分页与文件)
 - 上一课：[Offset、Keyset 与一致分页](02-offset-keyset-consistent-pagination.md)
-- 下一章：[08 Redis、Outbox 与队列](../08-redis-queues-reliability.md)
+- 下一章：[08 Redis、Outbox 与队列](../08-redis-queues-reliability/01-cache-invalidation-stampede-control.md)

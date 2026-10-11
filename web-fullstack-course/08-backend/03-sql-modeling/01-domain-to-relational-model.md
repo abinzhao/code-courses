@@ -50,7 +50,7 @@ Listing 1 --- N Reservation（后续约束同时最多一个有效）
 
 ## 3. 预备知识
 
-先阅读[统一项目契约](../../00-guide/05-project-assessment.md)。准备 PostgreSQL 18，但不要在共享/生产库操作。
+先阅读[统一项目契约](../../00-guide/project-contract.md)。准备 PostgreSQL 18，但不要在共享/生产库操作。
 
 创建目录：
 
@@ -531,6 +531,6 @@ enum 有优势，也有迁移成本。本课程用 text + CHECK，让状态变�
 
 ## 单元导航
 
-[返回本章 Hub](../03-sql-modeling.md) ·
+[返回章目录](../README.md#03-sql-建模) ·
 [上一章：Nest Pipes、Filters 与错误契约](../02-nest-api-validation/03-pipes-filters-error-contract.md) ·
 [下一课：约束、外键与不变量](02-constraints-foreign-keys-invariants.md)

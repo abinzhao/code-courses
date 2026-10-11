@@ -56,10 +56,10 @@
 先阅读：
 
 - [工程卷版本与边界](../README.md)；
-- [第 01 章：pnpm、Vite 与 ESM](../01-pnpm-vite-esm.md)；
-- [第 02 章：Lint、格式与质量门禁](../02-lint-format-quality.md)；
-- [第 05 章：单元、集成与端到端测试](../05-unit-integration-e2e.md)；
-- [统一项目契约](../../00-guide/05-project-assessment.md)。
+- [第 01 章：pnpm、Vite 与 ESM](../01-pnpm-vite-esm/01-node-pnpm-manifests-lockfiles.md)；
+- [第 02 章：Lint、格式与质量门禁](../02-lint-format-quality/01-prettier-format-scope.md)；
+- [第 05 章：单元、集成与端到端测试](../05-unit-integration-e2e/01-vitest-unit-domain-boundaries.md)；
+- [统一项目契约](../../00-guide/project-contract.md)。
 
 只做环境探针，不在教材目录安装：
 
@@ -536,6 +536,6 @@ playwright-report/
 
 ## 单元导航
 
-[返回第 07 章入口](../07-engineering-capstone.md) ·
+[返回第 07 章目录](../README.md#07-工程结业) ·
 [上一课：制品、发布、缓存与回滚](../06-ci-git-release/03-artifacts-release-cache-rollback.md) ·
 [下一课：领域、页面与本机教学 API](02-capstone-domain-app-teaching-api.md)

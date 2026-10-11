@@ -39,7 +39,7 @@ CSS 参考最容易出现两种失真：
 
 ## 3. 预备知识
 
-先完成 CSS 前九章，尤其是[值阶段](../02-values-colors-units/01-value-stages-units-percentages.md)、[层叠](../01-syntax-cascade-selectors/02-cascade-layers-specificity.md)与[现代组件](../09-components-modern-css.md)。个人路径：
+先完成 CSS 前九章，尤其是[值阶段](../02-values-colors-units/01-value-stages-units-percentages.md)、[层叠](../01-syntax-cascade-selectors/02-cascade-layers-specificity.md)与[现代组件](../09-components-modern-css/01-custom-properties-property-themes.md)。个人路径：
 
 ```text
 market-learning/practice/css-10-properties/index.html
@@ -928,7 +928,7 @@ python3 -m http.server 8000
 
 ## 单元导航
 
-- [返回第十章入口](../10-property-reference.md)
+- [返回第十章目录](../README.md#第十章属性语法与兼容参考)
 - [下一课：At-rule、函数与描述符](02-at-rules-functions-descriptors.md)
-- [上一章：现代 CSS 组件](../09-components-modern-css.md)
+- [上一章：现代 CSS 组件](../README.md#第九章现代-css-组件与系统环境)
 - [返回 CSS 模块](../README.md)

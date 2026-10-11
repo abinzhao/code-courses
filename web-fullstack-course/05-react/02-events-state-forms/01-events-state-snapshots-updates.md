@@ -297,4 +297,4 @@ function wrongAdd(listing: Listing) {
 
 ## 单元导航
 
-[返回章节入口](../02-events-state-forms.md) · [下一课：受控、非受控表单与金额验证](02-controlled-uncontrolled-form-validation.md)
+[返回章目录](../README.md#第二章事件状态与表单) · [下一课：受控、非受控表单与金额验证](02-controlled-uncontrolled-form-validation.md)

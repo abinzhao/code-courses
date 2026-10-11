@@ -1376,4 +1376,4 @@ fallback 是 Shadow Tree 自己的子内容，不是从 Light DOM 直接分配�
 
 ## 单元导航
 
-[上一课：自定义元素生命周期与属性同步](11-custom-elements-lifecycle-attributes.md) · [下一章](../07-accessibility-seo.md) · [返回 HTML 模块](../README.md)
+[上一课：自定义元素生命周期与属性同步](11-custom-elements-lifecycle-attributes.md) · [下一章](../07-accessibility-seo/01-semantic-roles-landmarks-headings.md) · [返回 HTML 模块](../README.md)

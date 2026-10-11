@@ -518,7 +518,7 @@ python3 -m http.server 8000
 
 ## 单元导航
 
-- [返回第九章入口](../09-components-modern-css.md)
+- [返回第九章目录](../README.md#第九章现代-css-组件与系统环境)
 - [下一课：层叠层、原生嵌套与作用域](02-layers-nesting-scope.md)
-- [上一章：变换、过渡与可取消动画](../08-transforms-transitions-animation.md)
+- [上一章：变换、过渡与可取消动画](../README.md#第八章变换过渡与可取消动画)
 - [返回 CSS 模块](../README.md)

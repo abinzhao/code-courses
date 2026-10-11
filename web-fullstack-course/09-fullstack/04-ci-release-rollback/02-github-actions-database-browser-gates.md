@@ -629,6 +629,6 @@ workflow，并识别 fork、Action tag、artifact 与测试凭据边界。我也
 
 ## 单元导航
 
-- 章入口：[04 CI、发布与回滚](../04-ci-release-rollback.md)
+- 章节目录：[04 CI、发布与回滚](../README.md#04-ci发布与回滚)
 - 上一课：[本地质量门与干净冻结安装](01-local-quality-gates-clean-install.md)
 - 下一课：[不可变镜像与受守卫发布自动化](03-immutable-images-release-automation.md)

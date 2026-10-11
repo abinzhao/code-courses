@@ -440,4 +440,4 @@ console.log(prices[0]); // 所有权已转移，不能依赖该视图继续工�
 
 ## 单元导航
 
-[上一章：请求、流与实时通信](../04-fetch-streams-realtime.md) · [本章入口](../05-workers-offline-webapis.md) · [下一课：Service Worker 生命周期与缓存](02-service-worker-lifecycle-cache.md)
+[上一章：请求、流与实时通信](../README.md#04-请求流与实时通信) · [本章目录](../README.md#05-worker离线与平台能力) · [下一课：Service Worker 生命周期与缓存](02-service-worker-lifecycle-cache.md)

@@ -827,4 +827,4 @@ status.textContent = "九成新自行车，280 元";
 
 ## 单元导航
 
-[上一课：Git 三棵树、提交与分支](02-git-three-trees-commits-branches.md) · [章节入口](../04-terminal-git-debugging.md) · [下一章：项目契约与阶段验收](../05-project-assessment.md)
+[上一课：Git 三棵树、提交与分支](02-git-three-trees-commits-branches.md) · [运行与修复综合验收](../README.md#运行与修复综合验收) · [下一页：W1 综合验收](../w01-checkpoint.md) · [项目契约与阶段验收](../project-contract.md) · [起步实操目录](../README.md)

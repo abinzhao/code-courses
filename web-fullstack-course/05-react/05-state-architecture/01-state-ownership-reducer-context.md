@@ -295,5 +295,5 @@ TypeScript 的 switch 覆盖检查约束。
 
 ## 单元导航
 
-- 上一单元：[第 05 章入口](../05-state-architecture.md)
+- 章节目录：[第 05 章目录](../README.md#第五章状态架构)
 - 下一单元：[会话、收藏命令与并发保护](./02-session-favorites-concurrency.md)

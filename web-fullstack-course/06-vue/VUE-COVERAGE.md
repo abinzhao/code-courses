@@ -80,4 +80,4 @@
 - 矩阵证据行：55。
 - 专门边界行：兼容 3、安全 3、人工/生产缺口 3。
 
-[Vue 学习路线](README.md) · [第 5 章](05-pinia-architecture.md) · [第 8 章与唯一快照](08-ssr-capstone.md)
+[Vue 学习路线](README.md) · [第 5 章](README.md#第五章pinia依赖注入与状态架构) · [唯一完整快照](08-ssr-capstone/03-streaming-nuxt-capstone-acceptance.md)

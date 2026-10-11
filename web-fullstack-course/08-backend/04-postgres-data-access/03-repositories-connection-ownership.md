@@ -564,6 +564,6 @@ values 参数化；userId 由服务传入；两次 put/delete 具有目标状态
 
 ## 单元导航
 
-[本章入口](../04-postgres-data-access.md) ·
+[本章目录](../README.md#04-postgresql-数据访问) ·
 [上一课：参数化 SQL、类型映射与 SQLSTATE](02-parameterized-sql-types-sqlstate.md) ·
-[下一章：事务与并发](../05-transactions-concurrency.md)
+[下一章：事务与并发](../05-transactions-concurrency/01-isolation-locks-races.md)

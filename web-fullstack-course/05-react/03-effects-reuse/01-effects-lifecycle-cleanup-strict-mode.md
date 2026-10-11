@@ -289,4 +289,4 @@ useEffect(() => {
 
 ## 单元导航
 
-[返回章节入口](../03-effects-reuse.md) · [下一课：HTTP、取消与资源状态](02-fetch-http-abort-resource-state.md)
+[返回章目录](../README.md#第三章effecthttp-与自定义-hook) · [下一课：HTTP、取消与资源状态](02-fetch-http-abort-resource-state.md)

@@ -283,4 +283,4 @@ item.innerHTML = `<span>${listing.title}</span>`;
 
 - 上一单元：[模块图、共享状态与动态导入](../04-prototypes-modules/03-module-graphs-state-dynamic-import.md)
 - 下一单元：[事件、表单提交与委托](./02-events-forms-delegation.md)
-- 章入口：[DOM、事件与可访问状态](../05-dom-events.md)
+- 章节目录：[DOM、事件与可访问状态](../README.md#第五章dom事件与可访问状态)

@@ -551,4 +551,4 @@ pnpm dev --host 0.0.0.0
 
 ## 单元导航
 
-[上一课：HTTP、取消与资源状态](02-fetch-http-abort-resource-state.md) · [返回章节入口](../03-effects-reuse.md) · [下一章：Data Router 与服务端数据](../04-routing-data.md)
+[上一课：HTTP、取消与资源状态](02-fetch-http-abort-resource-state.md) · [返回章目录](../README.md#第三章effecthttp-与自定义-hook) · [下一章：Data Router 与服务端数据](../04-routing-data/01-data-router-url-state-navigation.md)

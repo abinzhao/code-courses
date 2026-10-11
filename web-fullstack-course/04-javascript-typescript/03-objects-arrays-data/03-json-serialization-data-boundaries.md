@@ -494,5 +494,5 @@ Malformed JSON 应记录“语法失败”；合法 JSON 中坏字段应记录�
 ## 单元导航
 
 [上一篇：数组、集合变换与分页](02-arrays-collections-pagination.md) ·
-[返回第 3 章入口](../03-objects-arrays-data.md) ·
-[下一章：原型、类与 ECMAScript 模块](../04-prototypes-modules.md)
+[返回第 3 章目录](../README.md#第三章对象数组与数据边界) ·
+[下一章：原型、类与 ECMAScript 模块](../04-prototypes-modules/01-prototype-chain-this-classes.md)

@@ -370,4 +370,4 @@ pnpm exec vue-tsc -b
 
 ## 单元导航
 
-[返回章入口](../06-testing-accessibility.md) · [下一课：路由、浏览器与无障碍](02-router-browser-accessibility-errors.md)
+[返回章目录](../README.md#第六章测试无障碍与错误恢复) · [下一课：路由、浏览器与无障碍](02-router-browser-accessibility-errors.md)

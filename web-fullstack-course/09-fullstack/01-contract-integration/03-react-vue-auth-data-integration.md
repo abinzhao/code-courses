@@ -103,6 +103,15 @@ Context/Pinia 负责“当前浏览器认为的身份状态”，但后端每次
 身份影响导航和多个路由，适合 Context/Pinia。列表查询由 URL 中的 page/q 决定，应随页面挂载和
 参数变化请求，适合 Hook/Composable。把所有数据都放 auth store 会让缓存、取消和 owner 责任混乱。
 
+auth 是身份的唯一 owner。恢复、登录、退出和重试开始时推进身份代际；当前操作接受身份结果前
+再推进一次，防止操作期间发出的私有请求跨越身份提交。React 的稳定 `identity` 对象同步通知
+订阅者，market 在 layout Effect 中订阅；Vue 暴露只读 `generation`，market 用
+`watch(..., { flush: 'sync' })` 同步清收藏和锁，不能等下一次渲染再失效。
+收藏的成功、错误和 `finally` 同时核对 auth generation 与本地 epoch，旧请求不能写新收藏或
+释放新身份的同 ID 锁。market 只委托 auth 登录/退出，不在迟到退出后再次清理；
+Vue 的 `user/sessionError` 用只读 computed 映射，私有清理不得反写 `auth.user`。
+这与上一课 client 管理 CSRF token 的 generation 职责不同，框架仍不保存第二份 token。
+
 ### 4.4 等价不是同代码
 
 等价标准看输入与输出：
@@ -126,6 +135,7 @@ session 读取的 actor，不相信显示名称或客户端 role。
 | 身份容器 | Context Provider | Pinia setup store | 不保存 sid/CSRF |
 | 恢复入口 | Provider Effect | `loadSession()` action | 401 与网络失败分开 |
 | 世代保护 | `useRef<number>` | `epoch` ref | 不取消服务端事务 |
+| 私有状态失效 | 稳定 identity 的同步通知 | 只读 generation + sync watch | auth 唯一 owner，market 只清收藏/锁 |
 | 登录提交锁 | `useRef<boolean>` | 页面 `ref<boolean>` | handler 同步置锁，finally 释放 |
 | 取消 | Effect cleanup controller | action 内 controller | 只取消客户端等待 |
 | 登录页 | 本地 input state | 本地 refs | 密码不进全局 store |
@@ -138,19 +148,26 @@ session 读取的 actor，不相信显示名称或客户端 role。
 
 ### 6.1 两个应用的薄桥接文件
 
-逻辑只存在 `@market/contracts/browser-api`。应用文件保持一行公共入口，避免两套 token 漂移。
+逻辑只存在 `@market/contracts/browser-api`。桥接保留最终 Capstone 的 parser 导出和
+`api(path, parser, init)` 签名，避免页面/测试在覆盖后出现 TS2305 或 TS2554。
 
 完整文件：`market/apps/react-web/src/api.ts`
 
 ```ts
-export { api, ApiError } from "@market/contracts/browser-api";
+export {
+  api, ApiError, parseAck, parseListing, parseListingPage,
+  parseReservation, parseUser, parseVoid, ResponseValidationError,
+} from "@market/contracts/browser-api";
 export type { User } from "@market/contracts/browser-api";
 ```
 
 完整文件：`market/apps/vue-web/src/api.ts`
 
 ```ts
-export { api, ApiError } from "@market/contracts/browser-api";
+export {
+  api, ApiError, parseAck, parseListing, parseListingPage,
+  parseReservation, parseUser, parseVoid, ResponseValidationError,
+} from "@market/contracts/browser-api";
 export type { User } from "@market/contracts/browser-api";
 ```
 
@@ -185,7 +202,7 @@ import {
   useState,
 } from "react";
 import type { PropsWithChildren } from "react";
-import { ApiError, api } from "../api";
+import { ApiError, api, parseUser, parseVoid } from "../api";
 import type { User } from "../api";
 
 type AuthStatus =
@@ -200,6 +217,10 @@ type AuthValue = {
   user: User | null;
   status: AuthStatus;
   error: string;
+  identity: {
+    current(): number;
+    subscribe(listener: () => void): () => void;
+  };
   login(email: string, password: string): Promise<void>;
   logout(): Promise<void>;
   retry(): void;
@@ -213,15 +234,31 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [error, setError] = useState("");
   const [retryKey, setRetryKey] = useState(0);
   const generation = useRef(0);
+  const [identity] = useState(() => {
+    const listeners = new Set<() => void>();
+    return {
+      current: () => generation.current,
+      subscribe(listener: () => void) {
+        listeners.add(listener);
+        return () => { listeners.delete(listener); };
+      },
+      advance() {
+        generation.current += 1;
+        for (const listener of listeners) listener();
+        return generation.current;
+      },
+    };
+  });
 
   useEffect(() => {
-    const ownGeneration = ++generation.current;
+    const ownGeneration = identity.advance();
     const controller = new AbortController();
     setStatus("booting");
     setError("");
-    api<User>("/auth/me", { signal: controller.signal })
+    api("/auth/me", parseUser, { signal: controller.signal })
       .then((nextUser) => {
         if (ownGeneration !== generation.current) return;
+        identity.advance();
         setUser(nextUser);
         setStatus("authenticated");
       })
@@ -229,6 +266,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         if (controller.signal.aborted ||
             ownGeneration !== generation.current) return;
         if (reason instanceof ApiError && reason.status === 401) {
+          identity.advance();
           setUser(null);
           setStatus("anonymous");
           return;
@@ -237,22 +275,24 @@ export function AuthProvider({ children }: PropsWithChildren) {
         setError(reason instanceof Error ? reason.message : "会话恢复失败");
       });
     return () => controller.abort();
-  }, [retryKey]);
+  }, [retryKey, identity]);
 
   async function login(email: string, password: string) {
-    const ownGeneration = ++generation.current;
+    const ownGeneration = identity.advance();
     setStatus("authenticating");
     setError("");
     try {
-      const nextUser = await api<User>("/auth/login", {
+      const nextUser = await api("/auth/login", parseUser, {
         method: "POST",
         body: JSON.stringify({ email, password }),
       });
       if (ownGeneration !== generation.current) return;
+      identity.advance();
       setUser(nextUser);
       setStatus("authenticated");
     } catch (reason) {
       if (ownGeneration === generation.current) {
+        identity.advance();
         setUser(null);
         setStatus("anonymous");
         setError(reason instanceof Error ? reason.message : "登录失败");
@@ -262,12 +302,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }
 
   async function logout() {
-    const ownGeneration = ++generation.current;
+    const ownGeneration = identity.advance();
     setStatus("signing-out");
     setError("");
     try {
-      await api<{ ok: true }>("/auth/logout", { method: "POST" });
+      await api("/auth/logout", parseVoid, { method: "POST" });
       if (ownGeneration !== generation.current) return;
+      identity.advance();
       setUser(null);
       setStatus("anonymous");
     } catch (reason) {
@@ -285,9 +326,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
     user,
     status,
     error,
+    identity,
     login,
     logout,
-    retry: () => setRetryKey((value) => value + 1),
+    retry: () => {
+      identity.advance();
+      setRetryKey((value) => value + 1);
+    },
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -392,7 +437,7 @@ export const authRoutes: RouteObject[] = [
 ```ts
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
-import { ApiError, api } from "../api";
+import { ApiError, api, parseUser, parseVoid } from "../api";
 import type { User } from "../api";
 
 type AuthStatus =
@@ -420,15 +465,17 @@ export const useAuthStore = defineStore("auth", () => {
     status.value = "booting";
     error.value = "";
     try {
-      const nextUser = await api<User>("/auth/me", {
+      const nextUser = await api("/auth/me", parseUser, {
         signal: controller.signal,
       });
       if (ownEpoch !== epoch.value) return;
+      epoch.value += 1;
       user.value = nextUser;
       status.value = "authenticated";
     } catch (reason) {
       if (controller.signal.aborted || ownEpoch !== epoch.value) return;
       if (reason instanceof ApiError && reason.status === 401) {
+        epoch.value += 1;
         user.value = null;
         status.value = "anonymous";
         return;
@@ -446,15 +493,17 @@ export const useAuthStore = defineStore("auth", () => {
     status.value = "authenticating";
     error.value = "";
     try {
-      const nextUser = await api<User>("/auth/login", {
+      const nextUser = await api("/auth/login", parseUser, {
         method: "POST",
         body: JSON.stringify({ email, password }),
       });
       if (ownEpoch !== epoch.value) return;
+      epoch.value += 1;
       user.value = nextUser;
       status.value = "authenticated";
     } catch (reason) {
       if (ownEpoch === epoch.value) {
+        epoch.value += 1;
         user.value = null;
         status.value = "anonymous";
         error.value = reason instanceof Error ? reason.message : "登录失败";
@@ -469,8 +518,9 @@ export const useAuthStore = defineStore("auth", () => {
     status.value = "signing-out";
     error.value = "";
     try {
-      await api<{ ok: true }>("/auth/logout", { method: "POST" });
+      await api("/auth/logout", parseVoid, { method: "POST" });
       if (ownEpoch !== epoch.value) return;
+      epoch.value += 1;
       user.value = null;
       status.value = "anonymous";
     } catch (reason) {
@@ -488,6 +538,7 @@ export const useAuthStore = defineStore("auth", () => {
     user,
     status,
     error,
+    generation: computed(() => epoch.value),
     authenticated,
     loadSession,
     login,
@@ -578,6 +629,844 @@ export const authRoutes: RouteRecordRaw[] = [
 在现有 `main.ts` 创建 Pinia 后先 `app.use(pinia)`，再挂 router；启动时调用一次
 `useAuthStore(pinia).loadSession()`。现有 router 的 routes 数组展开 `...authRoutes`，删除旧的空正文
 登录 action。
+
+### 7.2.1 对最终 Capstone 的必要迁移
+
+下面是对两卷唯一快照的局部补丁，不是第二份完整文件。在读者的 `market/` 根应用，
+补丁不覆盖 manifest、样式、领域或 SSR 实验。React 原 `MarketProvider` 保留收藏，
+Vue market store 保留收藏和兼容显示；身份只由本课 Provider/auth store 管理。
+原列表 loader、发布、详情、预约及收藏继续使用三参数 API，经共享 runtime parser 校验。
+不要另建第二个 router、删除原页面或保留空正文演示登录。
+把各个 diff 块保存为读者 `/tmp` 下的补丁，从 `market/` 根用
+`git apply --check --unidiff-zero /tmp/market-integration.patch` 先检查，再去掉 `--check` 应用。
+若目标文件已有改动，先逐块比较，不强制覆盖；同一补丁只应用一次。
+
+React 补丁：
+
+```diff
+diff --git a/apps/react-web/src/main.tsx b/apps/react-web/src/main.tsx
+--- a/apps/react-web/src/main.tsx
++++ b/apps/react-web/src/main.tsx
+@@ -5,0 +6 @@ import { MarketProvider } from "./MarketContext";
++import { AuthProvider } from "./auth/AuthProvider";
+@@ -12,0 +14 @@ createRoot(root).render(
++    <AuthProvider>
+@@ -15,0 +18 @@ createRoot(root).render(
++    </AuthProvider>
+
+diff --git a/apps/react-web/src/App.tsx b/apps/react-web/src/App.tsx
+--- a/apps/react-web/src/App.tsx
++++ b/apps/react-web/src/App.tsx
+@@ -21,0 +22 @@ import type {
++import { authRoutes } from "./auth/routes";
+@@ -28 +28,0 @@ import {
+-  parseUser,
+@@ -117,5 +116,0 @@ Promise<ActionResult> {
+-async function loginAction() {
+-  await api("/auth/login", parseUser, { method: "POST", body: "{}" });
+-  return redirect("/listings");
+-}
+-
+@@ -385,12 +379,0 @@ function NewPage() {
+-function LoginPage() {
+-  return (
+-    <section>
+-      <h2>教学登录</h2>
+-      <p>仅创建本机演示会话，不收集真实密码。</p>
+-      <Form method="post">
+-        <button>以演示居民登录</button>
+-      </Form>
+-    </section>
+-  );
+-}
+-
+@@ -427 +410 @@ export const router = createBrowserRouter([
+-      { path: "/login", action: loginAction, element: <LoginPage /> },
++      ...authRoutes,
+
+diff --git a/apps/react-web/src/MarketContext.tsx b/apps/react-web/src/MarketContext.tsx
+--- a/apps/react-web/src/MarketContext.tsx
++++ b/apps/react-web/src/MarketContext.tsx
+@@ -1,13 +1,13 @@
+ import {
+   createContext,
+   useContext,
+-  useEffect,
++  useLayoutEffect,
+   useReducer,
+   useRef,
+-  useState,
+ } from "react";
+ import type { ReactNode } from "react";
+-import { api, ApiError, parseAck, parseUser } from "./api";
++import { api, ApiError, parseAck } from "./api";
++import { useAuth } from "./auth/AuthProvider";
+ import {
+   favoriteReducer,
+   initialFavorites,
+@@ -41,83 +41,50 @@
+ }
+
+ export function MarketProvider({ children }: { children: ReactNode }) {
+-  const [user, setUser] = useState<User | null>(null);
+-  const [sessionLoading, setSessionLoading] = useState(true);
+-  const [sessionError, setSessionError] = useState("");
++  const auth = useAuth();
++  const user = auth.user;
++  const sessionLoading = ["booting", "authenticating", "signing-out"].includes(auth.status);
++  const sessionError = auth.error;
+   const [favorites, dispatch] = useReducer(favoriteReducer, initialFavorites);
+   const locks = useRef(new Set<string>());
+   const epoch = useRef(0);
+
++  useLayoutEffect(() => auth.identity.subscribe(() => {
++    epoch.current += 1;
++    locks.current.clear();
++    dispatch({ type: "reset" });
++  }), [auth.identity]);
++
+   function invalidate() {
+     epoch.current += 1;
+     locks.current.clear();
+     dispatch({ type: "reset" });
+-    setUser(null);
+-    setSessionLoading(false);
+   }
+
+   async function refreshSession() {
+-    const startedAt = epoch.current;
+-    setSessionLoading(true);
+-    setSessionError("");
+-    try {
+-      const next = await resolveCurrent(
+-        api("/auth/me", parseUser),
+-        startedAt,
+-        () => epoch.current,
+-      );
+-      if (next) setUser(next);
+-    } catch (error) {
+-      if (startedAt !== epoch.current) return;
+-      if (error instanceof ApiError && error.status === 401) invalidate();
+-      else setSessionError(message(error, "会话读取失败。"));
+-    } finally {
+-      if (startedAt === epoch.current) setSessionLoading(false);
+-    }
++    auth.retry();
+   }
+
+-  useEffect(() => {
+-    const controller = new AbortController();
+-    const startedAt = epoch.current;
+-    resolveCurrent(
+-      api("/auth/me", parseUser, { signal: controller.signal }),
+-      startedAt,
+-      () => epoch.current,
+-    )
+-      .then((next) => {
+-        if (!controller.signal.aborted && next) {
+-          setUser(next);
+-        }
+-      })
+-      .catch((error: unknown) => {
+-        if (controller.signal.aborted || startedAt !== epoch.current) return;
+-        if (error instanceof ApiError && error.status === 401) setUser(null);
+-        else setSessionError(message(error, "会话读取失败。"));
+-      })
+-      .finally(() => {
+-        if (!controller.signal.aborted && startedAt === epoch.current) {
+-          setSessionLoading(false);
+-        }
+-      });
+-    return () => controller.abort();
+-  }, []);
+-
+   async function setFavorite(id: string, selected: boolean) {
+     if (locks.current.has(id)) return;
+     locks.current.add(id);
+     const startedAt = epoch.current;
++    const identityAtStart = auth.identity.current();
++    const current = () => startedAt === epoch.current &&
++      identityAtStart === auth.identity.current();
+     dispatch({ type: "start", id });
+     try {
+       await api(`/favorites/${encodeURIComponent(id)}`, parseAck, {
+         method: selected ? "PUT" : "DELETE",
+       });
+-      if (startedAt === epoch.current) {
++      if (current()) {
+         dispatch({ type: "saved", id, selected });
+       }
+     } catch (error) {
+-      if (startedAt !== epoch.current) return;
++      if (!current()) return;
+       if (error instanceof ApiError && error.status === 401) {
+         invalidate();
++        auth.retry();
+       } else {
+         dispatch({
+           type: "failed",
+@@ -126,15 +93,12 @@
+         });
+       }
+     } finally {
+-      if (startedAt === epoch.current) locks.current.delete(id);
++      if (current()) locks.current.delete(id);
+     }
+   }
+
+   async function logout() {
+-    await api("/auth/logout", parseAck, { method: "POST", body: "{}" });
+-    invalidate();
+-    setSessionError("");
+-    setSessionLoading(false);
++    await auth.logout();
+   }
+
+   return (
+```
+
+Vue 补丁：
+
+```diff
+diff --git a/apps/vue-web/src/router.ts b/apps/vue-web/src/router.ts
+--- a/apps/vue-web/src/router.ts
++++ b/apps/vue-web/src/router.ts
+@@ -7,0 +8 @@ import MarketPage from './MarketPage.vue'
++import { authRoutes } from './auth/routes'
+@@ -13 +14 @@ const routes: RouteRecordRaw[] = [
+-  { path: '/login', name: 'login', component: MarketPage, meta: { title: '登录' } },
++  ...authRoutes,
+
+diff --git a/apps/vue-web/src/main.ts b/apps/vue-web/src/main.ts
+--- a/apps/vue-web/src/main.ts
++++ b/apps/vue-web/src/main.ts
+@@ -5,0 +6 @@ import './style.css'
++import { useAuthStore } from './stores/auth'
+@@ -7,2 +8,4 @@ import './style.css'
+-createApp(App)
+-  .use(createPinia())
++const pinia = createPinia()
++const app = createApp(App).use(pinia)
++void useAuthStore(pinia).loadSession()
++app
+
+diff --git a/apps/vue-web/src/App.vue b/apps/vue-web/src/App.vue
+--- a/apps/vue-web/src/App.vue
++++ b/apps/vue-web/src/App.vue
+@@ -2 +2 @@
+-import { onMounted, ref } from 'vue'
++import { ref } from 'vue'
+@@ -9,4 +8,0 @@ const logoutError = ref('')
+-onMounted(() => {
+-  void store.loadSession()
+-})
+-
+
+diff --git a/apps/vue-web/src/stores/market.ts b/apps/vue-web/src/stores/market.ts
+--- a/apps/vue-web/src/stores/market.ts
++++ b/apps/vue-web/src/stores/market.ts
+@@ -1,26 +1,29 @@
+-import { computed, ref } from 'vue'
++import { computed, ref, watch } from 'vue'
+ import { defineStore } from 'pinia'
+ import {
+   api,
+   ApiError,
+   parseAck,
+-  parseUser,
+-  parseVoid,
+ } from '../api'
++import { useAuthStore } from './auth'
+
+ export type UserSummary = { id: string; name: string }
+
+ export const useMarketStore = defineStore('market', () => {
+-  const user = ref<UserSummary | null>(null)
+-  const sessionStatus = ref<'unknown' | 'loading' | 'ready' | 'error'>('unknown')
+-  const sessionError = ref('')
++  const auth = useAuthStore()
++  const user = computed(() => auth.user)
++  const sessionStatus = computed(() =>
++    auth.status === 'error' ? 'error'
++      : ['booting', 'authenticating', 'signing-out'].includes(auth.status)
++        ? 'loading' : 'ready',
++  )
++  const sessionError = computed(() => auth.error)
+   const favoriteIds = ref<string[]>([])
+   const busyById = ref<Record<string, boolean>>({})
+   const epoch = ref(0)
+   const favoriteCount = computed(() => favoriteIds.value.length)
+
+   function clearPrivateState() {
+-    user.value = null
+     favoriteIds.value = []
+     busyById.value = {}
+   }
+@@ -30,90 +33,44 @@
+     clearPrivateState()
+   }
+
++  watch(() => auth.generation, resetClientSession, { flush: 'sync' })
++
+   async function loadSession() {
+-    if (sessionStatus.value === 'loading') return
+-    const token = epoch.value
+-    sessionStatus.value = 'loading'
+-    sessionError.value = ''
+-    try {
+-      const result = await api('/auth/me', parseUser)
+-      if (token !== epoch.value) return
+-      user.value = result
+-      sessionStatus.value = 'ready'
+-    } catch (error) {
+-      if (token !== epoch.value) return
+-      if (error instanceof ApiError && error.status === 401) {
+-        resetClientSession()
+-        sessionStatus.value = 'ready'
+-        return
+-      }
+-      sessionStatus.value = 'error'
+-      sessionError.value = error instanceof Error ? error.message : '会话读取失败。'
+-    }
++    await auth.loadSession()
+   }
+
+-  async function login() {
+-    const token = epoch.value + 1
+-    epoch.value = token
+-    clearPrivateState()
+-    sessionStatus.value = 'loading'
+-    sessionError.value = ''
+-    try {
+-      const result = await api('/auth/login', parseUser, {
+-        method: 'POST',
+-        body: '{}',
+-      })
+-      if (token !== epoch.value) return
+-      user.value = result
+-      sessionStatus.value = 'ready'
+-    } catch (error) {
+-      if (token !== epoch.value) return
+-      sessionStatus.value = 'error'
+-      sessionError.value = error instanceof Error ? error.message : '登录失败。'
+-      throw error
+-    }
++  async function login(email: string, password: string) {
++    await auth.login(email, password)
+   }
+
+   async function logout() {
+-    const token = epoch.value + 1
+-    epoch.value = token
+-    sessionStatus.value = 'loading'
+-    sessionError.value = ''
+-    try {
+-      await api('/auth/logout', parseVoid, { method: 'POST', body: '{}' })
+-      if (token !== epoch.value) return
+-      clearPrivateState()
+-      sessionStatus.value = 'ready'
+-    } catch (error) {
+-      if (token !== epoch.value) return
+-      sessionStatus.value = 'error'
+-      sessionError.value = error instanceof Error ? error.message : '退出失败。'
+-      throw error
+-    }
++    await auth.logout()
+   }
+
+   async function setFavorite(id: string, enabled: boolean) {
+     if (!user.value) throw new Error('请先登录。')
+     if (busyById.value[id]) return
+     const token = epoch.value
++    const identityAtStart = auth.generation
++    const current = () => token === epoch.value && identityAtStart === auth.generation
+     busyById.value = { ...busyById.value, [id]: true }
+     try {
+       await api(`/favorites/${encodeURIComponent(id)}`, parseAck, {
+         method: enabled ? 'PUT' : 'DELETE',
+       })
+-      if (token !== epoch.value) return
++      if (!current()) return
+       favoriteIds.value = enabled
+         ? [...new Set([...favoriteIds.value, id])]
+         : favoriteIds.value.filter(value => value !== id)
+     } catch (error) {
+-      if (token !== epoch.value) return
++      if (!current()) return
+       if (error instanceof ApiError && error.status === 401) {
+         resetClientSession()
+-        sessionStatus.value = 'ready'
++        void auth.loadSession()
+       }
+       throw error
+     } finally {
+-      if (token === epoch.value) {
++      if (current()) {
+         busyById.value = { ...busyById.value, [id]: false }
+       }
+     }
+diff --git a/apps/vue-web/src/MarketPage.vue b/apps/vue-web/src/MarketPage.vue
+--- a/apps/vue-web/src/MarketPage.vue
++++ b/apps/vue-web/src/MarketPage.vue
+@@ -122,13 +121,0 @@ async function search() {
+-async function login() {
+-  pending.value = true
+-  error.value = ''
+-  try {
+-    await store.login()
+-    await router.push('/listings')
+-  } catch (reason) {
+-    error.value = message(reason)
+-  } finally {
+-    pending.value = false
+-  }
+-}
+-
+@@ -266,8 +252,0 @@ async function reserve() {
+-    <section v-else-if="routeName === 'login'">
+-      <h1 tabindex="-1">教学登录</h1>
+-      <p>只创建本机演示会话，不输入真实密码。</p>
+-      <button type="button" :disabled="pending" @click="login">
+-        以演示居民登录
+-      </button>
+-    </section>
+-
+```
+
+### 7.2.2 原测试的合法迁移
+
+身份改由 auth owner 管理，原测试适配 Provider 包装、完整 User fixture 与有凭据登录；
+Vue 初始身份 fixture 写入 auth owner，不给只读 market.user 赋值。
+迟到响应/拒绝、收藏幂等、发布草稿均保留。parser 负例仍保留三个 Listing 和原复合分页输入，
+但 fixture 的 id/ownerId 必须是合法虚构 UUID，先证明 Listing 和分页正例可解析；
+金额、版本、UTC、page、total 各自只损坏一个字段，并同时断言错误类型和字段标签。
+不能用任意 `toThrow` 让提前 UUID 错误掩盖目标字段失效。
+mock API 返回或 auth owner 初始注入的显示 fixture 不是实际 HTTP 数据；
+真实 session 的 UUID/email/role/token 形状仍由第 02 课桥接回归另行锁定。
+
+```diff
+diff --git a/apps/react-web/src/app.test.tsx b/apps/react-web/src/app.test.tsx
+--- a/apps/react-web/src/app.test.tsx
++++ b/apps/react-web/src/app.test.tsx
+@@ -11,6 +11,7 @@
+ import { favoriteReducer, initialFavorites } from "./favorite-state";
+ import { parsePrice } from "./form";
+ import { MarketProvider, useMarket } from "./MarketContext";
++import { AuthProvider } from "./auth/AuthProvider";
+
+ vi.mock("./api", async importOriginal => {
+   const original = await importOriginal<typeof import("./api")>();
+@@ -43,28 +44,35 @@
+
+ it("runtime-response-parser-rejects-malformed-success", () => {
+   const valid = {
+-    id: "lamp-1",
++    id: "20000000-0000-4000-8000-000000000001",
+     title: "台灯",
+     description: "完整字段",
+     priceCents: 3500,
+     status: "available",
+-    ownerId: "seller-1",
++    ownerId: "10000000-0000-4000-8000-000000000001",
+     version: 1,
+     createdAt: "2026-10-11T08:00:00.000Z",
+   };
+-  for (const invalid of [
+-    { ...valid, priceCents: -1 },
+-    { ...valid, version: 0 },
+-    { ...valid, createdAt: "2026-10-11" },
+-  ]) {
++  expect(parseListing(valid)).toEqual(valid);
++  const page = { items: [valid], page: 1, pageSize: 20, total: 1 };
++  expect(parseListingPage(page)).toEqual(page);
++  for (const [invalid, field] of [
++    [{ ...valid, priceCents: -1 }, "listing.priceCents"],
++    [{ ...valid, version: 0 }, "listing.version"],
++    [{ ...valid, createdAt: "2026-10-11" }, "listing.createdAt"],
++  ] as const) {
+     expect(() => parseListing(invalid)).toThrow(ResponseValidationError);
++    expect(() => parseListing(invalid)).toThrow(`${field}:`);
+   }
+-  expect(() => parseListingPage({
+-    items: [valid],
+-    page: 0,
+-    pageSize: 20,
+-    total: -1,
+-  })).toThrow(ResponseValidationError);
++  for (const [invalid, field] of [
++    [{ ...page, page: 0 }, "listingPage.page"],
++    [{ ...page, total: -1 }, "listingPage.total"],
++  ]) {
++    expect(() => parseListingPage(invalid)).toThrow(ResponseValidationError);
++    expect(() => parseListingPage(invalid)).toThrow(`${field}:`);
++  }
++  expect(() => parseListingPage({ ...page, page: 0, total: -1 }))
++    .toThrow(ResponseValidationError);
+ });
+
+ function SessionProbe() {
+@@ -83,9 +91,9 @@
+   request.mockReset();
+   request.mockResolvedValueOnce({ id: "current-user", name: "当前会话" });
+   render(
+-    <MarketProvider>
++    <AuthProvider><MarketProvider>
+       <SessionProbe />
+-    </MarketProvider>,
++    </MarketProvider></AuthProvider>,
+   );
+   expect(await screen.findByLabelText("当前用户")).toHaveTextContent("当前会话");
+
+@@ -112,9 +120,9 @@
+   request.mockReset();
+   request.mockResolvedValueOnce({ id: "current-user", name: "当前会话" });
+   render(
+-    <MarketProvider>
++    <AuthProvider><MarketProvider>
+       <SessionProbe />
+-    </MarketProvider>,
++    </MarketProvider></AuthProvider>,
+   );
+   expect(await screen.findByLabelText("当前用户")).toHaveTextContent("当前会话");
+
+diff --git a/apps/vue-web/src/stores/market.test.ts b/apps/vue-web/src/stores/market.test.ts
+--- a/apps/vue-web/src/stores/market.test.ts
++++ b/apps/vue-web/src/stores/market.test.ts
+@@ -1,6 +1,7 @@
+ import { createPinia, setActivePinia } from 'pinia'
+ import { beforeEach, describe, expect, it, vi } from 'vitest'
+ import { api } from '../api'
++import { useAuthStore } from './auth'
+ import { useMarketStore } from './market'
+
+ vi.mock('../api', async importOriginal => {
+@@ -9,6 +10,12 @@
+ })
+
+ const request = vi.mocked(api)
++const userFixture = (id: string, name: string) => ({
++  id,
++  name,
++  email: `${id}@example.test`,
++  role: 'user' as const,
++})
+
+ beforeEach(() => {
+   setActivePinia(createPinia())
+@@ -19,7 +26,7 @@
+   it('重复设置已收藏不会重复 ID', async () => {
+     request.mockResolvedValue({ ok: true })
+     const store = useMarketStore()
+-    store.user = { id: 'demo-buyer', name: '演示居民' }
++    useAuthStore().user = userFixture('demo-buyer', '演示居民')
+     await store.setFavorite('lamp-1', true)
+     await store.setFavorite('lamp-1', true)
+     expect(store.favoriteIds).toEqual(['lamp-1'])
+@@ -34,7 +41,7 @@
+       new Promise(resolve => { finish = resolve }),
+     )
+     const store = useMarketStore()
+-    store.user = { id: 'demo-buyer', name: '演示居民' }
++    useAuthStore().user = userFixture('demo-buyer', '演示居民')
+     const oldWrite = store.setFavorite('lamp-1', true)
+     request.mockResolvedValueOnce({ ok: true })
+     await store.logout()
+@@ -51,7 +58,7 @@
+       new Promise(resolve => { finishLogin = resolve }),
+     )
+     const store = useMarketStore()
+-    const oldLogin = store.login()
++    const oldLogin = store.login('buyer@example.test', 'example-only-password')
+     request.mockResolvedValueOnce({ ok: true })
+     await store.logout()
+     finishLogin({ id: 'old-user', name: '旧居民' })
+@@ -65,12 +72,12 @@
+       new Promise(resolve => { finishLogout = resolve }),
+     )
+     const store = useMarketStore()
+-    store.user = { id: 'old-user', name: '旧居民' }
++    useAuthStore().user = userFixture('old-user', '旧居民')
+     const oldLogout = store.logout()
+-    request.mockResolvedValueOnce({ id: 'new-user', name: '新居民' })
+-    await store.login()
++    request.mockResolvedValueOnce(userFixture('new-user', '新居民'))
++    await store.login('buyer@example.test', 'example-only-password')
+     finishLogout({ ok: true })
+     await oldLogout
+-    expect(store.user).toEqual({ id: 'new-user', name: '新居民' })
++    expect(store.user).toEqual(userFixture('new-user', '新居民'))
+   })
+ })
+
+diff --git a/apps/vue-web/src/domain.test.ts b/apps/vue-web/src/domain.test.ts
+--- a/apps/vue-web/src/domain.test.ts
++++ b/apps/vue-web/src/domain.test.ts
+@@ -22,27 +22,34 @@
+
+   it('畸形成功响应被运行时 parser 拒绝', () => {
+     const valid = {
+-      id: 'lamp-1',
++      id: '20000000-0000-4000-8000-000000000001',
+       title: '台灯',
+       description: '完整字段',
+       priceCents: 3500,
+       status: 'available',
+-      ownerId: 'seller-1',
++      ownerId: '10000000-0000-4000-8000-000000000001',
+       version: 1,
+       createdAt: '2026-10-11T08:00:00.000Z',
+     }
+-    for (const invalid of [
+-      { ...valid, priceCents: -1 },
+-      { ...valid, version: 0 },
+-      { ...valid, createdAt: '2026-10-11' },
+-    ]) {
++    expect(parseListing(valid)).toEqual(valid)
++    const page = { items: [valid], page: 1, pageSize: 20, total: 1 }
++    expect(parseListingPage(page)).toEqual(page)
++    for (const [invalid, field] of [
++      [{ ...valid, priceCents: -1 }, 'listing.priceCents'],
++      [{ ...valid, version: 0 }, 'listing.version'],
++      [{ ...valid, createdAt: '2026-10-11' }, 'listing.createdAt'],
++    ] as const) {
+       expect(() => parseListing(invalid)).toThrow(ResponseValidationError)
++      expect(() => parseListing(invalid)).toThrow(`${field}:`)
+     }
+-    expect(() => parseListingPage({
+-      items: [valid],
+-      page: 0,
+-      pageSize: 20,
+-      total: -1,
+-    })).toThrow(ResponseValidationError)
++    for (const [invalid, field] of [
++      [{ ...page, page: 0 }, 'listingPage.page'],
++      [{ ...page, total: -1 }, 'listingPage.total'],
++    ]) {
++      expect(() => parseListingPage(invalid)).toThrow(ResponseValidationError)
++      expect(() => parseListingPage(invalid)).toThrow(`${field}:`)
++    }
++    expect(() => parseListingPage({ ...page, page: 0, total: -1 }))
++      .toThrow(ResponseValidationError)
+   })
+ })
+```
+
+原 E2E 的演示按钮、`lamp-1`、`q=__error` 是旧服务协议，保留文件为待迁移测试。
+按本课/第 04 课使用真实注册账号、UUID、错误状态与冲突路径改写后才可登记全栈通过；
+不能靠恢复 `devApi` 或 Mock 路由跑绿旧 E2E。对应矩阵仍见
+[React 覆盖矩阵](../../05-react/REACT-COVERAGE.md)和
+[Vue 覆盖矩阵](../../06-vue/VUE-COVERAGE.md)。
+
+完成补丁后执行两端 `typecheck/test/build`，必须包含原 App、MarketContext/market store、
+MarketPage、原测试与本课文件。第 04 课再增加编辑 route；只跑 contracts 不证明组装成功。
+
+### 7.2.3 实际登录入口的身份隔离回归
+
+以下测试挂载本课的真实 LoginPage，通过表单调用 `auth.login`，不改成 `market.login`，
+也不 mock Provider/store。只 mock 三参数 API 边界以控制旧收藏、登录和退出的完成顺序；
+完整虚构 User fixture 不代表真实 Cookie 或数据库证据。
+身份操作开始时必须同步清收藏和锁；旧请求的 `finally` 也不能释放新身份的同 ID 锁。
+
+完整文件：`market/apps/react-web/src/auth/identity.test.tsx`
+
+```tsx
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
+import { beforeEach, expect, it, vi } from "vitest";
+import { api } from "../api";
+import { MarketProvider, useMarket } from "../MarketContext";
+import { AuthProvider } from "./AuthProvider";
+import LoginPage from "./LoginPage";
+
+vi.mock("../api", async importOriginal => {
+  const original = await importOriginal<typeof import("../api")>();
+  return { ...original, api: vi.fn() };
+});
+
+const request = vi.mocked(api);
+const userA = {
+  id: "10000000-0000-4000-8000-000000000001",
+  email: "a@example.test",
+  name: "a@example.test",
+  role: "user" as const,
+};
+const userB = { ...userA, id: "10000000-0000-4000-8000-000000000002",
+  email: "b@example.test", name: "b@example.test" };
+const id = "20000000-0000-4000-8000-000000000001";
+let market: ReturnType<typeof useMarket>;
+
+function Probe() {
+  market = useMarket();
+  return <output aria-label="身份">{market.user?.name}</output>;
+}
+
+async function setup() {
+  request.mockResolvedValueOnce(userA);
+  render(
+    <AuthProvider><MarketProvider><MemoryRouter>
+      <Probe /><LoginPage />
+    </MemoryRouter></MarketProvider></AuthProvider>,
+  );
+  await waitFor(() => expect(screen.getByLabelText("身份")).toHaveTextContent(userA.name));
+}
+
+function submitLogin() {
+  fireEvent.change(screen.getByLabelText("邮箱"), { target: { value: userB.email } });
+  fireEvent.change(screen.getByLabelText("密码"), { target: { value: "example-only-password" } });
+  fireEvent.submit(screen.getByRole("button", { name: "登录" }).closest("form")!);
+}
+
+beforeEach(() => request.mockReset());
+
+it("LoginPage invalidates old favorites and locks before login settles", async () => {
+  await setup();
+  request.mockResolvedValueOnce({});
+  await act(async () => { await market.setFavorite(id, true); });
+  let finishOld!: (value: unknown) => void;
+  request.mockImplementationOnce(() => new Promise(resolve => { finishOld = resolve; }));
+  let oldWrite!: Promise<void>;
+  await act(async () => { oldWrite = market.setFavorite(id, true); });
+  let finishLogin!: (value: unknown) => void;
+  request.mockImplementationOnce(() => new Promise(resolve => { finishLogin = resolve; }));
+  submitLogin();
+  expect(market.favorites).toMatchObject({ ids: [], pending: [], error: "" });
+  await act(async () => { finishLogin(userB); });
+  expect(screen.getByLabelText("身份")).toHaveTextContent(userB.name);
+  let finishNew!: (value: unknown) => void;
+  request.mockImplementationOnce(() => new Promise(resolve => { finishNew = resolve; }));
+  let newWrite!: Promise<void>;
+  await act(async () => { newWrite = market.setFavorite(id, true); });
+  await act(async () => { finishOld({}); await oldWrite; });
+  expect(market.favorites.ids).toEqual([]);
+  expect(market.favorites.pending).toEqual([id]);
+  const calls = request.mock.calls.length;
+  await act(async () => { await market.setFavorite(id, true); });
+  expect(request).toHaveBeenCalledTimes(calls);
+  await act(async () => { finishNew({}); await newWrite; });
+  expect(market.favorites).toMatchObject({ ids: [id], pending: [], error: "" });
+});
+
+it("late market logout cannot clear LoginPage's new identity or favorites", async () => {
+  await setup();
+  let finishLogout!: (value: unknown) => void;
+  request.mockImplementationOnce(() => new Promise(resolve => { finishLogout = resolve; }));
+  let oldLogout!: Promise<void>;
+  await act(async () => { oldLogout = market.logout(); });
+  request.mockResolvedValueOnce(userB);
+  submitLogin();
+  await waitFor(() => expect(screen.getByLabelText("身份")).toHaveTextContent(userB.name));
+  request.mockResolvedValueOnce({});
+  await act(async () => { await market.setFavorite(id, true); });
+  await act(async () => { finishLogout(undefined); await oldLogout; });
+  expect(market.user?.id).toBe(userB.id);
+  expect(market.favorites.ids).toEqual([id]);
+});
+```
+
+完整文件：`market/apps/vue-web/src/stores/identity.test.ts`
+
+```ts
+import { flushPromises, mount } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { createMemoryHistory, createRouter } from 'vue-router'
+import { beforeEach, expect, it, vi } from 'vitest'
+import { api } from '../api'
+import LoginPage from '../pages/LoginPage.vue'
+import { useAuthStore } from './auth'
+import { useMarketStore } from './market'
+
+vi.mock('../api', async importOriginal => {
+  const original = await importOriginal<typeof import('../api')>()
+  return { ...original, api: vi.fn() }
+})
+
+const request = vi.mocked(api)
+const userA = {
+  id: '10000000-0000-4000-8000-000000000001',
+  email: 'a@example.test', name: 'a@example.test', role: 'user' as const,
+}
+const userB = { ...userA, id: '10000000-0000-4000-8000-000000000002',
+  email: 'b@example.test', name: 'b@example.test' }
+const id = '20000000-0000-4000-8000-000000000001'
+
+async function setup() {
+  const pinia = createPinia()
+  setActivePinia(pinia)
+  const auth = useAuthStore()
+  const market = useMarketStore()
+  request.mockResolvedValueOnce(userA)
+  await auth.loadSession()
+  const router = createRouter({
+    history: createMemoryHistory(),
+    routes: [
+      { path: '/login', component: LoginPage },
+      { path: '/listings', component: { template: '<p>Listings</p>' } },
+    ],
+  })
+  await router.push('/login')
+  const wrapper = mount(LoginPage, { global: { plugins: [pinia, router] } })
+  async function submitLogin() {
+    await wrapper.get('input[type="email"]').setValue(userB.email)
+    await wrapper.get('input[type="password"]').setValue('example-only-password')
+    await wrapper.get('form').trigger('submit')
+  }
+  return { auth, market, wrapper, submitLogin }
+}
+
+beforeEach(() => request.mockReset())
+
+it('LoginPage synchronously clears old favorites and protects the new same-ID lock', async () => {
+  const { auth, market, wrapper, submitLogin } = await setup()
+  try {
+    request.mockResolvedValueOnce({})
+    await market.setFavorite(id, true)
+    let finishOld!: (value: unknown) => void
+    request.mockImplementationOnce(() => new Promise(resolve => { finishOld = resolve }))
+    const oldWrite = market.setFavorite(id, true)
+    let finishLogin!: (value: unknown) => void
+    request.mockImplementationOnce(() => new Promise(resolve => { finishLogin = resolve }))
+    await submitLogin()
+    expect(market.favoriteIds).toEqual([])
+    expect(market.busyById).toEqual({})
+    finishLogin(userB)
+    await flushPromises()
+    expect(auth.user?.id).toBe(userB.id)
+    let finishNew!: (value: unknown) => void
+    request.mockImplementationOnce(() => new Promise(resolve => { finishNew = resolve }))
+    const newWrite = market.setFavorite(id, true)
+    finishOld({})
+    await oldWrite
+    expect(market.favoriteIds).toEqual([])
+    expect(market.busyById[id]).toBe(true)
+    const calls = request.mock.calls.length
+    await market.setFavorite(id, true)
+    expect(request).toHaveBeenCalledTimes(calls)
+    finishNew({})
+    await newWrite
+    expect(market.favoriteIds).toEqual([id])
+    expect(market.busyById[id]).toBe(false)
+  } finally { wrapper.unmount() }
+})
+
+it('late market logout cannot erase LoginPage auth.user or new favorites', async () => {
+  const { auth, market, wrapper, submitLogin } = await setup()
+  try {
+    let finishLogout!: (value: unknown) => void
+    request.mockImplementationOnce(() => new Promise(resolve => { finishLogout = resolve }))
+    const oldLogout = market.logout()
+    request.mockResolvedValueOnce(userB)
+    await submitLogin()
+    await flushPromises()
+    request.mockResolvedValueOnce({})
+    await market.setFavorite(id, true)
+    finishLogout(undefined)
+    await oldLogout
+    expect(auth.user?.id).toBe(userB.id)
+    expect(market.user?.id).toBe(userB.id)
+    expect(market.favoriteIds).toEqual([id])
+  } finally { wrapper.unmount() }
+})
+```
 
 ### 7.3 React 列表 Hook
 
@@ -670,6 +1559,29 @@ export function useListingPage(page: Ref<number>, q: Ref<string>) {
 两端渲染规则相同：loading 用 `role="status"`；ready 且 `items.length===0` 才显示空状态；error 用
 `role="alert"` 和重试入口。不能在 loading 时用“暂无商品”代替。
 
+### 7.5 可复核的验证口径
+
+2026-10-12 本地验证从当前 Markdown 机械提取后端和两端最终 Capstone，所有迁移 diff 通过
+真实 `git apply --unidiff-zero` 重放，不依赖先前生成的应用源码。补丁的空白上下文可写为 raw
+空行；必须同时通过实际补丁重放与 `git diff --check`，不能只修教材的空白检查。
+
+| 门禁 | 实际命令或范围 | 结果 |
+| --- | --- | --- |
+| React | `tsc6 --noEmit`、`vitest run`、`eslint . --max-warnings 0`、`vite build` | 全部退出 0；原 13 + 本课身份隔离 2 = 15/15 |
+| Vue | `vue-tsc --noEmit -p tsconfig.json`、同上 test/lint/build | 全部退出 0；原 21（含 SSR 边界）+ 本课身份隔离 2 = 23/23 |
+| contracts | `tsc -p tsconfig.json --noEmit`、`tsc6 -p tsconfig.json --noEmit`、`vitest run` | 双 TS 检查退出 0；runtime 8 + bridge 8 + edit 12 = 28/28 |
+| parser 敏感性 | 仅在临时副本单独放宽 money/version/UTC/page/total | 每项使 React/Vue 原 parser 用例失败，共 10 次目标 RED；恢复后全绿 |
+| HTTP 协议 | 当前 client/browser-api 经真实本地 fixture socket | 13/13；非 Nest、数据库或浏览器 Cookie 策略证据 |
+| 浏览器小烟测 | 双端构建页真实登录表单，未 mock 网络 | API 未启动时受控失败；邮箱保留、密码清空，无页面异常 |
+
+验证使用 **Node 24.19.0**，不是后端 `.node-version` 的 24.21.0；
+复用既有精确依赖的独占 symlink farm，未进行冷安装、依赖降级或锁文件改写。
+冷 frozen install 仍未验证，已有镜像缺 `@vue/language-core@3.3.13`。
+小烟测使用实际绑定的 `http://127.0.0.1:5173`，上游日志为
+`ECONNREFUSED 127.0.0.1:3000`；它不替代本课要求的 `localhost:5173` 成功同源验收。
+真实 Nest/PostgreSQL 18 认证成功、持久化、对象授权、并发事务、成功浏览器登录/编辑/退出、
+生产 TLS 与全栈 E2E 仍为未验证，旧演示 E2E 仍待迁移。
+
 ## 8. 常见错误与排查路径
 
 ### 明确错误：登录 action 与 Context 同时请求
@@ -695,6 +1607,8 @@ export function useListingPage(page: Ref<number>, q: Ref<string>) {
 | 错误密码后显示已登录 | catch 未清状态 | 沿用演示用户 | 失败回 anonymous + alert | 401 后无身份 |
 | 退出失败却隐藏身份 | fetch reject 后 set null | 把未知当撤销成功 | 保留 user，显示结果未知 | API 恢复后可重试 |
 | 快速搜索旧结果覆盖 | 旧 q 最后返回 | 未 abort/世代保护 | cleanup abort | 页面只显示最新 q |
+| 新登录后旧收藏回写/退出清新用户 | LoginPage 调 auth，但 market 仅校验自己的 epoch | 身份与私有结果所有权分裂 | 同步订阅 auth generation，只读映射 user | 真实 LoginPage 回归与同 ID 锁用例通过 |
+| parser 负例全绿却未测金额 | 第一个错误是 expected UUID | fixture 仍用演示 ID | 合法 UUID 正例和字段级负例 | 五个校验单独放宽均使双端原用例失败 |
 | 快速双击/回车发两条登录 | 两条 POST，sid/token 可能来自不同 session | 只依赖批量更新后的 pending | handler 入口同步置锁，finally 释放 | 同一提交窗口只有一条 POST |
 | Vue 状态不更新 | store 在 Pinia 安装前创建 | 实例归属错误 | `app.use(pinia)` 后取 store | DevTools 只见一个 auth store |
 | React hook 在 Provider 外报错 | 组件树位置错误 | router 未被 Provider 包围 | Provider 包根 RouterProvider | 深链也能读取 Context |
@@ -751,6 +1665,9 @@ AbortController。完成标准：最终 query 与可见 items 一致，abort 不
 - [ ] React `useRef` 与 Vue 页面 `ref` 在 handler 入口同步置锁、`finally` 释放；快速双提交只有一条登录请求。
 - [ ] 登录后的 Cookie sid 与 generation 对应 CSRF token 属于同一 session，密码不进入 URL、持久存储或日志。
 - [ ] 刷新后显示真实 email，旧恢复结果不能覆盖新登录。
+- [ ] 真实 LoginPage 直接调用 auth.login 时同步清收藏/锁，旧成功、错误和 finally 均不能跨身份代际。
+- [ ] Vue market 只读映射 auth.user；旧 market.logout 不会清除新登录身份或新收藏。
+- [ ] 原 React 13/Vue 21 场景保留；parser fixture 合法，money/version/UTC/page/total 单项变体各使双端原用例失败。
 - [ ] 退出失败不伪装成成功，成功退出后旧 session 为 401。
 - [ ] 列表区分 loading、empty、error、ready，响应通过 shared parser。
 - [ ] 快速搜索不会让旧响应覆盖新查询。
@@ -790,7 +1707,7 @@ AbortController。完成标准：最终 query 与可见 items 一致，abort 不
 
 ## 单元导航
 
-[章节 hub](../01-contract-integration.md) ·
+[本章目录](../README.md#01-契约集成) ·
 [上一课：同源 Session、CSRF 与共享客户端](02-same-origin-session-csrf-client.md) ·
 [下一课：编辑冲突、竞态与端到端验收](04-edit-conflict-races-end-to-end.md) ·
 [全栈交付卷目录](../README.md)

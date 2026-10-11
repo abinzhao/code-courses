@@ -657,6 +657,6 @@ lint、真实 buyer 403 response validation 和 DB 不变断言都通过。
 
 ## 单元导航
 
-- 章入口：[09 测试、OpenAPI 与可观测性](../09-testing-openapi-observability.md)
+- 章节目录：[09 测试、OpenAPI 与可观测性](../README.md#09-测试openapi-与可观测性)
 - 上一课：[单元、HTTP 与真实 PostgreSQL 测试](01-unit-http-real-postgres-tests.md)
 - 下一课：[结构化日志、指标与 Trace](03-structured-logs-metrics-traces.md)

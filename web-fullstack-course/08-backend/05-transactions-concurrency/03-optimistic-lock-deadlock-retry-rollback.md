@@ -534,6 +534,6 @@ HTTP ETag/If-Match 可承载条件请求，但服务端最终仍需把条件原�
 
 ## 单元导航
 
-[本章入口](../05-transactions-concurrency.md) ·
+[本章目录](../README.md#05-事务与并发) ·
 [上一课：原子预约与真实并发复现](02-atomic-reservations-concurrency-reproduction.md) ·
-[下一章：认证、会话与授权](../06-auth-sessions-rbac.md)
+[下一章：认证、会话与授权](../06-auth-sessions-rbac/01-password-hashing-account-boundaries.md)

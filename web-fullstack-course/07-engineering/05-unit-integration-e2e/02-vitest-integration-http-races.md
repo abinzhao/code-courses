@@ -701,6 +701,6 @@ expect(readPage("", new AbortController().signal)).rejects.toThrow("HTTP 500");
 
 ## 单元导航
 
-[本章入口](../05-unit-integration-e2e.md) ·
+[本章目录](../README.md#05-单元集成与端到端测试) ·
 [上一课：用单元测试锁定领域边界](01-vitest-unit-domain-boundaries.md) ·
 [下一课：Playwright 验收生产构建页面](03-playwright-built-page-e2e.md)

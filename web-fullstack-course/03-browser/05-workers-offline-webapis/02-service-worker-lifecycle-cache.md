@@ -450,4 +450,4 @@ event.respondWith(caches.match(event.request).then(
 
 ## 单元导航
 
-[上一课：Web Worker](01-web-worker-messaging-transfer-cancel.md) · [本章入口](../05-workers-offline-webapis.md) · [下一课：离线一致性与更新](03-offline-consistency-updates.md)
+[上一课：Web Worker](01-web-worker-messaging-transfer-cancel.md) · [本章目录](../README.md#05-worker离线与平台能力) · [下一课：离线一致性与更新](03-offline-consistency-updates.md)

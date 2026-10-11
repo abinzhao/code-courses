@@ -880,7 +880,7 @@ while (true) {
 
 ## 单元导航
 
-- 上一章：[04 CI、发布与回滚](../04-ci-release-rollback.md)
-- 本章入口：[05 性能、安全与运维](../05-performance-security-operations.md)
+- 上一章：[04 CI、发布与回滚](../README.md#04-ci发布与回滚)
+- 章节目录：[05 性能、安全与运维](../README.md#05-性能安全与运维)
 - 下一课：[日志、指标、告警与磁盘](02-logs-metrics-alerts-disk.md)
 - 分卷入口：[全栈联调与交付](../README.md)

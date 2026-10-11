@@ -1348,7 +1348,7 @@ symlink、逃根、非 regular、owner 不符或 group/world 可写都会抛错�
 - [GitHub Actions Security Hardening](https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions)：
   CI 权限与不可信代码。
 - [Docker Compose](https://docs.docker.com/compose/)：本地可复现服务。
-- [课程级项目验收](../../00-guide/05-project-assessment.md)。
+- [课程级项目验收](../../00-guide/project-contract.md)。
 
 ## 我现在能做到什么
 
@@ -1358,7 +1358,7 @@ symlink、逃根、非 regular、owner 不符或 group/world 可写都会抛错�
 ## 单元导航
 
 - 上一课：[结业范围、业务闭环与证据包](01-capstone-scope-business-evidence.md)
-- 本章入口：[06 毕业项目](../06-graduation-project.md)
+- 章节目录：[06 毕业项目](../README.md#06-毕业项目)
 - 分卷入口：[全栈联调与交付](../README.md)
-- 课程级评分：[统一项目契约与阶段验收](../../00-guide/05-project-assessment.md)
+- 课程级评分：[统一项目契约与阶段验收](../../00-guide/project-contract.md)
 - 全书入口：[Web 全栈课程](../../README.md)

@@ -291,5 +291,5 @@ CSS 采用局部容错。未知属性或属性不接受的值通常使该声明�
 
 ## 单元导航
 
-- 上一单元：[章入口](../01-syntax-cascade-selectors.md)
+- 章节目录：[本章目录](../README.md#第一章语法层叠与选择器)
 - 下一单元：[层叠层、特异性与确定性决策](./02-cascade-layers-specificity.md)

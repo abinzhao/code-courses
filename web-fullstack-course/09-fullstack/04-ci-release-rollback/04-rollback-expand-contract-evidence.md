@@ -569,6 +569,6 @@ config、UTC、readiness 与虚构业务 ID 可关联；没有移动 tag。
 
 ## 单元导航
 
-- 章入口：[04 CI、发布与回滚](../04-ci-release-rollback.md)
+- 章节目录：[04 CI、发布与回滚](../README.md#04-ci发布与回滚)
 - 上一课：[不可变镜像与受守卫发布自动化](03-immutable-images-release-automation.md)
-- 下一章：[05 性能、安全与运维](../05-performance-security-operations.md)
+- 下一章：[05 性能、安全与运维](../05-performance-security-operations/01-load-baseline-slow-query.md)

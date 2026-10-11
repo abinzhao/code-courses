@@ -775,4 +775,4 @@ localhost/IP 是特殊开发环境，浏览器策略和生产可注册域不同�
 
 ## 单元导航
 
-[上一课：IndexedDB 事务与升级](02-indexeddb-transactions-upgrades.md) · [章入口：存储与安全](../03-storage-security.md) · [下一章：Fetch、流与实时通信](../04-fetch-streams-realtime.md)
+[上一课：IndexedDB 事务与升级](02-indexeddb-transactions-upgrades.md) · [章目录：存储与安全](../README.md#03-存储会话与安全边界) · [下一章：Fetch、流与实时通信](../04-fetch-streams-realtime/01-reliable-fetch-timeout-cancel-race.md)

@@ -662,6 +662,6 @@ try {
 
 ## 单元导航
 
-[返回本章 Hub](../02-nest-api-validation.md) ·
+[返回章目录](../README.md#02-nestjs-与输入验证) ·
 [上一课：DTO 转换与运行时校验](02-dto-transformation-validation.md) ·
-[下一章：SQL 数据建模](../03-sql-modeling.md)
+[下一章：SQL 数据建模](../03-sql-modeling/01-domain-to-relational-model.md)

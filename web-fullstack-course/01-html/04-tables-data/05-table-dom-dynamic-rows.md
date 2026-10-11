@@ -2151,4 +2151,4 @@ const texts = Array.from(body.rows, (row) => row.textContent.trim());
 
 ## 单元导航
 
-[上一课：响应式表格、键盘访问与打印](04-responsive-table-accessibility-print.md) · [下一章](../05-forms-validation.md) · [返回 HTML 模块](../README.md)
+[上一课：响应式表格、键盘访问与打印](04-responsive-table-accessibility-print.md) · [下一章](../05-forms-validation/01-form-action-method-encoding.md) · [返回 HTML 模块](../README.md)

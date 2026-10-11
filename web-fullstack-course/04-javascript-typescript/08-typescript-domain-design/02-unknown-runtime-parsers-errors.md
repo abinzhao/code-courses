@@ -415,3 +415,4 @@ parseListingPage({ items: [], page: 9, pageSize: 20, total: 1 });
 
 - 上一单元：[领域契约、品牌值与 DTO](./01-domain-contracts-branded-values-dtos.md)
 - 下一单元：[状态机、版本冲突与授权边界](./03-state-machines-conflicts-authorization.md)
+- 分卷目录：[JavaScript / TypeScript](../README.md)

@@ -45,7 +45,7 @@
 
 ## 3. 预备知识
 
-先完成[电脑、文件与第一张网页](../03-computer-first-page.md)，保留个人目录：
+先按[文件到请求路线](../README.md#从文件到请求证据)完成前三篇详细教程，保留个人目录：
 
 ```text
 market-learning/
@@ -649,4 +649,4 @@ Get-NetTCPConnection -LocalPort 3000 -State Listen
 
 ## 单元导航
 
-[上一页：终端、Git 与调试习惯](../04-terminal-git-debugging.md) · [下一课：Git 三棵树、提交与分支](02-git-three-trees-commits-branches.md) · [起步实操目录](../README.md)
+[上一课：DevTools 与第一份请求证据](../03-computer-first-page/03-devtools-first-request-evidence.md) · [下一课：Git 三棵树、提交与分支](02-git-three-trees-commits-branches.md) · [运行到修复路线](../README.md#从运行现场到可追踪修复) · [起步实操目录](../README.md)

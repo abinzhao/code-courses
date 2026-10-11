@@ -231,6 +231,6 @@ git show --stat --oneline HEAD
 
 ## 单元导航
 
-- 章入口：[06 CI、Git 与发布](../06-ci-git-release.md)
+- 章节目录：[06 CI、Git 与发布](../README.md#06-gitci-与发布)
 - 上一课：[Playwright 构建页端到端测试](../05-unit-integration-e2e/03-playwright-built-page-e2e.md)
 - 下一课：[可复现 CI 质量流水线](02-ci-reproducible-quality-pipeline.md)

@@ -36,7 +36,7 @@
 
 ## 3. 预备知识
 
-先完成[第 03 章](../03-nginx-https-deployment.md)，并确认个人 `market` 项目已有：
+先完成[第 03 章](../03-nginx-https-deployment/01-web-image-spa-static-cache.md)，并确认个人 `market` 项目已有：
 
 - 根 `packageManager: "pnpm@12.11.2"` 与 `pnpm-lock.yaml`；
 - API `build`、迁移器和真实 HTTP/PostgreSQL 测试；
@@ -574,7 +574,7 @@ lockfile；不允许在 CI 改成非 frozen 或删除锁文件。
 ### 进阶：干净归档
 
 从 `HEAD` 导出 `/tmp`，冻结安装并验证 contracts、API 与双前端；比较 lock hash 与工作区。
-完成标准：contracts 的双类型、20 个 parser/edit/operation 测试和 build 均被执行，无旧
+完成标准：contracts 的双类型、28 个 parser/bridge/edit/operation 测试和 build 均被执行，无旧
 `node_modules/dist`，hash 一致，命令从归档退出 0；未提交修改明确不在归档证据中。
 
 ### 故障注入：双前端 probe
@@ -637,6 +637,6 @@ CI 服务容器由下一课负责。
 
 ## 单元导航
 
-- 章入口：[04 CI、发布与回滚](../04-ci-release-rollback.md)
+- 章节目录：[04 CI、发布与回滚](../README.md#04-ci发布与回滚)
 - 上一课：[Compose HTTPS、证书与状态码诊断](../03-nginx-https-deployment/03-compose-tls-certificate-diagnosis.md)
 - 下一课：[GitHub Actions 数据库、双前端与浏览器门禁](02-github-actions-database-browser-gates.md)

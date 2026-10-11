@@ -359,5 +359,5 @@ function next() {
 ## 单元导航
 
 [上一篇：函数契约、参数与返回值](01-function-contracts-parameters-returns.md) ·
-[返回第 2 章入口](../02-functions-scope-errors.md) ·
+[返回第 2 章目录](../README.md#第二章函数作用域与可解释错误) ·
 [下一篇：错误、堆栈与清理边界](03-errors-stacks-cleanup-boundaries.md)

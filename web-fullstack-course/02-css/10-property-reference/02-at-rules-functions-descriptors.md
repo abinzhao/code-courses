@@ -549,6 +549,6 @@ view-transition、类型化 attr 与高级数学函数仍要按目标浏览器�
 ## 单元导航
 
 - [上一课：稳定属性与模块索引](01-stable-properties-module-index.md)
-- [返回第十章入口](../10-property-reference.md)
+- [返回第十章目录](../README.md#第十章属性语法与兼容参考)
 - [下一课：稳定兼容性与渐进增强](03-stable-compatibility-progressive-enhancement.md)
 - [返回 CSS 模块](../README.md)

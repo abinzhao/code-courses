@@ -39,7 +39,7 @@
 
 ## 3. 预备知识
 
-先完成[Grid 与 Subgrid](../06-grid.md)，会写正常流、`minmax(0, 1fr)` 和逻辑尺寸。个人路径：
+先完成[Grid 与 Subgrid](../06-grid/01-explicit-tracks-lines-areas.md)，会写正常流、`minmax(0, 1fr)` 和逻辑尺寸。个人路径：
 
 ```text
 market-learning/practice/css-07-media/index.html
@@ -415,7 +415,7 @@ python3 -m http.server 8000
 - [MDN：使用媒体查询](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries)：复习组合和范围语法。
 - [MDN：viewport meta](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta/name/viewport)：核对移动布局视口和缩放边界。
 - [MDN：打印](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Printing)：核对打印样式与 `@page`。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对状态、权限和阶段边界。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：核对状态、权限和阶段边界。
 
 范围语法、打印分页细节与 DevTools 模拟需要按目标浏览器核验。真实移动工具栏、安全区和打印机不在本地桌面截图的证明范围内。
 
@@ -425,7 +425,7 @@ python3 -m http.server 8000
 
 ## 单元导航
 
-- [上一章：Grid 与 Subgrid](../06-grid.md)
-- [返回第七章入口](../07-responsive-container.md)
+- [上一章：Grid 与 Subgrid](../README.md#第六章grid-与-subgrid)
+- [返回第七章目录](../README.md#第七章响应式布局与容器查询)
 - [下一课：容器查询与容器单位](02-container-queries-units.md)
 - [返回 CSS 模块](../README.md)

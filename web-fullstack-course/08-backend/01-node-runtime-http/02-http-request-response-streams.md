@@ -631,6 +631,6 @@ curl -i http://127.0.0.1:3000/api/v1/listings.ndjson
 
 ## 单元导航
 
-[返回本章 Hub](../01-node-runtime-http.md) ·
+[返回章目录](../README.md#01-node-运行时与-http) ·
 [上一课：进程、事件循环与生命周期](01-node-process-event-loop-lifecycle.md) ·
 [下一课：超时、错误与优雅停机](03-timeouts-errors-graceful-shutdown.md)

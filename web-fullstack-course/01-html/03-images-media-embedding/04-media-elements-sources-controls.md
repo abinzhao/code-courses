@@ -387,7 +387,7 @@ HTML 可以关联文本轨道，但浏览器原生界面的呈现能力可能不
 - [W3C WCAG 2.2：预录音频描述或媒体替代 1.2.3](https://www.w3.org/WAI/WCAG22/Understanding/audio-description-or-media-alternative-prerecorded.html)：核对关键视觉信息的替代要求。
 - [Chrome Developers：Autoplay policy](https://developer.chrome.com/blog/autoplay)：Chrome 的静音、有声自动播放和 `play()` Promise 建议。
 - [WebKit：New video policies for iOS](https://webkit.org/blog/6784/new-video-policies-for-ios/)：理解 WebKit 中静音、用户激活与 `playsinline` 的历史政策背景。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对整数分、UTC 时间、教学状态与服务端能力边界。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：核对整数分、UTC 时间、教学状态与服务端能力边界。
 
 标准定义接口和状态；自动播放、原生控件、格式支持和辅助技术呈现仍需在实际目标浏览器、设备和用户设置中验证。不要用单一浏览器的一次成功替代兼容性测试。
 

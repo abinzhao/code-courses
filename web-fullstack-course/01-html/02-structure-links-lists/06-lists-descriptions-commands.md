@@ -679,7 +679,7 @@ Elements 中的嵌套列表：
 - [MDN：HTML 列表](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Lists)：复习三类列表的实际用途。
 - [MDN：figure](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure)：确认 figure 与 figcaption 的结构。
 - [MDN：blockquote](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote)：区分引用来源属性与可见链接。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对价格单位和商品状态。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：核对价格单位和商品状态。
 
 阅读时重点检查：允许的父子关系、属性是否改变语义，以及浏览器默认样式是否只是视觉表现。
 

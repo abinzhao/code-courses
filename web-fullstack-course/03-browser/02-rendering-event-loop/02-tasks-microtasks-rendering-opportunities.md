@@ -425,4 +425,4 @@ Node 有阶段、`process.nextTick`、I/O 等自己的规则。只复用“不�
 
 ## 单元导航
 
-[上一课：DOM、CSSOM、布局、绘制与合成](01-dom-cssom-layout-paint-composite.md) · [下一课：长任务、布局抖动与动画](03-long-tasks-layout-thrashing-animation.md) · [章入口](../02-rendering-event-loop.md)
+[上一课：DOM、CSSOM、布局、绘制与合成](01-dom-cssom-layout-paint-composite.md) · [下一课：长任务、布局抖动与动画](03-long-tasks-layout-thrashing-animation.md) · [本章目录](../README.md#02-渲染事件循环与交互)

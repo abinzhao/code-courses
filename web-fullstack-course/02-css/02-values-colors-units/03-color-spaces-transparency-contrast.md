@@ -313,4 +313,5 @@ alpha 是颜色的一部分；它让前景与背后颜色合成。`opacity` 作�
 ## 单元导航
 
 - 上一单元：[字体、视口、容器单位与数学函数](./02-font-viewport-container-math.md)
-- 下一单元：[03 盒模型、常规流与定位章入口](../03-box-sizing-flow-position.md)
+- 下一单元：[03 盒模型、常规流与定位章首课](../03-box-sizing-flow-position/01-box-model-intrinsic-sizing-overflow.md)
+- 分卷目录：[CSS](../README.md)

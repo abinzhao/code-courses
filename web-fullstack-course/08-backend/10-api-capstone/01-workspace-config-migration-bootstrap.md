@@ -5,7 +5,7 @@
 | 项目 | 本课约定 |
 | --- | --- |
 | 任务 | 在临时目录重建邻里集市 API，固定版本、配置、迁移顺序和全部项目源码 |
-| 前置 | 已完成后端前九章，并阅读[版本基线](../../00-guide/02-version-baseline.md)与[统一项目契约](../../00-guide/05-project-assessment.md) |
+| 前置 | 已完成后端前九章，并阅读[版本基线](../../00-guide/version-baseline.md)与[统一项目契约](../../00-guide/project-contract.md) |
 | 建议投入 | 4 小时录入与审查，1 小时结构和配置故障实验 |
 | 唯一完整源码 owner | **本课独占全部 25 个项目文件**；第 02、03、04 课只能引用路径或展示必要片段 |
 | 临时工作区 | `/tmp/web-fullstack-modernization/batch-5/market-api-capstone` |
@@ -80,10 +80,10 @@ pg_isready --version
 
 建议依次复习：
 
-- [PostgreSQL 数据访问](../04-postgres-data-access.md)；
-- [SQL 建模](../03-sql-modeling.md)；
-- [认证、Session 与授权](../06-auth-sessions-rbac.md)；
-- [测试、OpenAPI 与可观测性](../09-testing-openapi-observability.md)。
+- [PostgreSQL 数据访问](../04-postgres-data-access/01-connections-tls-pools-timeouts.md)；
+- [SQL 建模](../03-sql-modeling/01-domain-to-relational-model.md)；
+- [认证、Session 与授权](../06-auth-sessions-rbac/03-authentication-object-authorization-rbac.md)；
+- [测试、OpenAPI 与可观测性](../09-testing-openapi-observability/01-unit-http-real-postgres-tests.md)。
 
 ## 4. 核心理论
 
@@ -2825,6 +2825,6 @@ pnpm migrate
 
 ## 单元导航
 
-[返回第 10 章入口](../10-api-capstone.md) ·
-[上一章：测试、OpenAPI 与可观测性](../09-testing-openapi-observability.md) ·
+[返回第 10 章目录](../README.md#10-api-综合项目) ·
+[上一章：测试、OpenAPI 与可观测性](../README.md#09-测试openapi-与可观测性) ·
 [下一课：领域、仓储与事务服务](02-domain-repositories-transaction-services.md)

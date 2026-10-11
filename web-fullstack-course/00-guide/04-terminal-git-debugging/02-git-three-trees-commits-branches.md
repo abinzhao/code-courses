@@ -701,4 +701,4 @@ git clean -fd
 
 ## 单元导航
 
-[上一课：终端、进程与端口](01-terminal-processes-ports.md) · [下一课：证据驱动的调试闭环](03-evidence-driven-debugging-loop.md) · [章节入口](../04-terminal-git-debugging.md)
+[上一课：终端、进程与端口](01-terminal-processes-ports.md) · [下一课：证据驱动的调试闭环](03-evidence-driven-debugging-loop.md) · [运行到修复路线](../README.md#从运行现场到可追踪修复) · [起步实操目录](../README.md)

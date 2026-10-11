@@ -279,5 +279,5 @@ const visible = useMemo(
 
 ## 单元导航
 
-- 上一单元：[第 07 章入口](../07-performance-modern-react.md)
+- 章节目录：[第 07 章目录](../README.md#第七章性能与现代-react)
 - 下一单元：[Actions、乐观状态与表单状态](./02-actions-optimistic-form-status.md)

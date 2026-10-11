@@ -441,4 +441,4 @@ target.searchParams.set("q", userInput);
 
 ## 单元导航
 
-[章入口：请求、HTTP 与缓存](../01-network-http-cache.md) · [下一课：HTTP 消息、状态与协商](02-http-messages-status-negotiation.md) · [浏览器卷](../README.md)
+[章目录：请求、HTTP 与缓存](../README.md#01-请求http-与缓存) · [下一课：HTTP 消息、状态与协商](02-http-messages-status-negotiation.md) · [浏览器卷](../README.md)

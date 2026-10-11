@@ -512,6 +512,6 @@ EXPLAIN/ANALYZE/BUFFERS 解释规划器选择，同时把回滚、锁、统计�
 
 ## 单元导航
 
-[返回本章 Hub](../03-sql-modeling.md) ·
+[返回章目录](../README.md#03-sql-建模) ·
 [上一课：约束、外键与不变量](02-constraints-foreign-keys-invariants.md) ·
-[下一章：PostgreSQL 数据访问](../04-postgres-data-access.md)
+[下一章：PostgreSQL 数据访问](../04-postgres-data-access/01-connections-tls-pools-timeouts.md)

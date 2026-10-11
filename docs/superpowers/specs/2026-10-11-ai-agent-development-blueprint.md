@@ -1,7 +1,10 @@
 # 本地优先 AI Agent 开发课程蓝图
 
-> 状态：仅供方向评审，不创建 Agent 教程、模型服务或外部账号资源。
-> 默认约束：数据不离端、物理隔离优先、低初期预算；远程 BYOK 是关闭状态的可选模式。
+> 蓝图快照：2026-10-11；对应 [28 篇 AI Agent 教程](../../../web-fullstack-course/10-ai-agent/README.md)
+> 已于 2026-10-12 编写，覆盖本页全部 14 模块。
+> 实际版本与运行证据见[基线](../../../web-fullstack-course/10-ai-agent/BASELINE.md)和
+> [自检记录](../../../web-fullstack-course/10-ai-agent/SELF-CHECK.md)；默认只实现本地模式，
+> 本页的远程 BYOK、物理隔离和真实模型目标仍需对应扩展设计或实际验证。
 
 ## 培养目标
 

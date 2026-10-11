@@ -55,10 +55,10 @@ pnpm --version
 ```
 
 目标输出分别是当前绝对路径、`v24.21.0` 与 `12.11.2`。补丁版本不符时不要伪造输出；
-先按 [版本基线](../../00-guide/02-version-baseline.md) 核对支持范围。本课不要求通过
+先按 [版本基线](../../00-guide/version-baseline.md) 核对支持范围。本课不要求通过
 `sudo` 安装依赖，也不要求修改教材仓库或全书主线 workspace。
 
-需要回顾项目业务字段时，阅读[邻里集市统一契约](../../00-guide/05-project-assessment.md)。
+需要回顾项目业务字段时，阅读[邻里集市统一契约](../../00-guide/project-contract.md)。
 本课只使用源码内的静态教学数据，没有网络 JSON，因此不声称已经验证外部 `unknown` 数据。
 
 ## 4. 核心理论
@@ -503,6 +503,6 @@ node src/print-listing.js
 
 ## 单元导航
 
-[返回本章 Hub](../01-pnpm-vite-esm.md) ·
+[返回章目录](../README.md#01-pnpmvite-与-esm) ·
 [上一课：数据结构、复杂度、搜索与排序](../../04-javascript-typescript/09-testing-debugging-algorithms/03-data-structures-complexity-search-sort.md) ·
 [下一课：Vite、ESM、开发构建与预览](02-vite-esm-dev-build-preview.md)

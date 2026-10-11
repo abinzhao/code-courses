@@ -535,6 +535,6 @@ scrypt，再返回相同 401/code/message。
 
 ## 单元导航
 
-[本章入口](../06-auth-sessions-rbac.md) ·
+[本章目录](../README.md#06-认证会话与授权) ·
 [下一课：Cookie 会话、Origin 与 CSRF](02-cookie-sessions-origin-csrf.md) ·
 [后端卷目录](../README.md)

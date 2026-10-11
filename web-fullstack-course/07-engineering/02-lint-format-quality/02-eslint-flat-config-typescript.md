@@ -456,6 +456,6 @@ ESLint 10 使用 flat config 的全局忽略。把依赖、构建、覆盖率和
 
 ## 单元导航
 
-[返回第 02 章入口](../02-lint-format-quality.md) ·
+[返回第 02 章目录](../README.md#02-lint格式与质量门禁) ·
 [上一篇：Prettier 格式范围](01-prettier-format-scope.md) ·
 [下一篇：独立质量门与失败诊断](03-quality-gates-failure-diagnostics.md)

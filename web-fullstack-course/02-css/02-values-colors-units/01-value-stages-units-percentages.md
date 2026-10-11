@@ -293,5 +293,5 @@ CSS px 是参考像素，不保证对应一个设备物理像素。设备像素�
 
 ## 单元导航
 
-- 上一单元：[章入口](../02-values-colors-units.md)
+- 章节目录：[本章目录](../README.md#第二章值颜色与单位)
 - 下一单元：[字体、视口、容器单位与数学函数](./02-font-viewport-container-math.md)

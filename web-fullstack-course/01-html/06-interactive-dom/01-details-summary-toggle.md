@@ -991,7 +991,7 @@ practice/html-12-native-interactive/basic-disclosure.html
 - [MDN Browser Compatibility Data：dialog](https://github.com/mdn/browser-compat-data/blob/main/html/elements/dialog.json)：核对基础 dialog 与较新扩展的独立支持记录。
 - [MDN Browser Compatibility Data：HTMLElement](https://github.com/mdn/browser-compat-data/blob/main/api/HTMLElement.json)：核对 Popover API、`beforetoggle` 与 `toggle` 的支持记录。
 - [W3C WAI-ARIA APG：Dialog (Modal) Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)：理解初始焦点、关闭入口和恢复焦点的设计原则。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对整数分、内存教学状态和服务端边界。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：核对整数分、内存教学状态和服务端边界。
 
 阅读时区分：
 
@@ -1009,4 +1009,4 @@ practice/html-12-native-interactive/basic-disclosure.html
 
 ## 单元导航
 
-[返回本章入口](../06-interactive-dom.md) · [下一课：Dialog 模式、结果与焦点恢复](02-dialog-modal-focus-results.md) · [返回 HTML 模块](../README.md)
+[返回本章目录](../README.md#第六章原生交互dom-与事件) · [下一课：Dialog 模式、结果与焦点恢复](02-dialog-modal-focus-results.md) · [返回 HTML 模块](../README.md)

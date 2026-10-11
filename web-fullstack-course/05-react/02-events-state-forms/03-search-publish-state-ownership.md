@@ -357,4 +357,4 @@ function add(listing: Listing) {
 
 ## 单元导航
 
-[上一课：表单与金额验证](02-controlled-uncontrolled-form-validation.md) · [返回章节入口](../02-events-state-forms.md) · [下一章：Effect、HTTP 与自定义 Hook](../03-effects-reuse.md)
+[上一课：表单与金额验证](02-controlled-uncontrolled-form-validation.md) · [返回章目录](../README.md#第二章事件状态与表单) · [下一章：Effect、HTTP 与自定义 Hook](../03-effects-reuse/01-effects-lifecycle-cleanup-strict-mode.md)

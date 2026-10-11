@@ -41,7 +41,7 @@ TypeScript 对象类型、数组 `map` 的概念，以及原生 HTML 的 `articl
 id/title/description/priceCents/status/ownerId/version/createdAt
 ```
 
-字段名字和语义来自[邻里集市项目契约](../../00-guide/05-project-assessment.md)。组件类型只描述
+字段名字和语义来自[邻里集市项目契约](../../00-guide/project-contract.md)。组件类型只描述
 预期形状，不验证未来 API 返回的未知 JSON。
 
 ## 4. 核心理论
@@ -359,7 +359,7 @@ HttpOnly 会话识别买家，并以约束保证同一商品只能有一个有�
 - [Vue：组件基础](https://vuejs.org/guide/essentials/component-basics.html)
 
 项目身份、金额、时间和权限规则以
-[统一项目契约](../../00-guide/05-project-assessment.md)为准。
+[统一项目契约](../../00-guide/project-contract.md)为准。
 
 ## 我现在能做到什么
 
@@ -369,5 +369,5 @@ HttpOnly 会话识别买家，并以约束保证同一商品只能有一个有�
 ## 单元导航
 
 [上一课：SFC 结构与编译](01-sfc-template-compiler.md) ·
-[返回章入口](../01-sfc-templates.md) ·
+[返回章目录](../README.md#第一章sfc模板与商品组件) ·
 [下一课：Vite、TypeScript 与第一版集市](03-vite-typescript-first-market.md)

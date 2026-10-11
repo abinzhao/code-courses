@@ -36,7 +36,7 @@
 
 ## 3. 预备知识
 
-先完成[盒模型、流与定位](../03-box-sizing-flow-position.md)和[逻辑属性、输入能力与偏好](../07-responsive-container/03-logical-properties-input-safe-area-preferences.md)。个人路径：
+先完成[盒模型、流与定位](../03-box-sizing-flow-position/01-box-model-intrinsic-sizing-overflow.md)和[逻辑属性、输入能力与偏好](../07-responsive-container/03-logical-properties-input-safe-area-preferences.md)。个人路径：
 
 ```text
 market-learning/practice/css-08-transform/index.html
@@ -325,7 +325,7 @@ python3 -m http.server 8000
 - 大图卡片先在低端设备录制证据，再决定是否分层；
 - 页面明确写“静态/内存演示”，不把视觉反馈描述为服务器成功。
 
-项目中预约、对象授权与并发不由 CSS 处理，继续遵守[项目契约](../../00-guide/05-project-assessment.md)。
+项目中预约、对象授权与并发不由 CSS 处理，继续遵守[项目契约](../../00-guide/project-contract.md)。
 
 ## 8. 常见错误与排查路径
 
@@ -455,7 +455,7 @@ python3 -m http.server 8000
 
 ## 单元导航
 
-- [返回第八章入口](../08-transforms-transitions-animation.md)
+- [返回第八章目录](../README.md#第八章变换过渡与可取消动画)
 - [下一课：过渡、关键帧与可取消状态](02-transitions-keyframes-cancelable-state.md)
-- [上一章：响应式布局与容器查询](../07-responsive-container.md)
+- [上一章：响应式布局与容器查询](../README.md#第七章响应式布局与容器查询)
 - [返回 CSS 模块](../README.md)

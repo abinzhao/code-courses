@@ -517,6 +517,6 @@ Linux 常见前者、macOS 常见后者；两者都计算 SHA-256。真实发布
 
 ## 单元导航
 
-- 章入口：[04 CI、发布与回滚](../04-ci-release-rollback.md)
+- 章节目录：[04 CI、发布与回滚](../README.md#04-ci发布与回滚)
 - 上一课：[GitHub Actions 数据库、双前端与浏览器门禁](02-github-actions-database-browser-gates.md)
 - 下一课：[回滚、expand/contract 与证据保全](04-rollback-expand-contract-evidence.md)

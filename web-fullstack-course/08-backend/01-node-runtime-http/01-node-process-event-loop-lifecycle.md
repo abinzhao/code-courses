@@ -39,8 +39,8 @@
 
 ## 3. 预备知识
 
-先阅读[版本基线](../../00-guide/02-version-baseline.md)和
-[邻里集市统一项目契约](../../00-guide/05-project-assessment.md)。本课只使用源码内探针，
+先阅读[版本基线](../../00-guide/version-baseline.md)和
+[邻里集市统一项目契约](../../00-guide/project-contract.md)。本课只使用源码内探针，
 没有商品 JSON 输入；第二课一旦接收 HTTP 正文，就必须先保持为 `unknown` 再解析。
 
 创建读者自己的目录：
@@ -431,6 +431,6 @@ PORT=bad node -e 'import("./src/runtime-config.mjs")'
 
 ## 单元导航
 
-[返回本章 Hub](../01-node-runtime-http.md) ·
-[上一单元：工程化综合验收](../../07-engineering/07-engineering-capstone.md) ·
+[返回章目录](../README.md#01-node-运行时与-http) ·
+[上一单元：工程化综合验收](../../07-engineering/07-engineering-capstone/04-clean-room-verification-evidence.md) ·
 [下一课：HTTP 请求、响应、流与背压](02-http-request-response-streams.md)

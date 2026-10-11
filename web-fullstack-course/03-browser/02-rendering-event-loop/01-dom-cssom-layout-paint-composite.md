@@ -440,4 +440,4 @@ DevTools 入口会变化。使用命令菜单搜索 Layers，或用 Performance 
 
 ## 单元导航
 
-[章入口：渲染与事件循环](../02-rendering-event-loop.md) · [下一课：任务、微任务与呈现机会](02-tasks-microtasks-rendering-opportunities.md) · [浏览器卷](../README.md)
+[章目录：渲染与事件循环](../README.md#02-渲染事件循环与交互) · [下一课：任务、微任务与呈现机会](02-tasks-microtasks-rendering-opportunities.md) · [浏览器卷](../README.md)

@@ -473,5 +473,5 @@ const draftQ = ref(q.value)
 
 ## 单元导航
 
-[返回章入口](../04-router-data.md) ·
+[返回章目录](../README.md#第四章路由url-与服务端数据) ·
 [下一课：路由取数、取消与错误恢复](02-route-data-fetch-cancellation-errors.md)

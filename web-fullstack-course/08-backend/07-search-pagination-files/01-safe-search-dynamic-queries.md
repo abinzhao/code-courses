@@ -49,7 +49,7 @@ const sql = `SELECT id, title, price_cents FROM listings
 
 - [参数化 SQL、类型与 SQLSTATE](../04-postgres-data-access/02-parameterized-sql-types-sqlstate.md)；
 - [迁移、索引与查询计划](../03-sql-modeling/03-migrations-indexes-query-plans.md)；
-- [统一项目契约](../../00-guide/05-project-assessment.md)中的 Listing 和整数分约束。
+- [统一项目契约](../../00-guide/project-contract.md)中的 Listing 和整数分约束。
 
 在个人练习工程根目录创建目录：
 
@@ -489,6 +489,6 @@ const orderBy = SORT_SQL[input.sort] ?? input.sort;
 
 ## 单元导航
 
-- 章入口：[07 搜索、分页与文件](../07-search-pagination-files.md)
+- 章节目录：[07 搜索、分页与文件](../README.md#07-搜索分页与文件)
 - 上一课：[认证、对象授权与 RBAC](../06-auth-sessions-rbac/03-authentication-object-authorization-rbac.md)
 - 下一课：[Offset、Keyset 与一致分页](02-offset-keyset-consistent-pagination.md)

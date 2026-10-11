@@ -406,7 +406,7 @@ function save(item: Listing) {
 - [Vue：组件事件](https://vuejs.org/guide/components/events.html)
 - [MDN：`crypto.randomUUID`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID)
 - [MDN：`Date.prototype.toISOString`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
-- [邻里集市统一项目契约](../../00-guide/05-project-assessment.md)
+- [邻里集市统一项目契约](../../00-guide/project-contract.md)
 
 ## 我现在能做到什么
 
@@ -415,5 +415,5 @@ function save(item: Listing) {
 ## 单元导航
 
 [上一课：组件事件与表单](02-component-events-v-model-forms.md) ·
-[返回章入口](../02-reactivity-events-forms.md) ·
-[下一章：生命周期、请求与 Composable](../03-lifecycle-composables.md)
+[返回章目录](../README.md#第二章响应式事件与可提交表单) ·
+[下一章：生命周期、请求与 Composable](../03-lifecycle-composables/01-lifecycle-watch-cleanup.md)

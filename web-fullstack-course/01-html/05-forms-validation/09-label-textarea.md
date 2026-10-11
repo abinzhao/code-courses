@@ -690,7 +690,7 @@ practice/html-chapter-05/control-relations.html
 - [WHATWG：enterkeyhint](https://html.spec.whatwg.org/multipage/interaction.html#attr-enterkeyhint)：Enter 键动作提示。
 - [W3C WAI：表单标签教程](https://www.w3.org/WAI/tutorials/forms/labels/)：可见标签、分组和辅助技术关系。
 - [W3C 可访问名称与描述计算](https://www.w3.org/TR/accname-1.2/)：名称来源和描述边界。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对静态教学状态、整数分和服务端边界。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：核对静态教学状态、整数分和服务端边界。
 
 阅读官方资料时，不要只摘属性列表。至少回答：
 

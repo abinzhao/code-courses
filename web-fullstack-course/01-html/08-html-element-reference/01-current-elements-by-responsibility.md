@@ -468,4 +468,4 @@ HTML 内容模型会根据上下文细化。例如 `source` 在 `picture` 与媒
 
 ## 单元导航
 
-[返回本章入口](../08-html-element-reference.md) · [下一课：属性、DOM API 与默认行为：连接标记和运行状态](02-attributes-dom-apis-default-behavior.md) · [返回 HTML 模块](../README.md)
+[返回本章目录](../README.md#第八章元素参考选择与纠错) · [下一课：属性、DOM API 与默认行为：连接标记和运行状态](02-attributes-dom-apis-default-behavior.md) · [返回 HTML 模块](../README.md)

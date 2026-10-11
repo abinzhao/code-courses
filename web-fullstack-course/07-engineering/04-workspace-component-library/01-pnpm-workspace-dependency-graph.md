@@ -36,7 +36,7 @@ pnpm workspace 解决的是多包的成员发现、统一安装和本地链接�
 - 能运行 `node --version`、`pnpm --version` 并读取退出码。
 - 知道 `import type` 会在转译后消失，普通 `import` 需要运行时解析。
 - 知道 Vite 转译 TypeScript 不等于完成类型检查。
-- 已阅读本章 [hub](../04-workspace-component-library.md)，接受整数分、`unknown` 输入和授权边界。
+- 已阅读[本卷项目边界](../README.md#连续项目与边界)，接受整数分、`unknown` 输入和授权边界。
 
 先检查环境：
 
@@ -766,4 +766,4 @@ find . -name pnpm-lock.yaml -print
 
 ## 单元导航
 
-[章节 hub](../04-workspace-component-library.md) · [上一课：递归资源预算与生产预览](../03-build-assets-performance/03-asset-budget-production-preview.md) · [下一课：Package Exports、运行时契约与发布](02-package-exports-contracts-publishing.md) · [工程化卷目录](../README.md)
+[本章目录](../README.md#04-workspace组件库与-design-tokens) · [上一课：递归资源预算与生产预览](../03-build-assets-performance/03-asset-budget-production-preview.md) · [下一课：Package Exports、运行时契约与发布](02-package-exports-contracts-publishing.md) · [工程化卷目录](../README.md)

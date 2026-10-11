@@ -27,7 +27,7 @@
 
 ## 3. 预备知识
 
-先完成[路由与服务端数据](../04-router-data.md)。本课沿用 `/api/v1/auth/me` 和 `/api/v1/favorites/:listingId`。会话凭据是同源 HttpOnly Cookie，浏览器代码只读取会话摘要，不读取 Cookie 值。
+先完成[路由与服务端数据](../04-router-data/03-auth-publish-reservation-conflicts.md)。本课沿用 `/api/v1/auth/me` 和 `/api/v1/favorites/:listingId`。会话凭据是同源 HttpOnly Cookie，浏览器代码只读取会话摘要，不读取 Cookie 值。
 
 在应用目录安装并确认：
 
@@ -279,4 +279,4 @@ Pinia 技术上允许直接写；可以通过团队约定、action API 和代码
 
 ## 单元导航
 
-[返回章入口](../05-pinia-architecture.md) · [下一课：会话、收藏与并发收敛](02-session-favorites-concurrency.md)
+[返回章目录](../README.md#第五章pinia依赖注入与状态架构) · [下一课：会话、收藏与并发收敛](02-session-favorites-concurrency.md)

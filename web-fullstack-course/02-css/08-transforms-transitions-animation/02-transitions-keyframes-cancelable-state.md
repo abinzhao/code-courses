@@ -475,6 +475,6 @@ card.addEventListener("animationend", () => {
 ## 单元导航
 
 - [上一课：变换、坐标系与合成](01-transforms-coordinates-compositing.md)
-- [返回第八章入口](../08-transforms-transitions-animation.md)
+- [返回第八章目录](../README.md#第八章变换过渡与可取消动画)
 - [下一课：WAAPI、滚动时间线与减少动作](03-waapi-scroll-timeline-reduced-motion.md)
 - [返回 CSS 模块](../README.md)

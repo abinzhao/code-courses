@@ -877,4 +877,4 @@ CSS import 的价值就是产生样式副作用。包若声明整体无副作用
 
 ## 单元导航
 
-[章节 hub](../04-workspace-component-library.md) · [上一单元：pnpm Workspace 与依赖图](01-pnpm-workspace-dependency-graph.md) · [下一单元：语义 Design Tokens 与跨框架边界](03-design-tokens-cross-framework-boundaries.md) · [工程化卷目录](../README.md)
+[本章目录](../README.md#04-workspace组件库与-design-tokens) · [上一单元：pnpm Workspace 与依赖图](01-pnpm-workspace-dependency-graph.md) · [下一单元：语义 Design Tokens 与跨框架边界](03-design-tokens-cross-framework-boundaries.md) · [工程化卷目录](../README.md)

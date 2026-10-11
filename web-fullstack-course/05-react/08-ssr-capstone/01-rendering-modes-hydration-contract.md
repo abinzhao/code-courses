@@ -263,5 +263,5 @@ hydrateRoot(root, <HydrationContract initial={initial} />, {
 
 ## 单元导航
 
-- 上一单元：[第 08 章入口](../08-ssr-capstone.md)
+- 章节目录：[第 08 章目录](../README.md#第八章ssr-与综合项目)
 - 下一单元：[Vite SSR、序列化与请求隔离](./02-vite-ssr-serialization-isolation.md)

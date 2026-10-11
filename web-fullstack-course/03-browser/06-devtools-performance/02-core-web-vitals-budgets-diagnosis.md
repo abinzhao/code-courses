@@ -514,4 +514,4 @@ console.log("LCP 下降 30%，所以图片压缩是唯一原因");
 
 ## 单元导航
 
-[上一课：DevTools 证据链](01-network-performance-memory-evidence.md) · [本章入口](../06-devtools-performance.md) · [本卷目录](../README.md) · [继续：JavaScript 与 TypeScript](../../04-javascript-typescript/README.md)
+[上一课：DevTools 证据链](01-network-performance-memory-evidence.md) · [本章目录](../README.md#06-devtools-与性能诊断) · [本卷目录](../README.md) · [继续：JavaScript 与 TypeScript](../../04-javascript-typescript/README.md)

@@ -332,4 +332,5 @@ Compiler 转换与真实性能收益分开。
 ## 单元导航
 
 - 上一单元：[Actions、乐观状态与表单状态](./02-actions-optimistic-form-status.md)
-- 下一单元：[第 08 章入口](../08-ssr-capstone.md)
+- 下一单元：[第 08 章首课](../08-ssr-capstone/01-rendering-modes-hydration-contract.md)
+- 分卷目录：[React](../README.md)

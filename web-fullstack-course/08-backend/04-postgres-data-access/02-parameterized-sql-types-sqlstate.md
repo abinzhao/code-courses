@@ -550,6 +550,6 @@ UTC API 契约，并依据 SQLSTATE、操作和约束名生成不泄密的领域
 
 ## 单元导航
 
-[本章入口](../04-postgres-data-access.md) ·
+[本章目录](../README.md#04-postgresql-数据访问) ·
 [上一课：连接、TLS、连接池与超时](01-connections-tls-pools-timeouts.md) ·
 [下一课：仓储契约与连接所有权](03-repositories-connection-ownership.md)

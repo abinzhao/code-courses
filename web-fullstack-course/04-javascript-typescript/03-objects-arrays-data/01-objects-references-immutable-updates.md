@@ -336,6 +336,6 @@ copy.meta.note = "changed";
 
 ## 单元导航
 
-[上一章：函数、作用域与可解释错误](../02-functions-scope-errors.md) ·
-[返回第 3 章入口](../03-objects-arrays-data.md) ·
+[上一章：函数、作用域与可解释错误](../README.md#第二章函数作用域与可解释错误) ·
+[返回第 3 章目录](../README.md#第三章对象数组与数据边界) ·
 [下一篇：数组、集合变换与分页](02-arrays-collections-pagination.md)

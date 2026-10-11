@@ -614,6 +614,6 @@ Cookie 生命周期、CSRF、认证和对象授权。
 
 ## 单元导航
 
-- 章入口：[03 Nginx、HTTPS 与同源部署](../03-nginx-https-deployment.md)
+- 章节目录：[03 Nginx、HTTPS 与同源部署](../README.md#03-nginxhttps-与边缘部署)
 - 上一课：[Web 镜像、SPA 静态路由与缓存](01-web-image-spa-static-cache.md)
 - 下一课：[Compose HTTPS、证书与状态码诊断](03-compose-tls-certificate-diagnosis.md)

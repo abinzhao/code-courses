@@ -43,7 +43,7 @@ runtime 阶段只复制生产运行物。`.dockerignore` 则在 Dockerfile 执�
 
 ## 3. 预备知识
 
-- 完成[契约联调](../01-contract-integration.md)，`market/` 根只有一份 pnpm 锁文件；
+- 完成[契约联调](../01-contract-integration/01-workspace-contract-runtime-validation.md)，`market/` 根只有一份 pnpm 锁文件；
 - `pnpm --filter @market/api build` 和 API 本机启动在目标 Node 24 环境已通过；
 - API 构建输出为 `apps/api/dist/main.js`，迁移入口为 `apps/api/migrate.mjs`；
 - 已阅读后端综合项目的
@@ -452,7 +452,7 @@ runtime 通过明确分开。
 
 ## 单元导航
 
-[章节 hub](../02-docker-compose.md) ·
+[本章目录](../README.md#02-docker-与-compose) ·
 [上一课：编辑冲突、竞态与端到端验收](../01-contract-integration/04-edit-conflict-races-end-to-end.md) ·
 [下一课：Compose 服务、DNS、健康与迁移](02-compose-services-network-health-migrations.md) ·
 [全栈交付卷目录](../README.md)

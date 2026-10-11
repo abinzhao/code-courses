@@ -286,4 +286,4 @@ dialog 的“确认”不直接改 Listing，也不声称成功；真正结果�
 
 ## 单元导航
 
-[上一课：测量与浅层响应](01-performance-shallow-reactivity-measurement.md) · [返回章入口](../07-performance-advanced-vue.md) · [下一课：KeepAlive 与异步组件](03-keepalive-async-components-lifecycle.md)
+[上一课：测量与浅层响应](01-performance-shallow-reactivity-measurement.md) · [返回章目录](../README.md#第七章性能证据与进阶-vue) · [下一课：KeepAlive 与异步组件](03-keepalive-async-components-lifecycle.md)

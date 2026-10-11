@@ -668,4 +668,4 @@ if (socket.readyState === WebSocket.OPEN) {
 
 ## 单元导航
 
-[上一课：可读流与增量解析](02-readable-stream-incremental-parsing.md) · [本章入口](../04-fetch-streams-realtime.md) · [下一章：Worker、离线与平台能力](../05-workers-offline-webapis.md)
+[上一课：可读流与增量解析](02-readable-stream-incremental-parsing.md) · [本章目录](../README.md#04-请求流与实时通信) · [下一章：Worker、离线与平台能力](../05-workers-offline-webapis/01-web-worker-messaging-transfer-cancel.md)

@@ -43,7 +43,7 @@
 
 ## 3. 预备知识
 
-- 阅读[统一项目契约](../../00-guide/05-project-assessment.md)；
+- 阅读[统一项目契约](../../00-guide/project-contract.md)；
 - 完成[原子预约与并发复现](../05-transactions-concurrency/02-atomic-reservations-concurrency-reproduction.md)；
 - 完成[认证、对象授权与 RBAC](../06-auth-sessions-rbac/03-authentication-object-authorization-rbac.md)；
 - 理解 `node:test`、`assert`、Promise 和进程退出码。
@@ -526,6 +526,6 @@ PostgreSQL 状态断言证明越权、冲突和并发不变量，而不让 Mock 
 
 ## 单元导航
 
-- 章入口：[09 测试、OpenAPI 与可观测性](../09-testing-openapi-observability.md)
+- 章节目录：[09 测试、OpenAPI 与可观测性](../README.md#09-测试openapi-与可观测性)
 - 上一课：[BullMQ 幂等、重试、死信与停机](../08-redis-queues-reliability/03-bullmq-idempotency-retry-dead-letter-shutdown.md)
 - 下一课：[OpenAPI 生成与契约验证](02-openapi-generation-contract-validation.md)

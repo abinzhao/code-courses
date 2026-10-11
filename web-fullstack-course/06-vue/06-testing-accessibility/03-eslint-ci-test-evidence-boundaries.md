@@ -27,7 +27,7 @@
 
 ## 3. 预备知识
 
-版本规则来自[课程版本基线](../../00-guide/02-version-baseline.md)：Node 24 LTS、ESLint 10 flat config、Vue 工具使用 TS6 兼容 API。安装后记录实际版本：
+版本规则来自[课程版本基线](../../00-guide/version-baseline.md)：Node 24 LTS、ESLint 10 flat config、Vue 工具使用 TS6 兼容 API。安装后记录实际版本：
 
 ```bash
 node --version
@@ -296,4 +296,4 @@ GitHub Actions，因此只能说“工作流配置已静态检查”，不能说
 
 ## 单元导航
 
-[上一课：路由、浏览器与无障碍](02-router-browser-accessibility-errors.md) · [返回章入口](../06-testing-accessibility.md) · [下一章：性能与进阶 Vue](../07-performance-advanced-vue.md)
+[上一课：路由、浏览器与无障碍](02-router-browser-accessibility-errors.md) · [返回章目录](../README.md#第六章测试无障碍与错误恢复) · [下一章：性能与进阶 Vue](../07-performance-advanced-vue/01-performance-shallow-reactivity-measurement.md)

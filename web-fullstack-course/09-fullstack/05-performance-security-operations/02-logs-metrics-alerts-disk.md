@@ -596,6 +596,6 @@ route/status/duration 保留；完成标准是新增字段默认不自动进入�
 ## 单元导航
 
 - 上一课：[有界负载基线与慢查询](01-load-baseline-slow-query.md)
-- 本章入口：[05 性能、安全与运维](../05-performance-security-operations.md)
+- 章节目录：[05 性能、安全与运维](../README.md#05-性能安全与运维)
 - 下一课：[备份完整性与隔离恢复](03-backup-integrity-isolated-restore.md)
 - 分卷入口：[全栈联调与交付](../README.md)

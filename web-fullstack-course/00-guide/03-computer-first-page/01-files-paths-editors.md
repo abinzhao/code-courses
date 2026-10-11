@@ -464,7 +464,7 @@ Elements 修改的是浏览器内存中的活动 DOM，没有写回磁盘源文�
 - [WHATWG Encoding Standard](https://encoding.spec.whatwg.org/)：查 UTF-8 与 Web 编码模型。
 - [WHATWG HTML：The meta element](https://html.spec.whatwg.org/multipage/semantics.html#the-meta-element)：查字符编码声明要求。
 - [VS Code：Basic editing](https://code.visualstudio.com/docs/editing/codebasics)：查保存状态、文件路径和编码操作；使用其他编辑器时查其官方文档。
-- [邻里集市项目契约](../05-project-assessment.md)：核对整数分、UTC 时间和静态阶段边界。
+- [邻里集市项目契约](../project-contract.md)：核对整数分、UTC 时间和静态阶段边界。
 
 ## 我现在能做到什么
 
@@ -472,4 +472,4 @@ Elements 修改的是浏览器内存中的活动 DOM，没有写回磁盘源文�
 
 ## 单元导航
 
-[上一页：电脑、文件与第一张网页](../03-computer-first-page.md) · [下一课：URL、HTTP 与第一张服务页面](02-url-http-first-page.md) · [起步实操目录](../README.md)
+[上一页：版本基线](../version-baseline.md) · [下一课：URL、HTTP 与第一张服务页面](02-url-http-first-page.md) · [文件到请求路线](../README.md#从文件到请求证据) · [起步实操目录](../README.md)

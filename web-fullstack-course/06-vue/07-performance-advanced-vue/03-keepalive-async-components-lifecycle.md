@@ -247,4 +247,4 @@ onUnmounted(stop)
 
 ## 单元导航
 
-[上一课：Teleport 与对话框](02-teleport-transition-dialog-accessibility.md) · [返回章入口](../07-performance-advanced-vue.md) · [下一章：SSR 与结业验收](../08-ssr-capstone.md)
+[上一课：Teleport 与对话框](02-teleport-transition-dialog-accessibility.md) · [返回章目录](../README.md#第七章性能证据与进阶-vue) · [下一章：SSR 与结业验收](../08-ssr-capstone/01-rendering-modes-hydration-contract.md)

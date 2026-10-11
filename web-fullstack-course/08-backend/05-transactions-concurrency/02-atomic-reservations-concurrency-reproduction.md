@@ -735,6 +735,6 @@ ISO；不把 PID 当用户 ID，不进入产品响应。
 
 ## 单元导航
 
-[本章入口](../05-transactions-concurrency.md) ·
+[本章目录](../README.md#05-事务与并发) ·
 [上一课：事务隔离、行锁与竞态](01-isolation-locks-races.md) ·
 [下一课：乐观锁、死锁、重试与回滚](03-optimistic-lock-deadlock-retry-rollback.md)

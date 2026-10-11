@@ -76,7 +76,7 @@ DTO 值域
 
 - [原子预约与并发复现](../05-transactions-concurrency/02-atomic-reservations-concurrency-reproduction.md)；
 - [仓储与连接所有权](../04-postgres-data-access/03-repositories-connection-ownership.md)；
-- [SQL 建模](../03-sql-modeling.md)。
+- [SQL 建模](../03-sql-modeling/01-domain-to-relational-model.md)。
 
 需要 PostgreSQL 18 才能把并发结果写成“已观察”。没有服务时可以完成静态推理，但必须把运行
 步骤标为环境阻塞。
@@ -438,6 +438,6 @@ REPEATABLE READ READ ONLY 让 items 与 total 看见同一快照，避免两条�
 
 ## 单元导航
 
-[返回第 10 章入口](../10-api-capstone.md) ·
+[返回第 10 章目录](../README.md#10-api-综合项目) ·
 [上一课：工作区、配置与迁移启动](01-workspace-config-migration-bootstrap.md) ·
 [下一课：Session、Controller 与授权接线](03-session-controllers-authorization-wiring.md)

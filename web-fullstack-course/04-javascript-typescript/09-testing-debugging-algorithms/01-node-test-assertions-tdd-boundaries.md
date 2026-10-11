@@ -281,7 +281,7 @@ await assert.rejects(() => parseLater("bad"), RangeError);
 
 - [Node.js 24：Test runner](https://nodejs.org/docs/latest-v24.x/api/test.html)
 - [Node.js 24：Strict assertion mode](https://nodejs.org/docs/latest-v24.x/api/assert.html#strict-assertion-mode)
-- [Node.js：Discovering tests](https://nodejs.org/en/learn/test-runner/discovering-running-tests)
+- [Node.js：Using the test runner](https://nodejs.org/en/learn/test-runner/using-test-runner)
 - [MDN：structuredClone](https://developer.mozilla.org/en-US/docs/Web/API/Window/structuredClone)
 - [MDN：Number.isSafeInteger](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isSafeInteger)
 
@@ -295,5 +295,5 @@ await assert.rejects(() => parseLater("bad"), RangeError);
 
 ## 单元导航
 
-- 上一单元：[章入口](../09-testing-debugging-algorithms.md)
+- 章节目录：[本章目录](../README.md#第九章测试调试与算法)
 - 下一单元：[确定性异步测试与系统调试](./02-deterministic-async-testing-debugging.md)

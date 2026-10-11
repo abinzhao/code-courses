@@ -500,4 +500,4 @@ function frame() {
 
 ## 单元导航
 
-[上一课：任务、微任务与呈现机会](02-tasks-microtasks-rendering-opportunities.md) · [章入口：渲染与事件循环](../02-rendering-event-loop.md) · [下一章：存储与安全](../03-storage-security.md)
+[上一课：任务、微任务与呈现机会](02-tasks-microtasks-rendering-opportunities.md) · [章目录：渲染与事件循环](../README.md#02-渲染事件循环与交互) · [下一章：存储与安全](../03-storage-security/01-memory-web-storage-cross-tab.md)

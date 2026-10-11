@@ -622,6 +622,6 @@ disabled 控件不可交互且通常不提交；readonly 控件通常仍可聚�
 ## 单元导航
 
 - [上一课：层叠层、原生嵌套与作用域](02-layers-nesting-scope.md)
-- [返回第九章入口](../09-components-modern-css.md)
-- [下一章：CSS 属性与模块参考](../10-property-reference.md)
+- [返回第九章目录](../README.md#第九章现代-css-组件与系统环境)
+- [下一章：CSS 属性与模块参考](../10-property-reference/01-stable-properties-module-index.md)
 - [返回 CSS 模块](../README.md)

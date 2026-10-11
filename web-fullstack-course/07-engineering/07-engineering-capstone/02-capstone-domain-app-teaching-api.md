@@ -907,6 +907,6 @@ generation；不要对第一页数组 `slice` 冒充服务器分页。
 
 ## 单元导航
 
-[返回第 07 章入口](../07-engineering-capstone.md) ·
+[返回第 07 章目录](../README.md#07-工程结业) ·
 [上一课：结业项目契约与脚手架](01-capstone-contract-scaffold.md) ·
 [下一课：测试、构建、预算与浏览器门禁](03-capstone-tests-build-budget-browser.md)

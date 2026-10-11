@@ -333,7 +333,7 @@ q 为 `台灯&状态` 时会被拆成额外参数。
 - [React Router：Data Mode Installation](https://reactrouter.com/start/data/installation)
 - [React Router：Routing](https://reactrouter.com/start/data/routing)
 - [React Router：Navigating](https://reactrouter.com/start/data/navigating)
-- [React Router：URL Values](https://reactrouter.com/start/data/url-values)
+- [React Router：URL Values](https://reactrouter.com/start/library/url-values)
 - [MDN：URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams)
 
 ## 我现在能做到什么
@@ -342,4 +342,4 @@ q 为 `台灯&状态` 时会被拆成额外参数。
 
 ## 单元导航
 
-[返回章节入口](../04-routing-data.md) · [下一课：loader、action、错误与重新验证](02-loaders-actions-errors-revalidation.md)
+[返回章目录](../README.md#第四章data-router-与服务端数据) · [下一课：loader、action、错误与重新验证](02-loaders-actions-errors-revalidation.md)

@@ -37,7 +37,7 @@ Prettier 规则的源码。本课先建立这个边界，再决定哪些手写�
 
 ## 3. 预备知识
 
-先完成[第 01 章](../01-pnpm-vite-esm.md)，确认当前目录与工具版本：
+先完成[第 01 章](../01-pnpm-vite-esm/01-node-pnpm-manifests-lockfiles.md)，确认当前目录与工具版本：
 
 ```bash
 cd "$HOME/code/market-engineering-lab"
@@ -394,6 +394,6 @@ ESLint 继续负责代码模式。两个命令保持独立，失败归因更清�
 
 ## 单元导航
 
-[返回第 02 章入口](../02-lint-format-quality.md) ·
+[返回第 02 章目录](../README.md#02-lint格式与质量门禁) ·
 [上一课：TS 7 / TS 6 并行类型检查](../01-pnpm-vite-esm/03-ts7-ts6-parallel-typecheck.md) ·
 [下一篇：ESLint 10 Flat Config](02-eslint-flat-config-typescript.md)

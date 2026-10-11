@@ -48,8 +48,8 @@ NestFactory
 
 ## 3. 预备知识
 
-完成[第 01 章](../01-node-runtime-http.md)，并阅读
-[版本基线](../../00-guide/02-version-baseline.md)。Nest 12 核心包采用 ESM；本课使用手动初始化，
+完成[第 01 章](../01-node-runtime-http/01-node-process-event-loop-lifecycle.md)，并阅读
+[版本基线](../../00-guide/version-baseline.md)。Nest 12 核心包采用 ESM；本课使用手动初始化，
 避免脚手架默认测试/Lint 配置随版本漂移。
 
 创建练习目录：
@@ -546,6 +546,6 @@ pnpm start
 
 ## 单元导航
 
-[返回本章 Hub](../02-nest-api-validation.md) ·
+[返回章目录](../README.md#02-nestjs-与输入验证) ·
 [上一章：Node 超时、错误与优雅停机](../01-node-runtime-http/03-timeouts-errors-graceful-shutdown.md) ·
 [下一课：DTO 转换与运行时校验](02-dto-transformation-validation.md)

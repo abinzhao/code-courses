@@ -530,4 +530,4 @@ for await (const chunk of response.body) chunks.push(chunk);
 
 ## 单元导航
 
-[上一课：可靠 Fetch](01-reliable-fetch-timeout-cancel-race.md) · [本章入口](../04-fetch-streams-realtime.md) · [下一课：SSE、WebSocket 与轮询](03-sse-websocket-polling-recovery.md)
+[上一课：可靠 Fetch](01-reliable-fetch-timeout-cancel-race.md) · [本章目录](../README.md#04-请求流与实时通信) · [下一课：SSE、WebSocket 与轮询](03-sse-websocket-polling-recovery.md)

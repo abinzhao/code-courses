@@ -367,4 +367,4 @@ Node 提供互操作规则，但两套系统的解析、默认导出和执行语
 
 - 上一单元：[原型链、`this` 与类的适用边界](./01-prototype-chain-this-classes.md)
 - 下一单元：[模块图、共享状态与动态导入](./03-module-graphs-state-dynamic-import.md)
-- 章入口：[原型、类与 ECMAScript 模块](../04-prototypes-modules.md)
+- 章节目录：[原型、类与 ECMAScript 模块](../README.md#第四章原型类与-ecmascript-模块)

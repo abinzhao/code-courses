@@ -565,7 +565,7 @@ docker compose stop
 
 ## 单元导航
 
-[章节 hub](../02-docker-compose.md) ·
+[本章目录](../README.md#02-docker-与-compose) ·
 [上一课：Compose 服务、DNS、健康与迁移](02-compose-services-network-health-migrations.md) ·
-[下一章：Nginx 与 HTTPS 部署](../03-nginx-https-deployment.md) ·
+[下一章：Nginx 与 HTTPS 部署](../03-nginx-https-deployment/01-web-image-spa-static-cache.md) ·
 [全栈交付卷目录](../README.md)

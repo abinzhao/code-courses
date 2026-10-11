@@ -288,4 +288,5 @@ SSR 若出现 A 请求收藏泄漏到 B 请求，检查 store 是否在模块顶
 ## 单元导航
 
 - 上一单元：[会话、收藏命令与并发保护](./02-session-favorites-concurrency.md)
-- 下一单元：[第 06 章入口](../06-testing-accessibility.md)
+- 下一单元：[第 06 章首课](../06-testing-accessibility/01-pure-component-contract-tests.md)
+- 分卷目录：[React](../README.md)

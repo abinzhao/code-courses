@@ -317,5 +317,5 @@ if (priceCents) {
 ## 单元导航
 
 [上一篇：值、变量、类型与显式转换](01-values-variables-types-conversion.md) ·
-[返回第 1 章入口](../01-values-control-flow.md) ·
+[返回第 1 章目录](../README.md#第一章值运算与控制流程) ·
 [下一篇：循环、迭代与状态追踪](03-loops-iteration-state-tracing.md)

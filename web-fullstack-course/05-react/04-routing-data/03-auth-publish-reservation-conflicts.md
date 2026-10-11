@@ -807,4 +807,4 @@ await apiRequest(`/listings/${id}/reservations`, parseReservation, {
 
 ## 单元导航
 
-[上一课：loader、action 与错误](02-loaders-actions-errors-revalidation.md) · [返回章节入口](../04-routing-data.md) · [下一章：状态架构](../05-state-architecture.md)
+[上一课：loader、action 与错误](02-loaders-actions-errors-revalidation.md) · [返回章目录](../README.md#第四章data-router-与服务端数据) · [下一章：状态架构](../05-state-architecture/01-state-ownership-reducer-context.md)

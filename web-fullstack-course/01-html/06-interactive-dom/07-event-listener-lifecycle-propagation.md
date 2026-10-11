@@ -798,7 +798,7 @@ isTrusted：
 - [MDN：HTMLElement toggle event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/toggle_event)：核对状态切换、不可取消和事件合并。
 - [MDN：HTMLDialogElement close event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/close_event)：核对关闭事件不冒泡且不可取消。
 - [MDN：Features gated by user activation](https://developer.mozilla.org/en-US/docs/Web/Security/User_activation)：查阅需要用户激活的 Web API。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对整数分、UTC 时间和教学状态边界。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：核对整数分、UTC 时间和教学状态边界。
 
 阅读时区分：
 

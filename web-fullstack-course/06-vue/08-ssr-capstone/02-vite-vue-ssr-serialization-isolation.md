@@ -268,4 +268,4 @@ const api = `http://${request.headers.host}/internal/listings`
 
 ## 单元导航
 
-[上一课：渲染模式与水合](01-rendering-modes-hydration-contract.md) · [返回章入口](../08-ssr-capstone.md) · [下一课：流式、Nuxt 与最终验收](03-streaming-nuxt-capstone-acceptance.md)
+[上一课：渲染模式与水合](01-rendering-modes-hydration-contract.md) · [返回章目录](../README.md#第八章渲染模式ssr-与结业验收) · [下一课：流式、Nuxt 与最终验收](03-streaming-nuxt-capstone-acceptance.md)

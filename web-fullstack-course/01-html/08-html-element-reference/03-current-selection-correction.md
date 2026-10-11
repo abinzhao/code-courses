@@ -435,4 +435,4 @@ Elements 显示解析后的 DOM。若正确结构来自浏览器纠错，源文�
 ## 单元导航
 
 [上一课：属性、DOM API 与默认行为](02-attributes-dom-apis-default-behavior.md) ·
-[返回章入口](../08-html-element-reference.md) · [返回 HTML 模块](../README.md)
+[返回章目录](../README.md#第八章元素参考选择与纠错) · [返回 HTML 模块](../README.md)

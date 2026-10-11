@@ -603,4 +603,4 @@ render();
 
 - 上一单元：[事件、表单提交与委托](./02-events-forms-delegation.md)
 - 下一单元：[Promise、`async` 与事件循环](../06-async-fetch-event-loop/01-promises-async-event-loop.md)
-- 章入口：[DOM、事件与可访问状态](../05-dom-events.md)
+- 章节目录：[DOM、事件与可访问状态](../README.md#第五章dom事件与可访问状态)

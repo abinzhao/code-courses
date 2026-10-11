@@ -517,4 +517,4 @@ navigator.clipboard.writeText("自动写入");
 
 ## 单元导航
 
-[上一课：离线一致性与更新](03-offline-consistency-updates.md) · [本章入口](../05-workers-offline-webapis.md) · [下一章：DevTools 与性能](../06-devtools-performance.md)
+[上一课：离线一致性与更新](03-offline-consistency-updates.md) · [本章目录](../README.md#05-worker离线与平台能力) · [下一章：DevTools 与性能](../06-devtools-performance/01-network-performance-memory-evidence.md)

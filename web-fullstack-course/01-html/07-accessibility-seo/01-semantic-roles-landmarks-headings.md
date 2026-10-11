@@ -452,7 +452,7 @@ HTML 语法允许更复杂情况，但普通页面采用一个代表页面主题
 - [WCAG 2.2：2.4.11 Focus Not Obscured (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html)：检查焦点是否被作者创建内容完全遮住。
 - [WCAG 2.2：2.5.3 Label in Name](https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html)：理解可见标签与计算名称一致性的价值。
 - [Chrome DevTools：Accessibility features reference](https://developer.chrome.com/docs/devtools/accessibility/reference/)：查看完整可访问树、计算属性和名称来源。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对键盘主路径、整数分、教学状态与服务端职责。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：核对键盘主路径、整数分、教学状态与服务端职责。
 
 阅读与验证时保持四层证据：
 
@@ -473,4 +473,4 @@ HTML 语法允许更复杂情况，但普通页面采用一个代表页面主题
 
 ## 单元导航
 
-[返回本章入口](../07-accessibility-seo.md) · [下一课：可访问名称、描述与状态：让控件表达准确对象](02-accessible-names-descriptions-states.md) · [返回 HTML 模块](../README.md)
+[返回本章目录](../README.md#第七章无障碍可发现性与质量) · [下一课：可访问名称、描述与状态：让控件表达准确对象](02-accessible-names-descriptions-states.md) · [返回 HTML 模块](../README.md)

@@ -417,4 +417,4 @@ const priceCents = Math.round(parseFloat(text) * 100)
 
 ## 单元导航
 
-[上一课：事件、状态快照与更新](01-events-state-snapshots-updates.md) · [返回章节入口](../02-events-state-forms.md) · [下一课：搜索、发布与状态所有权](03-search-publish-state-ownership.md)
+[上一课：事件、状态快照与更新](01-events-state-snapshots-updates.md) · [返回章目录](../README.md#第二章事件状态与表单) · [下一课：搜索、发布与状态所有权](03-search-publish-state-ownership.md)

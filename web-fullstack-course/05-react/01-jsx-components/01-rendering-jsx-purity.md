@@ -285,4 +285,4 @@ function WrongCard({ title }: { title: string }) {
 
 ## 单元导航
 
-[返回章节入口](../01-jsx-components.md) · [下一课：组件、组合与列表身份](02-components-props-composition-list-identity.md)
+[返回章目录](../README.md#第一章jsx组件与第一版集市) · [下一课：组件、组合与列表身份](02-components-props-composition-list-identity.md)

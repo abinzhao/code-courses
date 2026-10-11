@@ -311,5 +311,5 @@ Node 会在第二行抛 `TypeError: Assignment to constant variable.`。确实�
 
 ## 单元导航
 
-[返回第 1 章入口](../01-values-control-flow.md) ·
+[返回第 1 章目录](../README.md#第一章值运算与控制流程) ·
 [下一篇：运算符、条件与短路](02-operators-conditions-short-circuit.md)

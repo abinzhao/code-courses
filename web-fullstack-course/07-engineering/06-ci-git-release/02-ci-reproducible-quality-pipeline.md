@@ -280,6 +280,6 @@ find dist -type f -print | sort
 
 ## 单元导航
 
-- 章入口：[06 CI、Git 与发布](../06-ci-git-release.md)
+- 章节目录：[06 CI、Git 与发布](../README.md#06-gitci-与发布)
 - 上一课：[Git 范围、审查与可回退提交](01-git-scope-reviewable-commits.md)
 - 下一课：[制品、发布、缓存与回滚边界](03-artifacts-release-cache-rollback.md)

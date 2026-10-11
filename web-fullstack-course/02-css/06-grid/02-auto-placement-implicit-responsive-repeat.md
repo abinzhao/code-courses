@@ -442,6 +442,6 @@ API/内存数组按明确规则排序
 ## 单元导航
 
 - [上一课：显式轨道、网格线与区域](01-explicit-tracks-lines-areas.md)
-- [返回第六章入口](../06-grid.md)
+- [返回第六章目录](../README.md#第六章grid-与-subgrid)
 - [下一课：Subgrid、对齐与回退](03-subgrid-alignment-fallback.md)
 - [返回 CSS 模块](../README.md)

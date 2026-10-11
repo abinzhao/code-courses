@@ -439,7 +439,7 @@ practice/html-11-constraint-validation/basic-validity.html
 - [OWASP File Upload Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html)：复习扩展名、内容类型、签名、存储和恶意内容边界。
 - [OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)：区分界面隐藏与服务端授权。
 - [OWASP Cross-Site Request Forgery Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)：理解 cookie 身份请求的 CSRF 防护。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对整数分、UTC 时间和教学状态边界。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：核对整数分、UTC 时间和教学状态边界。
 
 阅读时区分三类结论：
 

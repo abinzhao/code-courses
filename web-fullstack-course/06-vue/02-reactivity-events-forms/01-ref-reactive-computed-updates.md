@@ -339,5 +339,5 @@ Vue 能追踪该写入，但应在明确事件中执行。本课偏好整体替�
 
 ## 单元导航
 
-[返回章入口](../02-reactivity-events-forms.md) ·
+[返回章目录](../README.md#第二章响应式事件与可提交表单) ·
 [下一课：组件事件、v-model 与表单](02-component-events-v-model-forms.md)

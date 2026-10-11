@@ -304,4 +304,5 @@
 ## 单元导航
 
 - 上一单元：[层叠层、特异性与确定性决策](./02-cascade-layers-specificity.md)
-- 下一单元：[02 值、颜色与单位章入口](../02-values-colors-units.md)
+- 下一单元：[02 值、颜色与单位章首课](../02-values-colors-units/01-value-stages-units-percentages.md)
+- 分卷目录：[CSS](../README.md)

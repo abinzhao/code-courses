@@ -90,9 +90,10 @@ payload 不放密码、Cookie、CSRF token、连接串、完整个人资料。�
 
 ### 4.3 同一事务意味着同一 client
 
-`BEGIN` 只影响当前 PostgreSQL 连接：
+`BEGIN` 只影响当前 PostgreSQL 连接。以下是概念演示，省略业务参数与错误清理，不是可运行文件；
+完整示例见第 6、7 节：
 
-```ts
+```text
 const client = await pool.connect();
 await client.query("BEGIN");
 await reservationRepository.insert(client, ...);
@@ -693,6 +694,6 @@ await pool.query("INSERT INTO outbox_events ...");
 
 ## 单元导航
 
-- 章入口：[08 Redis、Outbox 与队列](../08-redis-queues-reliability.md)
+- 章节目录：[08 Redis、Outbox 与队列](../README.md#08-redisoutbox-与队列)
 - 上一课：[缓存失效与击穿控制](01-cache-invalidation-stampede-control.md)
 - 下一课：[BullMQ 幂等、重试、死信与停机](03-bullmq-idempotency-retry-dead-letter-shutdown.md)

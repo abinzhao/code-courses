@@ -547,7 +547,7 @@ practice/html-07-table-model/basic-comparison.html
 - [W3C WCAG 2.2：Understanding 1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html)：理解为什么视觉关系还需要程序化确定。
 - [MDN：`colgroup`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/colgroup)：核对放置顺序、`span` 内容限制和可作用的 CSS 范围。
 - [MDN：`th`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/th)：复习 `scope`、`headers`、`colspan` 与 `rowspan`。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对整数分、UTC 时间和静态教学边界。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：核对整数分、UTC 时间和静态教学边界。
 
 阅读规范时重点区分三类结论：
 
@@ -565,4 +565,4 @@ practice/html-07-table-model/basic-comparison.html
 
 ## 单元导航
 
-[返回本章入口](../04-tables-data.md) · [下一课：表头关系、分组与显式关联](02-table-header-associations.md) · [返回 HTML 模块](../README.md)
+[返回本章目录](../README.md#第四章表格与二维数据) · [下一课：表头关系、分组与显式关联](02-table-header-associations.md) · [返回 HTML 模块](../README.md)

@@ -32,7 +32,7 @@
 
 ## 3. 预备知识
 
-先完成[章入口](../01-sfc-templates.md)中的边界阅读，并准备由
+先完成[本卷项目边界](../README.md#连续项目与边界)中的边界阅读，并准备由
 `pnpm create vite ... --template vue-ts` 创建的个人练习工程。若尚未创建，可先阅读本课，
 再在第 3 课统一建立工程。
 
@@ -335,7 +335,7 @@ const displayPrice = new Intl.NumberFormat('zh-CN', {
 - [Vue：安全](https://vuejs.org/guide/best-practices/security.html)
 - [Vite：插件 API](https://vite.dev/guide/api-plugin.html)
 
-版本事实以[全书版本基线](../../00-guide/02-version-baseline.md)和实际 `pnpm list` 输出为准；
+版本事实以[全书版本基线](../../00-guide/version-baseline.md)和实际 `pnpm list` 输出为准；
 本课不根据文档发布日期猜测本机补丁版本。
 
 ## 我现在能做到什么
@@ -345,5 +345,5 @@ const displayPrice = new Intl.NumberFormat('zh-CN', {
 
 ## 单元导航
 
-[返回章入口](../01-sfc-templates.md) ·
+[返回章目录](../README.md#第一章sfc模板与商品组件) ·
 [下一课：Props、插槽、指令与列表身份](02-props-slots-list-identity.md)

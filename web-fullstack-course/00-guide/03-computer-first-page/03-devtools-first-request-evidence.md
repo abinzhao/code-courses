@@ -582,4 +582,4 @@ Network 通常只记录开始监听后发生的请求。导航已完成再打开
 
 ## 单元导航
 
-[上一课：URL、HTTP 与第一张服务页面](02-url-http-first-page.md) · [章节入口](../03-computer-first-page.md) · [下一章：终端、Git 与调试习惯](../04-terminal-git-debugging.md)
+[上一课：URL、HTTP 与第一张服务页面](02-url-http-first-page.md) · [文件与请求综合验收](../README.md#文件与请求综合验收) · [下一课：终端、进程与端口](../04-terminal-git-debugging/01-terminal-processes-ports.md) · [起步实操目录](../README.md)

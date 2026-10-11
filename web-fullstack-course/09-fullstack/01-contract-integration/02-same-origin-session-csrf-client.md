@@ -246,11 +246,12 @@ curl -i http://localhost:5173/api/v1/auth/me
 完整文件：`market/packages/contracts/client.ts`
 
 ```ts
-import type { Listing, ListingPage, PublicUser } from "./index.js";
+import type { Listing, ListingPage, PublicUser, Reservation } from "./index.js";
 import {
   parseApiError,
   parseListing,
   parseListingPage,
+  parseReservation,
   parseSession,
 } from "./runtime.js";
 
@@ -416,11 +417,11 @@ export async function updateListing(
   ));
 }
 
-export async function reserveListing(id: string): Promise<unknown> {
-  return request(
+export async function reserveListing(id: string): Promise<Reservation> {
+  return parseReservation(await request(
     `/listings/${encodeURIComponent(id)}/reservations`,
     { method: "POST" },
-  );
+  ));
 }
 ```
 
@@ -429,8 +430,9 @@ export async function reserveListing(id: string): Promise<unknown> {
 
 ### 7.2 兼容旧框架 API 的唯一适配器
 
-现有 Context/Pinia 可能期待扁平 `User` 和泛型 `api<T>`。适配器只兼容认证入口；商品必须调用
-`listListings/getListing/updateListing`，不能使用泛型断言绕过 parser。
+两卷最终 Capstone 的真实入口都是 `api(path, parser, init)`，并导出商品、分页、预约和确认
+parser；不能用二参数泛型函数覆盖它们。下面保留三参数入口，认证先校验真实 session 再映射显示
+模型，其他响应必须调用显式 parser。新页面也可使用 `listListings/getListing/updateListing`。
 
 完整文件：`market/packages/contracts/browser-api.ts`
 
@@ -443,6 +445,20 @@ import {
   request,
   restoreSession,
 } from "./client.js";
+import {
+  parseListing,
+  parseListingPage,
+  parsePublicUser,
+  parseReservation,
+  ResponseValidationError,
+} from "./runtime.js";
+
+export {
+  parseListing,
+  parseListingPage,
+  parseReservation,
+  ResponseValidationError,
+};
 
 export type User = PublicUser & { name: string };
 
@@ -464,16 +480,35 @@ function displayUser(user: PublicUser): User {
   return { ...user, name: user.email };
 }
 
+export function parseUser(value: unknown): User {
+  return displayUser(parsePublicUser(value));
+}
+
+export function parseAck(value: unknown): Record<string, unknown> {
+  if (value === undefined) return {};
+  if (value === null || typeof value !== "object" || Array.isArray(value)) {
+    throw new ResponseValidationError("ack: expected object");
+  }
+  return value as Record<string, unknown>;
+}
+
+export function parseVoid(value: unknown): void {
+  if (value !== undefined && value !== null) {
+    throw new ResponseValidationError("void: unexpected response body");
+  }
+}
+
 export async function api<T>(
   path: string,
+  parse: (value: unknown) => T,
   init: RequestInit = {},
 ): Promise<T> {
   try {
     const method = (init.method ?? "GET").toUpperCase();
     if (path === "/auth/me" && method === "GET") {
-      return displayUser(
+      return parse(displayUser(
         await restoreSession(init.signal ?? undefined),
-      ) as T;
+      ));
     }
     if (path === "/auth/login" && method === "POST") {
       if (typeof init.body !== "string") {
@@ -488,15 +523,15 @@ export async function api<T>(
           typeof fields.password !== "string") {
         throw new TypeError("登录需要 email 和 password");
       }
-      return displayUser(
+      return parse(displayUser(
         await login(fields.email, fields.password),
-      ) as T;
+      ));
     }
     if (path === "/auth/logout" && method === "POST") {
       await logout();
-      return { ok: true } as T;
+      return parse(undefined);
     }
-    return await request(path, init) as T;
+    return parse(await request(path, init));
   } catch (error) {
     if (error instanceof ApiFailure) {
       throw new ApiError(
@@ -512,6 +547,157 @@ export async function api<T>(
 ```
 
 `name` 只是现有 UI 的显示模型，映射自真实 email；它不回写 API 类型，也不参与授权。
+`parseAck` 只把明确的无正文成功适配成空确认对象，`parseVoid` 只接受空值。真实 API 的 logout
+由客户端消费成功响应后统一为无返回值；不能把任意商品/预约响应断言成 `T`。
+
+完整文件：`market/packages/contracts/browser-api.test.ts`
+
+```ts
+import { beforeEach, expect, it, vi } from "vitest";
+
+beforeEach(() => {
+  vi.resetModules();
+  vi.unstubAllGlobals();
+});
+
+const listing = {
+  id: "20000000-0000-4000-8000-000000000001",
+  title: "台灯",
+  description: "",
+  priceCents: 19900,
+  status: "available",
+  ownerId: "10000000-0000-4000-8000-000000000001",
+  version: 1,
+  createdAt: "2026-10-11T00:00:00.000Z",
+};
+const session = {
+  user: { id: listing.ownerId, email: "owner@example.test", role: "user" },
+  csrfToken: "a".repeat(64),
+};
+const json = (value: unknown, status = 200) =>
+  new Response(JSON.stringify(value), { status });
+
+it("keeps the three-argument parser API and current session CSRF", async () => {
+  const fetcher = vi.fn()
+    .mockResolvedValueOnce(json(session))
+    .mockResolvedValueOnce(json(listing));
+  vi.stubGlobal("fetch", fetcher);
+  const { api, parseListing } = await import("./browser-api.js");
+  expect(await api("/listings", parseListing, {
+    method: "POST",
+    headers: { "X-CSRF-Token": "demo-csrf" },
+    body: JSON.stringify({ title: "台灯", description: "", priceCents: 19900 }),
+  })).toEqual(listing);
+  expect(fetcher.mock.calls[0]?.[0]).toBe("/api/v1/auth/me");
+  const init = fetcher.mock.calls[1]?.[1] as RequestInit;
+  expect(init.credentials).toBe("same-origin");
+  expect(new Headers(init.headers).get("X-CSRF-Token")).toBe(session.csrfToken);
+});
+
+it("rejects malformed successful JSON through exported parsers", async () => {
+  vi.stubGlobal("fetch", vi.fn()
+    .mockResolvedValue(json({ ...listing, priceCents: "19900" })));
+  const { api, parseListing, ResponseValidationError } =
+    await import("./browser-api.js");
+  await expect(api("/listings/id", parseListing))
+    .rejects.toBeInstanceOf(ResponseValidationError);
+});
+
+it("validates reservation state, identity and UTC without demo IDs", async () => {
+  const { parseReservation, ResponseValidationError } =
+    await import("./browser-api.js");
+  const reservation = {
+    id: "30000000-0000-4000-8000-000000000001",
+    listingId: listing.id,
+    buyerId: listing.ownerId,
+    status: "pending",
+    createdAt: listing.createdAt,
+  };
+  for (const status of ["pending", "confirmed", "cancelled"]) {
+    expect(parseReservation({ ...reservation, status }).status).toBe(status);
+  }
+  for (const invalid of [
+    { ...reservation, status: "available" },
+    { ...reservation, buyerId: "demo-buyer" },
+    { ...reservation, createdAt: "2026-10-11" },
+  ]) {
+    expect(() => parseReservation(invalid)).toThrow(ResponseValidationError);
+  }
+});
+
+it("preserves HTTP 502 classification without leaking HTML", async () => {
+  vi.stubGlobal("fetch", vi.fn().mockResolvedValue(
+    new Response("<html>upstream failed</html>", {
+      status: 502,
+      headers: { "x-request-id": "proxy-id" },
+    }),
+  ));
+  const { api, parseListing, ApiError } = await import("./browser-api.js");
+  await expect(api("/listings/id", parseListing)).rejects.toMatchObject({
+    status: 502,
+    code: "HTTP_ERROR",
+    requestId: "proxy-id",
+    message: "服务暂时不可用",
+  });
+  expect(ApiError.prototype).toBeInstanceOf(Error);
+});
+
+it("maps only a validated session to the email display model", async () => {
+  vi.stubGlobal("fetch", vi.fn().mockResolvedValue(json(session)));
+  const { api, parseUser } = await import("./browser-api.js");
+  expect(await api("/auth/me", parseUser)).toEqual({
+    ...session.user,
+    name: session.user.email,
+  });
+});
+
+it("rejects a malformed session before allowing a write", async () => {
+  const fetcher = vi.fn().mockResolvedValue(json({ ...session, csrfToken: "short" }));
+  vi.stubGlobal("fetch", fetcher);
+  const { api, parseAck } = await import("./browser-api.js");
+  await expect(api("/favorites/id", parseAck, { method: "PUT" })).rejects.toThrow();
+  expect(fetcher).toHaveBeenCalledTimes(1);
+});
+
+it("supports logout 204 and clears the current session token", async () => {
+  const fetcher = vi.fn()
+    .mockResolvedValueOnce(json(session))
+    .mockResolvedValueOnce(new Response(null, { status: 204 }))
+    .mockResolvedValueOnce(json({ code: "UNAUTHENTICATED" }, 401));
+  vi.stubGlobal("fetch", fetcher);
+  const { api, parseUser, parseVoid, parseAck } = await import("./browser-api.js");
+  await api("/auth/me", parseUser);
+  await expect(api("/auth/logout", parseVoid, { method: "POST" }))
+    .resolves.toBeUndefined();
+  await expect(api("/favorites/id", parseAck, { method: "PUT" }))
+    .rejects.toMatchObject({ status: 401 });
+  expect(fetcher).toHaveBeenCalledTimes(3);
+});
+
+it("does not let a late restore token overwrite a new login", async () => {
+  let finish!: (response: Response) => void;
+  const fetcher = vi.fn()
+    .mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }))
+    .mockResolvedValueOnce(json({ ...session, csrfToken: "b".repeat(64) }))
+    .mockResolvedValueOnce(json({ favorited: true }));
+  vi.stubGlobal("fetch", fetcher);
+  const { api, parseUser, parseAck } = await import("./browser-api.js");
+  const old = api("/auth/me", parseUser);
+  await api("/auth/login", parseUser, {
+    method: "POST",
+    body: JSON.stringify({ email: session.user.email, password: "example-only-password" }),
+  });
+  finish(json(session));
+  await old;
+  await api("/favorites/id", parseAck, { method: "PUT" });
+  const init = fetcher.mock.calls[2]?.[1] as RequestInit;
+  expect(new Headers(init.headers).get("X-CSRF-Token")).toBe("b".repeat(64));
+});
+```
+
+从根运行 `pnpm --filter @market/contracts test`。这 8 个适配器回归加上第 01 课的 8 个 runtime
+用例，此时共 16 个；第 04 课加入 12 个 edit 用例后为 28 个。Mock 只固定 HTTP 响应边界，不证明
+真实 Nest、Cookie 浏览器策略或数据库已经运行。
 
 ### 7.3 顺序浏览器验收
 
@@ -611,9 +797,9 @@ target 是 Vite 进程访问 API 的内部地址；浏览器 origin 由页面 UR
 **能把 CSRF token 放 localStorage 方便刷新吗？**
 不需要。刷新后由 `/auth/me` 恢复。持久化扩大泄漏寿命，也不能替代 XSS 防护。
 
-**为什么 `browser-api.ts` 还有泛型断言？**
-它只用于兼容已有认证调用；session 已在内部解析。商品和分页禁止走该泛型入口，必须调用明确 parser
-的函数。
+**三参数泛型入口会不会跳过 parser？**
+不会。返回类型由调用方的 parser 推导，所有分支都实际调用它，没有 `as T`。商品/分页/预约
+复用 runtime 校验；session 先校验嵌套真实响应，再映射 email 为 UI 的 name。
 
 **前端能设置 Origin header 吗？**
 浏览器 Fetch 不允许脚本任意伪造受保护的 Origin。应用应配置并验证真实源，不在客户端造 header。
@@ -637,7 +823,7 @@ target 是 Vite 进程访问 API 的内部地址；浏览器 origin 由页面 UR
 
 ## 单元导航
 
-[章节 hub](../01-contract-integration.md) ·
+[本章目录](../README.md#01-契约集成) ·
 [上一课：工作区契约与运行时校验](01-workspace-contract-runtime-validation.md) ·
 [下一课：React Context 与 Vue Pinia 等价接入](03-react-vue-auth-data-integration.md) ·
 [全栈交付卷目录](../README.md)

@@ -495,7 +495,7 @@ health/readiness、PG18 volume、端口、资源和日志边界；我不会用 s
 
 ## 单元导航
 
-[章节 hub](../02-docker-compose.md) ·
+[本章目录](../README.md#02-docker-与-compose) ·
 [上一课：多阶段 API 镜像与构建上下文](01-multi-stage-image-build-context.md) ·
 [下一课：Secret、Volume、持久化与故障恢复](03-secrets-volumes-persistence-failures.md) ·
 [全栈交付卷目录](../README.md)

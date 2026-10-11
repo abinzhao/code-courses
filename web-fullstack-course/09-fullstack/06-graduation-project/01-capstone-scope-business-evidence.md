@@ -46,11 +46,11 @@
 
 必须完成：
 
-- [契约集成](../01-contract-integration.md)；
-- [API 综合项目](../../08-backend/10-api-capstone.md)；
+- [契约集成](../01-contract-integration/01-workspace-contract-runtime-validation.md)；
+- [API 综合项目](../../08-backend/10-api-capstone/01-workspace-config-migration-bootstrap.md)；
 - [事务 Outbox](../../08-backend/08-redis-queues-reliability/02-transactional-outbox-consistency.md)；
-- [CI、发布与回滚](../04-ci-release-rollback.md)；
-- [性能、安全与运维](../05-performance-security-operations.md)。
+- [CI、发布与回滚](../04-ci-release-rollback/01-local-quality-gates-clean-install.md)；
+- [性能、安全与运维](../05-performance-security-operations/01-load-baseline-slow-query.md)。
 
 评审环境应是 reader-owned 全新目录和隔离数据库。开始前记录：
 
@@ -2499,8 +2499,8 @@ attestation 授权随后会创建多名账号、Listing、Reservation 和 outbox
 
 ## 单元导航
 
-- 上一章：[05 性能、安全与运维](../05-performance-security-operations.md)
-- 本章入口：[06 毕业项目](../06-graduation-project.md)
+- 上一章：[05 性能、安全与运维](../README.md#05-性能安全与运维)
+- 章节目录：[06 毕业项目](../README.md#06-毕业项目)
 - 下一课：[评分、复审与独立修改](02-scoring-review-independent-change.md)
-- 课程级契约：[统一项目契约与阶段验收](../../00-guide/05-project-assessment.md)
+- 课程级契约：[统一项目契约与阶段验收](../../00-guide/project-contract.md)
 - 分卷入口：[全栈联调与交付](../README.md)

@@ -655,6 +655,6 @@ curl -i -X POST http://127.0.0.1:3000/api/v1/listings \
 
 ## 单元导航
 
-[返回本章 Hub](../02-nest-api-validation.md) ·
+[返回章目录](../README.md#02-nestjs-与输入验证) ·
 [上一课：启动、模块与依赖注入](01-bootstrap-modules-dependency-injection.md) ·
 [下一课：管道、过滤器与错误契约](03-pipes-filters-error-contract.md)

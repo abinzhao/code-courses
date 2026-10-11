@@ -410,7 +410,7 @@ priceCents: 35
 - [vue-tsc 项目](https://github.com/vuejs/language-tools)
 - [TypeScript 7 发布说明](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/)
 
-本书版本判断详见[版本基线](../../00-guide/02-version-baseline.md)。实际解析版本必须在自己的
+本书版本判断详见[版本基线](../../00-guide/version-baseline.md)。实际解析版本必须在自己的
 练习目录重新记录。
 
 ## 我现在能做到什么
@@ -421,5 +421,5 @@ priceCents: 35
 ## 单元导航
 
 [上一课：Props、插槽与身份](02-props-slots-list-identity.md) ·
-[返回章入口](../01-sfc-templates.md) ·
-[下一章：响应式、事件与表单](../02-reactivity-events-forms.md)
+[返回章目录](../README.md#第一章sfc模板与商品组件) ·
+[下一章：响应式、事件与表单](../02-reactivity-events-forms/01-ref-reactive-computed-updates.md)

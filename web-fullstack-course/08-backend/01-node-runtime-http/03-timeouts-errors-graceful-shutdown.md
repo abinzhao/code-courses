@@ -495,6 +495,6 @@ Node 24 补丁与客户端。记录原始字节和版本，不把某一种文本
 
 ## 单元导航
 
-[返回本章 Hub](../01-node-runtime-http.md) ·
+[返回章目录](../README.md#01-node-运行时与-http) ·
 [上一课：HTTP 请求、响应、流与背压](02-http-request-response-streams.md) ·
-[下一章：Nest API 与输入验证](../02-nest-api-validation.md)
+[下一章：Nest API 与输入验证](../02-nest-api-validation/01-bootstrap-modules-dependency-injection.md)

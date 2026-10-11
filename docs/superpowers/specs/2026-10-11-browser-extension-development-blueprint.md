@@ -1,7 +1,9 @@
 # 浏览器扩展开发课程蓝图
 
-> 状态：仅供方向评审，不创建扩展源码、商店账号或发布任务。
-> 技术快照：2026-10-11；实施时重新核验浏览器 API、商店政策和签名要求。
+> 蓝图快照：2026-10-11；对应 [24 篇浏览器扩展教程](../../../web-fullstack-course/12-browser-extension/README.md)
+> 已于 2026-10-12 编写，覆盖本页全部 12 模块。
+> 实际兼容组合和运行证据见[版本基线](../../../web-fullstack-course/12-browser-extension/BASELINE.md)和
+> [自检记录](../../../web-fullstack-course/12-browser-extension/SELF-CHECK.md)；其他浏览器实装与商店发布不由构建结果替代。
 
 ## 培养目标
 

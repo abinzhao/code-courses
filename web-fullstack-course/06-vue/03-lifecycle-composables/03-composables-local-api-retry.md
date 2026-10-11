@@ -622,7 +622,7 @@ setTimeout(() => {
 - [Vue：Watchers](https://vuejs.org/guide/essentials/watchers.html)
 - [Vite：插件 API](https://vite.dev/guide/api-plugin.html)
 - [Vite：开发服务器配置](https://vite.dev/config/server-options.html)
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)
+- [邻里集市项目契约](../../00-guide/project-contract.md)
 
 ## 我现在能做到什么
 
@@ -632,5 +632,5 @@ setTimeout(() => {
 ## 单元导航
 
 [上一课：HTTP 错误与取消](02-fetch-http-abort-resource-state.md) ·
-[返回章入口](../03-lifecycle-composables.md) ·
-[下一章：路由、URL 与服务端数据](../04-router-data.md)
+[返回章目录](../README.md#第三章生命周期请求竞争与-composable) ·
+[下一章：路由、URL 与服务端数据](../04-router-data/01-router-url-state-navigation.md)

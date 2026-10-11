@@ -47,7 +47,7 @@ mock 成永远成功。
 
 - [`unknown` 与运行时解析](../../04-javascript-typescript/08-typescript-domain-design/02-unknown-runtime-parsers-errors.md)；
 - [`Number.isSafeInteger`](../../04-javascript-typescript/01-values-control-flow/01-values-variables-types-conversion.md)；
-- [本章入口](../05-unit-integration-e2e.md)中的测试分层和证据边界。
+- [Node 测试与 TDD 边界](../../04-javascript-typescript/09-testing-debugging-algorithms/01-node-test-assertions-tdd-boundaries.md#4-核心理论)中的断言、覆盖率和证据边界。
 
 在 `market-engineering-lab/` 根目录运行：
 
@@ -660,6 +660,6 @@ function unsafeDate(value: string): string {
 
 ## 单元导航
 
-[本章入口](../05-unit-integration-e2e.md) ·
+[本章目录](../README.md#05-单元集成与端到端测试) ·
 [上一课：语义 Design Tokens 与跨框架边界](../04-workspace-component-library/03-design-tokens-cross-framework-boundaries.md) ·
 [下一课：集成 HTTP、解析器与请求竞态](02-vitest-integration-http-races.md)

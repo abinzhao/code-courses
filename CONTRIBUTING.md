@@ -20,7 +20,7 @@ Thanks for taking the time to contribute! 🎉 This is an open educational proje
 1. Be kind and respectful. Follow the [Code of Conduct](./CODE_OF_CONDUCT.md).
 2. Keep contributions focused — one logical change per issue/PR.
 3. All course content must be accurate, runnable, and free of secrets.
-4. Respect the existing six-part unit structure and writing style.
+4. Follow the [13-section unit contract](web-fullstack-course/00-guide/unit-writing-template.md) and the course's task-based writing style.
 
 ### Pull Request Workflow
 
@@ -64,9 +64,9 @@ Please include:
 
 ### Style Notes for Course Content
 
-- Each unit follows six parts: **Goals / Tech Stack / In-depth Theory & Sample Code / Review Questions / Hands-on Exercises / Stage Assessment**.
+- Each tutorial includes a task card, the 13 numbered sections, a capability recap, and working unit navigation. See the [writing template](web-fullstack-course/00-guide/unit-writing-template.md).
 - Explain the mechanism before the API; include runnable examples and common pitfalls.
-- Use "current stable/LTS version" wording rather than pinning patch versions.
+- Record the verification date and official sources. Runnable project snapshots pin the validated dependency versions; distinguish recommended versions from versions actually tested.
 
 ---
 
@@ -84,7 +84,7 @@ Please include:
 1. 友善尊重，遵守[行为准则](./CODE_OF_CONDUCT.md)。
 2. 一次只做一个聚焦的改动，一个 Issue/PR 对应一件事。
 3. 所有内容必须准确、可运行，且不含任何密钥。
-4. 遵循课程既有的六段式结构与写作风格。
+4. 遵循[13 节单元写作契约](web-fullstack-course/00-guide/unit-writing-template.md)与任务驱动的写作风格。
 
 ### Pull Request 流程
 
@@ -116,8 +116,8 @@ Please include:
 
 ### 课程内容风格
 
-- 每个单元六段式：**目标 / 技术栈 / 理论与示例代码 / 课后题 / 实践练习 / 阶段验收**。
+- 每篇详细教程包含任务卡、13 个编号章节、能力总结与可达的单元导航，具体见[写作模板](web-fullstack-course/00-guide/unit-writing-template.md)。
 - 先讲机制再讲 API，配可运行示例与常见误区。
-- 用“当前稳定/LTS 版本”表述，不写死补丁版本。
+- 记录核验日期与官方来源；可运行项目快照固定已验证的依赖版本，区分推荐版本、本机版本与实际通过范围。
 
 Happy contributing! 感谢你的贡献！

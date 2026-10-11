@@ -704,4 +704,4 @@ await fetch(
 
 ## 单元导航
 
-[上一课：Service Worker 生命周期与缓存](02-service-worker-lifecycle-cache.md) · [本章入口](../05-workers-offline-webapis.md) · [下一课：观察器、权限与回退](04-observers-permissions-api-fallback.md)
+[上一课：Service Worker 生命周期与缓存](02-service-worker-lifecycle-cache.md) · [本章目录](../README.md#05-worker离线与平台能力) · [下一课：观察器、权限与回退](04-observers-permissions-api-fallback.md)

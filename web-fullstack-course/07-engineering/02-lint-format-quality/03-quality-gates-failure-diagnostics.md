@@ -524,6 +524,6 @@ pnpm pkg set 'scripts.lint=eslint . --max-warnings 0'
 
 ## 单元导航
 
-[返回第 02 章入口](../02-lint-format-quality.md) ·
+[返回第 02 章目录](../README.md#02-lint格式与质量门禁) ·
 [上一篇：ESLint 10 Flat Config](02-eslint-flat-config-typescript.md) ·
 [下一课：Vite 8 构建图、Chunk 与动态导入](../03-build-assets-performance/01-vite-build-graph-chunks-dynamic-import.md)

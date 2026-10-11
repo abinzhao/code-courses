@@ -10,7 +10,8 @@
 
 ## 本卷定位与教材结构
 
-Vue 卷采用与 HTML 卷一致的两层结构：
+本 README 统筹章节顺序、依赖、阶段产出与本卷验收，学习路线直接连接每篇详细教程。
+下方只示意导航与正文的职责分工，不表示当前目录中存在独立章节导航文件。
 
 ```text
 卷入口 README
@@ -26,18 +27,16 @@ Vue 卷采用与 HTML 卷一致的两层结构：
   └── 练习、验收与导航
 ```
 
-章入口负责本章任务、依赖顺序、综合项目和章级验收；详细教程负责理论、完整或聚焦代码、
+本 README 负责学习顺序、综合项目和本卷验收；详细教程负责理论、完整或聚焦代码、
 诊断过程和可判定练习；[Vue 教材覆盖矩阵](./VUE-COVERAGE.md)负责把知识点映射到六类证据，
 不替代正文。
 
-学习时先看章入口，依次完成三篇教程，再回到章入口做综合任务。不要只读卷目录后跳过错误实验
-和阶段验收。
+学习时按章节表格依次完成正文、错误实验和阶段验收，再按本卷验收清单和唯一 Capstone 的场景
+矩阵整合成果。
 
 ## 学习路线
 
 ### 第一章：SFC、模板与商品组件
-
-章入口：[SFC、模板与商品组件](./01-sfc-templates.md)
 
 | 顺序 | 详细教程 | 解决的问题 |
 | --- | --- | --- |
@@ -50,8 +49,6 @@ Vue 卷采用与 HTML 卷一致的两层结构：
 
 ### 第二章：响应式、事件与可提交表单
 
-章入口：[响应式、事件与可提交表单](./02-reactivity-events-forms.md)
-
 | 顺序 | 详细教程 | 解决的问题 |
 | --- | --- | --- |
 | 1 | [ref、reactive、computed 与更新队列](./02-reactivity-events-forms/01-ref-reactive-computed-updates.md) | 源状态、纯派生、更新批次和响应式解构怎样建立因果链 |
@@ -61,8 +58,6 @@ Vue 卷采用与 HTML 卷一致的两层结构：
 阶段产出：可搜索、可验证、可发布商品的浏览器内存应用。建议投入 5–6 小时。
 
 ### 第三章：生命周期、请求竞争与 Composable
-
-章入口：[生命周期、请求竞争与 Composable](./03-lifecycle-composables.md)
 
 | 顺序 | 详细教程 | 解决的问题 |
 | --- | --- | --- |
@@ -74,8 +69,6 @@ Vue 卷采用与 HTML 卷一致的两层结构：
 
 ### 第四章：路由、URL 与服务端数据
 
-章入口：[路由、URL 与服务端数据](./04-router-data.md)
-
 | 顺序 | 详细教程 | 解决的问题 |
 | --- | --- | --- |
 | 1 | [Router、URL 状态与导航恢复](./04-router-data/01-router-url-state-navigation.md) | 搜索、页码和商品 ID 如何支持刷新、分享、后退与前进 |
@@ -86,8 +79,6 @@ Vue 卷采用与 HTML 卷一致的两层结构：
 
 ### 第五章：Pinia、依赖注入与状态架构
 
-章入口：[Pinia、依赖注入与状态架构](./05-pinia-architecture.md)
-
 | 顺序 | 详细教程 | 解决的问题 |
 | --- | --- | --- |
 | 1 | [先分清所有者，再建立 Pinia Store](./05-pinia-architecture/01-state-ownership-pinia-store.md) | 哪些状态属于 URL、组件、服务端或跨路由客户端 store |
@@ -97,8 +88,6 @@ Vue 卷采用与 HTML 卷一致的两层结构：
 阶段产出：跨路由会话、保守收藏、显示服务和请求级状态隔离。建议投入约 10 小时。
 
 ### 第六章：测试、无障碍与错误恢复
-
-章入口：[测试、无障碍与错误恢复](./06-testing-accessibility.md)
 
 | 顺序 | 详细教程 | 解决的问题 |
 | --- | --- | --- |
@@ -111,8 +100,6 @@ Vue 卷采用与 HTML 卷一致的两层结构：
 
 ### 第七章：性能证据与进阶 Vue
 
-章入口：[性能证据与进阶 Vue](./07-performance-advanced-vue.md)
-
 | 顺序 | 详细教程 | 解决的问题 |
 | --- | --- | --- |
 | 1 | [先测瓶颈，再选择浅层响应、分页或缓存](./07-performance-advanced-vue/01-performance-shallow-reactivity-measurement.md) | 如何分离网络、计算、DOM、布局与绘制成本，避免无证据优化 |
@@ -122,8 +109,6 @@ Vue 卷采用与 HTML 卷一致的两层结构：
 阶段产出：三个相互隔离、可恢复主入口的测量与进阶交互实验。建议投入约 12 小时。
 
 ### 第八章：渲染模式、SSR 与结业验收
-
-章入口：[渲染模式、SSR 水合与 Vue 结业验收](./08-ssr-capstone.md)
 
 | 顺序 | 详细教程 | 解决的问题 |
 | --- | --- | --- |
@@ -147,7 +132,7 @@ JavaScript 函数/对象/数组/Promise 和 ES module 概念。TypeScript 联合
 2. 运行指定命令，保存实际版本、退出码和可观察结果。
 3. 主动完成错误案例，按“现象、证据、原因、修复、复验”记录。
 4. 把最小案例迁移到邻里集市，而不是复制第二套业务。
-5. 完成基础、进阶、故障注入练习，再回到章入口综合验收。
+5. 完成基础、进阶、故障注入练习和正文阶段验收，再按本 README 与唯一 Capstone 综合验收。
 
 只看到页面、只通过 Vite 转译或只复制答案，都不等于完成。遇到不熟悉的 HTML、浏览器或
 TypeScript 机制，应回到对应前置卷，不需要先读 React 实现。
@@ -183,14 +168,14 @@ neighborhood-market/
 ### 版本与工具链边界
 
 精确技术选择、核验日期和 TypeScript 兼容线统一见
-[版本基线](../00-guide/02-version-baseline.md)。语言主线、工具兼容线、锁文件与本机解析结果是
+[版本基线](../00-guide/version-baseline.md)。语言主线、工具兼容线、锁文件与本机解析结果是
 不同证据；先保存版本探针和 `pnpm list --depth 0`，再依据对应文档判断。Vite 构建不能替代
 SFC 类型检查，历史输出也不能与当前锁文件拼成一个不存在的环境。
 
 ## 连续项目与边界
 
 Vue 与 React 使用同一邻里集市业务复杂度、HTTP 语义、固定数据和验收场景，但不共享框架组件
-源码。完整领域说明见[邻里集市统一项目契约](../00-guide/05-project-assessment.md)。
+源码。完整领域说明见[邻里集市统一项目契约](../00-guide/project-contract.md)。
 
 主线商品形状固定为：
 
@@ -289,7 +274,7 @@ ssr-html-and-hydration
 
 正式整合时，Vue 工程是 `neighborhood-market/apps/vue-web`，后端卷的 `@market/api` 来自另一
 教学 workspace。必须先对齐目录、共享 DTO、认证响应、动态 CSRF 来源、精确 Origin 和代理，
-再按[契约联调与整合](../09-fullstack/01-contract-integration.md)操作。只删除教学插件不能证明联调
+再按[契约联调与整合](../09-fullstack/01-contract-integration/01-workspace-contract-runtime-validation.md)操作。只删除教学插件不能证明联调
 完成。
 
 ## 命令矩阵
@@ -388,5 +373,5 @@ ssr-html-and-hydration
 - [Pinia](https://pinia.vuejs.org/)
 - [Vue 教材覆盖矩阵](./VUE-COVERAGE.md)
 
-[返回全书目录](../README.md) · [开始第一章](./01-sfc-templates.md) ·
+[返回全书目录](../README.md) · [开始第一章](01-sfc-templates/01-sfc-template-compiler.md) ·
 [进入工程化卷](../07-engineering/README.md)

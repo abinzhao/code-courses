@@ -372,4 +372,4 @@ const duplicated = useListings(q)
 
 ## 单元导航
 
-[上一课：URL 状态与导航](01-data-router-url-state-navigation.md) · [返回章节入口](../04-routing-data.md) · [下一课：登录、发布与预约冲突](03-auth-publish-reservation-conflicts.md)
+[上一课：URL 状态与导航](01-data-router-url-state-navigation.md) · [返回章目录](../README.md#第四章data-router-与服务端数据) · [下一课：登录、发布与预约冲突](03-auth-publish-reservation-conflicts.md)

@@ -224,4 +224,4 @@ class 不会自动提供列表、引用或名称值语义。需要相应关系�
 
 ## 单元导航
 
-[上一课：列表、描述关系与命令集合](06-lists-descriptions-commands.md) · [下一章](../03-images-media-embedding.md) · [返回 HTML 模块](../README.md)
+[上一课：列表、描述关系与命令集合](06-lists-descriptions-commands.md) · [下一章](../03-images-media-embedding/01-image-semantics-alt-dimensions.md) · [返回 HTML 模块](../README.md)

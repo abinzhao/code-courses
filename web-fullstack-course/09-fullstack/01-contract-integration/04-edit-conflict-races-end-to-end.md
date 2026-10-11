@@ -318,8 +318,8 @@ pnpm --filter @market/contracts test
 ```
 
 本文件贡献 12 个断言展开用例：三个合法金额、六个非法金额、一个文本边界、一个稳定冲突 code
-和一个跨路由 operation lease；上一课 runtime parser 另有 8 个用例。contracts 门应显示 20/20，
-且不能靠删除错误 code 或旧 lease 负例恢复通过。
+和一个跨路由 operation lease；第 01 课 runtime parser 有 8 个，第 02 课桥接回归有 8 个。
+contracts 门应显示 28/28，且不能靠删除 parser、错误 code 或旧 lease 负例恢复通过。
 
 ## 7. 邻里集市集成案例
 
@@ -367,7 +367,8 @@ export default function EditListingPage() {
   useEffect(() => {
     const ownGeneration = ++generation.current;
     const controller = new AbortController();
-    operation.current.invalidate();
+    const currentGate = operation.current;
+    currentGate.invalidate();
     setBase(null);
     setLatest(null);
     setDraft(emptyDraft);
@@ -393,7 +394,7 @@ export default function EditListingPage() {
 
     return () => {
       controller.abort();
-      operation.current.invalidate();
+      currentGate.invalidate();
       generation.current += 1;
     };
   }, [id]);
@@ -789,6 +790,46 @@ function adoptLatestVersion() {
 
 详情页可以只对 owner 显示链接以改善体验，但直接输入 URL 时组件和后端仍必须正确拒绝非 owner。
 
+针对第 03 课已应用补丁的最终 Capstone，用以下局部补丁接入编辑路由，不另建 router：
+
+```diff
+--- a/apps/react-web/src/App.tsx
++++ b/apps/react-web/src/App.tsx
+@@ -22 +22,2 @@
+ import { authRoutes } from "./auth/routes";
++import EditListingPage from "./listings/EditListingPage";
+@@ -410 +411,2 @@
+       ...authRoutes,
++      { path: "/listings/:id/edit", element: <EditListingPage /> },
+--- a/apps/vue-web/src/router.ts
++++ b/apps/vue-web/src/router.ts
+@@ -8 +8,2 @@
+ import { authRoutes } from './auth/routes'
++import EditListingPage from './pages/EditListingPage.vue'
+@@ -14 +15,2 @@
+   ...authRoutes,
++  { path: '/listings/:id/edit', component: EditListingPage, meta: { title: '编辑商品' } },
+```
+
+若已手工加入前面的等价 route，不重复应用该补丁。全部文件和接线完成后，从 `market/` 运行：
+
+```bash
+node scripts/integrate-workspace.mjs --check
+pnpm --filter @market/contracts typecheck
+pnpm --filter @market/contracts test
+pnpm --filter @market/react-web typecheck
+pnpm --filter @market/react-web test
+pnpm --filter @market/react-web build
+pnpm --filter @market/vue-web typecheck
+pnpm --filter @market/vue-web test
+pnpm --filter @market/vue-web build
+```
+
+预期输出 `workspace integration complete check: PASS`。若任一第 02..04 课输入缺失，默认检查
+应失败；不改用 `--initial`。这里只是文件、类型、测试和构建门，下面真实 HTTP/数据库及浏览器
+验收仍必须另外执行。共享矩阵见[React 覆盖矩阵](../../05-react/REACT-COVERAGE.md)和
+[Vue 覆盖矩阵](../../06-vue/VUE-COVERAGE.md)。
+
 ### 7.3 双窗口冲突与预约验收
 
 编辑冲突：
@@ -890,6 +931,7 @@ await updateListing(latest, oldDraft);
 ## 11. 阶段验收
 
 - [ ] parser 覆盖金额 `0`、上限、负数、小数、科学计数、前导零和超上限。
+- [ ] 默认完整 `--check` 和双端 type/test/build 通过，非仅独立 contracts 测试通过。
 - [ ] 两端编辑页都分离 base、draft、latest。
 - [ ] owner 成功保存后使用服务端响应 version；非 owner 绕过 UI 仍为 403。
 - [ ] 409 后草稿逐字保留，没有自动第二次 PATCH。
@@ -936,7 +978,7 @@ AbortController 或 Mock 当成数据库原子性。
 
 ## 单元导航
 
-[章节 hub](../01-contract-integration.md) ·
+[本章目录](../README.md#01-契约集成) ·
 [上一课：React Context 与 Vue Pinia 等价接入](03-react-vue-auth-data-integration.md) ·
-[下一章：Docker Compose](../02-docker-compose.md) ·
+[下一章：Docker Compose](../02-docker-compose/01-multi-stage-image-build-context.md) ·
 [全栈交付卷目录](../README.md)

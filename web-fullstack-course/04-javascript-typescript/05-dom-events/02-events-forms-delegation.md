@@ -320,4 +320,4 @@ function render() {
 
 - 上一单元：[DOM 查询、节点创建与安全渲染](./01-dom-query-create-safe-rendering.md)
 - 下一单元：[内存状态、焦点与可访问交互](./03-state-focus-accessible-interactions.md)
-- 章入口：[DOM、事件与可访问状态](../05-dom-events.md)
+- 章节目录：[DOM、事件与可访问状态](../README.md#第五章dom事件与可访问状态)

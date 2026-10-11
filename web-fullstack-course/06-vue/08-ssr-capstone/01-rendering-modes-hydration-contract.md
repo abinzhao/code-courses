@@ -235,4 +235,4 @@ createSSRApp(App, { initial }).mount('#app')
 
 ## 单元导航
 
-[返回章入口](../08-ssr-capstone.md) · [下一课：Vite Vue SSR 与请求隔离](02-vite-vue-ssr-serialization-isolation.md)
+[返回章目录](../README.md#第八章渲染模式ssr-与结业验收) · [下一课：Vite Vue SSR 与请求隔离](02-vite-vue-ssr-serialization-isolation.md)

@@ -630,6 +630,6 @@ duplicate，通知仍一行；记录现象、证据、原因、修复和复验�
 
 ## 单元导航
 
-- 章入口：[08 Redis、Outbox 与队列](../08-redis-queues-reliability.md)
+- 章节目录：[08 Redis、Outbox 与队列](../README.md#08-redisoutbox-与队列)
 - 上一课：[事务 Outbox 与一致性](02-transactional-outbox-consistency.md)
-- 下一章：[09 测试、OpenAPI 与可观测性](../09-testing-openapi-observability.md)
+- 下一章：[09 测试、OpenAPI 与可观测性](../09-testing-openapi-observability/01-unit-http-real-postgres-tests.md)

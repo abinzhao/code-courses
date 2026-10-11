@@ -308,4 +308,4 @@ practice/
 
 ## 单元导航
 
-[上一课：引用、机器值与修订：让文本可解释、可校验](06-quotes-machine-values-edits.md) · [下一章](../02-structure-links-lists.md) · [返回 HTML 模块](../README.md)
+[上一课：引用、机器值与修订：让文本可解释、可校验](06-quotes-machine-values-edits.md) · [下一章](../02-structure-links-lists/01-landmarks-sectioning.md) · [返回 HTML 模块](../README.md)

@@ -359,5 +359,5 @@ while (index < 3) {
 ## 单元导航
 
 [上一篇：运算符、条件分支与短路求值](02-operators-conditions-short-circuit.md) ·
-[返回第 1 章入口](../01-values-control-flow.md) ·
-[下一章：函数、作用域与错误](../02-functions-scope-errors.md)
+[返回第 1 章目录](../README.md#第一章值运算与控制流程) ·
+[下一章：函数、作用域与错误](../02-functions-scope-errors/01-function-contracts-parameters-returns.md)

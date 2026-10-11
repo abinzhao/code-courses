@@ -39,7 +39,7 @@
 
 ## 3. 预备知识
 
-先完成[第 3 章](../03-sql-modeling.md)，并在自己的练习项目中准备：
+先完成[第 3 章](../03-sql-modeling/01-domain-to-relational-model.md)，并在自己的练习项目中准备：
 
 ```bash
 mkdir -p market-api-lab/src/db market-api-lab/scripts market-api-lab/test
@@ -523,6 +523,6 @@ URI 常包含用户名、口令和额外参数。主机、端口、数据库、T
 
 ## 单元导航
 
-[本章入口](../04-postgres-data-access.md) ·
+[本章目录](../README.md#04-postgresql-数据访问) ·
 [下一课：参数化 SQL、类型映射与 SQLSTATE](02-parameterized-sql-types-sqlstate.md) ·
 [后端卷目录](../README.md)

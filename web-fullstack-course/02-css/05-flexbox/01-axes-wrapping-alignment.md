@@ -320,5 +320,5 @@ Gap 不属于项目自身边缘，不会在容器外产生首尾 margin，也不
 
 ## 单元导航
 
-- 上一单元：[章入口](../05-flexbox.md)
+- 章节目录：[本章目录](../README.md#第五章flexbox)
 - 下一单元：[增长、收缩、基准与自动最小尺寸](./02-grow-shrink-basis-auto-minimum.md)

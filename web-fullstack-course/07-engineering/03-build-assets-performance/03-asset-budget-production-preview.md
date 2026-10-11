@@ -450,4 +450,4 @@ Vite 默认把 JavaScript 放在 `dist/assets/`，该脚本会漏报并制造 0 
 
 ## 单元导航
 
-[返回章入口](../03-build-assets-performance.md) · [上一课：客户端环境、Source Map、缓存与发布](02-client-env-sourcemaps-cache-release.md) · [下一课：pnpm Workspace 依赖图](../04-workspace-component-library/01-pnpm-workspace-dependency-graph.md)
+[返回章目录](../README.md#03-构建资源缓存与性能预算) · [上一课：客户端环境、Source Map、缓存与发布](02-client-env-sourcemaps-cache-release.md) · [下一课：pnpm Workspace 依赖图](../04-workspace-component-library/01-pnpm-workspace-dependency-graph.md)

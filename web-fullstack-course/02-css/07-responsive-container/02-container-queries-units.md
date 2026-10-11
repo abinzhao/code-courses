@@ -37,7 +37,7 @@
 
 ## 3. 预备知识
 
-先完成[媒体查询与内容断点](01-media-queries-content-breakpoints.md)和[Grid 与 Subgrid](../06-grid.md)。个人路径：
+先完成[媒体查询与内容断点](01-media-queries-content-breakpoints.md)和[Grid 与 Subgrid](../06-grid/01-explicit-tracks-lines-areas.md)。个人路径：
 
 ```text
 market-learning/practice/css-07-container/index.html
@@ -415,7 +415,7 @@ DevTools 中检查 `.card-host` 的 container 标记。报告测量边框盒；�
 - [CSS Containment Level 3](https://www.w3.org/TR/css-contain-3/)：理解尺寸包含和容器单位。
 - [MDN：容器查询](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries)：复习命名、尺寸和单位。
 - [MDN：container-type](https://developer.mozilla.org/en-US/docs/Web/CSS/container-type)：核对类型与副作用。
-- [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对数据与阶段边界。
+- [邻里集市项目契约](../../00-guide/project-contract.md)：核对数据与阶段边界。
 
 现有章节快照记录基础尺寸查询起始支持为 Chrome 105、Firefox 110、Safari 16；样式查询、滚动状态查询和一般属性查询不能沿用同一结论。旧 WebView 与目标组合仍需实测。
 
@@ -426,6 +426,6 @@ DevTools 中检查 `.card-host` 的 container 标记。报告测量边框盒；�
 ## 单元导航
 
 - [上一课：媒体查询与内容断点](01-media-queries-content-breakpoints.md)
-- [返回第七章入口](../07-responsive-container.md)
+- [返回第七章目录](../README.md#第七章响应式布局与容器查询)
 - [下一课：逻辑属性、输入能力、安全区与偏好](03-logical-properties-input-safe-area-preferences.md)
 - [返回 CSS 模块](../README.md)

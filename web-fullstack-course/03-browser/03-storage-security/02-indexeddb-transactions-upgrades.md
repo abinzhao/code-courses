@@ -521,4 +521,4 @@ showSuccess();
 
 ## 单元导航
 
-[上一课：内存、Web Storage 与跨标签冲突](01-memory-web-storage-cross-tab.md) · [下一课：源、Cookie、XSS、CSRF 与授权](03-origin-cookie-xss-csrf-authorization.md) · [章入口](../03-storage-security.md)
+[上一课：内存、Web Storage 与跨标签冲突](01-memory-web-storage-cross-tab.md) · [下一课：源、Cookie、XSS、CSRF 与授权](03-origin-cookie-xss-csrf-authorization.md) · [本章目录](../README.md#03-存储会话与安全边界)

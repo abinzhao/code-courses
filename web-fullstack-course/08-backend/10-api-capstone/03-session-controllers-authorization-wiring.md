@@ -68,9 +68,9 @@ CredentialsDto + scrypt
 
 复习：
 
-- [认证、Session 与授权](../06-auth-sessions-rbac.md)；
-- [NestJS 与输入验证](../02-nest-api-validation.md)；
-- [测试、OpenAPI 与可观测性](../09-testing-openapi-observability.md)。
+- [认证、Session 与授权](../06-auth-sessions-rbac/03-authentication-object-authorization-rbac.md)；
+- [NestJS 与输入验证](../02-nest-api-validation/02-dto-transformation-validation.md)；
+- [测试、OpenAPI 与可观测性](../09-testing-openapi-observability/01-unit-http-real-postgres-tests.md)。
 
 测试用密码、邮箱和 token 都必须是虚构值。不得把真实账号、Cookie 或 `.env` 放进命令历史、
 教材、截图或日志。
@@ -478,6 +478,6 @@ query 可能包含搜索词、邮箱或其他个人数据。教学日志记录 r
 
 ## 单元导航
 
-[返回第 10 章入口](../10-api-capstone.md) ·
+[返回第 10 章目录](../README.md#10-api-综合项目) ·
 [上一课：领域、仓储与事务服务](02-domain-repositories-transaction-services.md) ·
 [下一课：真实 HTTP 与数据库验收 Runbook](04-real-http-database-acceptance-runbook.md)

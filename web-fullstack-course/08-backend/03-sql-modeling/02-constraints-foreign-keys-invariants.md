@@ -471,6 +471,6 @@ CHECK (buyer_id <> (SELECT owner_id FROM listings ...))
 
 ## 单元导航
 
-[返回本章 Hub](../03-sql-modeling.md) ·
+[返回章目录](../README.md#03-sql-建模) ·
 [上一课：从领域到关系模型](01-domain-to-relational-model.md) ·
 [下一课：迁移、索引与执行计划](03-migrations-indexes-query-plans.md)

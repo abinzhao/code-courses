@@ -339,5 +339,5 @@ function subtotal(priceCents: number, quantity: number): number {
 
 ## 单元导航
 
-- 上一单元：[章入口](../07-typescript-core.md)
+- 章节目录：[本章目录](../README.md#第七章typescript-核心)
 - 下一单元：[联合、收窄与状态建模](./02-unions-narrowing-state-modeling.md)

@@ -480,4 +480,4 @@ render(page);
 
 - 上一单元：[Fetch、HTTP 错误与运行时校验](./02-fetch-http-errors-runtime-validation.md)
 - 下一单元：[TypeScript 推断、注解与严格配置](../07-typescript-core/01-inference-annotations-strict-config.md)
-- 章入口：[异步、Fetch 与事件循环](../06-async-fetch-event-loop.md)
+- 章节目录：[异步、Fetch 与事件循环](../README.md#第六章异步fetch-与事件循环)

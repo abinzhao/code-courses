@@ -556,4 +556,4 @@ showSuccess(data);
 
 ## 单元导航
 
-[上一课：URL、DNS、连接与 TLS](01-url-dns-connections-tls.md) · [下一课：缓存验证、CORS 与观测](03-cache-validation-cors-observation.md) · [章入口](../01-network-http-cache.md)
+[上一课：URL、DNS、连接与 TLS](01-url-dns-connections-tls.md) · [下一课：缓存验证、CORS 与观测](03-cache-validation-cors-observation.md) · [本章目录](../README.md#01-请求http-与缓存)
