@@ -28,10 +28,10 @@
 - Create: `web-fullstack-course/08-backend/01-node-runtime-http/02-http-request-response-streams.md`
 - Create: `web-fullstack-course/08-backend/01-node-runtime-http/03-timeouts-errors-graceful-shutdown.md`
 
-- [ ] Teach process startup, module evaluation, event-loop work, blocking evidence, signals and lifecycle ownership.
-- [ ] Teach HTTP parsing, routing, request limits, response status/headers/body, streaming and backpressure.
-- [ ] Teach timeout budgets, malformed input, uncaught failures, connection draining and graceful shutdown.
-- [ ] Rewrite the hub around a minimal listing API and verify normal, 404, 400, oversized and shutdown paths.
+- [x] Teach process startup, module evaluation, event-loop work, blocking evidence, signals and lifecycle ownership.
+- [x] Teach HTTP parsing, routing, request limits, response status/headers/body, streaming and backpressure.
+- [x] Teach timeout budgets, malformed input, uncaught failures, connection draining and graceful shutdown.
+- [x] Rewrite the hub around a minimal listing API and verify normal, 404, 400, oversized and shutdown paths.
 
 ## 3. Task 2: NestJS and Validation
 
@@ -41,10 +41,10 @@
 - Create: `web-fullstack-course/08-backend/02-nest-api-validation/02-dto-transformation-validation.md`
 - Create: `web-fullstack-course/08-backend/02-nest-api-validation/03-pipes-filters-error-contract.md`
 
-- [ ] Teach bootstrap, modules, providers, dependency injection scopes and explicit service ownership.
-- [ ] Teach DTO runtime transformation, whitelist behavior, numeric/date parsing, nested validation and unknown input.
-- [ ] Teach pipes, filters, domain errors, HTTP mapping and one stable machine-readable error contract.
-- [ ] Rewrite the hub and verify valid/invalid create-listing requests without claiming persistence.
+- [x] Teach bootstrap, modules, providers, dependency injection scopes and explicit service ownership.
+- [x] Teach DTO runtime transformation, whitelist behavior, numeric/date parsing, nested validation and unknown input.
+- [x] Teach pipes, filters, domain errors, HTTP mapping and one stable machine-readable error contract.
+- [x] Rewrite the hub and verify valid/invalid create-listing requests without claiming persistence.
 
 ## 4. Task 3: SQL Modeling
 
@@ -54,10 +54,10 @@
 - Create: `web-fullstack-course/08-backend/03-sql-modeling/02-constraints-foreign-keys-invariants.md`
 - Create: `web-fullstack-course/08-backend/03-sql-modeling/03-migrations-indexes-query-plans.md`
 
-- [ ] Derive users, listings, favorites and reservations from domain rules; distinguish identity, references and history.
-- [ ] Teach nullability, uniqueness, checks, foreign keys, cascades and invariants that belong in the database.
-- [ ] Teach forward migrations, rollback limits, indexes, selectivity and introductory `EXPLAIN`.
-- [ ] Rewrite the hub and statically parse all SQL where tooling allows.
+- [x] Derive users, listings, favorites and reservations from domain rules; distinguish identity, references and history.
+- [x] Teach nullability, uniqueness, checks, foreign keys, cascades and invariants that belong in the database.
+- [x] Teach forward migrations, rollback limits, indexes, selectivity and introductory `EXPLAIN`.
+- [x] Rewrite the hub and statically parse all SQL where tooling allows.
 
 ## 5. Task 4: PostgreSQL Data Access
 
@@ -67,10 +67,10 @@
 - Create: `web-fullstack-course/08-backend/04-postgres-data-access/02-parameterized-sql-types-sqlstate.md`
 - Create: `web-fullstack-course/08-backend/04-postgres-data-access/03-repositories-connection-ownership.md`
 
-- [ ] Teach connection strings, service/pass files, TLS verification, pools, acquisition timeouts and shutdown.
-- [ ] Teach parameterized SQL, identifiers versus values, integer/bigint/time conversion and SQLSTATE handling.
-- [ ] Teach repository contracts, query ownership and passing a transaction client without hidden pool checkout.
-- [ ] Rewrite the hub and verify connection-failure evidence without exposing credentials.
+- [x] Teach connection strings, service/pass files, TLS verification, pools, acquisition timeouts and shutdown.
+- [x] Teach parameterized SQL, identifiers versus values, integer/bigint/time conversion and SQLSTATE handling.
+- [x] Teach repository contracts, query ownership and passing a transaction client without hidden pool checkout.
+- [x] Rewrite the hub and verify connection-failure evidence without exposing credentials.
 
 ## 6. Task 5: Transactions and Concurrency
 
@@ -80,10 +80,10 @@
 - Create: `web-fullstack-course/08-backend/05-transactions-concurrency/02-atomic-reservations-concurrency-reproduction.md`
 - Create: `web-fullstack-course/08-backend/05-transactions-concurrency/03-optimistic-lock-deadlock-retry-rollback.md`
 
-- [ ] Teach atomicity, isolation phenomena, row locks and the failure of check-then-write.
-- [ ] Implement and reproduce two concurrent reservation attempts with one committed winner.
-- [ ] Teach version columns, deadlock ordering, serialization retry limits, rollback and side-effect boundaries.
-- [ ] Rewrite the hub and require real database evidence for concurrency claims.
+- [x] Teach atomicity, isolation phenomena, row locks and the failure of check-then-write.
+- [x] Implement and reproduce two concurrent reservation attempts with one committed winner.
+- [x] Teach version columns, deadlock ordering, serialization retry limits, rollback and side-effect boundaries.
+- [x] Rewrite the hub and require real database evidence for concurrency claims.
 
 ## 7. Task 6: Authentication, Sessions, and Authorization
 
@@ -93,10 +93,10 @@
 - Create: `web-fullstack-course/08-backend/06-auth-sessions-rbac/02-cookie-sessions-origin-csrf.md`
 - Create: `web-fullstack-course/08-backend/06-auth-sessions-rbac/03-authentication-object-authorization-rbac.md`
 
-- [ ] Teach password hashing parameters, account lookup, generic login errors and credential lifecycle boundaries.
-- [ ] Teach opaque sessions, Cookie attributes, origin checks, CSRF tokens, rotation and logout.
-- [ ] Separate identity, object ownership and role permissions; verify 401, 403 and anti-enumeration behavior.
-- [ ] Rewrite the hub without presenting hidden UI or client claims as authorization.
+- [x] Teach password hashing parameters, account lookup, generic login errors and credential lifecycle boundaries.
+- [x] Teach opaque sessions, Cookie attributes, origin checks, CSRF tokens, rotation and logout.
+- [x] Separate identity, object ownership and role permissions; verify 401, 403 and anti-enumeration behavior.
+- [x] Rewrite the hub without presenting hidden UI or client claims as authorization.
 
 ## 8. Task 7: Search, Pagination, and Files
 
@@ -106,10 +106,10 @@
 - Create: `web-fullstack-course/08-backend/07-search-pagination-files/02-offset-keyset-consistent-pagination.md`
 - Create: `web-fullstack-course/08-backend/07-search-pagination-files/03-upload-streams-type-storage-cleanup.md`
 
-- [ ] Teach allow-listed sorting, parameterized filters, escaped search patterns and query-plan evidence.
-- [ ] Compare offset and keyset pagination, stable ordering, cursor encoding and concurrent-change behavior.
-- [ ] Teach upload streaming, byte limits, signature inspection, generated names, isolated storage, safe download and cleanup.
-- [ ] Rewrite the hub and state that the capstone does not implement production upload storage.
+- [x] Teach allow-listed sorting, parameterized filters, escaped search patterns and query-plan evidence.
+- [x] Compare offset and keyset pagination, stable ordering, cursor encoding and concurrent-change behavior.
+- [x] Teach upload streaming, byte limits, signature inspection, generated names, isolated storage, safe download and cleanup.
+- [x] Rewrite the hub and state that the capstone does not implement production upload storage.
 
 ## 9. Task 8: Redis, Outbox, and Queues
 
@@ -119,10 +119,10 @@
 - Create: `web-fullstack-course/08-backend/08-redis-queues-reliability/02-transactional-outbox-consistency.md`
 - Create: `web-fullstack-course/08-backend/08-redis-queues-reliability/03-bullmq-idempotency-retry-dead-letter-shutdown.md`
 
-- [ ] Teach cache-aside, key design, TTL, invalidation, stale reads and stampede control.
-- [ ] Teach why database-plus-queue dual writes fail and how a transactional outbox closes the gap.
-- [ ] Teach BullMQ identity, retries, idempotent handlers, dead-letter inspection and graceful worker shutdown.
-- [ ] Rewrite the hub and distinguish optional reliability extensions from the core API.
+- [x] Teach cache-aside, key design, TTL, invalidation, stale reads and stampede control.
+- [x] Teach why database-plus-queue dual writes fail and how a transactional outbox closes the gap.
+- [x] Teach BullMQ identity, retries, idempotent handlers, dead-letter inspection and graceful worker shutdown.
+- [x] Rewrite the hub and distinguish optional reliability extensions from the core API.
 
 ## 10. Task 9: Testing, OpenAPI, and Observability
 
@@ -132,10 +132,10 @@
 - Create: `web-fullstack-course/08-backend/09-testing-openapi-observability/02-openapi-generation-contract-validation.md`
 - Create: `web-fullstack-course/08-backend/09-testing-openapi-observability/03-structured-logs-metrics-traces.md`
 
-- [ ] Define unit, module, HTTP and real PostgreSQL test responsibilities with isolated state.
-- [ ] Teach OpenAPI generation, status/error examples, drift checks and generated-client limits.
-- [ ] Teach structured logs, correlation IDs, metrics, traces, sensitive-data redaction and evidence-driven diagnosis.
-- [ ] Rewrite the hub and preserve historical environment gaps.
+- [x] Define unit, module, HTTP and real PostgreSQL test responsibilities with isolated state.
+- [x] Teach OpenAPI generation, status/error examples, drift checks and generated-client limits.
+- [x] Teach structured logs, correlation IDs, metrics, traces, sensitive-data redaction and evidence-driven diagnosis.
+- [x] Rewrite the hub and preserve historical environment gaps.
 
 ## 11. Task 10: API Capstone
 
@@ -146,11 +146,11 @@
 - Create: `web-fullstack-course/08-backend/10-api-capstone/03-session-controllers-authorization-wiring.md`
 - Create: `web-fullstack-course/08-backend/10-api-capstone/04-real-http-database-acceptance-runbook.md`
 
-- [ ] Define the complete temporary workspace, pinned manifests, configuration validation, schema and migration order.
-- [ ] Implement domain types, repositories and transaction services with integer cents, UTC and conflict semantics.
-- [ ] Wire sessions, controllers, CSRF, object authorization, errors and redacted logs.
-- [ ] Provide a real HTTP/PostgreSQL acceptance runbook covering migrations, fixtures, concurrent reservations, authorization and shutdown.
-- [ ] Rewrite the hub so complete source has one owner and all exclusions remain explicit.
+- [x] Define the complete temporary workspace, pinned manifests, configuration validation, schema and migration order.
+- [x] Implement domain types, repositories and transaction services with integer cents, UTC and conflict semantics.
+- [x] Wire sessions, controllers, CSRF, object authorization, errors and redacted logs.
+- [x] Provide a real HTTP/PostgreSQL acceptance runbook covering migrations, fixtures, concurrent reservations, authorization and shutdown.
+- [x] Rewrite the hub so complete source has one owner and all exclusions remain explicit.
 
 ## 12. Task 11: Coverage Matrix and Navigation
 
@@ -158,32 +158,32 @@
 - Create: `web-fullstack-course/08-backend/BACKEND-COVERAGE.md`
 - Modify: `web-fullstack-course/08-backend/README.md`
 
-- [ ] Map runtime, Nest, validation, SQL, PostgreSQL, transactions, authentication, authorization, search, files, Redis, queues, testing, OpenAPI, observability and capstone requirements to lessons.
-- [ ] Include separate rows for integer cents, UTC, CSRF, object authorization, transaction ownership, idempotency and environment evidence.
-- [ ] Link all 31 lessons from hubs and README.
-- [ ] Preserve prerequisites and expected local services.
+- [x] Map runtime, Nest, validation, SQL, PostgreSQL, transactions, authentication, authorization, search, files, Redis, queues, testing, OpenAPI, observability and capstone requirements to lessons.
+- [x] Include separate rows for integer cents, UTC, CSRF, object authorization, transaction ownership, idempotency and environment evidence.
+- [x] Link all 31 lessons from hubs and README.
+- [x] Preserve prerequisites and expected local services.
 
 ## 13. Task 12: Static Verification
 
-- [ ] Verify exactly 31 detailed lesson files and ten stable hubs.
-- [ ] Verify the 13-section contract, code fences, relative links and matrix IDs.
-- [ ] Extract complete TypeScript, SQL, JSON, YAML and configuration examples to `/tmp/full-course-verification/backend/`.
-- [ ] Run JavaScript/TypeScript syntax and declared compilation checks.
-- [ ] Parse JSON/YAML/OpenAPI and lint SQL where tools are available.
-- [ ] Run pure domain assertions for cents, UTC, version conflicts, authorization decisions, pagination cursors and retry limits.
+- [x] Verify exactly 31 detailed lesson files and ten stable hubs.
+- [x] Verify the 13-section contract, code fences, relative links and matrix IDs.
+- [x] Extract complete TypeScript, SQL, JSON, YAML and configuration examples to `/tmp/full-course-verification/backend/`.
+- [x] Run JavaScript/TypeScript syntax and declared compilation checks.
+- [x] Parse JSON/YAML/OpenAPI and lint SQL where tools are available.
+- [x] Run pure domain assertions for cents, UTC, version conflicts, authorization decisions, pagination cursors and retry limits.
 
 ## 14. Task 13: Runtime Gate
 
-- [ ] Inspect local Node, package manager, PostgreSQL server/client and library availability.
-- [ ] If PostgreSQL 18 starts, apply migrations to an isolated database and run the declared HTTP/database acceptance suite.
-- [ ] If it does not start, record the exact command, version and error; do not substitute PostgreSQL 16 as proof of PostgreSQL 18 compatibility.
-- [ ] Stop temporary services and remove temporary data directories.
-- [ ] Update validation text with new observed evidence only.
+- [x] Inspect local Node, package manager, PostgreSQL server/client and library availability.
+- [x] If PostgreSQL 18 starts, apply migrations to an isolated database and run the declared HTTP/database acceptance suite.
+- [x] If it does not start, record the exact command, version and error; do not substitute PostgreSQL 16 as proof of PostgreSQL 18 compatibility.
+- [x] Stop temporary services and remove temporary data directories.
+- [x] Update validation text with new observed evidence only.
 
 ## 15. Task 14: Review and Commit
 
-- [ ] Run independent correctness and security review for transaction, auth, file, Redis and queue lessons.
-- [ ] Fix all blocking findings and re-run affected checks.
-- [ ] Run `git diff --check`.
-- [ ] Commit Chapters 1–3, 4–6, 7–9, and Chapter 10/navigation as four scoped commits.
-- [ ] Do not stage other course volumes.
+- [x] Run independent correctness and security review for transaction, auth, file, Redis and queue lessons.
+- [x] Fix all blocking findings and re-run affected checks.
+- [x] Run `git diff --check`.
+- [x] Commit Chapters 1–3, 4–6, 7–9, and Chapter 10/navigation as four scoped commits.
+- [x] Do not stage other course volumes.

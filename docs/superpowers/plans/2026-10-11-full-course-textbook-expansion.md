@@ -220,12 +220,12 @@ git commit -m "docs: plan full course textbook expansion"
 **Files:**
 - Modify: `web-fullstack-course/08-backend/**/*.md`
 
-- [ ] Follow every task in `2026-10-11-course-batch-e-backend.md`.
-- [ ] Verify exactly 31 detailed lessons.
-- [ ] Statically validate TypeScript, SQL, JSON, environment templates, OpenAPI, Redis and queue examples.
-- [ ] Run real HTTP/database tests only when the declared PostgreSQL environment is available.
-- [ ] Preserve the exact reason and evidence for every environment-blocked check.
-- [ ] Commit only backend paths.
+- [x] Follow every task in `2026-10-11-course-batch-e-backend.md`.
+- [x] Verify exactly 31 detailed lessons.
+- [x] Statically validate TypeScript, SQL, JSON, environment templates, OpenAPI, Redis and queue examples.
+- [x] Run real HTTP/database tests only when the declared PostgreSQL environment is available.
+- [x] Preserve the exact reason and evidence for every environment-blocked check.
+- [x] Commit only backend paths.
 
 ## 12. Task 7: Execute Batch F
 
