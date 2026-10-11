@@ -82,7 +82,7 @@
 | ID | 范围 | 已有证据 | 不得外推的范围 |
 | --- | --- | --- | --- |
 | B-VERSION-01 | Node.js 与浏览器基线 | 各课 `§6` 的 Node 内置模块实验；[版本基线](../00-guide/02-version-baseline.md) | 当前机器不是目标 Node 24 时，语法检查结果需记录实际版本 |
-| B-COMPAT-01 | Web API 支持 | 各课 `§5` API 清单、能力检测和 `§13` 官方来源 | 不以 Chromium 成功宣称 Safari/Firefox/嵌入 WebView 通过 |
+| B-COMPAT-01 | Web API 支持 | [平台 API §5](05-workers-offline-webapis/04-observers-permissions-api-fallback.md#5-元素属性api-或配置清单)、[官方来源 §13](05-workers-offline-webapis/04-observers-permissions-api-fallback.md#13-扩展阅读) | 不以 Chromium 成功宣称 Safari/Firefox/嵌入 WebView 通过 |
 | B-MANUAL-01 | 键盘与辅助技术 | [观察器与权限 §11](05-workers-offline-webapis/04-observers-permissions-api-fallback.md#11-阶段验收)、[DevTools 证据链 §11](06-devtools-performance/01-network-performance-memory-evidence.md#11-阶段验收) | Accessibility tree 不替代 VoiceOver、NVDA、JAWS 和真实键盘复测 |
 | B-MANUAL-02 | 网络与代理 | [增量解析 §13](04-fetch-streams-realtime/02-readable-stream-incremental-parsing.md#13-扩展阅读)、[实时通信 §13](04-fetch-streams-realtime/03-sse-websocket-polling-recovery.md#13-扩展阅读) | 本地分块/重连不证明 CDN、反向代理、HTTP/2/3 或跨区域行为 |
 | B-MANUAL-03 | 离线与存储 | [Service Worker §13](05-workers-offline-webapis/02-service-worker-lifecycle-cache.md#13-扩展阅读)、[离线一致性 §13](05-workers-offline-webapis/03-offline-consistency-updates.md#13-扩展阅读) | 未验证存储压力驱逐、后台调度、共享设备与生产迁移 |
