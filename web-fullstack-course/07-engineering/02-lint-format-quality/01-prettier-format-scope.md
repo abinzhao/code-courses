@@ -1,12 +1,12 @@
-# Prettier 3.8.0：格式范围、忽略规则与可审查改写
+# Prettier 3.9.10：格式范围、忽略规则与可审查改写
 
 ## 任务卡
 
 | 项目 | 内容 |
 | --- | --- |
-| 本课任务 | 固定 Prettier 3.8.0，定义配置、扫描范围和忽略边界 |
+| 本课任务 | 固定 Prettier 3.9.10，定义配置、扫描范围和忽略边界 |
 | 可观察产出 | `.prettierrc.json`、`.prettierignore`、格式失败与恢复记录 |
-| 运行条件 | Node.js 24.21.0、pnpm 12.10.1、已有 `market-engineering-lab` |
+| 运行条件 | Node.js 24.21.0、pnpm 12.11.2、已有 `market-engineering-lab` |
 | 建议时间 | 90 分钟 |
 | 完成证据 | 版本输出、`--check` 红绿结果、改写前后 diff、错误算法反例 |
 
@@ -28,7 +28,7 @@ Prettier 规则的源码。本课先建立这个边界，再决定哪些手写�
 完成本课后，你应能：
 
 - 区分格式规范、静态正确性、运行时行为和人工评审；
-- 固定并核对 Prettier `3.8.0`，理解版本也是格式结果的一部分；
+- 固定并核对 Prettier `3.9.10`，理解版本也是格式结果的一部分；
 - 解释配置文件、忽略文件、CLI 显式路径和当前目录如何共同决定范围；
 - 区分 `--check` 的只读门禁与 `--write` 的有副作用改写；
 - 在改写前确认路径，在改写后审查 diff；
@@ -46,7 +46,7 @@ pnpm --version
 pwd
 ```
 
-预期分别看到 `v24.21.0`、`12.10.1` 和个人练习目录的绝对路径。实际练习根目录
+预期分别看到 `v24.21.0`、`12.11.2` 和个人练习目录的绝对路径。实际练习根目录
 不同时替换第一条路径，后续命令保持在同一根目录执行。先查看状态：
 
 ```bash
@@ -105,7 +105,7 @@ CI 只运行 `--check`。如果 CI 自动 `--write`，原提交仍然不符合�
 
 | 命令、配置或文件 | 固定值或作用 | 本课边界 |
 | --- | --- | --- |
-| `prettier` | `3.8.0` | 版本不同可能产生不同排版 |
+| `prettier` | `3.9.10` | 版本不同可能产生不同排版 |
 | `.prettierrc.json` | 项目打印规则 | 不选择扫描目录 |
 | `.prettierignore` | Gitignore 风格忽略规则 | 不会从仓库删除文件 |
 | `semi` | `true` | 统一分号，不检查业务 |
@@ -126,7 +126,7 @@ CI 只运行 `--check`。如果 CI 自动 `--write`，原提交仍然不符合�
 在个人实验根执行：
 
 ```bash
-pnpm add -D -E prettier@3.8.0
+pnpm add -D -E prettier@3.9.10
 pnpm exec prettier --version
 mkdir -p src/generated scripts
 touch .prettierrc.json .prettierignore src/format-scope.ts
@@ -135,7 +135,7 @@ touch .prettierrc.json .prettierignore src/format-scope.ts
 预期版本输出：
 
 ```text
-3.8.0
+3.9.10
 ```
 
 完整文件 `.prettierrc.json`：
@@ -347,7 +347,7 @@ node scripts/format-trap.mjs
 
 ## 11. 阶段验收
 
-- [ ] `pnpm exec prettier --version` 精确输出 `3.8.0`。
+- [ ] `pnpm exec prettier --version` 精确输出 `3.9.10`。
 - [ ] 能说明配置、CLI 路径和忽略文件各自负责什么。
 - [ ] `--check` 的失败和恢复都记录了退出码。
 - [ ] `--write` 前确认范围，执行后审查了 diff。
@@ -389,7 +389,7 @@ ESLint 继续负责代码模式。两个命令保持独立，失败归因更清�
 
 ## 我现在能做到什么
 
-我能固定 Prettier 3.8.0，准确控制格式范围，保护生成物和锁文件，在写入前后审查
+我能固定 Prettier 3.9.10，准确控制格式范围，保护生成物和锁文件，在写入前后审查
 变化，并用可运行反例说明格式门只证明排版一致，不证明金额算法或业务行为正确。
 
 ## 单元导航

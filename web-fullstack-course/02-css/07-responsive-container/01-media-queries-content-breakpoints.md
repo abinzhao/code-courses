@@ -224,7 +224,7 @@ market-learning/practice/css-07-media/index.html
         </div>
       </section>
     </div>
-    <pre id="report" role="status" aria-label="响应式环境报告"></pre>
+    <pre id="report" aria-label="响应式环境报告"></pre>
   </main>
   <script>
     const wide = matchMedia("(width >= 48rem)");

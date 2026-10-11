@@ -25,8 +25,8 @@
 1. 用同源 HttpOnly 教学 Cookie 建立会话形状；
 2. 不在 localStorage、URL 或日志保存凭据；
 3. 发布时只发送允许字段，并使用响应中的服务端 ID；
-4. 让 401/422 发布失败保留草稿；
-5. 按 401/403/404/409/422/503 提供不同恢复；
+4. 让 401/400 发布失败保留草稿；
+5. 按 401/403/404/409/400/503 提供不同恢复；
 6. 发起预约时不传 buyerId；
 7. 让两个标签页得到一个 201 和一个 409；
 8. 解释前端 pending、后端授权和数据库唯一约束的不同职责。
@@ -81,7 +81,7 @@ desk-1: reserved
 | 403 | 已知身份但禁止动作 | 解释权限，不反复重试 |
 | 404 | 商品已经不存在 | 返回列表 |
 | 409 | 预约/版本冲突 | 重新读取服务端状态 |
-| 422 | 输入不合法 | 修正字段，保留草稿 |
+| 400 | 输入不合法 | 修正字段，保留草稿 |
 | 503 | 服务暂不可用 | 保留工作，稍后重试 |
 
 不能全返回 200 再解析 message，也不能把全部失败统一写成“网络错误”。
@@ -162,7 +162,7 @@ export function classifyApiError(error: ApiError): Recovery {
         message: error.message,
         retryable: false,
       }
-    case 422:
+    case 400:
       return {
         kind: 'validation',
         message: error.message,
@@ -197,7 +197,7 @@ describe('status-specific-recovery', () => {
     [403, 'forbidden', false],
     [404, 'not-found', false],
     [409, 'conflict', false],
-    [422, 'validation', false],
+    [400, 'validation', false],
     [503, 'unavailable', true],
   ] as const)('maps %i to %s', (status, kind, retryable) => {
     const recovery = classifyApiError(new ApiError(
@@ -691,7 +691,7 @@ await api(`/listings/${id}/reservations`, {
 
 ## 11. 阶段验收
 
-- [ ] 状态恢复映射测试覆盖 401/403/404/409/422/503。
+- [ ] 状态恢复映射测试覆盖 401/403/404/409/400/503。
 - [ ] 教学登录不收集真实密码，Cookie 不由 JS 读取或记录。
 - [ ] 未登录发布为 401 且草稿保留。
 - [ ] 成功发布使用响应 ID，价格为 `12000` 分，时间由服务端生成 UTC。

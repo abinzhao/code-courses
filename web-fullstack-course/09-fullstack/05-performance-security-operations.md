@@ -93,6 +93,7 @@ Node/Bash 语法和 SQL 人工审查只属于静态证据。
 
 - 上一章：[04 CI、发布与回滚](04-ci-release-rollback.md)
 - 第一课：[负载基线与慢查询证据](05-performance-security-operations/01-load-baseline-slow-query.md)
+- 覆盖审计：[全栈覆盖矩阵](FULLSTACK-COVERAGE.md)
 - 分卷入口：[全栈联调与交付](README.md)
 - 下一章：[06 毕业项目](06-graduation-project.md)
 - 全书入口：[Web 全栈课程](../README.md)

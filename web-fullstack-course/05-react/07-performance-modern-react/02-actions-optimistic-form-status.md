@@ -208,7 +208,7 @@ useEffect(() => {
 ```
 
 完整实现还要保留 label、描述、价格和错误关联。Action 函数重新运行 `validateDraft`，发送
-整数分 DTO，并按 401/403/409/422/503 显示不同恢复。Effect 只响应已确认 createdId 清草稿，
+整数分 DTO，并按 401/403/409/400/503 显示不同恢复。Effect 只响应已确认 createdId 清草稿，
 不是用来执行用户提交。
 
 本例的 `PublishPreview` 使用非受控字段，只演示 Action 参数和 form status；不能替代主项目
@@ -255,7 +255,7 @@ Hook 调用位置不是 form 后代，pending 不属于即将渲染的 form。
 
 **基础**：把 SubmitButton 移到 form 外，确认 pending 失败；恢复层级后通过。
 
-**进阶**：为 422 显示字段错误并保留受控草稿。验收：DTO 仍是整数分，成功才清空。
+**进阶**：为 400 显示字段错误并保留受控草稿。验收：DTO 仍是整数分，成功才清空。
 
 **故障注入**：未登录收藏，观察 401 回滚。临时在 catch 固化 next，测试必须失败；恢复后
 基础值不变、alert 可见。

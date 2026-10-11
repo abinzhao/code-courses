@@ -8,13 +8,13 @@
 | 前置 | 已完成前三课，且第 01 课 25 个完整文件未被后课复制 |
 | 建议投入 | 2.5 小时首次安装与数据库初始化，1 小时故障注入和证据整理 |
 | 完整源码 owner | 本课拥有 `0` 个项目文件；只读取第 01 课 marker 并执行命令 |
-| 项目目录 | `/tmp/full-course-verification/batch-e/market-api-capstone` |
-| 临时数据库目录 | `/tmp/full-course-verification/batch-e/postgres-18-data` |
+| 项目目录 | `/tmp/web-fullstack-modernization/batch-5/market-api-capstone` |
+| 临时数据库目录 | `/tmp/web-fullstack-modernization/batch-5/postgres-18-data` |
 | 临时端口 | PostgreSQL `55432`，API `3000`；占用时停止并记录，不杀未知进程 |
 | 核心证据 | manifest 25/25、冻结安装、PG 18、两库迁移、fixture、401/403/404/409、并发一胜、SIGTERM |
 | 证据分类 | observed pass、observed failure/recovery、environment block、manual gap |
 
-本 runbook 会创建和删除 `/tmp/full-course-verification/batch-e` 下的精确目标。它不修改教材树，
+本 runbook 会创建和删除 `/tmp/web-fullstack-modernization/batch-5` 下的精确目标。它不修改教材树，
 不提交 lockfile，不推送、不部署。若使用团队已有 PostgreSQL，只能读取和迁移明确授权的隔离
 数据库；不得停止或删除不属于本次 runbook 的服务。
 
@@ -91,9 +91,9 @@ pg_config --bindir
 psql --version
 ```
 
-目标是 Node `v24.21.0`、pnpm `12.10.1`、postgres 服务端二进制主版本 18。`psql` 可以是兼容
+目标是 Node `v24.21.0`、pnpm `12.11.2`、postgres 服务端二进制主版本 18。`psql` 可以是兼容
 客户端，但必须记录其主版本。若 `pg_config` 指向非 18，标记 environment block；不要用
-PostgreSQL 16 的成功证明 18。
+非目标 PostgreSQL 主版本的成功证明 18。
 
 ## 4. 核心理论
 
@@ -196,7 +196,7 @@ runbook 直接启动 `node dist/main.js` 并记录其 PID，避免只杀包管�
 set -euo pipefail
 
 SOURCE="$PWD/web-fullstack-course/08-backend/10-api-capstone/01-workspace-config-migration-bootstrap.md"
-TARGET="/tmp/full-course-verification/batch-e/market-api-capstone"
+TARGET="/tmp/web-fullstack-modernization/batch-5/market-api-capstone"
 export SOURCE TARGET
 
 python3 - <<'PY'
@@ -208,7 +208,7 @@ import shutil
 source = Path(os.environ["SOURCE"]).resolve()
 target = Path(os.environ["TARGET"]).resolve()
 required = Path(
-    "/tmp/full-course-verification/batch-e/market-api-capstone"
+    "/tmp/web-fullstack-modernization/batch-5/market-api-capstone"
 ).resolve()
 if target != required:
     raise SystemExit(f"refusing unexpected target: {target}")
@@ -279,9 +279,9 @@ find . -type f -print | sort
 ### 6.2 安装与冻结 lockfile
 
 ```bash
-cd /tmp/full-course-verification/batch-e/market-api-capstone
+cd /tmp/web-fullstack-modernization/batch-5/market-api-capstone
 test "$(node --version)" = "v24.21.0"
-test "$(pnpm --version)" = "12.10.1"
+test "$(pnpm --version)" = "12.11.2"
 pnpm install
 shasum -a 256 pnpm-lock.yaml > /tmp/market-api-lock.before
 pnpm install --frozen-lockfile
@@ -298,7 +298,7 @@ pnpm build
 ```bash
 set -euo pipefail
 
-ROOT=/tmp/full-course-verification/batch-e
+ROOT=/tmp/web-fullstack-modernization/batch-5
 PGDATA="$ROOT/postgres-18-data"
 PGBIN="$(pg_config --bindir)"
 PGPORT=55432
@@ -325,7 +325,7 @@ test -z "$(lsof -tiTCP:$PGPORT -sTCP:LISTEN || true)"
 在临时项目内创建 `.env` 和 `.env.test`，值只指向本 runbook 自有集群：
 
 ```bash
-cd /tmp/full-course-verification/batch-e/market-api-capstone/apps/api
+cd /tmp/web-fullstack-modernization/batch-5/market-api-capstone/apps/api
 cp .env.example .env
 cp .env.test.example .env.test
 ```
@@ -371,7 +371,7 @@ migration state: 尚未执行
 
 ```bash
 set -euo pipefail
-TARGET=/tmp/full-course-verification/batch-e/market-api-capstone
+TARGET=/tmp/web-fullstack-modernization/batch-5/market-api-capstone
 
 cd "$TARGET"
 pnpm migrate
@@ -386,7 +386,7 @@ node --env-file=.env.test migrate.mjs
 状态，不回显连接串：
 
 ```bash
-cd /tmp/full-course-verification/batch-e/market-api-capstone/apps/api
+cd /tmp/web-fullstack-modernization/batch-5/market-api-capstone/apps/api
 node --env-file=.env.test --input-type=module - <<'NODE'
 import pg from "pg";
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -415,7 +415,7 @@ NODE
 ### 7.2 Fixture
 
 ```bash
-cd /tmp/full-course-verification/batch-e/market-api-capstone
+cd /tmp/web-fullstack-modernization/batch-5/market-api-capstone
 pnpm fixture
 pnpm fixture
 ```
@@ -445,7 +445,7 @@ NODE
 ### 7.3 真实 HTTP / PostgreSQL 综合测试
 
 ```bash
-cd /tmp/full-course-verification/batch-e/market-api-capstone
+cd /tmp/web-fullstack-modernization/batch-5/market-api-capstone
 pnpm test
 ```
 
@@ -473,7 +473,7 @@ URL 或密码。一个 test case 内有多项断言，不能汇报成几十个�
 ```bash
 set -euo pipefail
 
-API_DIR=/tmp/full-course-verification/batch-e/market-api-capstone/apps/api
+API_DIR=/tmp/web-fullstack-modernization/batch-5/market-api-capstone/apps/api
 API_LOG=/tmp/market-api-process.log
 cd "$API_DIR"
 
@@ -516,7 +516,7 @@ shutdown_complete 出现，端口 3000 无监听，最后 curl 连接失败。�
 ```bash
 set -euo pipefail
 
-ROOT=/tmp/full-course-verification/batch-e
+ROOT=/tmp/web-fullstack-modernization/batch-5
 TARGET="$ROOT/market-api-capstone"
 PGDATA="$ROOT/postgres-18-data"
 PGBIN="$(pg_config --bindir)"
@@ -526,8 +526,8 @@ test "$(sed -n '1p' "$PGDATA/PG_VERSION")" = "18"
 "$PGBIN/pg_ctl" -D "$PGDATA" -m fast stop
 test -z "$(lsof -tiTCP:55432 -sTCP:LISTEN || true)"
 
-test "$TARGET" = "/tmp/full-course-verification/batch-e/market-api-capstone"
-test "$PGDATA" = "/tmp/full-course-verification/batch-e/postgres-18-data"
+test "$TARGET" = "/tmp/web-fullstack-modernization/batch-5/market-api-capstone"
+test "$PGDATA" = "/tmp/web-fullstack-modernization/batch-5/postgres-18-data"
 rm -rf "$TARGET" "$PGDATA"
 rm -f /tmp/market-api-lock.before /tmp/market-api-lock.after
 rm -f /tmp/market-api-postgres-binary.txt /tmp/market-api-cookie.txt
@@ -554,7 +554,7 @@ psql (PostgreSQL) 18.x
 | --- | --- |
 | 现象 | 客户端版本看似正确，但验收测试拒绝 serverMajor |
 | 证据 | `SHOW server_version_num` 或测试日志实际为 `1600xx` |
-| 原因 | `psql` 连接到了另一端口上的 PostgreSQL 16 |
+| 原因 | `psql` 连接到了另一端口上的非目标 PostgreSQL 主版本 |
 | 修复 | 核对 address/port/database，启动并连接自有 18 集群 |
 | 复验 | binary、connected server、target 和 migration state 四类证据都指向 18/55432 |
 

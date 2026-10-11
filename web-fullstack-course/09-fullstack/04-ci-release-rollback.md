@@ -69,4 +69,5 @@ Actions、外部 registry、远端部署或生产数据操作。
 - 上一章：[03 Nginx、HTTPS 与同源部署](03-nginx-https-deployment.md)
 - 第一课：[本地质量门与干净冻结安装](04-ci-release-rollback/01-local-quality-gates-clean-install.md)
 - 下一章：[05 性能、安全与运维](05-performance-security-operations.md)
+- 覆盖审计：[全栈覆盖矩阵](FULLSTACK-COVERAGE.md)
 - 分卷入口：[全栈集成与交付](README.md)

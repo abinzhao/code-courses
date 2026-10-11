@@ -2,27 +2,19 @@
 
 浏览器既是页面的运行环境，也是网络、安全、存储和性能边界的执行者。本卷不把 DevTools 截图或 API 名称当作结论，而是要求用可重复实验回答：请求在哪一层失败、页面为何没有及时呈现、数据由谁拥有、异步结果是否仍然有效，以及一次本机测量能证明什么。
 
-## 教材结构
+## 本卷定位与教材结构
 
 本卷正文采用“章入口 → 详细教程”两层结构。先读章入口，确认前置、章级产出和综合验收；再按顺序完成详细教程。覆盖矩阵只用于审计知识点归属，不替代正文。
 
 ```text
 03-browser/
-├── README.md                           卷入口、运行契约与最终验收
-├── 01-network-http-cache.md            章入口
-│   └── 01-network-http-cache/          3 篇详细教程
-├── 02-rendering-event-loop.md          章入口
-│   └── 02-rendering-event-loop/        3 篇详细教程
-├── 03-storage-security.md              章入口
-│   └── 03-storage-security/            3 篇详细教程
-├── 04-fetch-streams-realtime.md        章入口
-│   └── 04-fetch-streams-realtime/      3 篇详细教程
-├── 05-workers-offline-webapis.md       章入口
-│   └── 05-workers-offline-webapis/     4 篇详细教程
-├── 06-devtools-performance.md          章入口
-│   └── 06-devtools-performance/        2 篇详细教程
-└── BROWSER-COVERAGE.md                 18 篇教程的审计矩阵
+├── README.md                         卷入口、运行契约与最终验收
+├── 01-...md 至 06-...md              稳定章入口
+├── 01-.../ 至 06-.../                详细教程
+└── BROWSER-COVERAGE.md               审计矩阵
 ```
+
+## 学习路线
 
 ### [01 请求、HTTP 与缓存](01-network-http-cache.md)
 
@@ -74,7 +66,9 @@
 
 完整知识点、边界和证据位置见[浏览器与 Web 平台覆盖矩阵](BROWSER-COVERAGE.md)。
 
-## 学习与取证方式
+## 学习与运行
+
+### 学习与取证方式
 
 建议分两轮完成：
 
@@ -83,7 +77,7 @@
 
 每篇详细教程都应留下机制推导、最小运行案例、邻里集市集成、错误诊断、题目与练习、阶段验收六类证据。故障记录统一写清“现象、证据、原因、修复、复验”；性能对比必须固定浏览器版本、设备、视口、输入、缓存和 Service Worker 状态。阅读完成、截图存在或单次跑通都不等于验收完成。
 
-## 多文件实验怎样启动
+### 多文件实验怎样启动
 
 以下 `browser-lab` 是本卷可复用的基础服务器契约：提供受限静态文件和可控的公开商品列表 API。只有教程明确要求复用该契约时才直接使用；如果教程给出完整 `server.mjs`，应以该课文件清单整体替换，不要把不同课程的缓存、CORS、流、SSE、会话或离线逻辑拼进同一个服务。
 
@@ -182,9 +176,10 @@ createServer(async (req, res) => {
 });
 ```
 
-## 运行规则与服务边界
+### 运行规则与服务边界
 
-基线使用 Node.js 24 LTS。在 `browser-lab` 目录运行：
+精确运行时选择统一见[版本基线](../00-guide/02-version-baseline.md)。先记录实际版本，再在
+`browser-lab` 目录运行：
 
 ```bash
 node server.mjs ./public
@@ -201,7 +196,7 @@ node server.mjs ./public
 
 每次切换实验都先停止服务，再整体替换该课列出的文件并重新启动。Worker 实验按教程放置主页面、主线程脚本和 Worker 脚本；Service Worker 与离线实验按教程替换 `index.html`、`sw.js` 及相应资源。端口被占用时先查明进程归属，不终止其他项目的进程。
 
-## 安全、隐私与 Service Worker 边界
+## 连续项目与边界
 
 - 不在 `public`、URL、Header、日志、截图或 HAR 中放环境文件、凭据、Cookie、Token、私人响应或真实用户标识。
 - 不在练习目录创建指向其他目录的符号链接。页面输出使用安全文本接口；客户端校验、CORS 和隐藏控件都不能替代服务端认证与对象授权。
@@ -211,45 +206,30 @@ node server.mjs ./public
 - 启动 Service Worker 课前，先在 Application 中确认当前 registration、`navigator.serviceWorker.controller` 和 Cache Storage 命名空间。切换实验时只注销本实验的 registration，并只删除该教程前缀的缓存；不要清空整个同源的站点数据或其他应用缓存。
 - 停止本机服务后刷新得到缓存页面，只证明该浏览器、该 registration 和该缓存版本下的离线读取。它不证明多标签更新、版本迁移、存储驱逐、隐私模式、后台调度或生产多版本部署正确。
 
-## 本卷最终验收
+## 验收
 
-- [ ] 6 个章入口和 18 篇详细教程均按顺序完成，章级综合验收有逐项证据。
+- [ ] 所有章入口和详细教程均按顺序完成，章级综合验收有逐项证据。
 - [ ] 每篇教程的完整文件都能从空练习目录按说明启动，不依赖上一次实验遗留状态。
 - [ ] 能分层解释 URL/连接/HTTP、渲染/事件循环、存储/安全、Fetch/流/实时、Worker/离线和性能诊断。
 - [ ] 网络、主线程、存储、Service Worker 与性能实验都记录环境、固定动作、实际结果和失败证据。
 - [ ] 至少完成一条“现象、证据、原因、修复、复验”闭环，并能在随机改变端口、状态、延迟、缓存版本或输入后重新定位。
 - [ ] 邻里集市集成保持整数分、UTC ISO 8601、文本输出、权限边界、离线状态标记和错误恢复约束。
 - [ ] 所有截图、日志、HAR 和性能记录已脱敏；未把本地演示服务当作真实认证、数据库事务或生产安全证明。
-- [ ] [覆盖矩阵](BROWSER-COVERAGE.md)中的 18 个主要教程归属均能回到正文固定证据章节。
+- [ ] [覆盖矩阵](BROWSER-COVERAGE.md)中的主要教程归属均能回到正文固定证据章节。
 - [ ] Safari、Firefox、WebView、真实移动设备、辅助技术和生产链路等未测范围明确记录，不以 Chromium 单次结果外推。
 
-## 实际验证记录
+## 验证范围
 
-[全书验证记录](../VALIDATION.md)在 2026-10-10 保存了以下浏览器卷运行证据：
+本卷已完成代表性的网络、缓存、实时通信、Worker、Service Worker、请求竞态、Clipboard 和
+Chromium 路径验证；语法可解析或单次样例通过不代表全部教程、练习与故障均已运行。Safari、
+Firefox、WebView、真实移动设备、辅助技术、生产网络、真实会话与多用户事务仍需在目标环境
+验收。精确数量、执行结果和未验证范围统一见[交付与验证说明](../VALIDATION.md)。
 
-| 范围 | 已执行证据 | 实际结果 |
-| --- | --- | --- |
-| 基础网络 | 多文件静态服务、公开列表、失败和分页参数 | 模块 MIME、列表及 `503/400/404` 正确 |
-| 缓存 | 条件请求与版本更新 | `200 → 304 → 204 → 200` |
-| 实时通信 | SSE 流式读取 | 持续收到 `tick` 事件 |
-| Worker | Chromium 按钮操作、离开页面后返回 | 100000 条统计得到平均 5000 分，返回后仍可运行 |
-| Service Worker | 注册并确认受控，停止 HTTP 服务后刷新 | 返回缓存公告 |
-| 请求竞态 | 慢搜索后立即输入新词 | 新搜索结果保留，旧响应未覆盖 |
-| Clipboard | 用户点击复制 | 成功提示出现，按钮恢复 |
+## 资料与导航
 
-同一记录还确认当时的全书相对链接、代码围栏和 105 个 JavaScript 代码块静态检查通过。语法可解析不等于示例已运行，上表也只是定向样例证据，不代表 18 篇教程已逐课、逐练习、逐故障全部执行。
+- [MDN Web APIs](https://developer.mozilla.org/docs/Web/API)
+- [WHATWG HTML](https://html.spec.whatwg.org/)
+- [浏览器与 Web 平台覆盖矩阵](BROWSER-COVERAGE.md)
 
-## 兼容性与未验证范围
-
-以下范围没有通过证据，必须在目标环境另行验收：
-
-- Safari、Firefox、嵌入式 WebView、真实 iOS/Android 设备、低端设备和移动网络；
-- VoiceOver、NVDA、JAWS、真实键盘全路径，以及权限界面的平台差异；
-- 生产 HTTPS、CDN、反向代理、HTTP/2、HTTP/3、代理缓冲、跨区域链路和系统性弱网；
-- 真实会话、数据库、对象授权、多用户并发、事务回滚和可靠消息系统；
-- 存储压力驱逐、隐私模式、共享设备、后台调度、多标签 Service Worker 更新、多版本部署和真实 PWA 安装；
-- 生产 RUM、CrUX、正式 INP、用户 p75 和真实性能收益。
-
-本机单标签的 Service Worker 注册、`v1 → v2` 更新或停服刷新，不能证明上述 Service Worker 场景成立。最终兼容性结论应同时包含能力检测、实际调用结果、目标浏览器人工复测和明确的降级路径。
-
-[上一卷：CSS](../02-css/README.md) · [全书目录](../README.md) · [下一卷：JavaScript 与 TypeScript](../04-javascript-typescript/README.md)
+[上一卷：CSS](../02-css/README.md) · [全书目录](../README.md) ·
+[下一卷：JavaScript 与 TypeScript](../04-javascript-typescript/README.md)

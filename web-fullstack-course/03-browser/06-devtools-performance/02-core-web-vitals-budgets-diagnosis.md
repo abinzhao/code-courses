@@ -77,7 +77,9 @@ TTFB
 输入延迟 → 事件处理 → 呈现延迟
 ```
 
-INP 从页面生命周期的大量交互中选择高分位的较慢交互，减少偶然异常的影响。Event Timing 条目可辅助本地诊断，但本课页面内“最大 interaction duration”只是候选近似，不替代标准库和浏览器最终 INP 计算。
+INP 按页面交互数量处理异常值：交互少于 50 次时通常取最慢交互；之后每增加 50 次可忽略一个
+最慢异常值，得到接近第 98 百分位的代表值。Event Timing 条目可辅助本地诊断，但本课页面内
+“最大 interaction duration”只是少量交互下的候选近似，不替代标准库和浏览器最终 INP 计算。
 
 ### 4.4 Long Task 是原因线索，不是 INP 本身
 
@@ -324,9 +326,11 @@ reserveButton.addEventListener("click", () => {
 });
 
 function resourceTotals() {
+  const navigations = performance.getEntriesByType("navigation");
   const resources = performance.getEntriesByType("resource");
-  values.resources = resources.length;
-  values.transferBytes = resources.reduce(
+  const requests = [...navigations, ...resources];
+  values.resources = requests.length;
+  values.transferBytes = requests.reduce(
     (sum, entry) => sum + (entry.transferSize || 0),
     0,
   );
@@ -359,7 +363,7 @@ function renderReport() {
       values.interaction === null ? null : values.interaction <= 200),
     row("Long Task", `${values.longTasks} 个；最长 ${values.longestTask.toFixed(0)} ms`,
       "关键交互不新增 > 50 ms 任务", values.longTasks === 0),
-    row("资源请求", String(values.resources), "≤ 8 个", values.resources <= 8),
+    row("导航与资源请求", String(values.resources), "≤ 8 个", values.resources <= 8),
     row("传输字节", `${values.transferBytes} B`, "≤ 200000 B",
       values.transferBytes <= 200000),
   );

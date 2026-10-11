@@ -2,11 +2,13 @@
 
 ## 任务卡
 
-邻里集市样式进入维护阶段后，开发者需要从问题反查模块，而不是背诵属性名。本课迁移并保护原有 476 项属性口径，提供值、最小声明和边界说明，再用观察台验证“声明被接受”与“行为正确”不是同一结论。
+邻里集市样式进入维护阶段后，开发者需要从问题反查模块，而不是背诵属性名。本课维护审计日
+确认处于标准轨道且未标记实验或弃用的 452 项属性，提供值、最小声明和边界说明，再用观察台
+验证“声明被接受”与“行为正确”不是同一结论。
 
 - **建议时间：**8–10 小时，按模块分段查阅。
 - **可见结果：**可从布局、文字、绘制、动画、交互、分页与 SVG 模块定位属性。
-- **验收证据：**476 项顺序/唯一/hash 审计、完整观察台、无效值诊断和模块检索记录。
+- **验收证据：**452 项顺序/唯一/hash 审计、完整观察台、无效值诊断和模块检索记录。
 
 ## 1. 任务背景
 
@@ -15,7 +17,10 @@ CSS 参考最容易出现两种失真：
 1. 只列名字，不说明值、适用上下文和副作用；
 2. 把新提案、描述符、函数、JavaScript API 和成熟属性混成一个数量。
 
-本课的 476 项口径来自 2026-10-10 课程快照。它包含稳定主线和一组明确标记的有限支持属性，但排除 at-rule、描述符、函数、选择器、伪元素、JavaScript API、历史私有前缀和已移除语法。后两类参考分别进入本章第二、第三课。
+本课口径来自 2026-10-11 的 MDN Browser Compatibility Data 8.1.5。它只收录
+`standard_track: true`、`experimental: false`、`deprecated: false` 的属性，并排除 at-rule、
+描述符、函数、选择器、伪元素和 JavaScript API。第二课负责语法分类，第三课负责稳定能力的
+目标浏览器验证与渐进增强。
 
 ## 2. 学习目标
 
@@ -28,8 +33,8 @@ CSS 参考最容易出现两种失真：
 - 识别简写会重置哪些未写长属性；
 - 区分布局、绘制、合成和交互职责；
 - 判断属性名被解析不等于目标组合可用；
-- 为有限支持属性保留正常流或静态回退；
-- 机械复核 476 项名称、顺序和唯一性；
+- 为目标浏览器覆盖不同的稳定属性保留正常流或静态回退；
+- 机械复核 452 项名称、顺序和唯一性；
 - 把属性检索结果带回邻里集市的真实上下文验证。
 
 ## 3. 预备知识
@@ -70,13 +75,16 @@ Styles 面板看到声明不代表它获胜；Computed 有值也不代表内容�
 
 以下审计区内，机械提取每个 Markdown 表格首列反引号名称，必须得到：
 
-- 顺序项：476；
-- 唯一项：476；
-- SHA-256：`e38b0f5d2a6a12e1cf772cb89010279737f2b3814bb57732e4fa0f1139486734`。
+- 顺序项：452；
+- 唯一项：452；
+- SHA-256：`9c0bb7817c617cffc60788a71ed223ce7370439596926fbcc51854c478063deb`。
 
-哈希输入按表格顺序把 476 个名称各写一行，并在最后一个名称后保留换行，即 `"\n".join(names) + "\n"` 的 UTF-8 字节。省略末尾换行会得到不同哈希，不能据此判断属性清单变化。
+哈希输入按表格顺序把 452 个名称各写一行，并在最后一个名称后保留换行，即
+`"\n".join(names) + "\n"` 的 UTF-8 字节。省略末尾换行会得到不同哈希，不能据此判断属性清单
+变化。
 
-修改解释文字时不得改变首列名称或顺序。若标准演进需要调整口径，应单独评审并同步覆盖矩阵，不能静默“顺手修正”。
+修改解释文字时不得改变首列名称或顺序。每次更新先用当前 BCD 状态重新生成候选清单；任何
+名称增删、改名或重排都要单独评审并同步覆盖矩阵，不能静默“顺手修正”。
 
 ## 5. 属性、值与模块索引
 
@@ -142,10 +150,10 @@ Styles 面板看到声明不代表它获胜；Computed 有值也不代表内容�
 | `padding-inline-end` | 行内末侧内间距 | `padding-inline-end: 1rem`；不写死 right |
 | `padding-block-start` | 块起侧内间距 | `padding-block-start: 3rem`；可预留角标 |
 | `padding-block-end` | 块末侧内间距 | `padding-block-end: 1rem`；保留内容呼吸空间 |
-| `box-decoration-break` | slice/clone，跨行或跨片段盒装饰处理 | `box-decoration-break: clone`；旧实现常需前缀，独立验证 |
-| `margin-trim` | none/block/inline/边组合，裁去容器边缘部分外间距 | `margin-trim: block`；有限支持，不代替基础 gap |
+| `box-decoration-break` | slice/clone，跨行或跨片段盒装饰处理 | `box-decoration-break: clone`；逐目标浏览器验证 |
+| `margin-trim` | none/block，裁去容器块边缘部分外间距 | `margin-trim: block`；不代替基础 gap |
 
-新尺寸关键词 stretch、anchor-size()、calc-size() 不具有与传统 auto 相同基线。逻辑属性与物理属性同时设置同一边时仍按层叠比较，不会自动择优。
+稳定尺寸关键词也要按消费属性和目标浏览器核对。逻辑属性与物理属性同时设置同一边时仍按层叠比较，不会自动择优。
 
 ### 5.3 定位、浮动与对象
 
@@ -222,7 +230,8 @@ float 仍适合插图旁正文绕排，不能因为 Grid 出现就说它已过�
 | `grid-row` | start/end 简写 | `grid-row: span 3`；Subgrid 卡片可共享三行 |
 | `grid-area` | 区域名或四线值 | `grid-area: body`；命名不提供 HTML 语义 |
 
-Subgrid 为基础现代增强，瀑布流 masonry 的候选语法与实现仍变化，不能作为稳定索引值推荐。Grid gap 与百分比轨道相加溢出时，优先改 fr 而非裁切整个页面。
+Subgrid 为稳定增强；未通过状态门禁的候选轨道语法不进入索引。Grid gap 与百分比轨道相加
+溢出时，优先改 fr 而非裁切整个页面。
 
 ### 5.6 字体与文字
 
@@ -255,7 +264,6 @@ Subgrid 为基础现代增强，瀑布流 masonry 的候选语法与实现仍变
 | `font-synthesis-weight` | auto/none，合成粗体开关 | `font-synthesis-weight: none`；独立支持检查 |
 | `font-synthesis-style` | auto/none，合成斜体开关 | `font-synthesis-style: none`；真实斜体仍可用 |
 | `font-synthesis-small-caps` | auto/none，合成小型大写 | `font-synthesis-small-caps: none`；罕见，独立支持 |
-| `font-synthesis-position` | auto/none，合成上下标字形 | `font-synthesis-position: none`；新扩展，非共同基线 |
 | `color` | 颜色，文字前景与 currentColor 来源 | `color: #233d2e`；需要实际对比 |
 | `letter-spacing` | normal/长度，字距 | `letter-spacing: .02em`；过度负值会重叠 |
 | `word-spacing` | normal/长度等，词间距 | `word-spacing: .1em`；中文不总有空格词 |
@@ -269,7 +277,7 @@ Subgrid 为基础现代增强，瀑布流 masonry 的候选语法与实现仍变
 | `text-wrap-mode` | wrap/nowrap，软换行开关 | `text-wrap-mode: wrap`；新长属性 |
 | `text-wrap-style` | auto/balance/pretty/stable 等 | `text-wrap-style: balance`；pretty 非本书共同基线 |
 | `overflow-wrap` | normal/break-word/anywhere，长词断行 | `overflow-wrap: anywhere`；影响内在最小尺寸 |
-| `word-break` | normal/break-all/keep-all/auto-phrase 等 | `word-break: normal`；auto-phrase 有限支持，避免全页 break-all |
+| `word-break` | normal/break-all/keep-all 等 | `word-break: normal`；避免全页 break-all |
 | `line-break` | auto/loose/normal/strict/anywhere，东亚断行规则 | `line-break: strict`；语言与字体仍需测试 |
 | `hyphens` | none/manual/auto，断词 | `hyphens: auto`；依赖 lang 与词典 |
 | `hyphenate-character` | auto/字符串，断词字符 | `hyphenate-character: "-"`；较少使用，独立核对 |
@@ -291,14 +299,14 @@ Subgrid 为基础现代增强，瀑布流 masonry 的候选语法与实现仍变
 | `text-emphasis-position` | over/under 与 right/left 组合 | `text-emphasis-position: over right`；随书写方向 |
 | `text-combine-upright` | none/all 等，竖排合字 | `text-combine-upright: all`；用于短数字而非整段 |
 | `text-rendering` | auto/optimizeSpeed/optimizeLegibility/geometricPrecision | `text-rendering: auto`；实现提示，不保证速度或字形一致 |
-| `text-size-adjust` | auto/none/百分比，移动文本自动调整 | `text-size-adjust: auto`；前缀和设备不同，勿随意禁用放大 |
 | `writing-mode` | horizontal-tb/vertical-rl/vertical-lr 等 | `writing-mode: vertical-rl`；重新检查逻辑尺寸 |
 | `direction` | ltr/rtl，方向 | `direction: rtl`；文档语义优先 HTML dir |
 | `unicode-bidi` | normal/isolate/embed/bidi-override 等 | `unicode-bidi: isolate`；用户文字优先 bdi，勿乱覆盖顺序 |
 | `ruby-align` | start/center/space-between/space-around | `ruby-align: center`；需 ruby 结构 |
 | `ruby-position` | over/under/inter-character 等 | `ruby-position: over`；具体值跨浏览器差异 |
 
-line-clamp、block-ellipsis、text-box、initial-letter 等更专门机制见有限支持表。字体文件的 src、font-display 等位于 @font-face 内，是描述符而非普通元素属性。
+`line-clamp`、`text-box`、`initial-letter` 等专门机制见稳定增强表。字体文件的 `src`、
+`font-display` 等位于 `@font-face` 内，是描述符而非普通元素属性。
 
 ### 5.7 背景、边框与轮廓
 
@@ -388,7 +396,7 @@ line-clamp、block-ellipsis、text-box、initial-letter 等更专门机制见有
 | 属性 | 值与行为 | 最小示例、注意点 |
 | --- | --- | --- |
 | `filter` | none/滤镜函数/url，处理元素内容 | `filter: grayscale(1) contrast(1.1)`；顺序影响结果 |
-| `backdrop-filter` | none/滤镜列表，处理背后内容 | `backdrop-filter: blur(6px)`；保留实色回退，旧 Safari 前缀 |
+| `backdrop-filter` | none/滤镜列表，处理背后内容 | `backdrop-filter: blur(6px)`；保留实色回退 |
 | `clip-path` | none/基础形状/url/盒 | `clip-path: circle(45%)`；裁剪不重排正文 |
 | `mask` | 多个遮罩属性简写 | `mask: linear-gradient(#000, transparent)`；会重置子属性 |
 | `mask-image` | none/图像列表 | `mask-image: linear-gradient(#000, transparent)`；不要遮必要文字 |
@@ -398,7 +406,7 @@ line-clamp、block-ellipsis、text-box、initial-letter 等更专门机制见有
 | `mask-repeat` | repeat/no-repeat/space/round 等 | `mask-repeat: no-repeat`；多层对应 |
 | `mask-origin` | border-box/padding-box/content-box 等 | `mask-origin: border-box`；SVG 盒值另验 |
 | `mask-clip` | 盒/no-clip 等 | `mask-clip: border-box`；绘制范围 |
-| `mask-composite` | add/subtract/intersect/exclude | `mask-composite: intersect`；多层顺序与旧前缀不一 |
+| `mask-composite` | add/subtract/intersect/exclude | `mask-composite: intersect`；多层顺序需逐目标验证 |
 | `mask-type` | luminance/alpha，SVG mask 解释 | `mask-type: alpha`；针对 SVG mask，不替代所有 mask-mode |
 | `mask-border` | 遮罩边框简写 | `mask-border: none`；罕见且支持不足，不作为必要边框 |
 | `mask-border-source` | none/图像 | `mask-border-source: linear-gradient(#000, #777)`；有限支持 |
@@ -406,9 +414,8 @@ line-clamp、block-ellipsis、text-box、initial-letter 等更专门机制见有
 | `mask-border-width` | 数字/长度百分比/auto | `mask-border-width: 2`；有限支持 |
 | `mask-border-outset` | 数字/长度 | `mask-border-outset: 1`；有限支持 |
 | `mask-border-repeat` | stretch/repeat/round/space | `mask-border-repeat: round`；有限支持 |
-| `mask-border-mode` | luminance/alpha | `mask-border-mode: alpha`；有限支持 |
-
-mask-border 的例值用于理解模型，不意味着三大浏览器已经实现。clip 是旧裁剪属性，已弃用；使用 clip-path，不把 clip:rect 当新组件主线。
+遮罩边框的例值用于理解当前标准模型，不意味着所有目标浏览器和组合已经通过。必要内容仍使用
+普通边框或文本呈现，遮罩只承担增强。
 
 ### 5.9 动画与变换
 
@@ -515,11 +522,12 @@ WAAPI 的 animate/pause/cancel 是 JavaScript 方法，不在 CSS 属性数量�
 | `accent-color` | auto/颜色，原生控件强调色 | `accent-color: #326747`；不统一所有控件外观 |
 | `caret-color` | auto/颜色，输入光标 | `caret-color: #175ca2`；保证对比 |
 | `color-scheme` | normal/light/dark/only 等 | `color-scheme: light dark`；不自动设计正文主题 |
-| `forced-color-adjust` | auto/none/preserve-parent-color 等 | `forced-color-adjust: auto`；不要全页强制none |
+| `forced-color-adjust` | auto/none | `forced-color-adjust: auto`；不要全页强制 none |
 | `print-color-adjust` | economy/exact | `print-color-adjust: economy`；打印设置仍可覆盖 |
-| `image-rendering` | auto/smooth/crisp-edges/pixelated 等 | `image-rendering: auto`；像素图才考虑pixelated |
+| `image-rendering` | auto/crisp-edges/pixelated 等 | `image-rendering: auto`；像素图才考虑 pixelated |
 
-CSS pointer-events 不替代 disabled，更不能阻止绕过页面直接发送请求。field-sizing、可定制 select 和新滚动伪元素在后面的有限支持表单独说明。
+CSS pointer-events 不替代 disabled，更不能阻止绕过页面直接发送请求。`field-sizing` 等稳定增强
+在后面的目标浏览器表单独说明。
 
 ### 5.11 表格、多列、列表与生成内容
 
@@ -545,7 +553,7 @@ CSS pointer-events 不替代 disabled，更不能阻止绕过页面直接发送�
 | `list-style-image` | none/图像 | `list-style-image: none`；资源失败应有类型回退 |
 | `content` | normal/none/文字/图像/计数器等 | `content: counter(step) ". "`；不承载唯一关键条款 |
 | `quotes` | auto/none/引号字符串对 | `quotes: "“" "”" "‘" "’"`；与open-quote配合 |
-| `counter-reset` | none/计数名与整数，可有reversed | `counter-reset: step`；建立计数作用域 |
+| `counter-reset` | none/计数名与整数 | `counter-reset: step`；建立计数作用域 |
 | `counter-increment` | none/计数名与整数 | `counter-increment: step`；不改变数据排序 |
 | `counter-set` | none/计数名与整数 | `counter-set: step 3`；设置已有或相关计数 |
 
@@ -561,7 +569,7 @@ CSS pointer-events 不替代 disabled，更不能阻止绕过页面直接发送�
 | `orphans` | 正整数，页或列末最少行 | `orphans: 3`；主要影响块内行 |
 | `widows` | 正整数，页或列首最少行 | `widows: 3`；打印实现需预览 |
 | `page` | auto/页面名，选择命名页 | `page: report`；需对应@page，支持有差异 |
-| `container-type` | normal/inline-size/size/scroll-state 等 | `container-type: inline-size`；scroll-state是独立实验扩展 |
+| `container-type` | normal/inline-size/size | `container-type: inline-size`；根据查询轴选择包含范围 |
 | `container-name` | none/自定义名列表 | `container-name: card`；必须有合适查询能力 |
 | `container` | 名称/类型简写 | `container: card / inline-size`；查询改变后代 |
 | `fill` | none/颜色/绘制源 | `fill: #326747`；主要SVG图形 |
@@ -591,8 +599,8 @@ CSS pointer-events 不替代 disabled，更不能阻止绕过页面直接发送�
 | `color-interpolation-filters` | auto/sRGB/linearRGB | `color-interpolation-filters: linearRGB`；滤镜色空间 |
 | `shape-rendering` | auto/optimizeSpeed/crispEdges/geometricPrecision | `shape-rendering: geometricPrecision`；实现提示 |
 | `dominant-baseline` | auto/alphabetic/middle/hanging 等 | `dominant-baseline: middle`；SVG文字基线，字体差异 |
-| `alignment-baseline` | baseline/text-top/middle 等 | `alignment-baseline: baseline`；支持和适用上下文需验 |
-| `baseline-shift` | baseline/sub/super/长度百分比等 | `baseline-shift: super`；不替代文本语义 |
+| `alignment-baseline` | baseline/middle 等 | `alignment-baseline: baseline`；支持和适用上下文需验 |
+| `baseline-shift` | sub/super | `baseline-shift: super`；不替代文本语义 |
 | `text-anchor` | start/middle/end | `text-anchor: middle`；SVG文字锚定 |
 | `d` | none/path()，SVG路径几何 | `d: path("M0 0 L20 20")`；CSS设置d支持需单独查 |
 | `x` | 长度百分比等，SVG水平位置 | `x: 10px`；不用于普通div定位 |
@@ -603,53 +611,33 @@ CSS pointer-events 不替代 disabled，更不能阻止绕过页面直接发送�
 | `rx` | auto/非负长度百分比，椭圆x半径等 | `rx: 10px`；适用元素不同 |
 | `ry` | auto/非负长度百分比，椭圆y半径等 | `ry: 8px` |
 
-SVG 几何属性同时有 HTML/SVG 标记属性路径，不能将 CSS 支持不足误写为 SVG 本身不可用。分页旧 page-break-* 仍有兼容别名用途，新教材主线使用 break-*。
+SVG 几何属性同时有 HTML/SVG 标记属性路径，不能将 CSS 支持不足误写为 SVG 本身不可用。
+分页主线使用 `break-*`，并在目标打印引擎中验证。
 
-### 5.13 有限支持、实验和特殊呈现
+### 5.13 稳定增强与特殊呈现
 
-下面的代码给出“如何表达这个机制”，不是基础项目必须依赖的承诺。未支持浏览器应保留正常流、静态信息、完整正文或原生控件。同一规范模块中的各属性、值和 API 起始版本可能不同。
+以下属性均通过当前标准状态门禁，但目标浏览器覆盖和组合行为可能不同。基础路径继续使用正常流、
+静态信息、完整正文或原生控件；增强只有在目标矩阵和真实行为通过后才启用。
 
 | 属性或机制 | 值、行为与最小示例 | 支持与回退 |
 | --- | --- | --- |
 | `anchor-name` | `anchor-name: --help`；让元素成为命名锚点 | Anchor positioning 新能力，先核对每个目标引擎；回退正常流说明 |
 | `position-anchor` | `position-anchor: --help`；定位盒选择锚点 | 不仅检测anchor-name，具体值需验 |
-| `position-area` | `position-area: top`；按锚点区域放置 | 新属性与早期旧名不同，保留absolute或正常流路径 |
+| `position-area` | `position-area: top`；按锚点区域放置 | 保留 absolute 或正常流基础路径 |
 | `position-try` | `position-try: flip-block`；溢出时尝试替代位置 | 新简写，回退可见且不出屏的基础布局 |
 | `position-try-fallbacks` | `position-try-fallbacks: flip-block, flip-inline` | 各项支持与组合需实测 |
 | `position-try-order` | `position-try-order: most-height`；候选尝试排序 | 非共同基础，不能只靠它防遮挡 |
-| `position-visibility` | `position-visibility: anchors-visible`；相关可见条件 | 实验组合，回退普通可见内容 |
+| `position-visibility` | `position-visibility: no-overflow`；控制溢出时显示 | 与锚点组合行为需验，回退普通可见内容 |
 | `anchor-scope` | `anchor-scope: --help`；限制锚点名字范围 | 较新范围机制，独立支持 |
-| `interpolate-size` | `interpolate-size: allow-keywords`；允许部分内在尺寸插值 | 快照C129，F/S未支持；默认无高度动作 |
-| `field-sizing` | `field-sizing: content`；控件按内容计算优先尺寸 | 新能力，快照含尚未到达的实现版本，不能称当前全通用；回退明确宽度 |
-| `line-clamp` | `line-clamp: 3`；限制块行数 | 标准与传统webkit组合不等价，核心条款不截断 |
-| `block-ellipsis` | `block-ellipsis: auto`；截断块末说明 | 实验/支持不足，不替代真实展开按钮 |
-| `max-lines` | `max-lines: 3`；行限制机制组成 | 支持不足，使用完整正文作为回退 |
-| `continue` | `continue: discard`；溢出片段处理提案 | 实验，不作为通用容器行为 |
-| `text-box` | `text-box: trim-both cap alphabetic`；文字边缘修整简写 | 新字体度量机制，跨字体和引擎单独测试 |
-| `text-box-trim` | `text-box-trim: trim-both`；修整首尾文字盒边缘 | 新能力，普通line-height回退 |
+| `field-sizing` | `field-sizing: content`；控件按内容计算优先尺寸 | 回退明确 width/min/max 和 resize |
+| `line-clamp` | `line-clamp: 3`；限制块行数 | 核心条款保留完整正文或显式展开路径 |
+| `text-box` | `text-box: trim-both cap alphabetic`；文字边缘修整简写 | 跨字体和目标引擎单独测试 |
+| `text-box-trim` | `text-box-trim: trim-both`；修整首尾文字盒边缘 | 普通 line-height 回退 |
 | `text-box-edge` | `text-box-edge: cap alphabetic`；度量边缘 | 不保证所有中文字库相同视觉效果 |
-| `initial-letter` | `initial-letter: 2`；首字下沉或上升 | Safari历史前缀与其他支持不同，普通首字回退 |
-| `initial-letter-align` | `initial-letter-align: auto`；首字对齐 | 罕见与支持不足，独立核对 |
-| `corner-shape` | `corner-shape: bevel`；修改圆角轮廓 | 新提案/实现，border-radius普通圆角回退 |
-| `corner-top-left-shape` | `corner-top-left-shape: bevel`；单角轮廓 | 实验单角，不能把接受值当全部稳定 |
-| `corner-top-right-shape` | `corner-top-right-shape: round` | 实验，普通半径回退 |
-| `corner-bottom-left-shape` | `corner-bottom-left-shape: bevel` | 实验 |
-| `corner-bottom-right-shape` | `corner-bottom-right-shape: round` | 实验 |
-| `reading-flow` | `reading-flow: flex-visual`；请求阅读流与视觉布局关联 | 新能力，不用来补救order造成的主线倒序 |
-| `reading-order` | `reading-order: 1`；相关阅读顺序控制 | 实验且辅助技术需验，默认合理DOM顺序 |
-| `interest-delay` | `interest-delay: 500ms`；兴趣触发延时简写 | 与新HTML invoker扩展相关，不能当通用hover菜单 |
-| `interest-delay-start` | `interest-delay-start: 500ms` | 实验，点击与键盘入口保持 |
-| `interest-delay-end` | `interest-delay-end: 300ms` | 实验，基础popover单独核对 |
-| `overlay` | `overlay: auto`；顶层退出时的离散呈现控制 | 作者不能随意用它进入顶层；新过渡组合需验 |
-| `scroll-marker-group` | `scroll-marker-group: after`；滚动标记组生成 | 新滚动UI，回退普通链接或按钮 |
-| `scroll-target-group` | `scroll-target-group: auto`；建立相关目标组 | 新能力，不能替代普通导航 |
-| `scroll-initial-target` | `scroll-initial-target: nearest`；初始滚动目标机制 | 实验，值与行为先核官方页面 |
-| `animation-trigger` | 命名触发器与播放动作，例 `animation-trigger: --reveal play` | 滚动触发提案演进快，不作为可运行主线 |
-| `trigger-scope` | `trigger-scope: --reveal`；触发器命名范围 | 实验，静态内容回退 |
+| `initial-letter` | `initial-letter: 2`；首字下沉或上升 | 普通首字样式回退，逐字体和引擎验证 |
 
-未实现属性的“示例”只能用于阅读语法，浏览器可能直接忽略。上表不能用来承诺 Anchor、scroll-marker 或触发器已覆盖全部浏览器。
-
-CSS Speech 的 `voice-volume`、`voice-rate`、`speak-as` 等属于语音样式方向，主流视觉浏览器不能据此保证读屏行为。例如 `voice-rate: slow` 表达语音速率请求，但不应期待现有屏幕阅读器遵守它。无障碍主线使用正确 HTML、名称、状态和键盘流程，不用实验语音 CSS 代替。
+上表不能用来承诺每个组合已经覆盖全部浏览器。采用时必须记录目标版本、解析与行为结果，并
+证明禁用增强后同一核心任务仍可完成。无障碍主线使用正确 HTML、名称、状态和键盘流程。
 
 <!-- PROPERTY-AUDIT-END -->
 
@@ -741,7 +729,7 @@ CSS Speech 的 `voice-volume`、`voice-rate`、`speak-as` 等属于语音样式�
         <p>25.00 元，已售。</p>
       </article>
     </div>
-    <pre id="report" role="status" aria-label="属性查询报告"></pre>
+    <pre id="report" aria-label="属性查询报告"></pre>
     <p>CSS 只改变呈现，本页没有发布、预约或支付请求。</p>
   </main>
   <script>
@@ -801,10 +789,10 @@ python3 -m http.server 8000
 - 动画取消后状态错乱：回到状态机，不在属性表里寻找业务修复；
 - 打印遮挡：查定位、overflow、break 与 print 媒体；
 - SVG 图标不随色：查 fill/stroke 与 `currentColor`，不套普通背景属性；
-- 某新属性无效：进入第三课的回退登记，不随意加私有前缀；
+- 某稳定增强无效：进入第三课的目标矩阵与回滚检查，不添加未经课程门禁的语法；
 - 找到属性后回链主要教程，验证完整上下文而不是复制一行声明。
 
-476 项是课程审计口径，不是要求一个页面全部使用。未使用属性不等于缺陷，按需求选择最小集合。
+452 项是课程审计口径，不是要求一个页面全部使用。未使用属性不等于缺陷，按需求选择最小集合。
 
 ## 8. 常见错误与排查路径
 
@@ -836,12 +824,13 @@ python3 -m http.server 8000
 
 ## 9. 课后题
 
-**问题 1：476 是否代表浏览器支持的全部 CSS 属性？**
+**问题 1：452 是否代表浏览器支持的全部 CSS 属性？**
 
 <details>
 <summary>参考答案</summary>
 
-不是。它是课程固定快照口径，排除了历史私有、已移除和未来候选，并把 at-rule、描述符、函数和 API 分开。浏览器实现集合会随版本变化。
+不是。它是本次稳定状态门禁后的课程索引，并把 at-rule、描述符、函数和 API 分开。浏览器实现
+集合会随版本变化，项目仍要执行目标矩阵。
 
 </details>
 
@@ -891,14 +880,14 @@ python3 -m http.server 8000
 
 ## 11. 阶段验收
 
-- [ ] 审计区顺序项为 476；
-- [ ] 审计区唯一项为 476；
+- [ ] 审计区顺序项为 452；
+- [ ] 审计区唯一项为 452；
 - [ ] 名称顺序 SHA-256 与基线一致；
 - [ ] 能按模块定位而不是只全文猜词；
 - [ ] 能说明至少四个简写的重置风险；
 - [ ] 能区分物理边与逻辑边；
 - [ ] 能区分属性解析、计算值和行为验证；
-- [ ] 有限支持项不承担必要内容；
+- [ ] 目标覆盖不同的稳定项不承担必要内容；
 - [ ] SVG、打印和交互属性按适用上下文使用；
 - [ ] 示例没有外部缺失资源或真实交易行为。
 
@@ -910,28 +899,32 @@ python3 -m http.server 8000
 **表里的最小声明可以直接复制上线吗？**<br>
 不可以直接假定。它只展示值形态；仍需结合层叠、DOM、内容、浏览器矩阵、可访问性和性能验证。
 
-**属性名没出现在 476 中是否就不能用？**<br>
-先判断它是新属性、描述符、旧别名、私有实现还是录入遗漏，再查当前规范与 BCD。不要为守数量拒绝标准演进，也不要静默改基线。
+**属性名没出现在 452 中是否就不能用？**<br>
+先判断它是描述符、函数、选择器、状态门禁未通过的能力，还是录入遗漏，再查当前规范与 BCD。
+不要为守数量拒绝稳定标准演进，也不要静默改基线。
 
-**为何有限支持项仍在索引？**<br>
-它们是既有 476 审计的一部分，并在 5.13 明确隔离。第三课会进一步按实验、弃用和非标准状态登记回退。
+**为什么稳定属性仍要保留基础路径？**<br>
+稳定状态不等于所有目标版本、组合和辅助技术已经验证。基础路径保证增强关闭时同一核心任务仍
+能完成。
 
 ## 13. 扩展阅读
 
-资料核验日期：2026-10-10；兼容数据固定到课程记录的 MDN BCD 提交。
+资料核验日期：2026-10-11；状态元数据使用 MDN BCD 8.1.5。
 
 - [MDN CSS 参考总索引](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)：属性、选择器、规则与数据类型入口。
 - [MDN CSS 模块](https://developer.mozilla.org/en-US/docs/Web/CSS)：按模块查主要概念。
-- [MDN BCD 固定快照](https://github.com/mdn/browser-compat-data/tree/3b28abed321540dcbe571c16174af543c4e02ac0)：本课程兼容审计来源。
+- [MDN Browser Compatibility Data](https://github.com/mdn/browser-compat-data)：版本化状态与兼容审计来源。
 - [CSSWG 现行规范索引](https://www.w3.org/Style/CSS/current-work)：规范成熟度与模块链接。
 - [CSS Cascade Level 5](https://www.w3.org/TR/css-cascade-5/)：值处理、层与简写相关机制。
 - [CSS Values and Units Level 4](https://www.w3.org/TR/css-values-4/)：值定义、数学和单位。
 
-索引中的基础项不代表所有值在所有旧浏览器一致；5.13 项更不得作为三大引擎共同基线。Safari、Firefox、真实打印、SVG 辅助技术和低性能设备未在本课自动验证。
+索引中的稳定项不代表所有值在全部目标浏览器一致；5.13 项尤其需要项目矩阵。Safari、Firefox、
+真实打印、SVG 辅助技术和低性能设备未在本课自动验证。
 
 ## 我现在能做到什么
 
-我能按模块检索 476 项固定属性，解释值、适用上下文和简写风险，并用机械审计保护名称口径。下一课会把 at-rule、描述符、函数和语法位置从普通属性中分离出来。
+我能按模块检索 452 项稳定属性，解释值、适用上下文和简写风险，并用机械审计保护名称口径。
+下一课会把 at-rule、描述符、函数和语法位置从普通属性中分离出来。
 
 ## 单元导航
 

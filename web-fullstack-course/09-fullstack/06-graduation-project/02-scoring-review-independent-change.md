@@ -403,6 +403,15 @@ const VETOES = [
 const DIMENSION_RESULT_KEYS = ["earned", "executed", "evidence"];
 const VETO_REVIEW_KEYS = ["triggered", "reviewed", "evidence"];
 const OPTIONAL_REVIEW_KEYS = ["earned", "evidence"];
+const ASSESSMENT_KEYS = [
+  "label",
+  "assessedAt",
+  "sourceCommit",
+  "dimensions",
+  "vetoes",
+  "optionalReview",
+];
+const CANDIDATE_LABEL = "CANDIDATE_ASSESSMENT_RESULT";
 
 function requireExactKeys(value, expected, label) {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
@@ -413,6 +422,27 @@ function requireExactKeys(value, expected, label) {
   if (JSON.stringify(actual) !== JSON.stringify(wanted)) {
     throw new Error(`${label} keys differ: ${actual.join(",")}`);
   }
+}
+
+function canonicalUtc(value, label) {
+  if (
+    typeof value !== "string" ||
+    !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(value)
+  ) {
+    throw new Error(`${label} must be canonical UTC ISO 8601`);
+  }
+  const time = Date.parse(value);
+  if (!Number.isFinite(time) || new Date(time).toISOString() !== value) {
+    throw new Error(`${label} is not a real canonical timestamp`);
+  }
+  return value;
+}
+
+function checkedCommit(value, label) {
+  if (typeof value !== "string" || !/^[a-f0-9]{7,64}$/.test(value)) {
+    throw new Error(`${label} must be a lowercase hexadecimal commit`);
+  }
+  return value;
 }
 
 function isReaderOwnedRelativePath(value) {
@@ -614,7 +644,23 @@ function checkedEvidence(value, label, options = {}) {
   return value;
 }
 
-export function scoreAssessment(input) {
+export function scoreAssessment(input, expectedSourceCommit) {
+  requireExactKeys(input, ASSESSMENT_KEYS, "assessment");
+  if (input.label !== CANDIDATE_LABEL) {
+    throw new Error(`assessment.label must be ${CANDIDATE_LABEL}`);
+  }
+  const assessedAt = canonicalUtc(input.assessedAt, "assessment.assessedAt");
+  const sourceCommit = checkedCommit(
+    input.sourceCommit,
+    "assessment.sourceCommit",
+  );
+  const expectedCommit = checkedCommit(
+    expectedSourceCommit,
+    "expectedSourceCommit",
+  );
+  if (sourceCommit !== expectedCommit) {
+    throw new Error("assessment sourceCommit differs from reviewed commit");
+  }
   requireExactKeys(input.dimensions, Object.keys(DIMENSIONS), "dimensions");
   requireExactKeys(input.vetoes, VETOES, "vetoes");
 
@@ -698,6 +744,8 @@ export function scoreAssessment(input) {
       : "REMEDIATE";
   return {
     label: "RECALCULATED_ASSESSMENT",
+    assessedAt,
+    sourceCommit,
     total,
     maximum: 100,
     optionalReview: optional.earned,
@@ -716,8 +764,18 @@ if (
   realpathSync(fileURLToPath(import.meta.url)) === realpathSync(process.argv[1])
 ) {
   const inputPath = process.argv[2] ?? "evidence/assessment-result.json";
+  const expectedSourceCommit = process.argv[3];
+  if (!expectedSourceCommit) {
+    throw new Error(
+      "usage: node evidence/score.mjs INPUT EXPECTED_SOURCE_COMMIT",
+    );
+  }
   const input = JSON.parse(await readFile(inputPath, "utf8"));
-  console.log(JSON.stringify(scoreAssessment(input), null, 2));
+  console.log(JSON.stringify(
+    scoreAssessment(input, expectedSourceCommit),
+    null,
+    2,
+  ));
 }
 ```
 
@@ -731,14 +789,23 @@ if (
 set -euo pipefail
 umask 077
 SAMPLE_ROOT=/tmp/full-course-verification/batch-f/reader-owned
+TMP_DIR=$(mktemp -d)
+CANDIDATE_INPUT=$TMP_DIR/candidate-assessment.json
+EXPECTED_COMMIT=0123456789abcdef0123456789abcdef01234567
 test ! -e "$SAMPLE_ROOT"
-trap 'rm -rf "$SAMPLE_ROOT"' EXIT
+trap 'rm -rf "$SAMPLE_ROOT" "$TMP_DIR"' EXIT
 
-node - evidence/assessment-result.json "$SAMPLE_ROOT" <<'NODE'
+node - evidence/assessment-result.json "$SAMPLE_ROOT" \
+  "$CANDIDATE_INPUT" "$EXPECTED_COMMIT" <<'NODE'
 const fs = require("node:fs");
 const path = require("node:path");
-const [inputPath, root] = process.argv.slice(2);
+const [inputPath, root, candidatePath, expectedCommit] =
+  process.argv.slice(2);
 const input = JSON.parse(fs.readFileSync(inputPath, "utf8"));
+input.label = "CANDIDATE_ASSESSMENT_RESULT";
+input.sourceCommit = expectedCommit;
+input.assessedAt = "2026-10-11T12:00:00.000Z";
+fs.writeFileSync(candidatePath, JSON.stringify(input), { mode: 0o600 });
 fs.mkdirSync(root, { recursive: true, mode: 0o700 });
 fs.chmodSync(root, 0o700);
 const paths = [
@@ -768,13 +835,19 @@ node -e '
   const fs = require("node:fs");
   JSON.parse(fs.readFileSync("evidence/assessment-result.json", "utf8"));
 '
-node evidence/score.mjs evidence/assessment-result.json
-node evidence/score.mjs
+node evidence/score.mjs "$CANDIDATE_INPUT" "$EXPECTED_COMMIT"
+if node evidence/score.mjs \
+  evidence/assessment-result.json "$EXPECTED_COMMIT"; then
+  echo "expected demo label to be rejected" >&2
+  exit 1
+fi
 ```
 
 示例预期输出 total 80、无 unmet floors/active/unreviewed veto、decision PASS、
-optionalExcludedFromBase true。若没有先创建全部真实 sample evidence，示例必须因首个不存在文件
-而非零退出；这个 PASS 只证明示例数字和本轮临时文件满足算法，不是毕业结论。
+optionalExcludedFromBase true，并回显匹配的 `sourceCommit` 与规范 `assessedAt`。原始 demo 文件
+必须因 label 非候选结果而失败；若没有先创建全部真实 sample evidence，候选临时副本必须因首个
+不存在文件而非零退出。这个 PASS 只证明示例数字、临时 provenance 和本轮临时文件满足算法，
+不是毕业结论。
 
 ### 6.4 PASS/floor/veto/证据负向断言
 
@@ -788,14 +861,18 @@ set -euo pipefail
 umask 077
 TMP_DIR=$(mktemp -d)
 SAMPLE_ROOT=/tmp/full-course-verification/batch-f/reader-owned
+EXPECTED_COMMIT=0123456789abcdef0123456789abcdef01234567
 test ! -e "$SAMPLE_ROOT"
 trap 'rm -rf "$TMP_DIR" "$SAMPLE_ROOT"' EXIT
 
-node - evidence/assessment-result.json "$TMP_DIR" <<'NODE'
+node - evidence/assessment-result.json "$TMP_DIR" "$EXPECTED_COMMIT" <<'NODE'
 const fs = require("node:fs");
 const path = require("node:path");
-const [source, directory] = process.argv.slice(2);
+const [source, directory, expectedCommit] = process.argv.slice(2);
 const base = JSON.parse(fs.readFileSync(source, "utf8"));
+base.label = "CANDIDATE_ASSESSMENT_RESULT";
+base.sourceCommit = expectedCommit;
+base.assessedAt = "2026-10-11T12:00:00.000Z";
 const clone = () => structuredClone(base);
 const write = (name, value) => {
   fs.writeFileSync(`${directory}/${name}.json`, JSON.stringify(value));
@@ -824,6 +901,18 @@ write("no-evidence", noEvidence);
 const optionalNoEvidence = clone();
 optionalNoEvidence.optionalReview.earned = 1;
 write("optional-no-evidence", optionalNoEvidence);
+
+const demoLabel = clone();
+demoLabel.label = "DEMO_ASSESSMENT_FORMAT_NOT_A_CANDIDATE_RESULT";
+write("demo-label", demoLabel);
+
+const wrongCommit = clone();
+wrongCommit.sourceCommit = "abcdefabcdefabcdefabcdefabcdefabcdefabcd";
+write("wrong-commit", wrongCommit);
+
+const malformedTimestamp = clone();
+malformedTimestamp.assessedAt = "2026-10-11 12:00:00";
+write("malformed-timestamp", malformedTimestamp);
 
 const evidenceRoot =
   "/tmp/full-course-verification/batch-f/reader-owned";
@@ -855,7 +944,7 @@ assert_decision() {
   EXPECTED=$1
   INPUT=$2
   ACTUAL=$(
-    node evidence/score.mjs "$INPUT" |
+    node evidence/score.mjs "$INPUT" "$EXPECTED_COMMIT" |
       node -e '
         let text = "";
         process.stdin.on("data", (chunk) => { text += chunk; });
@@ -876,25 +965,37 @@ score_direct() {
   node --input-type=module -e '
     import fs from "node:fs";
     import { pathToFileURL } from "node:url";
-    const [inputPath, modulePath] = process.argv.slice(1);
+    const [inputPath, modulePath, expectedCommit] = process.argv.slice(1);
     const { scoreAssessment } = await import(pathToFileURL(modulePath).href);
     const input = JSON.parse(fs.readFileSync(inputPath, "utf8"));
-    if (scoreAssessment(input).decision !== "PASS") process.exit(1);
-  ' "$TMP_DIR/pass.json" "$PWD/evidence/score.mjs"
+    if (scoreAssessment(input, expectedCommit).decision !== "PASS") {
+      process.exit(1);
+    }
+  ' "$TMP_DIR/pass.json" "$PWD/evidence/score.mjs" "$EXPECTED_COMMIT"
 }
 score_direct
 
-if node evidence/score.mjs "$TMP_DIR/no-evidence.json"; then
+for provenance_case in demo-label wrong-commit malformed-timestamp; do
+  if node evidence/score.mjs \
+    "$TMP_DIR/$provenance_case.json" "$EXPECTED_COMMIT"; then
+    echo "expected provenance case to fail: $provenance_case" >&2
+    exit 1
+  fi
+done
+
+if node evidence/score.mjs \
+  "$TMP_DIR/no-evidence.json" "$EXPECTED_COMMIT"; then
   echo "expected earned dimension without evidence to fail" >&2
   exit 1
 fi
-if node evidence/score.mjs "$TMP_DIR/optional-no-evidence.json"; then
+if node evidence/score.mjs \
+  "$TMP_DIR/optional-no-evidence.json" "$EXPECTED_COMMIT"; then
   echo "expected optional points without evidence to fail" >&2
   exit 1
 fi
 
 chmod 0777 "$SAMPLE_ROOT"
-if node evidence/score.mjs "$TMP_DIR/pass.json"; then
+if node evidence/score.mjs "$TMP_DIR/pass.json" "$EXPECTED_COMMIT"; then
   echo "expected mode-0777 evidence root to fail" >&2
   exit 1
 fi
@@ -902,7 +1003,7 @@ chmod 0700 "$SAMPLE_ROOT"
 
 mv "$SAMPLE_ROOT/http" "$TMP_DIR/real-http"
 ln -s "$TMP_DIR/real-http" "$SAMPLE_ROOT/http"
-if node evidence/score.mjs "$TMP_DIR/pass.json"; then
+if node evidence/score.mjs "$TMP_DIR/pass.json" "$EXPECTED_COMMIT"; then
   echo "expected symlinked evidence parent to fail" >&2
   exit 1
 fi
@@ -911,7 +1012,7 @@ mv "$TMP_DIR/real-http" "$SAMPLE_ROOT/http"
 
 MISSING=$SAMPLE_ROOT/http/contract-summary.txt
 rm "$MISSING"
-if node evidence/score.mjs "$TMP_DIR/pass.json"; then
+if node evidence/score.mjs "$TMP_DIR/pass.json" "$EXPECTED_COMMIT"; then
   echo "expected deleted evidence file to fail" >&2
   exit 1
 fi
@@ -957,10 +1058,14 @@ pnpm --version
 shasum -a 256 pnpm-lock.yaml
 pnpm install --frozen-lockfile
 git status --short
+EXPECTED_SOURCE_COMMIT=$(git rev-parse HEAD)
+[[ "$EXPECTED_SOURCE_COMMIT" =~ ^[a-f0-9]{40,64}$ ]]
 ```
 
 预期安装不改 lock，源码工作区保持干净。registry/network 阻塞记 blocked；缓存安装不证明公共
-registry 首次下载。
+registry 首次下载。最终复算必须由同一受信 reviewer shell 运行
+`node evidence/score.mjs "$CANDIDATE_RESULT" "$EXPECTED_SOURCE_COMMIT"`；候选人填写的
+`sourceCommit` 只有与 clean checkout 的 `HEAD` 完全一致才会进入计分。
 
 ### 7.2 数据库与 HTTP 复审
 

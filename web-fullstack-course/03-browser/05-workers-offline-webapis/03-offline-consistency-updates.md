@@ -120,6 +120,7 @@ let listing = {
   updatedAt: new Date().toISOString(),
 };
 const idempotencyResults = new Map();
+let dropNextConfirmation = false;
 
 function send(res, status, type, body) {
   res.writeHead(status, {
@@ -155,7 +156,11 @@ createServer(async (req, res) => {
       return;
     }
 
-    if (req.method === "POST" && url.pathname === "/api/v1/reservations") {
+    const reservationMatch = url.pathname.match(
+      /^\/api\/v1\/listings\/([^/]+)\/reservations$/,
+    );
+    if (req.method === "POST" && reservationMatch) {
+      const listingId = decodeURIComponent(reservationMatch[1]);
       const key = req.headers["idempotency-key"];
       if (typeof key !== "string" || key.length < 8 || key.length > 100) {
         send(res, 400, "application/json; charset=utf-8", JSON.stringify({
@@ -173,7 +178,7 @@ createServer(async (req, res) => {
       }
       const body = await readJson(req);
       if (
-        body?.listingId !== listing.id ||
+        listingId !== listing.id ||
         !Number.isInteger(body.expectedVersion)
       ) {
         send(res, 400, "application/json; charset=utf-8", JSON.stringify({
@@ -205,7 +210,26 @@ createServer(async (req, res) => {
         reused: false,
       };
       idempotencyResults.set(key, result);
+      if (dropNextConfirmation) {
+        dropNextConfirmation = false;
+        const responseBody = JSON.stringify(result);
+        res.writeHead(201, {
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": Buffer.byteLength(responseBody),
+          "Cache-Control": "no-store",
+        });
+        res.flushHeaders();
+        res.write(responseBody.slice(0, Math.floor(responseBody.length / 2)));
+        setTimeout(() => res.destroy(), 20);
+        return;
+      }
       send(res, 201, "application/json; charset=utf-8", JSON.stringify(result));
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/lab/drop-next-confirmation") {
+      dropNextConfirmation = true;
+      send(res, 204, "text/plain; charset=utf-8");
       return;
     }
 
@@ -285,6 +309,7 @@ createServer(async (req, res) => {
   <button id="sync" type="button">同步草稿</button>
   <button id="discard" type="button">丢弃草稿</button>
   <button id="advance" type="button">模拟他人先预约</button>
+  <button id="drop" type="button">模拟提交后响应丢失</button>
   <button id="reset" type="button">重置本地服务状态</button>
   <pre id="draft-view">没有本地草稿</pre>
 </main>
@@ -302,7 +327,7 @@ const snapshotText = document.querySelector("#snapshot");
 const status = document.querySelector("#status");
 const draftView = document.querySelector("#draft-view");
 const buttons = Object.fromEntries(
-  ["load", "draft", "sync", "discard", "advance", "reset"].map((id) => [
+  ["load", "draft", "sync", "discard", "advance", "drop", "reset"].map((id) => [
     id,
     document.querySelector(`#${id}`),
   ]),
@@ -401,17 +426,19 @@ buttons.sync.addEventListener("click", async () => {
   }
   status.textContent = "正在提交草稿，结果未知前不要重复创建新意图";
   try {
-    const response = await fetch("/api/v1/reservations", {
+    const response = await fetch(
+      `/api/v1/listings/${encodeURIComponent(draft.listingId)}/reservations`,
+      {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Idempotency-Key": draft.idempotencyKey,
       },
       body: JSON.stringify({
-        listingId: draft.listingId,
         expectedVersion: draft.expectedVersion,
       }),
-    });
+      },
+    );
     const body = await response.json();
     if (response.status === 409) {
       status.textContent =
@@ -455,6 +482,18 @@ buttons.advance.addEventListener("click", async () => {
   }
 });
 
+buttons.drop.addEventListener("click", async () => {
+  try {
+    const response = await fetch("/lab/drop-next-confirmation", {
+      method: "POST",
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    status.textContent = "下一次成功提交会在服务端保存后丢失响应";
+  } catch (error) {
+    status.textContent = `无法设置故障：${error.message}`;
+  }
+});
+
 buttons.reset.addEventListener("click", async () => {
   try {
     const response = await fetch("/lab/reset", { method: "POST" });
@@ -468,8 +507,9 @@ buttons.reset.addEventListener("click", async () => {
 
 for (const button of [buttons.advance, buttons.reset]) {
   button.addEventListener("click", (event) => {
-    event.currentTarget.disabled = true;
-    setTimeout(() => { event.currentTarget.disabled = false; }, 500);
+    const target = event.currentTarget;
+    target.disabled = true;
+    setTimeout(() => { target.disabled = false; }, 500);
   });
 }
 
@@ -535,7 +575,10 @@ cd browser-lab
 node server.mjs ./public
 ```
 
-运行后先在线加载并刷新一次。切为 Offline，点击“保存预约草稿”，页面必须写“尚未预约成功”。恢复 Online，不要立刻同步；先点“模拟他人先预约”，再同步，应得到 `409`。重置、重新读取、创建新草稿并同步，应得到 `201`。保留相同幂等键重发可得到 `reused: true`。
+运行后先在线加载并刷新一次。切为 Offline，点击“保存预约草稿”，页面必须写“尚未预约成功”。
+恢复 Online，不要立刻同步；先点“模拟他人先预约”，再同步，应得到 `409`。重置、重新读取并
+创建新草稿；点“模拟提交后响应丢失”，再同步，页面应报告结果未知并保留草稿。使用同一草稿
+再次同步，应得到 `reused: true` 和同一个预约编号。
 
 ## 7. 邻里集市集成案例
 
@@ -570,7 +613,10 @@ status.textContent = "预约成功";
 ```js
 // 错误：服务端会把每次请求当成新意图。
 headers.set("Idempotency-Key", crypto.randomUUID());
-await fetch("/api/v1/reservations", { method: "POST", headers });
+await fetch(
+  `/api/v1/listings/${encodeURIComponent(listingId)}/reservations`,
+  { method: "POST", headers },
+);
 ```
 
 ### 诊断记录

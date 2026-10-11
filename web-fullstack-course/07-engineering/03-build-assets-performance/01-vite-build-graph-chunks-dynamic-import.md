@@ -9,7 +9,7 @@
 | 输出 | Vite 8 / Rolldown 构建文件清单与动态 chunk 请求证据 |
 | 文件 | `vite.config.mjs`、`src/main.ts`、`src/lazy-message.ts`、`src/report.ts` |
 | 运行 | `pnpm build`、`pnpm exec vite preview --host 127.0.0.1 --port 4173 --strictPort` |
-| 版本 | Node.js 24.21.0、pnpm 12.10.1、Vite 8.3.0 |
+| 版本 | Node.js 24.21.0、pnpm 12.11.2、Vite 8.3.4 |
 | 边界 | 本地生产预览不是生产部署；构建成功不替代类型、Lint、测试和浏览器行为验收 |
 
 ## 1. 任务背景
@@ -39,7 +39,7 @@ pnpm exec vite --version
 pnpm quality
 ```
 
-预期依次观察 Node.js `v24.21.0`、pnpm `12.10.1`、Vite `8.3.0`，且质量门禁退出 0。补丁环境与课程记录不一致时，保存真实输出；不要把推荐值手写成已验证值。
+预期依次观察 Node.js `v24.21.0`、pnpm `12.11.2`、Vite `8.3.4`，且质量门禁退出 0。补丁环境与课程记录不一致时，保存真实输出；不要把推荐值手写成已验证值。
 
 项目应已有 `index.html`、`src/money.ts` 和 `src/style.css`。HTML 中需要：
 
@@ -81,7 +81,8 @@ build: {
 }
 ```
 
-`build.rollupOptions` 在当前文档中只是已弃用别名，不再作为新教材入口。Rolldown 与 Rollup 有历史兼容关系，但名字相似不代表所有插件、钩子和选项行为都可未经验证直接迁移。优先使用 Vite 高层配置；只有可观察需求存在时才进入底层选项。
+不要依赖兼容别名推断底层行为。优先使用 Vite 高层配置；只有存在可观察需求时才进入
+`build.rolldownOptions`，并用当前插件、构建图和产物验证具体钩子与选项。
 
 ### 4.3 Chunk、hash 与 tree shaking
 
@@ -117,8 +118,8 @@ tree shaking 依赖 ESM 的静态结构和副作用判断，目标是移除不�
 | 命令/API/配置 | 文件或版本 | 作用 | 失败证据或边界 |
 | --- | --- | --- | --- |
 | `pnpm quality` | `package.json` | 先运行格式、Lint、TS 7/TS 6 检查 | 通过不证明浏览器动态加载成功 |
-| `vite build` | Vite 8.3.0 | 从 HTML 入口生成生产资源 | 不自动运行类型检查，除非脚本显式串联 |
-| `vite preview` | Vite 8.3.0 | 本地提供 `dist/` | 官方明确不是生产服务器 |
+| `vite build` | Vite 8.3.4 | 从 HTML 入口生成生产资源 | 不自动运行类型检查，除非脚本显式串联 |
+| `vite preview` | Vite 8.3.4 | 本地提供 `dist/` | 官方明确不是生产服务器 |
 | `index.html` | 项目根 | 应用构建入口 | 脚本路径错误会使模块图无法建立 |
 | `import x from "./x"` | ESM | 建立静态依赖 | 进入初始可达图，不形成交互后请求 |
 | `import("./report")` | ESM Promise | 建立动态边界 | 加载、解析或执行都可能拒绝 |

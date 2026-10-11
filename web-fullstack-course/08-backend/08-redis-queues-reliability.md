@@ -97,4 +97,5 @@ Redis 与 BullMQ 是第 10 章最小 API 的**可选可靠性扩展**。完成�
 - 上一章：[07 搜索、分页与文件](07-search-pagination-files.md)
 - 第一课：[缓存失效与击穿控制](08-redis-queues-reliability/01-cache-invalidation-stampede-control.md)
 - 下一章：[09 测试、OpenAPI 与可观测性](09-testing-openapi-observability.md)
+- 覆盖审计：[后端覆盖矩阵](BACKEND-COVERAGE.md)
 - 分卷入口：[从零建立业务后端](README.md)

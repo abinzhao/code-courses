@@ -2,7 +2,6 @@
 
 > 面向零框架基础学习者的 React 完整教程
 > 主线项目：邻里集市搜索、发布、预约、收藏与 SSR
-> 官方资料快照：2026-10-10；教材结构与包解析复核：2026-10-11
 
 本卷面向会写基础 HTML、CSS 和 JavaScript、但尚未写过框架应用的读者。代码主线使用
 TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要求先安装真实数据库。若还
@@ -11,14 +10,14 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
 学习目标不是记住 Hook 名称，而是能够解释状态归谁所有、请求为何过期、错误怎样恢复、
 前端证据能证明什么，以及 SSR 的服务器首帧为什么必须与客户端首帧一致。
 
-## 1. 教材结构
+## 本卷定位与教材结构
 
 本卷采用与 HTML 模块一致的两层结构：
 
 ```text
 章入口
   ├── 说明本章任务、必要前置、学习顺序与综合验收
-  └── 连接 3 篇详细教程
+  └── 连接本章详细教程
 
 详细教程
   ├── 推导一个明确的 React 机制
@@ -30,12 +29,12 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
 
 章入口负责路线和章级综合任务，不重复完整理论与源码。每篇详细教程按统一 13 节契约提供
 理论、API 清单、最小案例、项目案例、诊断、练习和验收。学习时先打开章入口，再依次完成
-三篇教程，最后回到章入口完成综合验收。
+本章教程，最后回到章入口完成综合验收。
 
 全部知识点及其六类证据位置见 [React 教材覆盖矩阵](REACT-COVERAGE.md)。矩阵用于审计，
 不能替代正文，也不能把“存在链接”解释成目标环境已经运行通过。
 
-## 2. 八章学习路线
+## 学习路线
 
 ### 第一章：JSX、组件与第一版集市
 
@@ -84,7 +83,7 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
 | 2 | [loader、action、错误边界与重新验证](04-routing-data/02-loaders-actions-errors-revalidation.md) | 统一路由读取、写入、pending、错误和成功后的重新验证 |
 | 3 | [教学登录、发布、预约与冲突恢复](04-routing-data/03-auth-publish-reservation-conflicts.md) | 接通会话、服务端 ID、201/409 和状态特定恢复 |
 
-阶段产出：可深链、可发布、可预约并区分 401/403/404/409/422/503 的 SPA。建议投入约
+阶段产出：可深链、可发布、可预约并区分 401/403/404/409/400/503 的 SPA。建议投入约
 8 小时。
 
 ### 第五章：状态架构
@@ -138,7 +137,7 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
 阶段产出：原始 HTML、无 JavaScript GET 搜索、安全序列化、请求隔离和 0→1 水合证据。
 建议投入约 11 小时。
 
-## 3. 学习方式
+## 学习与运行
 
 每篇教程都按同一闭环完成：
 
@@ -152,9 +151,9 @@ TypeScript strict、函数组件和 Hooks；不要求先学习 Vue，也不要�
 
 只复制最终代码不能证明掌握。能够预测、诊断、恢复并说明保证边界，才进入下一课。
 
-## 4. Workspace、版本与教学 API 边界
+### Workspace、版本与教学 API
 
-### 4.1 Workspace
+#### Workspace
 
 所有应用路径都相对学习者创建的 `neighborhood-market/`，不是本教材目录：
 
@@ -175,25 +174,14 @@ neighborhood-market/
 章节明确写“替换”的文件使用当课最新整文件，写“新增”的文件另建。不要把同一路径的不同
 阶段拼在一起，也不要自行把 `.tsx` 改成 `.ts` 或添加教材未声明的路径别名。
 
-### 4.2 版本
+#### 版本
 
-| 层 | 本卷基线 | 使用规则 |
-| --- | --- | --- |
-| 运行时 | Node.js 24 LTS | 先记录 `node --version`，不伪造推荐值 |
-| 包管理器 | 以项目锁文件和 `pnpm --version` 为准 | 历史验证与当前教材基线分开记录 |
-| UI | React / React DOM 19.3 | 函数组件、Hooks、Strict Mode |
-| 构建 | Vite 8、plugin-react 6 | Vite 转译不能替代项目类型检查 |
-| 路由 | React Router Data Mode | 安装后记录实际版本和导入入口 |
-| 类型 | TypeScript 7 语言主线、TS6 兼容 API 线 | 工具链用 `@typescript/typescript6` 提供的 `tsc6` |
-| 质量 | ESLint 10 flat config、Vitest、Playwright | 每个工具只证明自己实际检查的范围 |
+精确技术选择、核验日期和 TypeScript 兼容线统一见
+[版本基线](../00-guide/02-version-baseline.md)。读者安装结果以版本探针、`pnpm list --depth 0`
+和锁文件为准；Vite 转译不能替代项目类型检查，也不使用 canary、未发布 RFC 或只有新闻描述的
+新接口。
 
-2026-10-11 教材构建课记录的环境为 Node `v24.19.0`、pnpm `12.10.1`；包解析示例为
-React 19.3.0、Vite 8.3.4、plugin-react 6.1.2、React Router 8.4.0。读者安装结果仍以
-`pnpm list --depth 0` 和锁文件为准。详细的 TS7/TS6 并行规则见
-[版本基线](../00-guide/02-version-baseline.md)。不使用 canary、未发布 RFC 或只有新闻描述
-的新接口。
-
-### 4.3 教学 API
+#### 教学 API
 
 第 1、2 章只使用静态或浏览器内存数据。第 3 章起，Vite middleware 在
 `127.0.0.1` 提供同源 `/api/v1` 教学 API，供请求、路由、会话和冲突恢复练习。
@@ -209,7 +197,7 @@ React 19.3.0、Vite 8.3.4、plugin-react 6.1.2、React Router 8.4.0。读者安�
 CSRF、精确 Origin 和运行时 DTO 校验。不要把 Cookie 会话改成 localStorage token 来回避
 适配。
 
-## 5. React 与 Vue 的共享业务契约
+## 连续项目与边界
 
 两卷实现同一邻里集市业务复杂度和验收结果，但保留各自自然的组件模型。
 
@@ -222,7 +210,7 @@ CSRF、精确 Origin 和运行时 DTO 校验。不要把 Cookie 会话改成 loc
 | `Page<T>` | `{items,page,pageSize,total}`，页码不接受 0 或负数 |
 | `Reservation` | 含商品、买家、状态和创建时间；一个商品只能有一个有效预约 |
 | 会话 | 同源 HttpOnly Cookie；浏览器代码不读取或持久化凭据 |
-| 错误 | `{code,message,requestId,details?}`；401/403/404/409/422/503 含义不同 |
+| 错误 | `{code,message,requestId,details?}`；401/403/404/409/400/503 含义不同 |
 | 页面状态 | initial、loading、empty、error、success、unauthenticated、forbidden、conflict |
 | 并发 | 取消或忽略旧读取；迟到结果不能跨会话；预约冲突一成功一 409 |
 | 无障碍 | label、键盘激活、可见焦点、status/alert、路由焦点恢复和 reduced-motion 边界 |
@@ -241,6 +229,10 @@ API 前缀统一为 `/api/v1`：
 | `DELETE /favorites/:listingId` | 设置为未收藏 | 不使用 toggle 语义 |
 | `POST /auth/register`、`POST /auth/login` | 注册、建立会话 | 服务端验证、限速和 Cookie 策略 |
 | `GET /auth/me`、`POST /auth/logout` | 查询、撤销会话 | 过期为 401，注销清理私有客户端状态 |
+
+此表是后端与全栈整合后的目标契约。本卷唯一前端快照只实现十个共享验收场景实际使用的
+列表、详情、发布、预约、收藏、登录、会话查询和注销端点；编辑与注册由后端卷和全栈卷拥有，
+不得计入当前 Capstone 的已执行证据。
 
 当前契约没有“查询全部收藏”端点，因此刷新后恢复收藏集合仍是后端契约缺口，不能用
 localStorage 猜测服务端事实。前端禁用按钮只能减少误操作，不能提供授权、预约唯一性或
@@ -261,7 +253,7 @@ keyboard-primary-path
 ssr-html-and-hydration
 ```
 
-## 6. React 与 Vue 的有意差异
+## React 与 Vue 的有意差异
 
 差异来自框架模型，不代表业务验收或安全要求不同，也不应逐行互译组件源码。
 
@@ -277,7 +269,7 @@ ssr-html-and-hydration
 | SSR 工厂 | 每请求 router/store，`renderToString` / `hydrateRoot` | 每请求 app/router/Pinia，`createSSRApp` / mount |
 | 进阶边界 | Suspense、Actions、RSC 与 Server Function | Teleport、Transition、server prefetch 与 Nuxt |
 
-## 7. 命令矩阵
+## 命令矩阵
 
 命令必须在表中指定位置运行，并保存实际版本、退出码、测试数和失败证据。
 
@@ -297,7 +289,7 @@ ssr-html-and-hydration
 已有锁文件的复现和 CI 使用 `pnpm install --frozen-lockfile`。全新证据使用新进程和未占用
 端口；E2E 不复用已有服务器。仅运行 `vite build` 不等于类型检查通过。
 
-## 8. 唯一 Capstone 与源码所有权
+## 唯一 Capstone 与源码所有权
 
 第八章第 3 课拥有本卷唯一完整 React 最终快照，路径为
 `08-ssr-capstone/03-streaming-rsc-capstone-acceptance.md`。上面的第八章路线已直达该教程。
@@ -315,7 +307,7 @@ ssr-html-and-hydration
 使用全新临时目录，不复用 2026-10-10 的历史验证目录；教材仓库不保存应用包清单、锁文件、
 `node_modules`、`dist`、coverage、Playwright 报告或验证日志。
 
-## 9. 验收标准
+## 验收
 
 完成本卷时至少证明：
 
@@ -330,72 +322,22 @@ ssr-html-and-hydration
 
 验收只对真实执行环境给出结论。教学演示通过不等于线上系统已经安全、可扩展或高可用。
 
-## 10. 当前新验证
+## 验证范围
 
-检查日期：2026-10-11。文档结构与两个独立临时工程均使用本轮教程重新提取，不复用
-2026-10-10 历史目录。
+本卷已完成阶段工程与唯一 Capstone 的代表性类型检查、单元测试、构建、SSR 和 Chromium
+路径验证；历史快照与当前工程使用过不同环境，不能合并为一次完整执行。Safari、Firefox、
+真实移动设备、辅助技术、真实后端授权与事务、生产 SSR、托管 CI、部署与容量仍需单独验收。
+精确数量、版本、运行结果和历史边界统一见[交付与验证说明](../VALIDATION.md)。
 
-| 检查 | 当前观察结果 |
-| --- | --- |
-| 教材结构 | 8 个稳定章入口、24 篇详细教程、1 个 README、1 个覆盖矩阵，共 34 个 Markdown 文件 |
-| 教程契约 | 24/24 均含任务卡、编号 1–13 节、能力总结和单元导航；相对链接与围栏通过 |
-| 第 1–4 章阶段工程 | Node 24.19.0、pnpm 12.10.1；`tsc6 -b`、Vite build 通过；Vitest 13/13 |
-| 第 1–4 章 Chromium | 深链/刷新/后退、404/503、登录发布、失败保稿、403、201/409、退出和 320px 键盘路径通过 |
-| 第 5–8 章唯一 capstone | `pnpm lint`、typecheck、build 通过；Vitest 10/10；Playwright 5/5 |
-| 负向类型门禁 | 注入非法 Listing status 后退出码 2；恢复文件后重新通过 |
-| SSR | 200/503/200/404、安全序列化、无 JavaScript 搜索、水合 0→1 通过 |
-| 焦点回归 | 503 恢复后主标题获得焦点，`document.title` 恢复为“商品列表 · 邻里集市” |
+本卷应用与后端卷教学示例不应被假定为已经位于同一 workspace。正式整合需对齐目录、共享类型、
+认证响应、动态 CSRF 与精确 Origin，并按
+[契约联调与整合](../09-fullstack/01-contract-integration.md)操作。
 
-实际解析版本包括 React / React DOM 19.3.0、React Router 8.4.0、Vite 8.3.4、
-plugin-react 6.1.2、TS6 包 6.0.2（编译器 6.0.3）、Vitest 5.0.3 和 Chromium 154。
-两套临时工程验证不同阶段文件，不能把 13 项与 10 项测试相加后宣称为一套 23 项 capstone。
+## 资料与导航
 
-## 11. 历史运行证据：扩写前快照
-
-以下结果来自 **2026-10-10 扩写前验证**。环境为 macOS、pnpm 10.34.6；初轮使用 Node
-22.22.0，随后以临时 Node 24.21.0 强制复查类型、构建和金额相关测试。
-
-当时实际依赖为 React / React DOM 19.3.0、Vite 8.3.4、plugin-react 6.1.2、React Router
-8.4.0、`typescript -> @typescript/typescript6 6.0.2`、ESLint 10.12.0、
-typescript-eslint 8.71.1、Vitest 5.0.3、Playwright 1.64.0。alias 提供 `tsc6`，构建脚本
-先执行类型检查再运行 Vite。
-
-| 当时已执行 | 历史结果 |
-| --- | --- |
-| `pnpm exec tsc6 -b --force`、`pnpm build` | Node 24.21.0 下均通过，未复用增量类型结果 |
-| `pnpm lint` | ESLint 10 flat config、Hooks 规则与 TS6 API 通过 |
-| `pnpm exec vitest run` | 初轮 3 文件 13 项；金额契约修正后 Node 24 复跑 16/16 |
-| `pnpm exec playwright test` | Chromium 156，4 条流程通过 |
-| SSR HTTP 与浏览器 | 200/503/404、无 JS GET 搜索、0→1 水合均符合预期 |
-| 第七章独立实验 | 聚焦、Activity 草稿、Effect Event 最新值、乐观 401 回滚通过 |
-| Compiler 独立构建 | 转换成功并出现 memo 缓存标记，不代表已证明性能收益 |
-
-历史 E2E 覆盖登录、筛选、空结果、404、503、详情预约、发布、收藏/取消和退出。首轮误复用
-5173 上的其他服务，改为独立 5183、`strictPort` 和不复用服务器后通过，没有删除或放宽业务
-断言。SSR 曾因提取文件触发 HMR 重载，停服重启后复验无水合错误。
-
-Compiler 历史组合为 `babel-plugin-react-compiler@1.0.0` 与
-`@rolldown/plugin-babel@0.2.4`，只证明转换和标记。Lint、E2E、SSR 与 Compiler 使用
-Node 22；Node 24 没有重跑全部 UI。历史验证目录记录为
-`/tmp/fullstack-react-20261010-verification`，它不是当前证据来源，也不要求继续存在。
-当时“9 份 Markdown”的结构检查已被本轮两层教材替代。
-
-## 12. 未验证范围与集成边界
-
-当前仍不得写成已通过：
-
-- 一套同时覆盖全部 10 个共享场景的单次端到端执行；当前章节工程与 capstone 分别验证；
-- Actions 登录成功提交的独立浏览器路径、固定大数据量的真实性能数字和生产用户性能；
-- Safari、Firefox、真实移动设备、VoiceOver、NVDA、JAWS 及其浏览器组合；
-- 真实后端 DTO、密码、动态 CSRF、对象授权、数据库事务、预约唯一约束和收藏刷新读取；
-- SSR 生产双构建、流式服务器、Node 集群、缓存/CDN、TLS、部署、负载与灾难恢复；
-- 托管 CI、软件成分分析、生产日志与安全审计。
-
-本卷应用是 `neighborhood-market/apps/react-web`、包名 `react-web`；后端卷历史示例是另一
-个 `market` workspace 中的 `@market/api`。不能假设两者已经处于同一 workspace。正式整合
-需对齐目录、共享类型、auth 响应、动态 CSRF 与精确 Origin，并按
-[契约联调与整合](../09-fullstack/01-contract-integration.md) 操作。只删除教学插件不能称为
-真实联调通过。
+- [React 文档](https://react.dev/)
+- [React Router](https://reactrouter.com/)
+- [React 教材覆盖矩阵](REACT-COVERAGE.md)
 
 [返回全书目录](../README.md) · [开始第一章](01-jsx-components.md) ·
-[查看覆盖矩阵](REACT-COVERAGE.md) · [下一卷：Vue](../06-vue/README.md)
+[下一卷：Vue](../06-vue/README.md)

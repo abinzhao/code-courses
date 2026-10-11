@@ -6,7 +6,7 @@
 | --- | --- |
 | 本课任务 | 建立 ESLint 10 flat config，按浏览器与 Node 文件语义应用规则 |
 | 可观察产出 | `eslint.config.mjs`、两类环境探针、`--print-config` 匹配证据 |
-| 运行条件 | Node.js 24.21.0、pnpm 12.10.1、TS 7/TS 6 并行别名 |
+| 运行条件 | Node.js 24.21.0、pnpm 12.11.2、TS 7/TS 6 并行别名 |
 | 建议时间 | 120 分钟 |
 | 完成证据 | ESLint 版本、有效配置摘要、未使用变量与 `debugger` 红绿记录 |
 
@@ -29,7 +29,7 @@ ESLint 10 使用 flat config。配置是按顺序组合的对象数组，每个�
 
 完成本课后，你应能：
 
-- 使用 `eslint.config.mjs`，不回退到 `.eslintrc` 或 `.eslintignore`；
+- 使用 `eslint.config.mjs` 与 `globalIgnores()` 维护唯一配置入口；
 - 用 `globalIgnores()` 排除依赖、构建、覆盖率和测试报告；
 - 为浏览器 TypeScript 与 Node 脚本声明不同的全局变量；
 - 组合 `@eslint/js`、`typescript-eslint`、`globals` 与自定义规则；
@@ -144,7 +144,7 @@ pnpm typecheck  -> TS 7 原生 CLI
 | `globals` | `17.13.0` | 提供浏览器和 Node 全局变量表 |
 | `eslint-config-prettier` | `10.1.8` | 最后加载，只关闭格式冲突 |
 | `defineConfig()` | 定义和展开 flat config | 不替代文件匹配 |
-| `globalIgnores()` | 声明全局忽略模式 | ESLint 10 不使用 `.eslintignore` |
+| `globalIgnores()` | 声明全局忽略模式 | 与文件范围规则保持同一配置源 |
 | `files` | glob 匹配配置作用域 | 相对配置文件位置解释 |
 | `languageOptions.globals` | 声明运行环境全局变量 | 不应全项目混合 browser/node |
 | `extends` | 组合推荐配置 | 后项可以覆盖前项 |
@@ -409,7 +409,7 @@ TypeScript 作用域加入 `process`。
 ## 11. 阶段验收
 
 - [ ] `pnpm exec eslint --version` 精确输出 `v10.12.0`。
-- [ ] 配置只使用 flat config，不存在 `.eslintrc` 或 `.eslintignore` 主路径。
+- [ ] 配置只使用 flat config，不并行维护旧式层叠配置或独立忽略入口。
 - [ ] 全局忽略、浏览器 TypeScript、Node 脚本和 Prettier 兼容项顺序明确。
 - [ ] `--print-config` 证明 `document`、`process` 与 `no-debugger` 各自命中正确文件。
 - [ ] 未使用变量和 `debugger` 同时产生可定位的非零结果，修复后转绿。
@@ -427,10 +427,10 @@ TypeScript 作用域加入 `process`。
 
 不会。它只告诉 ESLint 这些名称在目标环境由平台提供；Node 运行该文件仍没有 DOM。
 
-**可以同时保留 `.eslintignore` 吗？**
+**忽略规则应放在哪里？**
 
-ESLint 10 主线使用 flat config 的全局忽略。保留旧入口会造成错误预期，应把规则
-迁入 `globalIgnores()` 并删除旧式配置依赖。
+ESLint 10 使用 flat config 的全局忽略。把依赖、构建、覆盖率和测试报告模式统一放入
+`globalIgnores()`，避免出现两个互相漂移的配置事实源。
 
 **为什么不直接让 `typescript` 包名指向 TS 7？**
 

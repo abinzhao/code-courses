@@ -69,7 +69,7 @@ pnpm --version
 pwd
 ```
 
-课程目标是 Node `v24.21.0` 与 pnpm `12.10.1`。实际输出不符时保留原始证据，并在读者自己的
+课程目标是 Node `v24.21.0` 与 pnpm `12.11.2`。实际输出不符时保留原始证据，并在读者自己的
 版本管理环境修复；不要修改教材文件中的固定版本来伪装一致。
 
 ## 4. 核心理论
@@ -149,13 +149,13 @@ Vitest ────────┘
 | 工具 | 精确声明 | 责任 |
 | --- | --- | --- |
 | Node.js | `24.21.0` | 执行工具、测试和本机教学 API |
-| pnpm | `12.10.1` | 工作区、依赖图、锁文件和脚本 |
-| Vite | `8.3.0` | 开发、Rolldown 构建和 preview |
+| pnpm | `12.11.2` | 工作区、依赖图、锁文件和脚本 |
+| Vite | `8.3.4` | 开发、Rolldown 构建和 preview |
 | TS 7 | `@typescript/native: npm:typescript@7.0.2` | 主 `tsc` |
 | TS 6 wrapper | `typescript: npm:@typescript/typescript6@6.0.2` | `tsc6` 和旧编译器 API |
 | ESLint | `10.12.0` | Flat config 静态规则 |
-| Prettier | `3.8.0` | 格式改写与只读检查 |
-| Vitest | `5.0.0` | Node 单元与集成测试 |
+| Prettier | `3.9.10` | 格式改写与只读检查 |
+| Vitest | `5.0.3` | Node 单元与集成测试 |
 | Playwright | `1.64.0` | Chromium 构建页测试 |
 
 ### 5.2 精确 expected tree 与 owner
@@ -239,7 +239,7 @@ Vitest ────────┘
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "packageManager": "pnpm@12.10.1",
+  "packageManager": "pnpm@12.11.2",
   "engines": {
     "node": ">=24.21.0 <25"
   },
@@ -267,11 +267,11 @@ Vitest ────────┘
     "eslint": "10.12.0",
     "eslint-config-prettier": "10.1.8",
     "globals": "17.13.0",
-    "prettier": "3.8.0",
+    "prettier": "3.9.10",
     "typescript": "npm:@typescript/typescript6@6.0.2",
     "typescript-eslint": "8.71.1",
-    "vite": "8.3.0",
-    "vitest": "5.0.0"
+    "vite": "8.3.4",
+    "vitest": "5.0.3"
   }
 }
 ```

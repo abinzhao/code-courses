@@ -4,7 +4,7 @@
 
 - **任务**：建立可复验的 TypeScript 双编译器实验，区分推断、边界注解、类型检查、生成和运行。
 - **产出**：`ts-lab/package.json`、`ts-lab/tsconfig.json`、`ts-lab/src/main.ts` 三个完整文件。
-- **运行**：Node.js 24 LTS、pnpm 12.10.1；TS 7.0.2 是主线，TS 6 只走兼容命令。
+- **运行**：Node.js 24 LTS、pnpm 12.11.2；TS 7.0.2 是主线，TS 6 只走兼容命令。
 - **完成证据**：三条版本原始输出、两条类型检查结果、一次构建结果和程序完整输出。
 - **边界**：类型会被擦除；通过 `tsc` 不证明网络 JSON、金额值域或权限正确。
 
@@ -37,7 +37,7 @@ node --version
 pnpm --version
 ```
 
-目标分别为 `v24.` 开头和 `12.10.1`。若本机不同，保留原始输出；不要把后续
+目标分别为 `v24.` 开头和 `12.11.2`。若本机不同，保留原始输出；不要把后续
 `npx`、版本管理器或 CI 的结果冒充全局环境。
 
 ## 4. 核心理论
@@ -92,7 +92,7 @@ pnpm --version
   "name": "market-ts-core-lab",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@12.10.1",
+  "packageManager": "pnpm@12.11.2",
   "engines": {
     "node": ">=24 <25"
   },

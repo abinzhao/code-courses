@@ -35,9 +35,13 @@
 
 | 顺序 | 教程 | 核心问题 | 建议时间 |
 | --- | --- | --- | ---: |
-| 1 | [HTML 解析、文档模型与错误恢复](01-document-text/01-parser-document-model.md) | 浏览器怎样从字符建立 DOM | 4–6 小时 |
-| 2 | [head、元信息与资源加载](01-document-text/02-head-metadata-resources.md) | 页面怎样获得身份、编码、视口与资源 | 4–5 小时 |
-| 3 | [文本语义、时间与国际化](01-document-text/03-text-semantics-i18n.md) | 怎样把商品文字组织成明确语义 | 4–5 小时 |
+| 1 | [HTML 解析与 DOM](01-document-text/01-html-parser-dom.md) | 追踪字符、token、节点与 DOM 的形成过程，并用源文件和 Elements 证据解释错误恢复。 | 1.5–2.5 小时 |
+| 2 | [HTML 语法与内容模型](01-document-text/02-html-syntax-content-models.md) | 区分标签、元素、属性和内容模型，建立可预测的嵌套、布尔属性与字符处理规则。 | 1.5–2.5 小时 |
+| 3 | [文档头与元信息](01-document-text/03-head-metadata-base.md) | 用 title、字符编码、视口、描述、robots 和 base 建立可解释的文档身份与 URL 基准。 | 1.5–2.5 小时 |
+| 4 | [资源与脚本加载](01-document-text/04-resources-scripts-loading.md) | 解释资源关系、加载属性与脚本执行时机，并通过 Network 和执行顺序证据定位失败。 | 1.5–2.5 小时 |
+| 5 | [文本层次与强调语义](01-document-text/05-text-structure-emphasis.md) | 依据内容关系选择标题、段落、换行、主题转换、强调和注意类元素。 | 1.5–2.5 小时 |
+| 6 | [引用、机器值与修订](01-document-text/06-quotes-machine-values-edits.md) | 表达引用、术语、计算机文本、机器值和编辑记录，并保持价格与时间契约一致。 | 1.5–2.5 小时 |
+| 7 | [语言、双向文本与注音](01-document-text/07-language-bidi-ruby.md) | 声明语言和书写方向，隔离未知方向文字，并为注音和长标识提供正确结构。 | 1.5–2.5 小时 |
 
 预计总学习时间：12–16 小时。
 
@@ -52,7 +56,7 @@
   → 商品机器值、国际化与修订记录
 ```
 
-第一课建立“浏览器实际得到什么”，后两课才讨论“作者应该怎样表达”。如果不知道 DOM 是否按预期建立，只看页面外观会掩盖结构错误。
+第一课建立“浏览器实际得到什么”，第 2–7 课再依次讨论合法结构、元信息、资源加载和文本表达。如果不知道 DOM 是否按预期建立，只看页面外观会掩盖结构错误。
 
 ## 本章知识地图
 
@@ -97,7 +101,7 @@ market-learning/
         └── module.js
 ```
 
-文件由三篇详细教程逐步完成。本章不在教材仓库提供独立源码。
+文件由七篇详细教程逐步完成。本章不在教材仓库提供独立源码。
 
 ### 最终页面要求
 
@@ -195,4 +199,4 @@ DOM / Network 证据
 
 如果你只能照抄一份文档，但不能解释浏览器为何得到当前 DOM，应先重做解析故障练习。下一章会在这份文档上增加地标、导航、链接和列表，它依赖稳定的文档模型。
 
-[返回 HTML 模块](README.md) · [开始第一课](01-document-text/01-parser-document-model.md) · [下一章：页面结构、链接与列表](02-structure-links-lists.md)
+[返回 HTML 模块](README.md) · [开始第一课](./01-document-text/01-html-parser-dom.md) · [下一章：页面结构、链接与列表](02-structure-links-lists.md)

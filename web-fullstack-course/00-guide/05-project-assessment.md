@@ -92,8 +92,8 @@ API 前缀统一 `/api/v1`：
 |---|---|---|
 | GET `/listings?page=1&pageSize=20&q=` | 分页商品列表 | 参数整数、最大页尺寸、固定排序 |
 | GET `/listings/:id` | 商品详情 | 不存在404 |
-| POST `/listings` | 创建商品，201 | 登录、输入合法 |
-| PATCH `/listings/:id` | 编辑商品 | 本人权限、携带 version、冲突409 |
+| POST `/listings` | 创建商品，201 | 登录；字段或正文不合法返回400 `VALIDATION` |
+| PATCH `/listings/:id` | 编辑商品 | 本人权限；字段错误400；携带 version，冲突409 |
 | POST `/listings/:id/reservations` | 创建预约，201 | 不能自己预约、并发只能一个成功 |
 | POST `/reservations/:id/cancel` | 取消 pending 预约 | 仅买家或商品 owner；终态与重复操作409 |
 | POST `/reservations/:id/confirm` | 确认 pending 预约 | 仅商品 owner；预约 confirmed、商品 sold 同事务 |
@@ -103,6 +103,21 @@ API 前缀统一 `/api/v1`：
 | POST `/auth/login` | 建立会话 | 无效凭据、速率限制 |
 | GET `/auth/me` | 当前用户 | 会话不存在或过期401 |
 | POST `/auth/logout` | 撤销会话 | Cookie 与服务端状态同时处理 |
+
+本书统一把 JSON 语法、查询参数、路径参数和字段校验失败映射为 `400`，稳定错误码为
+`VALIDATION` 或更具体的输入错误码。前后端教程、OpenAPI 和测试都按这一约定断言，不并行维护
+另一套字段校验状态码。
+
+预约状态必须与商品状态在同一数据库事务中迁移：
+
+```text
+创建：Reservation pending + Listing reserved + Listing.version 加 1
+取消：Reservation cancelled + Listing available + Listing.version 加 1
+确认：Reservation confirmed + Listing sold + Listing.version 加 1
+```
+
+取消只允许从 `pending` 进入 `cancelled`；确认只允许从 `pending` 进入 `confirmed`。事务失败时，
+预约和商品必须一起回滚，不能出现终态不一致。
 
 列表响应：
 
@@ -125,7 +140,9 @@ API 前缀统一 `/api/v1`：
 }
 ```
 
-`requestId` 关联服务端日志；不向用户暴露 SQL、堆栈或密钥。`message` 服务于恢复行为，`code` 服务于稳定判断。401表示未认证，403表示已知身份但无权操作，409表示状态冲突；不能全返回200再靠文本判断成功。
+`requestId` 关联服务端日志；不向用户暴露 SQL、堆栈或密钥。`message` 服务于恢复行为，`code`
+服务于稳定判断。400 表示请求输入不符合契约，401 表示未认证，403 表示已知身份但无权操作，
+409 表示状态冲突；不能全返回 200 再靠文本判断成功。
 
 ## 6. 会话和安全主线
 

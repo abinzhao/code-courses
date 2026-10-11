@@ -38,7 +38,7 @@ await reserve(buyer2);
 4. 将状态冲突与部分唯一索引 `23505` 映射为同一稳定领域冲突；
 5. 同时断言调用结果、Reservation 数量、Listing 状态和 version；
 6. 记录 PostgreSQL 18、连接目标和迁移/schema 状态，不泄漏凭据；
-7. 在环境不满足时输出阻塞，而不是引用 PostgreSQL 16 或 fake 的结果。
+7. 在环境不满足时输出阻塞，而不是引用非目标 PostgreSQL 主版本或 fake 的结果。
 
 ## 3. 预备知识
 
@@ -607,7 +607,7 @@ PSQL_CLIENT_MAJOR=18 ALLOW_ISOLATED_DB_TEST=yes \
 5. finalState 为 reserved、version 仅加 1、active_count 为 1；
 6. fixture 被清理且 pool 正常结束。
 
-这些是读者应观察的判定条件，不是本教材已运行的输出。若本机是 PostgreSQL 16，脚本应在
+这些是读者应观察的判定条件，不是本教材已运行的输出。若本机是非目标 PostgreSQL 主版本，脚本应在
 preflight 失败；保留错误，不降低门禁或把 16 结果贴成 18。
 
 ## 8. 常见错误与排查路径
@@ -699,7 +699,7 @@ ISO；不把 PID 当用户 ID，不进入产品响应。
 - [ ] 最终 active count=1、Listing reserved、version 只增加 1。
 - [ ] 插入后故障能让两张表都回滚。
 - [ ] finally 清理本轮 fixture 并等待 pool.end。
-- [ ] 没有使用 PostgreSQL 16、fake 或静态代码冒充真实 18 并发结果。
+- [ ] 没有使用非目标 PostgreSQL 主版本、fake 或静态代码冒充真实 18 并发结果。
 
 ## 12. 常见问题
 

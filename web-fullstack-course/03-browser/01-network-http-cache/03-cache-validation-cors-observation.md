@@ -97,6 +97,9 @@ practice/browser-03-cache-cors/
 
 带凭据请求不能把 `Access-Control-Allow-Origin: *` 当允许凭据读取；应返回经过允许名单校验的具体 Origin，并设置 `Access-Control-Allow-Credentials: true`。即使 CORS 允许读取，服务端仍必须认证、授权和防 CSRF。
 
+跨源脚本默认只能读取 CORS safelisted 响应字段。示例需要在脚本中读取 `ETag`，因此允许响应还要
+显式返回 `Access-Control-Expose-Headers: ETag`；Network 可见不代表脚本一定可读。
+
 ## 5. 协议字段、API、事件、状态与安全边界清单
 
 | 名称 | 作用 | 关键边界 |
@@ -110,6 +113,7 @@ practice/browser-03-cache-cors/
 | `Access-Control-Allow-Origin` | 允许哪个源读取 | 必须由服务端名单产生 |
 | `Access-Control-Allow-Methods` | 预检允许方法 | 不等于业务授权 |
 | `Access-Control-Allow-Headers` | 预检允许请求字段 | 不应无条件反射任意字段 |
+| `Access-Control-Expose-Headers` | 允许脚本读取额外响应字段 | 只列实际需要的字段 |
 | `Access-Control-Allow-Credentials` | 允许凭据模式读取 | 需具体允许源 |
 | `Origin` | 浏览器发送的来源 | 服务端校验，不能信任业务身份 |
 | `fetch(..., { cache })` | 请求缓存模式 | 不替代服务端缓存设计 |
@@ -179,6 +183,7 @@ const apiServer = createServer((req, res) => {
     "Access-Control-Allow-Origin": appOrigin,
     "Access-Control-Allow-Methods": "GET, POST, PATCH, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, X-Demo-Request",
+    "Access-Control-Expose-Headers": "ETag",
     Vary: "Origin",
   } : {};
 

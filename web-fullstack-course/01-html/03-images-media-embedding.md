@@ -35,9 +35,14 @@
 
 | 顺序 | 教程 | 核心问题 | 建议时间 |
 | --- | --- | --- | ---: |
-| 1 | [图片、响应式候选与加载性能](03-images-media-embedding/01-images-responsive-performance.md) | 浏览器怎样选择图片，失败时怎样保留信息 | 5–6 小时 |
-| 2 | [音频、视频、字幕与播放状态](03-images-media-embedding/02-audio-video-tracks.md) | 媒体何时可播放，字幕和错误怎样验证 | 5–6 小时 |
-| 3 | [嵌入、图像地图、SVG 与 Canvas](03-images-media-embedding/03-embedding-svg-canvas.md) | 不同图形与浏览上下文的能力边界是什么 | 5–6 小时 |
+| 1 | [图片语义、替代文本与尺寸](03-images-media-embedding/01-image-semantics-alt-dimensions.md) | 根据图片职责编写替代文本，并用固有尺寸与宽高属性减少布局偏移。 | 1.5–2.5 小时 |
+| 2 | [响应式图片选源与艺术指导](03-images-media-embedding/02-responsive-image-selection.md) | 使用 srcset、sizes、picture 和 currentSrc 解释浏览器的图片候选选择。 | 1.5–2.5 小时 |
+| 3 | [图片加载、解码、性能与失败恢复](03-images-media-embedding/03-image-loading-state-failures.md) | 区分加载、解码和跨源状态，并通过事件、DOM 属性和 Network 证据恢复失败。 | 1.5–2.5 小时 |
+| 4 | [音频、视频、来源与原生控件](03-images-media-embedding/04-media-elements-sources-controls.md) | 声明 audio、video 和 source 资源，配置原生控件与加载属性并验证回退。 | 1.5–2.5 小时 |
+| 5 | [媒体播放状态、事件与故障恢复](03-images-media-embedding/05-media-playback-state-events.md) | 观察媒体状态与事件，处理 play() Promise、暂停、重载和策略拒绝。 | 1.5–2.5 小时 |
+| 6 | [文本轨道、WebVTT 与媒体可访问性](03-images-media-embedding/06-media-text-tracks-webvtt.md) | 使用 track 和 WebVTT 提供字幕、描述与章节，并明确性能、隐私和无障碍边界。 | 1.5–2.5 小时 |
+| 7 | [嵌入文档、安全边界与图像映射](03-images-media-embedding/07-embedded-documents-image-maps.md) | 选择 iframe、object、embed 或图像映射，并解释 sandbox、权限策略、同源与嵌入拒绝。 | 1.5–2.5 小时 |
+| 8 | [SVG、Canvas 与可访问图形](03-images-media-embedding/08-svg-canvas-graphics.md) | 在可缩放图形和像素表面之间做选择，为 Canvas 提供尺寸、高清绘制与等价替代。 | 1.5–2.5 小时 |
 
 预计总学习时间：15–18 小时。
 
@@ -200,4 +205,4 @@ Canvas 等价信息
 
 如果你只能看到媒体“显示了”，却不能解释浏览器选了哪个资源、失败发生在哪个阶段、非视觉用户怎样获取信息，应先重做对应故障。下一章会把多件商品放入二维数据表，继续强调可观察的数据关系。
 
-[上一章：页面结构、链接与列表](02-structure-links-lists.md) · [开始本章第一课](03-images-media-embedding/01-images-responsive-performance.md) · [下一章：表格与二维数据](04-tables-data.md) · [返回 HTML 模块](README.md)
+[上一章：页面结构、链接与列表](02-structure-links-lists.md) · [开始本章第一课](./03-images-media-embedding/01-image-semantics-alt-dimensions.md) · [下一章：表格与二维数据](04-tables-data.md) · [返回 HTML 模块](README.md)

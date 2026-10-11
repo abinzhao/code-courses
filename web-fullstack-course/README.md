@@ -3,9 +3,9 @@
 > 面向零前端基础 · React 与 Vue 双主线 · 现代工程化 · Node.js 业务后端<br>
 > 技术资料快照：**2026 年 10 月 11 日**
 
-全书共 **10 卷、316 篇正文、参考与覆盖矩阵**：81 个稳定编号入口与治理文档、226 篇详细教程、9 个分卷覆盖矩阵。另有 11 个导航 README 和 2 份验证/自检记录，不混入正文计数。React 与 Vue 各 8 章；HTML 索引覆盖 115 个现行元素及 SVG/MathML 入口，CSS 索引包含 476 个属性条目。
+全书按“起步 → Web 基础 → 编程语言 → 双框架 → 工程化 → 后端 → 全栈交付”组织。目录只负责导航，具体文件数量、覆盖矩阵规模和验证结果统一见[交付与验证说明](VALIDATION.md)，不在多个入口重复维护。
 
-第一次写网页时，你只需要让一句“你好，邻居”出现在浏览器里。到最后，你要能让几百个用户安全地发布物品、预约交易，而且在服务器出故障时找到原因、恢复服务。这两件事之间的距离，就是本书的学习路线。
+第一次写网页时，你只需要让一句“你好，邻居”出现在浏览器里。到最后，你要能在明确容量目标下安全地发布物品、预约交易，而且在服务器出故障时找到原因、恢复服务。这两件事之间的距离，就是本书的学习路线。
 
 本书以 **邻里集市** 为持续演进的项目：一个社区闲置物品与活动平台。你先搭一个静态摊位，再给它加入搜索和收藏，用 React 和 Vue 各做一套等价界面，最后连接真实的业务后端、数据库与部署系统。项目不接入真实支付，价格统一用整数分存储。
 
@@ -36,7 +36,7 @@
 | [08 Node.js 业务后端](08-backend/README.md) | NestJS、SQL、PostgreSQL、事务、会话、权限、缓存、队列、接口测试 | 能防越权与并发错误的真实 API | [后端覆盖矩阵](08-backend/BACKEND-COVERAGE.md) |
 | [09 全栈集成与交付](09-fullstack/README.md) | 契约、Docker、Nginx、HTTPS、发布、回滚、监控、备份、结业 | 可以部署、诊断和持续维护的系统 | [全栈覆盖矩阵](09-fullstack/FULLSTACK-COVERAGE.md) |
 
-常用入口：[48 周学习路线](00-guide/01-learning-path.md) · [版本与兼容说明](00-guide/02-version-baseline.md) · [项目契约与阶段作业](00-guide/05-project-assessment.md) · [知识覆盖与验收地图](00-guide/06-coverage-map.md) · [教材结构](00-guide/07-course-structure.md) · [交付与验证说明](VALIDATION.md)
+常用入口：[50 周学习路线](00-guide/01-learning-path.md) · [版本与兼容说明](00-guide/02-version-baseline.md) · [项目契约与阶段作业](00-guide/05-project-assessment.md) · [知识覆盖与验收地图](00-guide/06-coverage-map.md) · [教材结构](00-guide/07-course-structure.md) · [交付与验证说明](VALIDATION.md)
 
 ## 怎样使用每一课
 

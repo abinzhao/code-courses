@@ -7,7 +7,7 @@
 | 本课产出 | 一个包含 `apps/lab-web`、`packages/contracts`、`packages/ui` 的 pnpm workspace |
 | 核心证据 | 唯一根锁文件、成员列表、`workspace:*` 链接、按包名过滤结果、无环方向检查 |
 | 运行位置 | 读者自己的 `market-workspace/`，不在教材仓库内安装 |
-| 固定工具 | Node.js `24.21.0`、pnpm `12.10.1`、Vite `8.3.0`、TS 7 `7.0.2`、TS 6 兼容包装包 `6.0.2` |
+| 固定工具 | Node.js `24.21.0`、pnpm `12.11.2`、Vite `8.3.4`、TS 7 `7.0.2`、TS 6 兼容包装包 `6.0.2` |
 | 完成时间 | 约 120 分钟 |
 | 明确边界 | 本地静态教学数据；没有真实登录、对象授权、数据库事务或生产发布 |
 
@@ -45,7 +45,7 @@ node --version
 pnpm --version
 ```
 
-预期分别输出 `v24.21.0` 与 `12.10.1`。版本不符时先切换读者自己的练习环境，不修改教材仓库或全局共享工程来迁就示例。
+预期分别输出 `v24.21.0` 与 `12.11.2`。版本不符时先切换读者自己的练习环境，不修改教材仓库或全局共享工程来迁就示例。
 
 ## 4. 核心理论
 
@@ -124,7 +124,7 @@ TypeScript `paths` 主要影响类型工具如何解析模块名，不会创建 
 | 命令、配置或文件 | 固定值/示例 | 角色 | 不能证明 |
 | --- | --- | --- | --- |
 | Node.js | `24.21.0` | 执行 pnpm、图检查与构建工具 | 浏览器行为或授权正确 |
-| pnpm | `12.10.1` | 发现成员、解析依赖、生成根锁文件 | 依赖方向自然合理 |
+| pnpm | `12.11.2` | 发现成员、解析依赖、生成根锁文件 | 依赖方向自然合理 |
 | `pnpm-workspace.yaml` | `apps/*`、`packages/*` | 声明工作区成员范围 | glob 中每个目录都有正确清单 |
 | 根 `package.json` | `private`、`packageManager`、根脚本 | 定义安装边界和公共命令入口 | 成员可以省略真实依赖 |
 | 成员 `name` | `@market/lab-web` 等 | filter 和依赖引用的稳定标识 | 文件夹名必须与包名相同 |
@@ -135,7 +135,7 @@ TypeScript `paths` 主要影响类型工具如何解析模块名，不会创建 
 | `--filter ...包` | 包及其依赖者 | 查看影响面 | 所有业务影响都能由包图推断 |
 | TS 7 CLI | `@typescript/native@npm:typescript@7.0.2` | 主类型检查 | TS 6 API 工具兼容 |
 | TS 6 包 | `typescript@npm:@typescript/typescript6@6.0.2` | `tsc6` 与旧编译器 API | Vue SFC 已检查 |
-| Vite | `8.3.0` | 构建浏览器应用和源码消费包 | 完整类型、无障碍或发布通过 |
+| Vite | `8.3.4` | 构建浏览器应用和源码消费包 | 完整类型、无障碍或发布通过 |
 
 ## 6. 最小可运行案例
 
@@ -161,7 +161,7 @@ cd market-workspace
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "packageManager": "pnpm@12.10.1",
+  "packageManager": "pnpm@12.11.2",
   "engines": {
     "node": ">=24.21.0 <25"
   }
@@ -276,7 +276,7 @@ mkdir -p scripts
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "packageManager": "pnpm@12.10.1",
+  "packageManager": "pnpm@12.11.2",
   "engines": {
     "node": ">=24.21.0 <25"
   },
@@ -422,7 +422,7 @@ DOM 工厂只是本课框架无关的浏览器消费者。第 3 课会解释为�
     "@market/ui": "workspace:*"
   },
   "devDependencies": {
-    "vite": "8.3.0"
+    "vite": "8.3.4"
   }
 }
 ```

@@ -162,14 +162,15 @@ jobs:
   react:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 12.10.1
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
-          cache: pnpm
+      - name: Enable pinned pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@12.11.2 --activate
+          pnpm --version
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter react-web lint
       - run: pnpm --filter react-web typecheck
@@ -179,8 +180,8 @@ jobs:
       - run: pnpm --filter react-web e2e
 ```
 
-这段只有在真实托管 CI 运行后才有远端通过证据。组织若要求 action SHA 固定，按其供应链
-策略替换标签。
+这段只有在真实托管 CI 运行后才有远端通过证据。Action 固定到已审查 commit，升级时重新解析
+官方 tag、审查差异并更新旁注；注释版本号不能替代 SHA。
 
 证据记录：
 
@@ -241,7 +242,7 @@ lint/typecheck/unit/build/e2e 退出码与测试数:
 
 ## 11. 阶段验收
 
-- [ ] ESLint 10 使用 flat config，没有 `.eslintrc` 主线。
+- [ ] ESLint 10 使用 flat config，没有并行维护旧式层叠配置。
 - [ ] Hooks 调用与依赖规则为 error。
 - [ ] typecheck 明确执行 tsc6 项目检查。
 - [ ] 五个命令按固定顺序运行并记录真实计数。

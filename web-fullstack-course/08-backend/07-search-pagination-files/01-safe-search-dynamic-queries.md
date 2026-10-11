@@ -19,7 +19,7 @@
 
 ```ts
 // 错误示例：不要运行。
-const sql = `SELECT * FROM listings
+const sql = `SELECT id, title, price_cents FROM listings
   WHERE title ILIKE '%${q}%'
   ORDER BY ${sort}`;
 ```

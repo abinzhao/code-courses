@@ -109,7 +109,7 @@ generation 不取消网络和服务器工作，只决定结果是否仍属于当
 | 结果 | 客户端含义 | 推荐恢复 |
 | --- | --- | --- |
 | `204` | 成功且无正文 | 返回 `undefined`，不调用 JSON parser |
-| `400/422` | 输入不满足契约 | 保留表单，展示字段错误 |
+| `400` | 输入不满足契约 | 保留表单，展示字段错误 |
 | `401` | 当前 session 不成立 | 清内存 token，重新认证 |
 | `403` | 已知身份无权，或 Origin/CSRF 被拒绝 | 不自动重试，查 code 和 requestId |
 | `409` | version/预约等状态冲突 | 保留草稿，重新读取事实 |
@@ -355,7 +355,9 @@ export async function restoreSession(
   signal?: AbortSignal,
 ): Promise<PublicUser> {
   const ownGeneration = sessionGeneration;
-  const session = parseSession(await request("/auth/me", { signal }));
+  const session = parseSession(await request("/auth/me", {
+    signal: signal ?? null,
+  }));
   if (!signal?.aborted && ownGeneration === sessionGeneration) {
     csrfToken = session.csrfToken;
   }
@@ -383,7 +385,9 @@ export async function listListings(
     q,
   });
   return parseListingPage(
-    await request(`/listings?${query.toString()}`, { signal }),
+    await request(`/listings?${query.toString()}`, {
+      signal: signal ?? null,
+    }),
   );
 }
 
@@ -393,7 +397,7 @@ export async function getListing(
 ): Promise<Listing> {
   return parseListing(await request(
     `/listings/${encodeURIComponent(id)}`,
-    { signal },
+    { signal: signal ?? null },
   ));
 }
 
@@ -407,7 +411,7 @@ export async function updateListing(
     {
       method: "PATCH",
       body: JSON.stringify({ ...input, version: current.version }),
-      signal,
+      signal: signal ?? null,
     },
   ));
 }

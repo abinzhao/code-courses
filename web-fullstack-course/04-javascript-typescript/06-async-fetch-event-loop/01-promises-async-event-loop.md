@@ -84,34 +84,61 @@ Promise 初始为 pending，只能首次结算为 fulfilled 或 rejected，之�
 创建完整文件 `js-lab/async/event-loop.mjs`：
 
 ```js
-console.log("1 sync start");
+import assert from "node:assert/strict";
 
-setTimeout(() => {
-  console.log("6 timer");
-  queueMicrotask(() => console.log("7 microtask after timer"));
-}, 0);
+const events = [];
+function record(label) {
+  events.push(label);
+  console.log(label);
+}
+
+record("1 sync start");
+
+const timerDone = new Promise((resolve) => {
+  setTimeout(() => {
+    record("6 timer");
+    queueMicrotask(() => {
+      record("7 microtask after timer");
+      resolve();
+    });
+  }, 0);
+});
 
 Promise.resolve()
   .then(() => {
-    console.log("3 promise then");
+    record("3 promise then");
     return "result";
   })
   .then((value) => {
-    console.log(`5 chained ${value}`);
+    record(`5 chained ${value}`);
   });
 
-queueMicrotask(() => console.log("4 queued microtask"));
+queueMicrotask(() => record("4 queued microtask"));
 
 async function observeAwait() {
-  console.log("2 async before await");
+  record("2 async before await");
   await null;
-  console.log("8 async after await");
+  record("8 async after await");
 }
 
 const observation = observeAwait();
-console.log("2.5 sync end");
+record("2.5 sync end");
 await observation;
-console.log("9 module after observation");
+record("9 module after observation");
+await timerDone;
+
+assert.deepEqual(events, [
+  "1 sync start",
+  "2 async before await",
+  "2.5 sync end",
+  "3 promise then",
+  "4 queued microtask",
+  "8 async after await",
+  "5 chained result",
+  "9 module after observation",
+  "6 timer",
+  "7 microtask after timer",
+]);
 ```
 
 先预测，再运行：
@@ -135,7 +162,9 @@ node async/event-loop.mjs
 7 microtask after timer
 ```
 
-原因是首个 `then`、显式微任务和 `await` 后续按排队顺序进入微任务队列；首个 `then` 执行后才为第二个 `then` 排队。顶层等待完成后模块继续，最后才轮到计时器任务。
+原因是首个 `then`、显式微任务和 `await` 后续按排队顺序进入微任务队列；首个 `then` 执行后才
+为第二个 `then` 排队。顶层等待完成后模块继续，最后才轮到计时器任务。末尾断言让顺序漂移
+直接产生非零退出，而不是只靠人工对照日志。
 
 ## 7. 邻里集市集成案例
 

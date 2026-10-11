@@ -47,21 +47,21 @@
 | CSS | 按模块与特性演进，不是单一“CSS4”版本 | Flex、Grid、逻辑属性、变量、容器查询与有降级的动效 | [MDN CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) / [W3C CSS](https://www.w3.org/Style/CSS/) |
 | React | 官方版本页显示 **19.3**，链接 2026-09-09 发布说明 | React 19 函数组件、Hooks、当前稳定机制 | [React Versions](https://react.dev/versions) |
 | Vue | 官方 releases 页显示稳定 **3.5.43** | Vue 3.5，SFC 与 Composition API | [Vue Releases](https://vuejs.org/about/releases.html) |
-| Node.js | 官方列表：24.21.0 为 LTS，26.9.0 为 Current | **24 LTS**，创建 Nest12 项目需满足其 CLI 最低版本 | [Node Releases](https://nodejs.org/en/about/previous-releases) |
-| Vite | 8.0 于 2026-03-12 稳定发布；注册表返回 8.3.3 | **Vite 8**，Rolldown/Oxc 工具链 | [Vite 8](https://vite.dev/blog/announcing-vite8) / [Getting Started](https://vite.dev/guide/) |
-| TypeScript | **7.0** 于 2026-07-08 正式发布，原生编译器；6.0为生态过渡兼容线 | 教授TS7时代类型机制；需要旧编译器API的工具按官方方案并行使用6 | [TS 7.0](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/) / [TS下载](https://www.typescriptlang.org/download/) |
+| Node.js | 官方列表：24.21.0 为 LTS，26.11.1 为 Current | **24 LTS**，创建 Nest12 项目需满足其 CLI 最低版本 | [Node Releases](https://nodejs.org/en/about/previous-releases) |
+| Vite | 8.0 于 2026-03-12 稳定发布；注册表返回 8.3.4 | **Vite 8**，Rolldown/Oxc 工具链 | [Vite 8](https://vite.dev/blog/announcing-vite8) / [Getting Started](https://vite.dev/guide/) |
+| TypeScript | **7.0** 于 2026-07-08 正式发布，原生编译器；6.0 提供当前生态所需的兼容 API | 教授 TS7 类型机制；需要编译器 API 的工具按官方方案并行使用兼容包 | [TS 7.0](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/) / [TS 下载](https://www.typescriptlang.org/download/) |
 | ESLint | **10.0** 于 2026-02-06 发布，旧配置体系移除 | ESLint 10 的 flat config | [ESLint 10](https://eslint.org/blog/2026/02/eslint-v10.0.0-released/) |
-| NestJS | 官方 migration guide 已为 **11 → 12**；12.1.1 于2026-09-28发布 | Nest12；核心包 ESM，传统 DTO 校验仍支持 | [Nest Migration](https://docs.nestjs.com/migration-guide) / [12.1.1](https://github.com/nestjs/nest/releases/tag/v12.1.1) |
+| NestJS | 官方迁移指南与注册表均以 **12** 为当前稳定主版本；核心包最新为 12.1.2 | NestJS 12；核心包 ESM，应用模块格式显式选择 | [Nest Migration](https://docs.nestjs.com/migration-guide) / [Nest Releases](https://github.com/nestjs/nest/releases) |
 | PostgreSQL | 官方支持表列出 **18 / 18.6** | PostgreSQL18、SQL 与参数化查询 | [PostgreSQL Versioning](https://www.postgresql.org/support/versioning/) |
-| Router、Pinia、Vitest、Playwright、pnpm、pg、Redis 客户端 | API 与版本分别由其项目维护 | 章节所需稳定 API；安装后记录实际版本 | [React Router](https://reactrouter.com/) / [Vue Router](https://router.vuejs.org/) / [Pinia](https://pinia.vuejs.org/) / [Vitest](https://vitest.dev/) / [Playwright](https://playwright.dev/) / [pnpm](https://pnpm.io/) / [pg](https://node-postgres.com/) / [Redis](https://redis.io/docs/latest/) |
+| 应用与测试工具 | React Router 8.4.0、Vue Router 5.3.1、Pinia 4.0.3、Vitest 5.0.3、Playwright 1.64.0、pnpm 12.11.2 已完成当前组合验证 | 精确清单 + 根锁文件；pnpm 与 Node engine 同时校验 | [React Router](https://reactrouter.com/) / [Vue Router](https://router.vuejs.org/) / [Pinia](https://pinia.vuejs.org/) / [Vitest](https://vitest.dev/) / [Playwright](https://playwright.dev/) / [pnpm](https://pnpm.io/) |
+| 数据与交付镜像 | `pg` 8.23.1、Redis 8.6.2；Node 24.21.0、PostgreSQL 18.6 与 Nginx 1.30.5 镜像完成标签/摘要审计 | 镜像使用精确补丁标签；发布时再固定候选 digest | [node-postgres](https://node-postgres.com/) / [Redis](https://redis.io/docs/latest/) / [Node image](https://hub.docker.com/_/node) / [PostgreSQL image](https://hub.docker.com/_/postgres) / [Nginx](https://nginx.org/en/download.html) |
+| GitHub Actions | checkout v7.0.1、setup-node v7.1.0、upload-artifact v7.0.2 的官方 tag 已解析为当前审查 SHA | 工作流固定 `3d3c42e5aac5ba805825da76410c181273ba90b1`、`949feb2413d6458794dcd2491c4babbbce0c15c1`、`cf430e030ddbb5b0abf93d22962f4752f3646cd9` | [checkout releases](https://github.com/actions/checkout/releases) / [setup-node releases](https://github.com/actions/setup-node/releases) / [upload-artifact releases](https://github.com/actions/upload-artifact/releases) |
 
-最后一行没有经过逐项补丁版本核验，不能把它解释为“已固定的全套依赖”。章节会明确安装和检查命令；真实应用应把成功验证的组合固定下来。
+表格只定义主线，不等于已经固定完整依赖图。对应卷仍要核对 engine、peer dependency、插件与测试运行器，再把成功验证的组合写入清单和锁文件。判断版本时同时查看官方发布或支持页、迁移说明与注册表元数据，不能只采用搜索摘要。
 
-网页或索引缓存可能给出旧信息。本次部分包的 `/latest` 抓取返回了 2023/2024 年版本，与官方迁移和发布文档冲突，因此没有把那些结果写成当前版本。判断版本时同时查看发布日期、官方迁移说明与包元数据。
+### TypeScript 7 与生态兼容
 
-### TypeScript7与生态兼容
-
-TS7.0是正式版，但官方发布说明指出它尚未提供旧式编译器API。`typescript-eslint`、Vue语言工具等依赖编译器API的工具需要按各自支持范围选择版本。本书把“语言机制”和“工具兼容编译器”分开：TS6.0.3可用于可复现兼容实验，不能称它是最新。
+TS 7.0 是正式版，但官方发布说明指出它尚未提供编译器 API。`typescript-eslint`、Vue 语言工具等依赖编译器 API 的工具需要按各自支持范围选择版本。本书把“语言编译器”和“工具兼容 API”分开：TS 7.0.2 提供 `tsc`，官方兼容包提供当前工具链需要的 API 与 `tsc6`。
 
 官方允许并行配置：
 
@@ -74,26 +74,20 @@ TS7.0是正式版，但官方发布说明指出它尚未提供旧式编译器API
 }
 ```
 
-原生TS7提供 `tsc`，兼容包提供 `tsc6` 与TS6 API。安装后分别执行 `pnpm exec tsc --version` 和 `pnpm exec tsc6 --version`，确认命令指向。Vue工具与Lint继续按其实际支持范围测试，不宣称一次替换依赖即可自动兼容。
+安装后分别执行 `pnpm exec tsc --version` 和 `pnpm exec tsc6 --version`，确认命令指向。包装包版本与内部编译器版本可能不同：当前注册表中的兼容包装包为 6.0.2，工程验证还要记录命令实际报告的内部版本。Vue 工具与 Lint 按真实支持范围测试，不能把依赖安装成功当作兼容证明。没有编译器 API 依赖的工程直接使用 TS 7。
 
-包装包版本与内部编译器版本可能不同。本次工程实测包装包6.0.2提供的API/tsc6为6.0.3；不能因此安装一个未确认存在的包装包6.0.3。普通 `typescript@6.0.3` 与别名 `typescript@npm:@typescript/typescript6@6.0.2` 也提供不同命令，前者是tsc，后者是tsc6。每次切换都同时调整scripts并检查版本。
+### 4.3 当前技术职责
 
-独立后端没有需要旧API的工具时，可直接验证TS7；若保留TS6教学基线，应明确这是兼容选择，并用TS7对照检查，而不是回退到TS5主线。
-
-### 4.3 需要纠正的旧教程习惯
-
-| 旧习惯 | 现在怎样学习 | 原因 |
+| 范围 | 当前课程主线 | 责任边界 |
 |---|---|---|
-| 用 Create React App 开新项目 | 本书用 Vite 建立 SPA，再单独讲 SSR 与框架 | 工具定位要清楚，不能把打包器当全栈框架 |
-| Vue2、Options API 占据主线 | Vue3 SFC、`script setup`、组合式 API | 采用当前主线；维护旧项目时再学习旧模式 |
-| 说 Vite 默认生产构建一定用 Rollup | Vite8 主线讲 Rolldown；解释历史与兼容 | 构建架构已变化 |
-| 把 Babel Compiler 配置照搬到新 React 插件 | 按当前 plugin-react 与 Compiler 文档配置 | plugin-react6 默认 Oxc；Compiler 需要显式接入 |
-| `.eslintrc`、`.eslintignore` 做主配置 | `eslint.config.*` 中配置规则与 ignores | ESLint10 已移除旧体系 |
-| `moduleResolution: node` 不加区分 | 浏览器 bundler 与 Node 模块策略分别配置 | 打包与原生执行的解析行为不同 |
-| Nest CLI 默认永远是 Jest 与 ESLint | Nest12 ESM 模板默认 Vitest，lint 默认 oxlint | 模板发生变化；自选工具仍可用 |
-| Node20 永远是 LTS | 查 Node 官方支持表后选择24 LTS | 本次支持表已列 Node20 EOL |
-| 前端 `VITE_SECRET` 是秘密 | 浏览器环境变量按公开配置处理 | 构建后的资源会发到用户电脑 |
-| 为“现代”强行全站微服务 | 单体应用先把边界、事务与监控做好 | 中小项目不需要无理由增加运维成本 |
+| SPA 开发与构建 | Vite 8 与框架官方稳定插件 | 打包器不替代路由、SSR 框架或服务端能力 |
+| React | React 19 函数组件、Hooks 与当前稳定机制 | Compiler 等能力按官方稳定文档显式接入 |
+| Vue | Vue 3.5 SFC、`script setup` 与 Composition API | 编译器和运行时保持兼容版本 |
+| Lint | ESLint 10 flat config | ignores、全局和文件范围都在 `eslint.config.*` 中声明 |
+| TypeScript 解析 | 浏览器打包与 Node 原生执行分别配置 | 模块解析策略必须匹配真实运行方式 |
+| NestJS | NestJS 12，模块格式与测试/Lint 工具显式选择 | 脚手架默认值不能替代项目清单和验证 |
+| 浏览器配置 | `VITE_*` 等客户端变量只保存公开配置 | 浏览器构建产物不能保存秘密 |
+| 服务架构 | 先完成边界清楚、可测试和可观测的单体 | 只有明确扩展证据时才增加分布式复杂度 |
 
 ### 4.4 建立自己的环境快照
 
@@ -240,8 +234,8 @@ Git 原始输出：
 
 ## 9. 课后题
 
-**问题：推荐 Node.js 24，实际输出 Node.js 22，应该怎样记录？**
-参考答案：记录实际 22，并写清与课程推荐不一致；是否支持示例要依据 API 和验证，不能虚报 24。
+**问题：推荐 Node.js 24，实际输出是另一个仍受支持的 LTS，应该怎样记录？**
+参考答案：记录原始输出，并写清与课程推荐不一致；是否支持示例要依据 engine、API 和实际验证，不能把本机版本改写成推荐版本。
 
 **问题：首周没有锁文件，就完全无法复现吗？**
 参考答案：首周只使用内置模块，文件、运行时与命令仍能明确记录；有依赖时才需要记录依赖图。

@@ -82,10 +82,12 @@ CredentialsDto + scrypt
 注册把随机 salt 和 scrypt 派生结果保存为：
 
 ```text
-saltHex:derivedKeyHex
+scrypt$N$r$p$keyLength$saltHex$derivedKeyHex
 ```
 
-登录无论账号是否存在都会执行一次 scrypt。不存在账号使用固定形状的假 salt/key；最终错误统一：
+参数随记录保存，并在解析时限制算法、N/r/p、长度和十六进制形状，后续调整参数不会让既有账号
+失效，也不会接受可触发无界资源消耗的记录。登录无论账号是否存在都会执行一次 scrypt；不存在
+账号或记录损坏时使用固定形状的受控参数与假 salt/key。最终错误统一：
 
 ```json
 {
@@ -94,8 +96,9 @@ saltHex:derivedKeyHex
 }
 ```
 
-这不是完整抗枚举方案：网络、数据库缓存和限频仍会影响侧信道。登录与注册还需在可信反向代理
-或专用安全层限频，本章没有伪装已实现生产限流。
+进程内 limiter 同时按可信 socket 地址和规范化账号建立一分钟固定窗口：账号第 6 次、地址第
+21 次请求返回 `429 RATE_LIMITED`。它限制单实例资源消耗，但不能替代多实例共享策略、边缘限频、
+风险识别和容量监控。
 
 ### 4.2 Opaque session 把浏览器秘密和数据库记录分离
 
@@ -152,6 +155,7 @@ PATCH 的 `ownerId` 从数据库读取，当前用户从 session 读取。请求
 | `403` | 身份已知但操作不允许 | 非 owner 编辑、普通用户看统计、CSRF 失败 |
 | `404` | 目标资源不存在 | 合法 UUID 对应商品不存在 |
 | `409` | 当前资源状态与请求冲突 | 旧 version、商品已预约 |
+| `429` | 当前窗口超过认证预算 | 注册或登录尝试过多 |
 
 高敏感资源可把非 owner 统一映射 404 降低存在性泄露，但必须在产品契约中一致。本章按统一契约
 明确返回 403，便于教学区分对象授权。
@@ -178,8 +182,9 @@ errorType, allow-listed SQLSTATE
 
 | 元素 | 固定用法 | 证据 | 边界 |
 | --- | --- | --- | --- |
-| `CredentialsDto` | email + 12..128 密码 | 400 输入错误 | 不负责限频 |
-| `scrypt` | N=32768, r=8, p=1 | 登录成功/失败 | 参数需按硬件复核 |
+| `CredentialsDto` | email + 12..128 密码 | 400 输入错误 | 不负责认证预算 |
+| `scrypt` | 自描述 N/r/p/keyLength | 旧参数记录仍可验证 | 参数需按硬件复核 |
+| `AuthAttemptLimiter` | 账号 5/min、地址 20/min | 第 6/21 次为 429 | 单实例边界，不替代共享限频 |
 | `timingSafeEqual` | 同长度 Buffer | 密码和 CSRF 比较 | 不能消除所有侧信道 |
 | `sid` | 64 个 hex 字符 | Cookie + token hash 查询 | 原 token 不入库/日志 |
 | `sessions.expires_at` | 8 小时 | 过期后 401 | 清理任务仅回收空间 |
@@ -251,6 +256,7 @@ buyer PATCH seller listing -> 403
 seller PATCH version=1 -> 200/version=2
 seller 重放 version=1 -> 409
 buyer GET admin/stats -> 403
+数据库把 seller 角色改为 admin -> seller GET admin/stats -> 200
 无 Cookie GET auth/me -> 401
 合法随机 UUID GET listing -> 404
 ```
@@ -390,7 +396,7 @@ requestId、method、route、status、duration。若真实 session 曾被写入�
 最小自动验收仍使用唯一项目测试：
 
 ```bash
-cd /tmp/full-course-verification/batch-e/market-api-capstone
+cd /tmp/web-fullstack-modernization/batch-5/market-api-capstone
 pnpm test
 ```
 
@@ -423,9 +429,10 @@ pnpm start
 - [ ] 写请求同时校验 Origin 和 CSRF token。
 - [ ] SessionGuard 只解析身份和 CSRF，不代替 owner/RBAC。
 - [ ] owner 与角色都来自数据库状态，不来自 body。
-- [ ] 401/403/404/409 的语义和测试可区分。
+- [ ] 普通用户访问 admin 为 403，数据库角色变更后同一 session 重新解析为 admin 并返回 200。
+- [ ] 401/403/404/409/429 的语义和测试可区分。
 - [ ] 500 不回传内部异常，日志只记录 allow-list。
-- [ ] 未实现的生产限频、HTTPS 浏览器验证明确列为缺口。
+- [ ] 进程内认证预算已验证；共享/边缘限频与 HTTPS 浏览器验证明确列为缺口。
 
 ## 12. 常见问题
 
@@ -433,7 +440,7 @@ pnpm start
 
 公开注册端点不能用 `201/409` 差异充当账号目录。本项目对新邮箱和重复邮箱都完成同样的
 scrypt 成本并返回 `{"accepted":true}`；用户随后通过登录或受控恢复流程继续。该策略降低直接
-枚举，但网络、数据库缓存、限频与邮件流程仍需单独评估，不能承诺时序完全一致。
+枚举，但网络、数据库缓存、共享限频与邮件流程仍需单独评估，不能承诺时序完全一致。
 
 **SameSite=Lax 能否升级为 Strict？**
 

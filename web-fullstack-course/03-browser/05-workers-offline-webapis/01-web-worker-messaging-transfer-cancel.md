@@ -225,23 +225,20 @@ function createWorker() {
 runButton.addEventListener("click", () => {
   if (activeRequestId) return;
   const count = Number(countSelect.value);
-  const prices = new Int32Array(count);
-  for (let index = 0; index < prices.length; index += 1) {
-    prices[index] = 100 + (index % 50000);
-  }
+  const seed = new Int32Array([100]);
   const requestId = nextRequestId;
   nextRequestId += 1;
   activeRequestId = requestId;
   runButton.disabled = true;
   status.textContent = `正在统计 ${count} 件，可继续输入`;
-  const buffer = prices.buffer;
+  const buffer = seed.buffer;
   createWorker().postMessage({
-    type: "sum-prices",
+    type: "sum-generated-prices",
     requestId,
-    count: prices.length,
-    buffer,
+    count,
+    seedBuffer: buffer,
   }, [buffer]);
-  bufferSize.value = `${buffer.byteLength} 字节（0 表示已转移）`;
+  bufferSize.value = `${buffer.byteLength} 字节（0 表示种子已转移）`;
 });
 
 cancelButton.addEventListener("click", () => {
@@ -265,12 +262,12 @@ window.addEventListener("pagehide", () => {
 self.addEventListener("message", (event) => {
   const message = event.data;
   if (
-    message?.type !== "sum-prices" ||
+    message?.type !== "sum-generated-prices" ||
     !Number.isInteger(message.requestId) ||
     message.requestId < 1 ||
     !Number.isInteger(message.count) ||
     message.count < 0 ||
-    !(message.buffer instanceof ArrayBuffer)
+    !(message.seedBuffer instanceof ArrayBuffer)
   ) {
     self.postMessage({
       requestId: message?.requestId ?? 0,
@@ -280,27 +277,20 @@ self.addEventListener("message", (event) => {
     return;
   }
 
-  const prices = new Int32Array(message.buffer);
-  if (prices.length !== message.count) {
+  const seed = new Int32Array(message.seedBuffer);
+  if (seed.length !== 1 || seed[0] < 0) {
     self.postMessage({
       requestId: message.requestId,
       ok: false,
-      error: "数量与缓冲区不一致",
+      error: "价格种子不合法",
     });
     return;
   }
 
   const startedAt = performance.now();
   let total = 0;
-  for (const priceCents of prices) {
-    if (priceCents < 0) {
-      self.postMessage({
-        requestId: message.requestId,
-        ok: false,
-        error: "价格必须是非负整数分",
-      });
-      return;
-    }
+  for (let index = 0; index < message.count; index += 1) {
+    const priceCents = seed[0] + (index % 50000);
     total += priceCents;
     if (!Number.isSafeInteger(total)) {
       self.postMessage({
@@ -315,8 +305,8 @@ self.addEventListener("message", (event) => {
   self.postMessage({
     requestId: message.requestId,
     ok: true,
-    count: prices.length,
-    averageCents: prices.length ? Math.round(total / prices.length) : 0,
+    count: message.count,
+    averageCents: message.count ? Math.round(total / message.count) : 0,
     durationMs: performance.now() - startedAt,
   });
 });
@@ -329,7 +319,9 @@ cd browser-lab
 node server.mjs ./public
 ```
 
-选择 200 万后开始，立即在输入框打字；输入应保持响应。页面显示 buffer 为 0 字节。选择 800 万后快速取消，状态应立即恢复；再次开始会创建新 Worker，旧结果不会出现。
+选择 200 万后开始，立即在输入框打字；输入应保持响应。页面显示种子 buffer 为 0 字节。
+数百万条价格的生成与统计都在 Worker 内完成。选择 800 万后快速取消，状态应立即恢复；再次
+开始会创建新 Worker，旧结果不会出现。
 
 ## 7. 邻里集市集成案例
 
@@ -345,7 +337,8 @@ node server.mjs ./public
 
 页面在发送前移除不需要的私人字段。Worker 脚本仍属于应用代码，不能获得本不应暴露给前端的数据。离线时 Worker 可以分析已有快照，但不能把结果当成服务端库存或授权结论。
 
-性能报告至少比较“主线程直接计算”和“Worker + 传输”的总耗时、Long Task、输入响应与内存；只报告 Worker 内 `durationMs` 会漏掉构造和传输成本。
+性能报告至少比较“主线程直接计算”和“Worker + 消息往返”的总耗时、Long Task、输入响应与
+内存；Worker 内 `durationMs` 已包含数据生成和统计，但仍不包含启动与消息往返。
 
 ## 8. 常见错误与排查路径
 
@@ -402,11 +395,11 @@ console.log(prices[0]); // 所有权已转移，不能依赖该视图继续工�
 
 **验收答案：**取消消息能在分片间生效；完成与取消只提交一次；总结果与同步算法一致。
 
-### 故障注入：消息数量不一致
+### 故障注入：价格种子不合法
 
-发送 `count` 与 `Int32Array.length` 不同的消息。
+发送长度不为 1 或值为负数的 `Int32Array` 种子。
 
-**验收答案：**Worker 返回结构化失败，页面恢复按钮，不读取越界、不崩溃、不提交部分结果。
+**验收答案：**Worker 返回结构化失败，页面恢复按钮，不开始大循环、不崩溃、不提交部分结果。
 
 ## 11. 阶段验收
 

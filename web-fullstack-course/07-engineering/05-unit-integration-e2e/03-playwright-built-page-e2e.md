@@ -6,7 +6,7 @@
 | --- | --- |
 | 本课产出 | strict-port production preview、只读教学 API、页面入口、8 条 Chromium E2E |
 | 练习目录 | 沿用 `market-engineering-lab/` |
-| 固定版本 | Vite 8.3.0、Playwright 1.64.0、匹配版本 Chromium |
+| 固定版本 | Vite 8.3.4、Playwright 1.64.0、匹配版本 Chromium |
 | 核心命令 | `pnpm test:e2e` |
 | 成功证据 | 1 条构建页烟测 + 7 条产品场景通过，preview 自动启动并停止 |
 | 失败证据 | 占用 4173 时启动失败；删除行为后对应自动断言超时并保留 trace |
@@ -171,8 +171,8 @@ DOM、请求 URL、响应和截图。真实项目要设置最小保留期、访�
 
 | 项目 | 固定值或命令 | 文件职责 / 输出 |
 | --- | --- | --- |
-| Node.js / pnpm | `24.21.0` / `12.10.1` | 执行构建、preview 与测试脚本 |
-| Vite | `8.3.0` | 生成生产产物并以 strict port preview 托管 |
+| Node.js / pnpm | `24.21.0` / `12.11.2` | 执行构建、preview 与测试脚本 |
+| Vite | `8.3.4` | 生成生产产物并以 strict port preview 托管 |
 | Playwright | `1.64.0` | `pnpm exec playwright --version` 核对入口 |
 | Chromium | 与 Playwright 1.64.0 匹配 | `pnpm exec playwright install chromium` 安装 |
 | `vite.config.mjs` | `preview.port: 4173`、`strictPort: true` | 固定构建页和教学 API 服务入口 |
@@ -606,7 +606,14 @@ Version 1.64.0
 终端 A 运行一个明确的临时占用进程：
 
 ```bash
-node -e 'require("node:net").createServer().listen(4173, "127.0.0.1", () => console.log("4173 occupied"))'
+node -e '
+  require("node:http")
+    .createServer((_request, response) => {
+      response.writeHead(200, { "Content-Type": "text/plain" });
+      response.end("occupied");
+    })
+    .listen(4173, "127.0.0.1", () => console.log("4173 occupied"));
+'
 ```
 
 看到 `4173 occupied` 后，在终端 B 执行：

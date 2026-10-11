@@ -490,8 +490,9 @@ navigator.clipboard.writeText("自动写入");
 **能力检测只写 `"IntersectionObserver" in window` 足够吗？**
 它只证明接口存在。还要验证关键选项、行为和错误回退；新特性可用更细粒度检测。
 
-**Clipboard 失败时能用 `document.execCommand("copy")` 吗？**
-它已是旧路径且行为不一致。若业务必须兼容，可隔离实现并测试；最稳定的最低回退仍是可选择文本。
+**Clipboard 失败时怎样回退？**
+显示可聚焦、可选择的文本和明确提示，让用户使用系统复制操作。回退仍要保留公开内容边界，
+不能自动读取或覆盖剪贴板。
 
 **observer 会自动垃圾回收吗？**
 不要依赖不明确时机。显式 `disconnect()` 能终止回调并清楚表达生命周期。

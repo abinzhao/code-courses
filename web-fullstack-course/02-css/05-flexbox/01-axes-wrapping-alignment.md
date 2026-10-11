@@ -195,7 +195,7 @@ Gap 不属于项目自身边缘，不会在容器外产生首尾 margin，也不
         <button type="submit">应用筛选</button>
       </div>
     </form>
-    <output id="evidence" aria-live="polite"></output>
+    <output id="evidence" aria-label="操作栏布局报告"></output>
   </main>
   <script>
     const form = document.querySelector(".toolbar");

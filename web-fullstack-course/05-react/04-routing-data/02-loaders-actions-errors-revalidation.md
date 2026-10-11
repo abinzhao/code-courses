@@ -300,7 +300,7 @@ const duplicated = useListings(q)
 其他错误：
 
 - action 后手动修改多个 Context 副本：依赖 loader revalidation。
-- 所有错误都 redirect 到登录：按 401/403/404/409/422/503 恢复。
+- 所有错误都 redirect 到登录：按 401/403/404/409/400/503 恢复。
 - 409 自动重试：提示冲突并重读最新商品。
 - 忽略 `request.signal`：继续传给 HTTP helper。
 

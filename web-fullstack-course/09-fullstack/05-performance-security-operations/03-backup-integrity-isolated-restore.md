@@ -229,9 +229,18 @@ target=$(
   psql "service=$PGSERVICE" -X -A -t -F '|' -v ON_ERROR_STOP=1 \
     -c "SELECT current_database(),
                COALESCE(inet_server_addr()::text, 'local-socket'),
-               current_setting('server_version_num')"
+               current_setting('server_version_num'),
+               current_user,
+               rolsuper,
+               rolcreatedb,
+               rolcreaterole,
+               rolreplication
+        FROM pg_roles
+        WHERE rolname = current_user"
 )
-IFS='|' read -r database address version_num <<<"$target"
+IFS='|' read -r \
+  database address version_num connected_role \
+  is_super can_create_db can_create_role can_replicate <<<"$target"
 if [[ "$database" != "market_ops_test" ]]; then
   printf '%s\n' "refusing source database: $database" >&2
   exit 2
@@ -245,6 +254,14 @@ case "$address" in
 esac
 if (( version_num < 180000 || version_num >= 190000 )); then
   printf '%s\n' "refusing non-PostgreSQL-18 server" >&2
+  exit 2
+fi
+if [[ "$connected_role" != "market_backup_local" ||
+      "$is_super" != "f" ||
+      "$can_create_db" != "f" ||
+      "$can_create_role" != "f" ||
+      "$can_replicate" != "f" ]]; then
+  printf '%s\n' "refusing unexpected or privileged backup role" >&2
   exit 2
 fi
 
@@ -310,6 +327,7 @@ printf '%s\n' \
   "checksum=$checksum" \
   "source_database=$database" \
   "source_address=$address" \
+  "source_role=$connected_role" \
   "server_version_num=$version_num" \
   "source_observed_before_utc=$source_observed_before" \
   "source_observed_after_utc=$source_observed_after"

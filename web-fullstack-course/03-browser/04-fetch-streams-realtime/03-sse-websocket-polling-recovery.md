@@ -183,7 +183,6 @@ function openSse(req, res) {
     "Content-Type": "text/event-stream; charset=utf-8",
     "Cache-Control": "no-cache, no-transform",
     "Connection": "keep-alive",
-    "X-Accel-Buffering": "no",
   });
   res.write("retry: 1000\n");
   res.write(": connected\n\n");
@@ -223,6 +222,16 @@ function pollEvents(url, res) {
   }));
 }
 
+function sendSnapshot(res) {
+  const latestByListing = new Map();
+  for (const event of history) latestByListing.set(event.listingId, event);
+  send(res, 200, "application/json; charset=utf-8", JSON.stringify({
+    items: [...latestByListing.values()],
+    cursor: history.at(-1)?.id ?? 0,
+    serverTime: new Date().toISOString(),
+  }));
+}
+
 createServer(async (req, res) => {
   try {
     if (req.method !== "GET") {
@@ -237,6 +246,10 @@ createServer(async (req, res) => {
     }
     if (url.pathname === "/api/v1/events") {
       pollEvents(url, res);
+      return;
+    }
+    if (url.pathname === "/api/v1/snapshot") {
+      sendSnapshot(res);
       return;
     }
 
@@ -298,10 +311,14 @@ const eventList = document.querySelector("#events");
 
 let eventSource;
 let pollController;
+let snapshotController;
 let running = false;
+let runVersion = 0;
 let cursor = 0;
 let duplicateCount = 0;
+let resyncing = false;
 const seen = new Set();
+const bufferedEvents = new Map();
 
 function selectedMode() {
   return document.querySelector('input[name="mode"]:checked').value;
@@ -322,15 +339,84 @@ function validateEvent(value) {
   return value;
 }
 
+function renderEvent(event) {
+  const row = document.createElement("li");
+  row.textContent =
+    `#${event.id} ${event.listingId} → ${event.status} @ ${event.occurredAt}`;
+  eventList.prepend(row);
+  while (eventList.children.length > 8) eventList.lastElementChild.remove();
+}
+
+function bufferEvent(event) {
+  bufferedEvents.set(event.id, event);
+  if (bufferedEvents.size > 500) {
+    const oldest = Math.min(...bufferedEvents.keys());
+    bufferedEvents.delete(oldest);
+  }
+}
+
+async function recoverSnapshot() {
+  if (resyncing) return;
+  resyncing = true;
+  const myRunVersion = runVersion;
+  const controller = new AbortController();
+  snapshotController = controller;
+  let restored = false;
+  connection.textContent = "发现游标缺口，正在读取权威快照";
+  try {
+    const response = await fetch("/api/v1/snapshot", {
+      signal: controller.signal,
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    if (!Array.isArray(data.items) || !Number.isInteger(data.cursor)) {
+      throw new TypeError("快照结构不合法");
+    }
+    const items = data.items.map(validateEvent);
+    if (!running || myRunVersion !== runVersion) return;
+    seen.clear();
+    eventList.replaceChildren();
+    for (const item of items) {
+      seen.add(item.id);
+      renderEvent(item);
+    }
+    cursor = data.cursor;
+    cursorOutput.value = String(cursor);
+    connection.textContent = `快照已恢复，服务时间 ${data.serverTime}`;
+    restored = true;
+  } catch (error) {
+    if (!controller.signal.aborted && running && myRunVersion === runVersion) {
+      connection.textContent = `快照恢复失败：${error.message}`;
+    }
+  } finally {
+    if (snapshotController === controller) snapshotController = undefined;
+    if (myRunVersion === runVersion) resyncing = false;
+  }
+
+  if (!restored || !running || myRunVersion !== runVersion) return;
+  const pending = [...bufferedEvents.values()].sort((a, b) => a.id - b.id);
+  bufferedEvents.clear();
+  for (const event of pending) {
+    applyEvent(event);
+  }
+}
+
 function applyEvent(raw) {
   const event = validateEvent(raw);
-  if (seen.has(event.id)) {
+  if (resyncing) {
+    bufferEvent(event);
+    return;
+  }
+  if (seen.has(event.id) || event.id <= cursor) {
     duplicateCount += 1;
     duplicateOutput.value = String(duplicateCount);
     return;
   }
   if (event.id > cursor + 1 && cursor !== 0) {
-    connection.textContent = `发现游标缺口 ${cursor} → ${event.id}，需重取快照`;
+    bufferEvent(event);
+    void recoverSnapshot();
+    return;
   }
   seen.add(event.id);
   if (seen.size > 500) {
@@ -339,12 +425,7 @@ function applyEvent(raw) {
   }
   cursor = Math.max(cursor, event.id);
   cursorOutput.value = String(cursor);
-
-  const row = document.createElement("li");
-  row.textContent =
-    `#${event.id} ${event.listingId} → ${event.status} @ ${event.occurredAt}`;
-  eventList.prepend(row);
-  while (eventList.children.length > 8) eventList.lastElementChild.remove();
+  renderEvent(event);
 }
 
 function startSse() {
@@ -416,11 +497,16 @@ async function startPolling() {
 }
 
 function stop() {
+  runVersion += 1;
   running = false;
   eventSource?.close();
   eventSource = undefined;
   pollController?.abort(new DOMException("停止轮询", "AbortError"));
   pollController = undefined;
+  snapshotController?.abort(new DOMException("停止快照恢复", "AbortError"));
+  snapshotController = undefined;
+  resyncing = false;
+  bufferedEvents.clear();
   connection.textContent = "已停止，现有状态是快照";
 }
 

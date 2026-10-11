@@ -15,7 +15,7 @@
 | --- | --- | --- | ---: |
 | 1 | [领域契约、品牌值与 DTO](08-typescript-domain-design/01-domain-contracts-branded-values-dtos.md) | 完整 `Listing`、命令、投影和金额构造 | 140 分钟 |
 | 2 | [`unknown`、运行时解析器与错误路径](08-typescript-domain-design/02-unknown-runtime-parsers-errors.md) | 商品、分页和错误体解析器 | 180 分钟 |
-| 3 | [状态机、版本冲突与授权边界](08-typescript-domain-design/03-state-machines-conflicts-authorization.md) | 201/409/401/403 状态迁移 | 150 分钟 |
+| 3 | [状态机、版本冲突与授权边界](08-typescript-domain-design/03-state-machines-conflicts-authorization.md) | 200/400/409/401/403 状态迁移 | 150 分钟 |
 
 三课依次建立“类型语言 → 运行时准入 → 跨层协作”。不能先给网络响应断言类型，
 再声称解析器只是可选增强。
@@ -53,7 +53,7 @@
 - [ ] 合法秒级 UTC 标准化为毫秒，非法日历日期拒绝。
 - [ ] 空页、最后一页和超范围空页自洽；超容量、重复 ID 和矛盾总数拒绝。
 - [ ] 错误响应缺 `requestId` 时失败，`details` 保持 `unknown`。
-- [ ] 201、409、401、403 各进入正确状态；409 不盲目递增版本重试。
+- [ ] 200、400、409、401、403 各进入正确状态；400 保留草稿，409 不盲目递增版本重试。
 - [ ] 能指出 version、权限和预约唯一性各由哪一层拥有。
 - [ ] 有效实现没有把断言、禁用按钮或前端类型冒充安全修复。
 

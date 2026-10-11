@@ -8,7 +8,7 @@
 | 前置 | 前三课的 expected、完整文件 header/marker 和累计脚本已完成 |
 | 建议投入 | 3 小时首次安装与验证，60 分钟故障注入和证据整理 |
 | 完整文件 owner | 本课为 `0`；所有代码围栏都是命令、算法或精确变更，不是项目完整文件 |
-| 目标目录 | `/tmp/full-course-verification/batch-d/market-engineering-capstone` |
+| 目标目录 | `/tmp/web-fullstack-modernization/batch-4/market-engineering-capstone` |
 | 成功证据 | 结构 27/27、冻结安装不改锁、版本探针、独立门、七场景、预算和 `pnpm verify` |
 | 失败证据 | 清单漂移、格式、Lint、TS、Vitest、Vite、预算、端口和浏览器行为均先红后绿 |
 | 证据分类 | observed pass、observed failure/recovery、environment block、manual gap |
@@ -72,7 +72,7 @@ test -f web-fullstack-course/07-engineering/07-engineering-capstone/04-clean-roo
 
 安全边界：
 
-- 提取器只删除精确目标 `/tmp/full-course-verification/batch-d/market-engineering-capstone`；
+- 提取器只删除精确目标 `/tmp/web-fullstack-modernization/batch-4/market-engineering-capstone`；
 - 故障注入前复制目标文件，恢复后立即重跑 owner 门；
 - 不修改教材 Markdown、全局工具、生产账号或远端仓库；
 - 不提交、不推送、不部署；
@@ -147,7 +147,7 @@ number；业务故障只改金额除数；build 故障只破坏一个 import；�
 | 项目 | 精确值/命令 | 责任 |
 | --- | --- | --- |
 | `SOURCE_ROOT` | 四课所在目录 | 提取输入，只读 |
-| `TARGET` | `/tmp/full-course-verification/batch-d/market-engineering-capstone` | 唯一写入根 |
+| `TARGET` | `/tmp/web-fullstack-modernization/batch-4/market-engineering-capstone` | 唯一写入根 |
 | `CAPSTONE_EXPECT` | 第 01 课 27 条 | 声明树与 owner |
 | `CAPSTONE_FILE_BEGIN/END` | 前三课完整文件 | 机器边界 |
 | `sha256sum`/`shasum` | lockfile 前后摘要 | 证明 frozen 未修改 |
@@ -167,7 +167,7 @@ number；业务故障只改金额除数；build 故障只破坏一个 import；�
 set -euo pipefail
 
 SOURCE_ROOT="$PWD/web-fullstack-course/07-engineering/07-engineering-capstone"
-TARGET="/tmp/full-course-verification/batch-d/market-engineering-capstone"
+TARGET="/tmp/web-fullstack-modernization/batch-4/market-engineering-capstone"
 export SOURCE_ROOT TARGET
 
 python3 - <<'PY'
@@ -179,7 +179,7 @@ import shutil
 source_root = Path(os.environ["SOURCE_ROOT"]).resolve()
 target = Path(os.environ["TARGET"]).resolve()
 required_target = Path(
-    "/tmp/full-course-verification/batch-d/market-engineering-capstone"
+    "/tmp/web-fullstack-modernization/batch-4/market-engineering-capstone"
 ).resolve()
 if target != required_target:
     raise SystemExit(f"refusing unexpected target: {target}")
@@ -294,7 +294,7 @@ Mechanical extraction: PASS (files=27, owners={'01': 8, '02': 10, '03': 9}, ...)
 先核对目录，再运行：
 
 ```bash
-TARGET="/tmp/full-course-verification/batch-d/market-engineering-capstone"
+TARGET="/tmp/web-fullstack-modernization/batch-4/market-engineering-capstone"
 cd "$TARGET"
 test "$PWD" = "$TARGET"
 
@@ -322,7 +322,7 @@ pnpm exec vitest --version
 pnpm exec playwright --version
 ```
 
-预期 TS 7 为 `7.0.2`，TS 6 CLI/API 相同且在 6.0 系列，Vite `8.3.0`、Vitest `5.0.0`、
+预期 TS 7 为 `7.0.2`，TS 6 CLI/API 相同且在 6.0 系列，Vite `8.3.4`、Vitest `5.0.3`、
 Playwright `1.64.0`。
 
 ## 7. 邻里集市集成案例
@@ -668,11 +668,11 @@ pnpm verify
 确认没有本轮后台进程后执行：
 
 ```bash
-TARGET="/tmp/full-course-verification/batch-d/market-engineering-capstone"
-test "$TARGET" = "/tmp/full-course-verification/batch-d/market-engineering-capstone"
+TARGET="/tmp/web-fullstack-modernization/batch-4/market-engineering-capstone"
+test "$TARGET" = "/tmp/web-fullstack-modernization/batch-4/market-engineering-capstone"
 rm -rf "$TARGET"
-rmdir /tmp/full-course-verification/batch-d 2>/dev/null || true
-rmdir /tmp/full-course-verification 2>/dev/null || true
+rmdir /tmp/web-fullstack-modernization/batch-4 2>/dev/null || true
+rmdir /tmp/web-fullstack-modernization 2>/dev/null || true
 rm -f /tmp/capstone-lock.before.sha256 /tmp/capstone-lock.after.sha256
 ```
 

@@ -6,7 +6,7 @@
 | --- | --- |
 | 任务 | 手动建立 Nest 12 ESM 应用，追踪 bootstrap、module、controller、service、repository 的所有权 |
 | 练习目录 | `$HOME/code/market-backend-lab/nest-api` |
-| 固定基线 | Node.js 24、pnpm 12.10.1、NestJS 12.1.1、TypeScript 6 兼容装饰器线 |
+| 固定基线 | Node.js 24、pnpm 12.11.2、NestJS 12.1.2、TypeScript 6 兼容装饰器线 |
 | 主要产物 | `main.ts`、`AppModule`、`ListingsModule`、服务与内存仓储 provider |
 | 成功证据 | `pnpm build` 后可启动；GET 列表返回明确静态教学商品 |
 | 失败证据 | 移除仓储 provider 后启动失败并指出无法解析依赖 |
@@ -60,9 +60,9 @@ cd "$HOME/code/market-backend-lab/nest-api"
 node --version
 pnpm --version
 pnpm init
-pnpm add -E @nestjs/common@12.1.1 @nestjs/core@12.1.1 \
-  @nestjs/platform-express@12.1.1 reflect-metadata rxjs
-pnpm add -D -E typescript@6.0.3 @types/node@24.0.0
+pnpm add -E @nestjs/common@12.1.2 @nestjs/core@12.1.2 \
+  @nestjs/platform-express@12.1.2 reflect-metadata rxjs
+pnpm add -D -E typescript@6.0.3 @types/node@24.19.2
 ```
 
 让 pnpm 生成并维护锁文件。不要从教材手写 `pnpm-lock.yaml`。将清单设置为 ESM 并添加脚本：
@@ -73,7 +73,7 @@ pnpm pkg set scripts.build='tsc -p tsconfig.json'
 pnpm pkg set scripts.start='node dist/main.js'
 ```
 
-安装后运行 `pnpm list --depth 0`，保存实际版本。只有三个 Nest 核心/平台包必须精确同为 `12.1.1`；
+安装后运行 `pnpm list --depth 0`，保存实际版本。只有三个 Nest 核心/平台包必须精确同为 `12.1.2`；
 不要混装主版本 11。
 
 ## 4. 核心理论
@@ -504,7 +504,7 @@ pnpm start
 
 另一个终端读取列表。通过标准：
 
-- Node 24、Nest 12.1.1 核心与平台版本证据已保存；
+- Node 24、Nest 12.1.2 核心与平台版本证据已保存；
 - ESM 编译产物可以由 Node 启动；
 - GET 链路能从 controller 追到 token 和内存实现；
 - 台灯价格为整数 `1990`，时间为 UTC ISO；
@@ -532,7 +532,7 @@ pnpm start
 资料快照日期：**2026-10-11**。
 
 - [NestJS 12 Migration Guide](https://docs.nestjs.com/migration-guide)：Nest 12 ESM 与迁移边界。
-- [NestJS 12.1.1 Release](https://github.com/nestjs/nest/releases/tag/v12.1.1)：固定补丁来源。
+- [NestJS 12.1.2 Release](https://github.com/nestjs/nest/releases/tag/v12.1.2)：固定补丁来源。
 - [NestJS Modules](https://docs.nestjs.com/modules)：module 可见性与导出。
 - [NestJS Providers](https://docs.nestjs.com/providers)：provider 注册与注入。
 - [NestJS Injection Scopes](https://docs.nestjs.com/fundamentals/injection-scopes)：scope 成本。

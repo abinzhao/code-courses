@@ -62,7 +62,9 @@ DOM 每次从派生结果重建。筛选不会删除 `listings`，取消收藏�
 
 ### 4.3 状态反馈和切换按钮
 
-收藏与筛选是可切换动作，使用原生 `<button>` 并同步 `aria-pressed`。操作结果写入 `role="status"`、`aria-live="polite"` 区域；不要只靠颜色或图标表达状态。
+收藏与筛选是可切换动作，使用原生 `<button>` 并同步 `aria-pressed`。toggle button 的名称保持
+稳定，不随按下状态改成相反动作；操作结果写入 `role="status"`、`aria-live="polite"` 区域，
+不要只靠颜色或图标表达状态。
 
 ### 4.4 重渲染必须设计焦点去向
 
@@ -269,7 +271,7 @@ function createListingItem(listing) {
   favorite.dataset.action = "favorite";
   favorite.dataset.listingId = listing.id;
   favorite.setAttribute("aria-pressed", String(isFavorite));
-  favorite.textContent = isFavorite ? "取消收藏" : "收藏";
+  favorite.textContent = "收藏";
 
   const remove = document.createElement("button");
   remove.type = "button";
@@ -553,7 +555,7 @@ render();
 **可判定答案标准：**
 
 - 所有操作可只用 Tab、Shift+Tab、Enter 和 Space 完成；
-- 每个切换按钮的可见文字与 `aria-pressed` 一致；
+- 每个切换按钮保持稳定名称，`aria-pressed` 与源状态一致；
 - 删除后收藏集合没有悬空 ID；
 - 刷新恢复两条初始商品，新增与收藏消失；
 - 说明刷新复位是内存边界，不是数据丢失缺陷的伪装。

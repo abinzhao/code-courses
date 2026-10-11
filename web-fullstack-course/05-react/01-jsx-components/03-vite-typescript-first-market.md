@@ -47,7 +47,7 @@ corepack --version
 pnpm --version
 ```
 
-课程基线是 Node 24 LTS。2026-10-11 本轮教材验证实际使用 Node `v24.19.0` 与 pnpm `12.10.1`。这不是要求读者伪造输出；本机不同应如实记录并核对 Vite engine。
+课程基线是 Node 24 LTS。2026-10-11 本轮教材验证实际使用 Node `v24.19.0` 与 pnpm `12.11.2`。这不是要求读者伪造输出；本机不同应如实记录并核对 Vite engine。
 
 创建目录：
 
@@ -112,7 +112,7 @@ cd apps/react-web
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "packageManager": "pnpm@12.10.1",
+  "packageManager": "pnpm@12.11.2",
   "engines": {
     "node": ">=24"
   },
@@ -468,7 +468,7 @@ Vite 会转译 TypeScript，但不保证执行完整类型检查。正确构建�
 
 ## 12. 常见问题
 
-**为什么不使用 Create React App？**<br>
+**为什么主线选择 Vite？**<br>
 本书用 Vite 建立 SPA，再单独教学 SSR 与全栈框架边界；工具职责更清晰。
 
 **能把所有依赖写成 `latest` 吗？**<br>

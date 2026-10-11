@@ -250,7 +250,7 @@ market-learning/practice/css-08-transform/index.html
       </div>
       <p class="fixed-note">观察我相对视口还是变换祖先定位。</p>
     </section>
-    <pre id="report" role="status" aria-label="变换与合成报告"></pre>
+    <pre id="report" aria-label="变换与合成报告"></pre>
   </main>
   <script>
     const stage = document.querySelector("#stage");

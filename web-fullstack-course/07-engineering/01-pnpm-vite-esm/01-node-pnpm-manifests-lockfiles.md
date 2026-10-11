@@ -12,7 +12,7 @@
 | 失败证据 | 清单与锁文件不一致时，冻结安装以非零退出并报告锁文件过期 |
 | 环境边界 | 所有实验只在读者拥有的练习目录执行，不在教材仓库安装依赖 |
 
-本课使用 Node.js `24.21.0`、pnpm `12.10.1`、Vite `8.3.0`、TypeScript
+本课使用 Node.js `24.21.0`、pnpm `12.11.2`、Vite `8.3.4`、TypeScript
 7/6 并行别名。Vite 与编译器在本课只作为安装对象和版本探针，页面与双类型检查分别在后两课完成。
 
 ## 1. 任务背景
@@ -54,7 +54,7 @@ node --version
 pnpm --version
 ```
 
-目标输出分别是当前绝对路径、`v24.21.0` 与 `12.10.1`。补丁版本不符时不要伪造输出；
+目标输出分别是当前绝对路径、`v24.21.0` 与 `12.11.2`。补丁版本不符时不要伪造输出；
 先按 [版本基线](../../00-guide/02-version-baseline.md) 核对支持范围。本课不要求通过
 `sudo` 安装依赖，也不要求修改教材仓库或全书主线 workspace。
 
@@ -100,7 +100,7 @@ Node 不会替 pnpm 解析整张依赖图；pnpm 也不会替 Node 执行业务�
 | `devDependencies` | 声明开发与构建工具 | 不保证这些工具不会进入浏览器构建图 |
 
 直接依赖是当前清单主动声明的依赖。传递依赖是直接依赖为了完成自身工作而声明的依赖。
-即使直接版本写成精确的 `8.3.0`，传递依赖仍可能使用版本范围；锁文件负责记录本次实际解析结果。
+即使直接版本写成精确的 `8.3.4`，传递依赖仍可能使用版本范围；锁文件负责记录本次实际解析结果。
 
 ### 4.3 锁文件是工具生成的依赖图
 
@@ -176,12 +176,12 @@ ls -ld "$(pnpm store path)"
 | 项目 | 固定值或示例 | 文件角色与边界 |
 | --- | --- | --- |
 | Node.js | `24.21.0` | 执行 Node ESM；实际版本以 `node --version` 为准 |
-| pnpm | `12.10.1` | 解析依赖、生成锁文件、执行项目脚本 |
-| Vite | `8.3.0` | 后续开发服务、Rolldown 生产构建与预览 |
+| pnpm | `12.11.2` | 解析依赖、生成锁文件、执行项目脚本 |
+| Vite | `8.3.4` | 后续开发服务、Rolldown 生产构建与预览 |
 | `@typescript/native` | `npm:typescript@7.0.2` | TS 7 主 CLI，提供 `tsc` |
 | `typescript` | `npm:@typescript/typescript6@6.0.2` | TS 6 兼容 API 与 `tsc6` |
 | `.node-version` | `24.21.0` | 支持该文件的版本管理器可读取，普通 shell 不会自动切换 |
-| `packageManager` | `pnpm@12.10.1` | 工具选择契约，不是安装程序 |
+| `packageManager` | `pnpm@12.11.2` | 工具选择契约，不是安装程序 |
 | `engines.node` | `>=24.21.0 <25` | 允许范围，不是版本下载器 |
 | `pnpm-lock.yaml` | 由 `pnpm install` 生成 | 完整依赖解析，不手写 |
 | `node_modules` | 安装产物 | 可删除重建，不提交 |
@@ -218,7 +218,7 @@ pwd
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "packageManager": "pnpm@12.10.1",
+  "packageManager": "pnpm@12.11.2",
   "engines": {
     "node": ">=24.21.0 <25"
   },
@@ -230,7 +230,7 @@ pwd
   "devDependencies": {
     "@typescript/native": "npm:typescript@7.0.2",
     "typescript": "npm:@typescript/typescript6@6.0.2",
-    "vite": "8.3.0"
+    "vite": "8.3.4"
   }
 }
 ```
@@ -250,9 +250,9 @@ pnpm exec vite --version
 
 ```text
 v24.21.0
-12.10.1
+12.11.2
 lockfile: generated
-vite/8.3.0
+vite/8.3.4
 ```
 
 `pnpm list` 的树形符号和别名展示可能随终端变化，不把整段文本作为断言。关键证据是三项直接依赖可见、
@@ -271,7 +271,7 @@ pnpm install --frozen-lockfile
 pnpm exec vite --version
 ```
 
-预期冻结安装退出 `0`，Vite 再次报告 `8.3.0`。这证明 `node_modules` 是可恢复产物；
+预期冻结安装退出 `0`，Vite 再次报告 `8.3.4`。这证明 `node_modules` 是可恢复产物；
 它不证明公共 npm 源、离线缓存和另一操作系统已经验证。
 
 ## 7. 邻里集市集成案例
@@ -376,7 +376,7 @@ pnpm list --depth 0
 
 | 现象 | 证据 | 原因 | 修复 | 复验 |
 | --- | --- | --- | --- | --- |
-| 找不到 `package.json` 或脚本 | `pwd` 与 `test -f package.json` | 命令在父目录或其他工程运行 | `cd "$HOME/code/market-engineering-lab"` | `pnpm exec vite --version` 为 `8.3.0` |
+| 找不到 `package.json` 或脚本 | `pwd` 与 `test -f package.json` | 命令在父目录或其他工程运行 | `cd "$HOME/code/market-engineering-lab"` | `pnpm exec vite --version` 为 `8.3.4` |
 
 ### 8.3 权限或损坏安装
 
@@ -440,7 +440,7 @@ pnpm list --depth 0
 
 - 删除前保存 `pwd`、清单与锁文件存在证据；
 - 冻结安装成功；
-- `pnpm exec vite --version` 恢复为 `8.3.0`；
+- `pnpm exec vite --version` 恢复为 `8.3.4`；
 - 能解释此实验只证明安装产物可恢复，不证明生产部署或公共源可用。
 
 ## 11. 阶段验收
@@ -460,7 +460,7 @@ node src/print-listing.js
 
 通过标准：
 
-- Node 为 `v24.21.0`，pnpm 为 `12.10.1`，Vite 为 `8.3.0`；
+- Node 为 `v24.21.0`，pnpm 为 `12.11.2`，Vite 为 `8.3.4`；
 - 清单和锁文件都存在，锁文件由 pnpm 生成；
 - 冻结安装退出 `0`；
 - 邻里集市输出精确包含 `19.90` 与 UTC 时间；

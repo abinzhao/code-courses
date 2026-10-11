@@ -27,7 +27,7 @@
 
 ## 3. 预备知识
 
-验证环境目标为 Node 24 LTS、pnpm 12.10.1。实际运行前必须保存：
+验证环境目标为 Node 24 LTS、pnpm 12.11.2。实际运行前必须保存：
 
 ```bash
 node --version
@@ -216,7 +216,7 @@ describe('advanced SSR adoption boundary', () => {
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.64.0",
-    "@types/node": "26.6.5",
+    "@types/node": "24.19.2",
     "@vitejs/plugin-vue": "6.0.10",
     "@vue/test-utils": "2.5.1",
     "eslint": "10.12.0",
@@ -228,7 +228,7 @@ describe('advanced SSR adoption boundary', () => {
     "vite": "8.3.4",
     "vitest": "5.0.3",
     "vue-eslint-parser": "10.4.1",
-    "vue-tsc": "3.3.12"
+    "vue-tsc": "3.3.13"
   }
 }
 ```
@@ -432,7 +432,9 @@ function errorBody(code: string, message: string) {
 }
 
 function hasSession(req: IncomingMessage) {
-  return (req.headers.cookie ?? '').includes('demo_session=1')
+  return (req.headers.cookie ?? '')
+    .split(';')
+    .some(part => part.trim() === 'demo_session=1')
 }
 
 function teachingApi(): Plugin {
@@ -453,14 +455,35 @@ function teachingApi(): Plugin {
 
         try {
           const path = url.pathname.slice('/api/v1'.length)
+          if (
+            req.method !== 'GET' &&
+            req.headers['x-csrf-token'] !== 'demo-csrf'
+          ) {
+            send(res, 403, errorBody('CSRF', '缺少教学 CSRF 标记。'))
+            return
+          }
           if (req.method === 'GET' && path === '/listings') {
             const q = url.searchParams.get('q') ?? ''
             if (q === '__error') {
               send(res, 503, errorBody('SERVICE_UNAVAILABLE', '演示服务故障。'))
               return
             }
+            const pageText = url.searchParams.get('page') ?? '1'
+            const pageSizeText = url.searchParams.get('pageSize') ?? '20'
+            const requestedPage =
+              /^[1-9]\d*$/.test(pageText) ? Number(pageText) : 1
+            const pageSize = /^[1-9]\d*$/.test(pageSizeText)
+              ? Math.min(100, Number(pageSizeText))
+              : 20
             const items = listings.filter(item => item.title.includes(q))
-            send(res, 200, { items, page: 1, pageSize: 20, total: items.length })
+            const pageCount = Math.max(1, Math.ceil(items.length / pageSize))
+            const page = Math.min(requestedPage, pageCount)
+            send(res, 200, {
+              items: items.slice((page - 1) * pageSize, page * pageSize),
+              page,
+              pageSize,
+              total: items.length,
+            })
             return
           }
 
@@ -519,7 +542,7 @@ function teachingApi(): Plugin {
               (priceCents as number) < 0 ||
               (priceCents as number) > 100_000_000
             ) {
-              send(res, 422, errorBody('VALIDATION_FAILED', '发布内容不合法。'))
+              send(res, 400, errorBody('VALIDATION', '发布内容不合法。'))
               return
             }
             const listing: Listing = {
@@ -564,6 +587,7 @@ function teachingApi(): Plugin {
               id: `reservation-${id}`,
               listingId: id,
               buyerId: 'demo-buyer',
+              status: 'pending',
               createdAt: new Date().toISOString(),
             })
             return
@@ -625,6 +649,7 @@ export interface Reservation {
   id: string
   listingId: string
   buyerId: string
+  status: 'pending' | 'confirmed' | 'cancelled'
   createdAt: string
 }
 
@@ -656,41 +681,164 @@ export function money(cents: number) {
 **完整文件：`apps/vue-web/src/api.ts`**
 
 ```ts
+import type { Listing, Page, Reservation } from './domain'
+
 export class ApiError extends Error {
   constructor(
     public readonly status: number,
     message: string,
     public readonly code = 'UNKNOWN',
+    public readonly requestId = 'unknown',
   ) {
     super(message)
   }
 }
 
-type ErrorBody = { code?: string; message?: string }
+export class ResponseValidationError extends Error {}
+
+type RecordValue = Record<string, unknown>
+
+function record(value: unknown, label: string): RecordValue {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+    throw new ResponseValidationError(`${label} 不是对象。`)
+  }
+  return value as RecordValue
+}
+
+function text(value: unknown, label: string): string {
+  if (typeof value !== 'string') {
+    throw new ResponseValidationError(`${label} 不是字符串。`)
+  }
+  return value
+}
+
+function integer(value: unknown, label: string): number {
+  if (!Number.isSafeInteger(value)) {
+    throw new ResponseValidationError(`${label} 不是安全整数。`)
+  }
+  return value as number
+}
+
+function nonNegativeInteger(value: unknown, label: string): number {
+  const parsed = integer(value, label)
+  if (parsed < 0) {
+    throw new ResponseValidationError(`${label} 不能为负数。`)
+  }
+  return parsed
+}
+
+function positiveInteger(value: unknown, label: string): number {
+  const parsed = integer(value, label)
+  if (parsed < 1) {
+    throw new ResponseValidationError(`${label} 必须为正整数。`)
+  }
+  return parsed
+}
+
+function utcInstant(value: unknown, label: string): string {
+  const parsed = text(value, label)
+  const date = new Date(parsed)
+  if (Number.isNaN(date.valueOf()) || date.toISOString() !== parsed) {
+    throw new ResponseValidationError(`${label} 不是规范 UTC 时间。`)
+  }
+  return parsed
+}
+
+export function parseUser(value: unknown) {
+  const data = record(value, '用户响应')
+  return { id: text(data.id, 'user.id'), name: text(data.name, 'user.name') }
+}
+
+export function parseListing(value: unknown): Listing {
+  const data = record(value, '商品响应')
+  const status = text(data.status, 'listing.status')
+  if (!['available', 'reserved', 'sold'].includes(status)) {
+    throw new ResponseValidationError('listing.status 非法。')
+  }
+  return {
+    id: text(data.id, 'listing.id'),
+    title: text(data.title, 'listing.title'),
+    description: text(data.description, 'listing.description'),
+    priceCents: nonNegativeInteger(data.priceCents, 'listing.priceCents'),
+    status: status as Listing['status'],
+    ownerId: text(data.ownerId, 'listing.ownerId'),
+    version: positiveInteger(data.version, 'listing.version'),
+    createdAt: utcInstant(data.createdAt, 'listing.createdAt'),
+  }
+}
+
+export function parseListingPage(value: unknown): Page<Listing> {
+  const data = record(value, '分页响应')
+  if (!Array.isArray(data.items)) {
+    throw new ResponseValidationError('page.items 不是数组。')
+  }
+  return {
+    items: data.items.map(parseListing),
+    page: positiveInteger(data.page, 'page.page'),
+    pageSize: positiveInteger(data.pageSize, 'page.pageSize'),
+    total: nonNegativeInteger(data.total, 'page.total'),
+  }
+}
+
+export function parseReservation(value: unknown): Reservation {
+  const data = record(value, '预约响应')
+  const status = text(data.status, 'reservation.status')
+  if (!['pending', 'confirmed', 'cancelled'].includes(status)) {
+    throw new ResponseValidationError('reservation.status 非法。')
+  }
+  return {
+    id: text(data.id, 'reservation.id'),
+    listingId: text(data.listingId, 'reservation.listingId'),
+    buyerId: text(data.buyerId, 'reservation.buyerId'),
+    status: status as Reservation['status'],
+    createdAt: utcInstant(data.createdAt, 'reservation.createdAt'),
+  }
+}
+
+export function parseAck(value: unknown): RecordValue {
+  return record(value, '确认响应')
+}
+
+export function parseVoid(value: unknown): void {
+  if (value !== null && value !== undefined) {
+    throw new ResponseValidationError('空响应包含意外内容。')
+  }
+}
 
 export async function api<T>(
   path: string,
+  parse: (value: unknown) => T,
   init: RequestInit = {},
 ): Promise<T> {
+  const headers = new Headers(init.headers)
+  if (init.body) headers.set('Content-Type', 'application/json')
+  if ((init.method ?? 'GET').toUpperCase() !== 'GET') {
+    headers.set('X-CSRF-Token', 'demo-csrf')
+  }
   const response = await fetch(`/api/v1${path}`, {
     ...init,
     credentials: 'same-origin',
-    headers: {
-      ...(init.body ? { 'Content-Type': 'application/json' } : {}),
-      ...init.headers,
-    },
+    headers,
   })
   const text = await response.text()
-  const data = text ? JSON.parse(text) as unknown : null
+  let data: unknown
+  try {
+    data = text ? JSON.parse(text) as unknown : null
+  } catch {
+    throw new ResponseValidationError('响应不是合法 JSON。')
+  }
   if (!response.ok) {
-    const body = (data ?? {}) as ErrorBody
+    const body = record(data, '错误响应')
     throw new ApiError(
       response.status,
-      body.message ?? `请求失败（${response.status}）`,
-      body.code,
+      typeof body.message === 'string'
+        ? body.message
+        : `请求失败（${response.status}）`,
+      typeof body.code === 'string' ? body.code : 'UNKNOWN',
+      typeof body.requestId === 'string' ? body.requestId : 'unknown',
     )
   }
-  return data as T
+  return parse(data)
 }
 ```
 
@@ -699,7 +847,13 @@ export async function api<T>(
 ```ts
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import { api, ApiError } from '../api'
+import {
+  api,
+  ApiError,
+  parseAck,
+  parseUser,
+  parseVoid,
+} from '../api'
 
 export type UserSummary = { id: string; name: string }
 
@@ -729,7 +883,7 @@ export const useMarketStore = defineStore('market', () => {
     sessionStatus.value = 'loading'
     sessionError.value = ''
     try {
-      const result = await api<UserSummary>('/auth/me')
+      const result = await api('/auth/me', parseUser)
       if (token !== epoch.value) return
       user.value = result
       sessionStatus.value = 'ready'
@@ -752,7 +906,7 @@ export const useMarketStore = defineStore('market', () => {
     sessionStatus.value = 'loading'
     sessionError.value = ''
     try {
-      const result = await api<UserSummary>('/auth/login', {
+      const result = await api('/auth/login', parseUser, {
         method: 'POST',
         body: '{}',
       })
@@ -773,7 +927,7 @@ export const useMarketStore = defineStore('market', () => {
     sessionStatus.value = 'loading'
     sessionError.value = ''
     try {
-      await api('/auth/logout', { method: 'POST', body: '{}' })
+      await api('/auth/logout', parseVoid, { method: 'POST', body: '{}' })
       if (token !== epoch.value) return
       clearPrivateState()
       sessionStatus.value = 'ready'
@@ -791,7 +945,7 @@ export const useMarketStore = defineStore('market', () => {
     const token = epoch.value
     busyById.value = { ...busyById.value, [id]: true }
     try {
-      await api(`/favorites/${encodeURIComponent(id)}`, {
+      await api(`/favorites/${encodeURIComponent(id)}`, parseAck, {
         method: enabled ? 'PUT' : 'DELETE',
       })
       if (token !== epoch.value) return
@@ -855,8 +1009,9 @@ export const router = createRouter({
   routes,
 })
 
-router.afterEach(async to => {
+router.afterEach(async (to, from) => {
   document.title = `${String(to.meta.title ?? '邻里集市')} · 邻里集市`
+  if (from.name === undefined || to.path === from.path) return
   await nextTick()
   document.querySelector<HTMLElement>('main h1')?.focus()
 })
@@ -910,11 +1065,17 @@ async function logout() {
 
 ```vue
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
-import { api } from './api'
+import {
+  api,
+  ApiError,
+  parseListing,
+  parseListingPage,
+  parseReservation,
+} from './api'
 import { money, parsePrice } from './domain'
-import type { Listing, Page, Reservation } from './domain'
+import type { Listing, Page } from './domain'
 import { useMarketStore } from './stores/market'
 
 const route = useRoute()
@@ -926,19 +1087,45 @@ const feedback = ref('')
 const page = ref<Page<Listing> | null>(null)
 const detail = ref<Listing | null>(null)
 const searchDraft = ref('')
+const searchInput = ref<HTMLInputElement | null>(null)
 const publish = reactive({ title: '', description: '', price: '' })
 const pending = ref(false)
+let loadSequence = 0
+let activeController: AbortController | null = null
 
 const routeName = computed(() => String(route.name ?? ''))
 const selected = computed(() =>
   detail.value ? store.favoriteIds.includes(detail.value.id) : false,
 )
+const pageCount = computed(() =>
+  page.value
+    ? Math.max(1, Math.ceil(page.value.total / page.value.pageSize))
+    : 1,
+)
+
+function pageLocation(pageNumber: number) {
+  return {
+    name: 'listings',
+    query: {
+      ...(searchDraft.value ? { q: searchDraft.value } : {}),
+      page: String(pageNumber),
+    },
+  }
+}
 
 function message(reason: unknown) {
-  return reason instanceof Error ? reason.message : '请求失败。'
+  return reason instanceof ApiError
+    ? `${reason.status} ${reason.code}：${reason.message}（请求 ${reason.requestId}）`
+    : reason instanceof Error
+      ? reason.message
+      : '请求失败。'
 }
 
 async function loadRoute() {
+  const sequence = ++loadSequence
+  activeController?.abort()
+  const controller = new AbortController()
+  activeController = controller
   error.value = ''
   feedback.value = ''
   page.value = null
@@ -949,16 +1136,41 @@ async function loadRoute() {
   try {
     if (routeName.value === 'listings') {
       const q = typeof route.query.q === 'string' ? route.query.q : ''
-      page.value = await api<Page<Listing>>(`/listings?q=${encodeURIComponent(q)}`)
-    } else {
-      detail.value = await api<Listing>(
-        `/listings/${encodeURIComponent(String(route.params.id ?? ''))}`,
+      const pageNumber =
+        typeof route.query.page === 'string' && /^[1-9]\d*$/.test(route.query.page)
+          ? route.query.page
+          : '1'
+      const result = await api(
+        `/listings?q=${encodeURIComponent(q)}&page=${pageNumber}&pageSize=20`,
+        parseListingPage,
+        { signal: controller.signal },
       )
+      if (sequence !== loadSequence) return
+      if (result.page !== Number(pageNumber)) {
+        await router.replace({
+          name: 'listings',
+          query: {
+            ...(q ? { q } : {}),
+            page: String(result.page),
+          },
+        })
+        return
+      }
+      page.value = result
+    } else {
+      const result = await api(
+        `/listings/${encodeURIComponent(String(route.params.id ?? ''))}`,
+        parseListing,
+        { signal: controller.signal },
+      )
+      if (sequence === loadSequence) detail.value = result
     }
   } catch (reason) {
-    error.value = message(reason)
+    if (!controller.signal.aborted && sequence === loadSequence) {
+      error.value = message(reason)
+    }
   } finally {
-    loading.value = false
+    if (sequence === loadSequence) loading.value = false
   }
 }
 
@@ -969,6 +1181,8 @@ async function search() {
     name: 'listings',
     query: searchDraft.value ? { q: searchDraft.value } : {},
   })
+  await nextTick()
+  searchInput.value?.focus()
 }
 
 async function login() {
@@ -997,7 +1211,7 @@ async function createListing() {
   }
   pending.value = true
   try {
-    const created = await api<Listing>('/listings', {
+    const created = await api('/listings', parseListing, {
       method: 'POST',
       body: JSON.stringify({
         title: publish.title.trim(),
@@ -1034,8 +1248,9 @@ async function reserve() {
   error.value = ''
   feedback.value = ''
   try {
-    const reservation = await api<Reservation>(
+    const reservation = await api(
       `/listings/${encodeURIComponent(detail.value.id)}/reservations`,
+      parseReservation,
       { method: 'POST', body: '{}' },
     )
     feedback.value = `预约成功，编号：${reservation.id}`
@@ -1049,12 +1264,12 @@ async function reserve() {
 </script>
 
 <template>
-  <main id="main">
+  <main id="main" tabindex="-1">
     <section v-if="routeName === 'listings'">
       <h1 tabindex="-1">商品列表</h1>
       <form @submit.prevent="search">
         <label for="search">搜索标题</label>
-        <input id="search" v-model="searchDraft" name="q">
+        <input id="search" ref="searchInput" v-model="searchDraft" name="q">
         <button>筛选</button>
         <RouterLink v-if="route.query.q" to="/listings">清除筛选</RouterLink>
       </form>
@@ -1071,16 +1286,28 @@ async function reserve() {
           <p>{{ money(item.priceCents) }} · {{ item.status }}</p>
         </article>
       </section>
+      <nav v-if="page" aria-label="分页">
+        <RouterLink
+          v-if="page.page > 1"
+          :to="pageLocation(page.page - 1)"
+        >上一页</RouterLink>
+        <span>第 {{ page.page }} / {{ pageCount }} 页</span>
+        <RouterLink
+          v-if="page.page < pageCount"
+          :to="pageLocation(page.page + 1)"
+        >下一页</RouterLink>
+      </nav>
     </section>
 
     <section v-else-if="routeName === 'detail'">
       <h1 tabindex="-1">{{ detail?.title ?? '商品详情' }}</h1>
       <p v-if="loading" role="status">正在加载详情……</p>
-      <div v-else-if="error" role="alert">
+      <div v-else-if="error && !detail" role="alert">
         <p>{{ error }}</p>
         <RouterLink to="/listings">返回商品列表</RouterLink>
       </div>
       <article v-else-if="detail">
+        <p v-if="error" role="alert">{{ error }}</p>
         <p>{{ detail.description }}</p>
         <p>{{ money(detail.priceCents) }}</p>
         <p>状态：{{ detail.status }}</p>
@@ -1201,6 +1428,11 @@ button, a { min-height: 2.5rem; }
 
 ```ts
 import { describe, expect, it } from 'vitest'
+import {
+  parseListing,
+  parseListingPage,
+  ResponseValidationError,
+} from './api'
 import { parsePrice } from './domain'
 
 describe('price-and-draft-contract', () => {
@@ -1215,6 +1447,32 @@ describe('price-and-draft-contract', () => {
     ['1000000.01', null],
   ])('%s -> %s', (input, expected) => {
     expect(parsePrice(input)).toBe(expected)
+  })
+
+  it('畸形成功响应被运行时 parser 拒绝', () => {
+    const valid = {
+      id: 'lamp-1',
+      title: '台灯',
+      description: '完整字段',
+      priceCents: 3500,
+      status: 'available',
+      ownerId: 'seller-1',
+      version: 1,
+      createdAt: '2026-10-11T08:00:00.000Z',
+    }
+    for (const invalid of [
+      { ...valid, priceCents: -1 },
+      { ...valid, version: 0 },
+      { ...valid, createdAt: '2026-10-11' },
+    ]) {
+      expect(() => parseListing(invalid)).toThrow(ResponseValidationError)
+    }
+    expect(() => parseListingPage({
+      items: [valid],
+      page: 0,
+      pageSize: 20,
+      total: -1,
+    })).toThrow(ResponseValidationError)
   })
 })
 ```
@@ -1316,6 +1574,51 @@ test('search-empty-and-recovery', async ({ page }) => {
   await expect(page.getByRole('heading', { name: '九成新台灯' })).toBeVisible()
 })
 
+test('keyboard-primary-path', async ({ page }) => {
+  await page.goto('/listings')
+  await page.keyboard.press('Tab')
+  await expect(page.getByRole('link', { name: '跳到主要内容' })).toBeFocused()
+  await page.keyboard.press('Enter')
+  await expect(page.locator('main')).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(page.getByLabel('搜索标题')).toBeFocused()
+  await page.keyboard.type('台灯')
+  await page.keyboard.press('Tab')
+  await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(/q=/)
+  await expect(page.getByRole('heading', { name: '九成新台灯' })).toBeVisible()
+  await expect(page.getByLabel('搜索标题')).toBeFocused()
+})
+
+test('pagination-normalizes-an-out-of-range-page', async ({ page }) => {
+  await page.goto('/listings?page=999')
+  await expect(page).toHaveURL(/page=1/)
+  await expect(page.getByRole('navigation', { name: '分页' }))
+    .toContainText('第 1 / 1 页')
+})
+
+test('failed-publish-keeps-draft', async ({ page }) => {
+  await page.goto('/login')
+  await page.getByRole('button', { name: '以演示居民登录' }).click()
+  await page.getByRole('link', { name: '发布', exact: true }).click()
+  await page.getByLabel('标题', { exact: true }).fill('__error')
+  await page.getByLabel('描述', { exact: true }).fill('保留这份失败草稿。')
+  await page.getByLabel('价格（元）').fill('120.00')
+  await page.getByRole('button', { name: '发布', exact: true }).click()
+  await expect(page.getByRole('alert')).toContainText('503 SERVICE_UNAVAILABLE')
+  await expect(page.getByLabel('标题', { exact: true })).toHaveValue('__error')
+  await expect(page.getByLabel('描述', { exact: true }))
+    .toHaveValue('保留这份失败草稿。')
+  await expect(page.getByLabel('价格（元）')).toHaveValue('120.00')
+})
+
+test('not-found-and-service-failure', async ({ page }) => {
+  await page.goto('/listings/missing')
+  await expect(page.getByRole('alert')).toContainText('404 NOT_FOUND')
+  await page.goto('/listings?q=__error')
+  await expect(page.getByRole('alert')).toContainText('503 SERVICE_UNAVAILABLE')
+})
+
 test('login-publish-favorite-logout', async ({ page }) => {
   await page.goto('/login')
   await page.getByRole('button', { name: '以演示居民登录' }).click()
@@ -1343,7 +1646,9 @@ test('reservation-conflict-across-tabs', async ({ page, context }) => {
   await page.getByRole('button', { name: '预约', exact: true }).click()
   await expect(page.getByRole('status')).toContainText('预约成功')
   await second.getByRole('button', { name: '预约', exact: true }).click()
-  await expect(second.getByRole('alert')).toContainText('商品已被预约')
+  await expect(second.getByRole('alert'))
+    .toContainText('409 RESERVATION_CONFLICT')
+  await expect(second.getByRole('alert')).toContainText('请求 demo-request-id')
   await second.close()
 })
 ```
@@ -1726,7 +2031,7 @@ stream.on('error', () => res.writeHead(503))
 | `login-publish-favorite-logout` | E2E | 完整主路径 |
 | `reservation-conflict-across-tabs` | E2E | 一次成功、一次 409 |
 | `not-found-and-service-failure` | 第 6 章/E2E 扩展 | 404/503 可恢复 |
-| `keyboard-primary-path` | 第 6 章/代表性 Chromium | Tab/Enter/Escape 可用 |
+| `keyboard-primary-path` | Capstone E2E | Tab/Enter 与路由焦点恢复可用 |
 | `ssr-html-and-hydration` | SSR/Chromium | raw HTML、无 JS、0→1 |
 
 完成还要求：
@@ -1766,4 +2071,4 @@ stream.on('error', () => res.writeHead(503))
 
 ## 单元导航
 
-[上一课：Vite Vue SSR 与请求隔离](02-vite-vue-ssr-serialization-isolation.md) · [返回章入口](../08-ssr-capstone.md) · [Vue 学习路线](../README.md)
+[上一课：Vite Vue SSR 与请求隔离](02-vite-vue-ssr-serialization-isolation.md) · [返回章入口](../08-ssr-capstone.md) · [Vue 覆盖矩阵](../VUE-COVERAGE.md)

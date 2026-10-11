@@ -8,7 +8,7 @@
 | 最小案例 | `apps/lab-web` 使用公共 token 展示 `19.90` 与 `0.00`，键盘切换主题 |
 | 关键故障 | 文字和表面颜色对比度降到 `1.26:1` 时构建仍成功，但浏览器验收失败 |
 | 运行位置 | 第 1、2 课的 `market-workspace/`；React/Vue 文件进入各自已有课程应用 |
-| 固定工具 | Node.js `24.21.0`、pnpm `12.10.1`、Vite `8.3.0`、现代 Chromium |
+| 固定工具 | Node.js `24.21.0`、pnpm `12.11.2`、Vite `8.3.4`、现代 Chromium |
 | 完成时间 | 约 120 分钟 |
 | 明确边界 | Chromium 模拟不是 Windows 高对比度、Firefox、WebKit 或真实辅助技术验收 |
 
@@ -174,7 +174,7 @@ React 与 Vue 等价卡片都应：
 | `forced-color-adjust` | 控制 UA 强制调色 | 保持默认 `auto` | `none` 需极强证据 |
 | `:focus-visible` | 键盘型焦点样式 | 明确 outline | 不应只靠颜色微变 |
 | `getComputedStyle` | 读取浏览器最终样式 | 调试最终 token | 不能单独完成辅助技术验收 |
-| Vite `8.3.0` | 构建 CSS 与应用 | 生产构建证据 | 不计算可读性或授权 |
+| Vite `8.3.4` | 构建 CSS 与应用 | 生产构建证据 | 不计算可读性或授权 |
 
 ## 6. 最小可运行案例
 

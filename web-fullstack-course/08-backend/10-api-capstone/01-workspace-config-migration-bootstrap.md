@@ -8,7 +8,7 @@
 | 前置 | 已完成后端前九章，并阅读[版本基线](../../00-guide/02-version-baseline.md)与[统一项目契约](../../00-guide/05-project-assessment.md) |
 | 建议投入 | 4 小时录入与审查，1 小时结构和配置故障实验 |
 | 唯一完整源码 owner | **本课独占全部 25 个项目文件**；第 02、03、04 课只能引用路径或展示必要片段 |
-| 临时工作区 | `/tmp/full-course-verification/batch-e/market-api-capstone` |
+| 临时工作区 | `/tmp/web-fullstack-modernization/batch-5/market-api-capstone` |
 | 数据边界 | 金额为非负整数分；对外时间为 UTC ISO 8601；测试数据使用 `.test` 保留域 |
 | 成功证据 | 25 个文件一一提取；配置错误在监听前失败；迁移按 manifest 执行且 checksum 不漂移 |
 | 失败证据 | 重复路径、缺失文件、占位配置、迁移改写、非 `_test` 测试库或非 PostgreSQL 18 均明确失败 |
@@ -53,7 +53,7 @@ API_CAPSTONE_FILE_END(path)
 完成本课后，你能够：
 
 1. 用 expected manifest 检查完整文件集合，而不是凭目录猜测；
-2. 固定 Node.js 24、pnpm 12.10.1、NestJS 12.1.1 和直接依赖精确版本；
+2. 固定 Node.js 24、pnpm 12.11.2、NestJS 12.1.2 和直接依赖精确版本；
 3. 区分教材源码、首次生成的 lockfile、依赖目录和构建产物；
 4. 在监听端口和连接业务数据库前校验 `DATABASE_URL`、`APP_ORIGIN`、`PORT` 与环境；
 5. 强制测试只连接 `_test` 数据库，并核对 PostgreSQL 服务端主版本 18；
@@ -74,7 +74,7 @@ psql --version
 pg_isready --version
 ```
 
-目标 Node 是受支持的 24 LTS，包管理器为 `12.10.1`。`psql` 客户端版本不能证明服务器版本；
+目标 Node 是受支持的 24 LTS，包管理器为 `12.11.2`。`psql` 客户端版本不能证明服务器版本；
 真正的服务端版本必须在连接目标数据库后执行 `SHOW server_version_num`。若 PostgreSQL 18 未
 运行，保留 `pg_isready`、连接命令和原始错误，只继续做文档与可静态执行检查，不写“验收通过”。
 
@@ -98,10 +98,10 @@ pg_isready --version
 | 组件 | 精确声明 | 责任 |
 | --- | --- | --- |
 | Node.js | `24.21.0` | ESM、fetch、test runner、生命周期 |
-| pnpm | `12.10.1` | workspace、lockfile、脚本 |
-| NestJS | `12.1.1` | 模块、控制器、guard、filter |
+| pnpm | `12.11.2` | workspace、lockfile、脚本 |
+| NestJS | `12.1.2` | 模块、控制器、guard、filter |
 | TypeScript | `6.0.3` | 本项目兼容编译线，不称为最新 |
-| `pg` | `8.16.3` | PostgreSQL 连接池和参数化 SQL |
+| `pg` | `8.23.1` | PostgreSQL 连接池和参数化 SQL |
 | PostgreSQL | 服务端主版本 `18` | 约束、事务、锁、部分唯一索引 |
 
 TypeScript 7 是全书语言主线。本项目固定 TS 6.0.3，是为了保留传统装饰器元数据和生态兼容
@@ -232,8 +232,8 @@ API 前缀固定 `/api/v1`。成功路径和边界沿用统一项目契约：
 | `PATCH /listings/:id` | `200` | `403` 非 owner，`409` 旧 version |
 | `PUT/DELETE /favorites/:id` | `200` 幂等目标状态 | `401/403/404` |
 | `POST /listings/:id/reservations` | `201` | `403` 自己商品，`409` 已预约 |
-| `POST /auth/register` | `202` 通用受理响应 | `400` DTO，`403` Origin；重复邮箱不公开 |
-| `POST /auth/login` | `200` + Cookie | `401` 通用凭据错误 |
+| `POST /auth/register` | `202` 通用受理响应 | `400` DTO，`403` Origin，`429` 尝试过多；重复邮箱不公开 |
+| `POST /auth/login` | `200` + Cookie | `401` 通用凭据错误，`429` 尝试过多 |
 | `GET /auth/me` | `200` | `401` 会话缺失或过期 |
 | `POST /auth/logout` | `200` | `401/403` |
 | `GET /admin/stats` | `200` | `401` 未登录，`403` 非管理员 |
@@ -266,7 +266,7 @@ API 前缀固定 `/api/v1`。成功路径和边界沿用统一项目契约：
 {
   "name": "market-api-capstone",
   "private": true,
-  "packageManager": "pnpm@12.10.1",
+  "packageManager": "pnpm@12.11.2",
   "scripts": {
     "build": "pnpm --filter @market/api build",
     "migrate": "pnpm --filter @market/api migrate",
@@ -375,19 +375,19 @@ export interface ApiError {
   },
   "dependencies": {
     "@market/contracts": "workspace:*",
-    "@nestjs/common": "12.1.1",
-    "@nestjs/core": "12.1.1",
-    "@nestjs/platform-express": "12.1.1",
+    "@nestjs/common": "12.1.2",
+    "@nestjs/core": "12.1.2",
+    "@nestjs/platform-express": "12.1.2",
     "class-transformer": "0.5.1",
-    "class-validator": "0.14.2",
-    "pg": "8.16.3",
+    "class-validator": "0.15.1",
+    "pg": "8.23.1",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2"
   },
   "devDependencies": {
-    "@types/express": "5.0.3",
-    "@types/node": "24.0.0",
-    "@types/pg": "8.15.5",
+    "@types/express": "5.0.6",
+    "@types/node": "24.19.2",
+    "@types/pg": "8.23.1",
     "typescript": "6.0.3"
   }
 }
@@ -733,6 +733,16 @@ export function fail(status: number, code: string, message: string): never {
   throw new HttpException({ code, message }, status);
 }
 
+export function isPgConstraint(
+  error: unknown,
+  code: string,
+  constraint: string
+): boolean {
+  if (!error || typeof error !== "object") return false;
+  const value = error as { code?: unknown; constraint?: unknown };
+  return value.code === code && value.constraint === constraint;
+}
+
 function internalContext(error: unknown): Record<string, string> {
   if (!error || typeof error !== "object") return { errorType: typeof error };
   const value = error as { name?: unknown; code?: unknown };
@@ -763,6 +773,7 @@ export class ApiFilter implements ExceptionFilter {
       404: "NOT_FOUND",
       409: "CONFLICT",
       413: "BODY_TOO_LARGE",
+      429: "RATE_LIMITED",
       503: "UNAVAILABLE"
     };
     const requestId = request.requestId ?? randomUUID();
@@ -913,13 +924,18 @@ export class ListingsRepo {
   constructor(private readonly db: Db) {}
 
   async find(id: string, target: SqlTarget = this.db.pool): Promise<Listing | null> {
-    const result = await target.query("SELECT * FROM listings WHERE id=$1", [id]);
+    const result = await target.query(
+      `SELECT id,title,description,price_cents,status,owner_id,version,created_at
+       FROM listings WHERE id=$1`,
+      [id]
+    );
     return result.rows[0] ? toListing(result.rows[0]) : null;
   }
 
   async lock(id: string, client: PoolClient): Promise<QueryResultRow | null> {
     const result = await client.query(
-      "SELECT * FROM listings WHERE id=$1 FOR UPDATE",
+      `SELECT id,title,description,price_cents,status,owner_id,version,created_at
+       FROM listings WHERE id=$1 FOR UPDATE`,
       [id]
     );
     return result.rows[0] ?? null;
@@ -931,7 +947,8 @@ export class ListingsRepo {
     try {
       await client.query("BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY");
       const rows = await client.query(
-        `SELECT * FROM listings
+        `SELECT id,title,description,price_cents,status,owner_id,version,created_at
+         FROM listings
          WHERE title ILIKE $1 ESCAPE E'\\\\'
          ORDER BY created_at DESC, id DESC
          LIMIT $2 OFFSET $3`,
@@ -961,7 +978,8 @@ export class ListingsRepo {
     const result = await this.db.pool.query(
       `INSERT INTO listings(id,title,description,price_cents,owner_id)
        VALUES ($1,$2,$3,$4,$5)
-       RETURNING *`,
+       RETURNING
+         id,title,description,price_cents,status,owner_id,version,created_at`,
       [
         randomUUID(),
         input.title.trim(),
@@ -982,7 +1000,8 @@ export class ListingsRepo {
       `UPDATE listings
        SET title=$1, description=$2, price_cents=$3, version=version+1
        WHERE id=$4 AND owner_id=$5 AND version=$6
-       RETURNING *`,
+       RETURNING
+         id,title,description,price_cents,status,owner_id,version,created_at`,
       [
         input.title.trim(),
         input.description,
@@ -1036,7 +1055,7 @@ export class ReservationsRepo {
     const result = await client.query(
       `INSERT INTO reservations(id,listing_id,buyer_id)
        VALUES ($1,$2,$3)
-       RETURNING *`,
+       RETURNING id,listing_id,buyer_id,status,created_at`,
       [randomUUID(), listingId, buyerId]
     );
     return toReservation(result.rows[0]);
@@ -1055,7 +1074,7 @@ import type {
   CreateListingDto,
   PatchListingDto
 } from "./dto.js";
-import { fail } from "./errors.js";
+import { fail, isPgConstraint } from "./errors.js";
 import {
   FavoritesRepo,
   ListingsRepo,
@@ -1138,10 +1157,16 @@ export class MarketService {
           );
         }
       }
-      const code = (error as { code?: string }).code;
-      if (code === "23505") {
+      if (
+        isPgConstraint(
+          error,
+          "23505",
+          "reservations_one_active_per_listing_idx"
+        )
+      ) {
         fail(409, "RESERVATION_CONFLICT", "已有有效预约");
       }
+      const code = (error as { code?: string }).code;
       if (code === "55P03") {
         fail(503, "BUSY", "资源繁忙，请稍后重试");
       }
@@ -1172,28 +1197,161 @@ import {
 } from "node:crypto";
 import { Db } from "./db.js";
 import type { CredentialsDto } from "./dto.js";
-import { fail } from "./errors.js";
+import { fail, isPgConstraint } from "./errors.js";
 import type { AppRequest } from "./errors.js";
 import { loadConfig } from "./config.js";
 
-const scryptOptions = {
+interface ScryptParameters {
+  N: number;
+  r: number;
+  p: number;
+  keyLength: number;
+}
+
+const currentScrypt: ScryptParameters = {
   N: 32768,
   r: 8,
   p: 1,
-  maxmem: 64 * 1024 * 1024
+  keyLength: 64
 };
 
-function derive(password: string, salt: string): Promise<Buffer> {
+function derive(
+  password: string,
+  salt: string,
+  parameters: ScryptParameters
+): Promise<Buffer> {
   return new Promise((resolve, reject) => {
-    scrypt(password, salt, 64, scryptOptions, (error, key) => {
-      if (error) reject(error);
-      else resolve(key);
-    });
+    scrypt(
+      password,
+      salt,
+      parameters.keyLength,
+      {
+        N: parameters.N,
+        r: parameters.r,
+        p: parameters.p,
+        maxmem: 128 * 1024 * 1024
+      },
+      (error, key) => {
+        if (error) reject(error);
+        else resolve(key);
+      }
+    );
   });
 }
 
 const digest = (value: string) =>
   createHash("sha256").update(value).digest("hex");
+
+function parsePasswordRecord(record: string): {
+  parameters: ScryptParameters;
+  salt: string;
+  expected: Buffer;
+} | null {
+  const [algorithm, rawN, rawR, rawP, rawLength, salt, hex, extra] =
+    record.split("$");
+  const parameters = {
+    N: Number(rawN),
+    r: Number(rawR),
+    p: Number(rawP),
+    keyLength: Number(rawLength)
+  };
+  if (
+    extra !== undefined ||
+    algorithm !== "scrypt" ||
+    !Number.isInteger(parameters.N) ||
+    parameters.N < 16384 ||
+    parameters.N > 65536 ||
+    (parameters.N & (parameters.N - 1)) !== 0 ||
+    !Number.isInteger(parameters.r) ||
+    parameters.r < 1 ||
+    parameters.r > 16 ||
+    !Number.isInteger(parameters.p) ||
+    parameters.p < 1 ||
+    parameters.p > 4 ||
+    parameters.keyLength !== 64 ||
+    !/^[a-f0-9]{32}$/.test(salt ?? "") ||
+    !/^[a-f0-9]{128}$/.test(hex ?? "")
+  ) {
+    return null;
+  }
+  return {
+    parameters,
+    salt,
+    expected: Buffer.from(hex, "hex")
+  };
+}
+
+const dummyPasswordRecord = [
+  "scrypt",
+  currentScrypt.N,
+  currentScrypt.r,
+  currentScrypt.p,
+  currentScrypt.keyLength,
+  "0".repeat(32),
+  "0".repeat(128)
+].join("$");
+
+export async function hashPassword(
+  password: string,
+  parameters: ScryptParameters = currentScrypt
+): Promise<string> {
+  const salt = randomBytes(16).toString("hex");
+  const key = await derive(password, salt, parameters);
+  return [
+    "scrypt",
+    parameters.N,
+    parameters.r,
+    parameters.p,
+    parameters.keyLength,
+    salt,
+    key.toString("hex")
+  ].join("$");
+}
+
+export async function verifyPassword(
+  password: string,
+  record: string
+): Promise<boolean> {
+  const parsed = parsePasswordRecord(record);
+  const safe = parsed ?? parsePasswordRecord(dummyPasswordRecord)!;
+  const actual = await derive(password, safe.salt, safe.parameters);
+  return (
+    parsed !== null &&
+    safe.expected.length === actual.length &&
+    timingSafeEqual(safe.expected, actual)
+  );
+}
+
+@Injectable()
+export class AuthAttemptLimiter {
+  private readonly buckets = new Map<
+    string,
+    { count: number; resetAt: number }
+  >();
+
+  consume(
+    scope: string,
+    identifier: string,
+    limit = 5,
+    now = Date.now()
+  ): void {
+    const key = `${scope}:${digest(identifier)}`;
+    const current = this.buckets.get(key);
+    if (!current || current.resetAt <= now) {
+      this.buckets.set(key, { count: 1, resetAt: now + 60_000 });
+    } else {
+      if (current.count >= limit) {
+        fail(429, "RATE_LIMITED", "请求过于频繁，请稍后重试");
+      }
+      current.count += 1;
+    }
+    if (this.buckets.size > 10_000) {
+      for (const [bucketKey, bucket] of this.buckets) {
+        if (bucket.resetAt <= now) this.buckets.delete(bucketKey);
+      }
+    }
+  }
+}
 
 const publicUser = (row: {
   id: string;
@@ -1216,8 +1374,7 @@ export class AuthService {
   constructor(private readonly db: Db) {}
 
   async register(body: CredentialsDto) {
-    const salt = randomBytes(16).toString("hex");
-    const key = await derive(body.password, salt);
+    const passwordHash = await hashPassword(body.password);
     try {
       await this.db.pool.query(
         `INSERT INTO users(id,email,password_hash)
@@ -1225,11 +1382,11 @@ export class AuthService {
         [
           randomUUID(),
           body.email.toLowerCase(),
-          `${salt}:${key.toString("hex")}`
+          passwordHash
         ]
       );
     } catch (error) {
-      if ((error as { code?: string }).code === "23505") {
+      if (isPgConstraint(error, "23505", "users_email_unique")) {
         return { accepted: true as const };
       }
       throw error;
@@ -1239,20 +1396,15 @@ export class AuthService {
 
   async login(body: CredentialsDto) {
     const found = await this.db.pool.query(
-      "SELECT * FROM users WHERE email=$1",
+      "SELECT id,email,role,password_hash FROM users WHERE email=$1",
       [body.email.toLowerCase()]
     );
     const row = found.rows[0];
-    const [salt, hex] = row
-      ? row.password_hash.split(":")
-      : ["0".repeat(32), "0".repeat(128)];
-    const actual = await derive(body.password, salt);
-    const expected = Buffer.from(hex, "hex");
-    if (
-      !row ||
-      expected.length !== actual.length ||
-      !timingSafeEqual(expected, actual)
-    ) {
+    const valid = await verifyPassword(
+      body.password,
+      row?.password_hash ?? dummyPasswordRecord
+    );
+    if (!row || !valid) {
       fail(401, "INVALID_CREDENTIALS", "邮箱或密码错误");
     }
 
@@ -1349,7 +1501,12 @@ import {
   UseGuards
 } from "@nestjs/common";
 import type { Response } from "express";
-import { AuthService, requireOrigin, SessionGuard } from "./auth.js";
+import {
+  AuthAttemptLimiter,
+  AuthService,
+  requireOrigin,
+  SessionGuard
+} from "./auth.js";
 import { Db } from "./db.js";
 import {
   CreateListingDto,
@@ -1435,7 +1592,25 @@ export class FavoritesController {
 
 @Controller("auth")
 export class AuthController {
-  constructor(private readonly auth: AuthService) {}
+  constructor(
+    private readonly auth: AuthService,
+    private readonly limiter: AuthAttemptLimiter =
+      new AuthAttemptLimiter()
+  ) {}
+
+  private limit(
+    scope: "register" | "login",
+    body: CredentialsDto,
+    request: AppRequest
+  ): void {
+    const address = request.socket.remoteAddress ?? "unknown";
+    this.limiter.consume(`${scope}:ip`, address, 20);
+    this.limiter.consume(
+      `${scope}:account`,
+      body.email.trim().toLowerCase(),
+      5
+    );
+  }
 
   @Post("register")
   @HttpCode(202)
@@ -1444,6 +1619,7 @@ export class AuthController {
     @Req() request: AppRequest
   ) {
     requireOrigin(request);
+    this.limit("register", body, request);
     return this.auth.register(body);
   }
 
@@ -1455,6 +1631,7 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response
   ) {
     requireOrigin(request);
+    this.limit("login", body, request);
     const result = await this.auth.login(body);
     const production = process.env.NODE_ENV === "production";
     response.cookie("sid", result.token, {
@@ -1543,7 +1720,11 @@ export class SystemController {
 <!-- API_CAPSTONE_FILE_BEGIN path="apps/api/src/app.ts" owner="01" -->
 ```ts
 import { Module } from "@nestjs/common";
-import { AuthService, SessionGuard } from "./auth.js";
+import {
+  AuthAttemptLimiter,
+  AuthService,
+  SessionGuard
+} from "./auth.js";
 import {
   AuthController,
   FavoritesController,
@@ -1571,6 +1752,7 @@ import { MarketService } from "./service.js";
     FavoritesRepo,
     ReservationsRepo,
     MarketService,
+    AuthAttemptLimiter,
     AuthService,
     SessionGuard
   ]
@@ -1688,7 +1870,7 @@ const options = {
   N: 32768,
   r: 8,
   p: 1,
-  maxmem: 64 * 1024 * 1024
+  maxmem: 128 * 1024 * 1024
 };
 const key = await new Promise((resolve, reject) => {
   scrypt(password, salt, 64, options, (error, derived) => {
@@ -1696,7 +1878,15 @@ const key = await new Promise((resolve, reject) => {
     else resolve(derived);
   });
 });
-const passwordHash = `${salt}:${key.toString("hex")}`;
+const passwordHash = [
+  "scrypt",
+  options.N,
+  options.r,
+  options.p,
+  64,
+  salt,
+  key.toString("hex")
+].join("$");
 
 const pool = new pg.Pool({ connectionString: databaseUrl, max: 1 });
 const client = await pool.connect();
@@ -1773,10 +1963,158 @@ try {
 <!-- API_CAPSTONE_FILE_BEGIN path="apps/api/test/api.test.mjs" owner="01" -->
 ```js
 import assert from "node:assert/strict";
-import { randomUUID } from "node:crypto";
+import { randomBytes, randomUUID, scrypt } from "node:crypto";
+import { readFile } from "node:fs/promises";
+import { promisify } from "node:util";
 import test from "node:test";
 import pg from "pg";
+import { AuthService } from "../dist/auth.js";
 import { createApp } from "../dist/bootstrap.js";
+import { AuthController } from "../dist/controller.js";
+import { MarketService } from "../dist/service.js";
+
+const derive = promisify(scrypt);
+
+test("纯逻辑：唯一约束只映射已知业务冲突", async () => {
+  const unrelated = {
+    code: "23505",
+    constraint: "users_external_id_unique"
+  };
+  const auth = new AuthService({
+    pool: {
+      async query() {
+        throw unrelated;
+      }
+    }
+  });
+  await assert.rejects(
+    auth.register({
+      email: "constraint@example.test",
+      password: "example-only-password"
+    }),
+    (error) => error === unrelated
+  );
+
+  const client = {
+    async query(sql) {
+      if (sql === "BEGIN" || sql.startsWith("SET LOCAL") || sql === "ROLLBACK") {
+        return { rows: [], rowCount: 0 };
+      }
+      throw new Error(`unexpected SQL: ${sql}`);
+    },
+    release() {}
+  };
+  const service = new MarketService(
+    { pool: { async connect() { return client; } } },
+    {
+      async lock() {
+        return {
+          id: randomUUID(),
+          owner_id: randomUUID(),
+          status: "available"
+        };
+      }
+    },
+    {},
+    {
+      async create() {
+        throw unrelated;
+      }
+    }
+  );
+  await assert.rejects(
+    service.reserve(randomUUID(), {
+      id: randomUUID(),
+      email: "buyer@example.test",
+      role: "user"
+    }),
+    (error) => error === unrelated
+  );
+});
+
+test("纯逻辑：密码记录携带参数并可在参数调整后验证", async () => {
+  const password = "example-only-password";
+  const salt = randomBytes(16).toString("hex");
+  const key = await derive(password, salt, 64, {
+    N: 16384,
+    r: 8,
+    p: 1,
+    maxmem: 64 * 1024 * 1024
+  });
+  const record = [
+    "scrypt",
+    "16384",
+    "8",
+    "1",
+    "64",
+    salt,
+    key.toString("hex")
+  ].join("$");
+  const calls = [];
+  const auth = new AuthService({
+    pool: {
+      async query(sql) {
+        calls.push(sql);
+        if (sql.startsWith("SELECT")) {
+          return {
+            rows: [{
+              id: randomUUID(),
+              email: "legacy-params@example.test",
+              role: "user",
+              password_hash: record
+            }]
+          };
+        }
+        return { rows: [], rowCount: 1 };
+      }
+    }
+  });
+  const result = await auth.login({
+    email: "legacy-params@example.test",
+    password
+  });
+  assert.equal(result.user.email, "legacy-params@example.test");
+  assert.equal(calls.length, 2);
+});
+
+test("纯逻辑：公开认证端点具有有界尝试预算", async () => {
+  process.env.DATABASE_URL =
+    "postgresql://APP_USER:REPLACE_LOCAL_PASSWORD@127.0.0.1:5432/market_test";
+  process.env.APP_ORIGIN = "http://localhost:5173";
+  process.env.NODE_ENV = "test";
+  process.env.PORT = "3001";
+  const controller = new AuthController({
+    async register() {
+      return { accepted: true };
+    }
+  });
+  const body = {
+    email: "limited@example.test",
+    password: "example-only-password"
+  };
+  const request = {
+    headers: { origin: process.env.APP_ORIGIN },
+    socket: { remoteAddress: "127.0.0.1" }
+  };
+  for (let index = 0; index < 5; index += 1) {
+    assert.deepEqual(
+      await controller.register(body, request),
+      { accepted: true }
+    );
+  }
+  await assert.rejects(
+    Promise.resolve().then(() => controller.register(body, request)),
+    (error) => error?.getStatus?.() === 429
+  );
+});
+
+test("纯逻辑：仓储 mutation 只返回显式列", async () => {
+  const source = await readFile(
+    new URL("../dist/repo.js", import.meta.url),
+    "utf8"
+  );
+  assert.doesNotMatch(source, /RETURNING\s+\*/i);
+});
 
 test("真实 HTTP 与 PostgreSQL 18：身份、权限、版本和并发", async () => {
   const databaseUrl = process.env.DATABASE_URL;
@@ -1898,6 +2236,18 @@ test("真实 HTTP 与 PostgreSQL 18：身份、权限、版本和并发", async 
       (await request("/admin/stats", "GET", undefined, buyer)).status,
       403
     );
+    await pool.query(
+      "UPDATE users SET role='admin' WHERE id=$1",
+      [seller.user.id]
+    );
+    const adminStats = await request(
+      "/admin/stats",
+      "GET",
+      undefined,
+      seller
+    );
+    assert.equal(adminStats.status, 200);
+    assert.equal(Number.isInteger(adminStats.body.total), true);
     assert.equal((await request("/health/live")).status, 200);
     assert.equal((await request("/health/ready")).status, 200);
     assert.equal((await request("/listings/not-a-uuid")).status, 400);
@@ -2078,7 +2428,7 @@ test("真实 HTTP 与 PostgreSQL 18：身份、权限、版本和并发", async 
     assert.equal(
       (
         await pool.query(
-          "SELECT * FROM favorites WHERE listing_id=$1",
+          "SELECT 1 FROM favorites WHERE listing_id=$1",
           [listingId]
         )
       ).rowCount,
@@ -2133,7 +2483,7 @@ test("真实 HTTP 与 PostgreSQL 18：身份、权限、版本和并发", async 
     assert.equal(
       (
         await pool.query(
-          "SELECT * FROM reservations WHERE listing_id=$1",
+          "SELECT 1 FROM reservations WHERE listing_id=$1",
           [listingId]
         )
       ).rowCount,
@@ -2165,7 +2515,7 @@ test("真实 HTTP 与 PostgreSQL 18：身份、权限、版本和并发", async 
         if (
           !passedGate &&
           typeof args[0] === "string" &&
-          args[0].includes("SELECT * FROM listings") &&
+          args[0].includes("FROM listings") &&
           args[0].includes("FOR UPDATE")
         ) {
           passedGate = true;
@@ -2220,7 +2570,7 @@ test("真实 HTTP 与 PostgreSQL 18：身份、权限、版本和并发", async 
       [201, 409]
     );
     const reservations = await pool.query(
-      "SELECT * FROM reservations WHERE listing_id=$1",
+      "SELECT buyer_id,status FROM reservations WHERE listing_id=$1",
       [listingId]
     );
     assert.equal(reservations.rowCount, 1);
@@ -2460,7 +2810,7 @@ pnpm migrate
 
 - [pnpm Workspaces](https://pnpm.io/workspaces)：workspace 成员与协议。
 - [pnpm install](https://pnpm.io/cli/install)：lockfile 与 frozen 安装。
-- [NestJS 12.1.1 Release](https://github.com/nestjs/nest/releases/tag/v12.1.1)：本章框架固定点。
+- [NestJS 12.1.2 Release](https://github.com/nestjs/nest/releases/tag/v12.1.2)：本章框架固定点。
 - [NestJS Configuration](https://docs.nestjs.com/techniques/configuration)：配置责任。
 - [node-postgres Pool](https://node-postgres.com/features/pooling)：连接池与关闭。
 - [PostgreSQL 18 Explicit Locking](https://www.postgresql.org/docs/18/explicit-locking.html)：行锁与咨询锁。

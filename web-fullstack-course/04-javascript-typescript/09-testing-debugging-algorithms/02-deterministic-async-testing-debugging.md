@@ -153,7 +153,7 @@ function getPending(pending, query) {
   return task;
 }
 
-test("late old response cannot replace the newest result", async () => {
+test("late old success or error cannot replace the newest result", async () => {
   const pending = new Map();
   const states = [];
   const readPage = (query) => {
@@ -180,6 +180,22 @@ test("late old response cannot replace the newest result", async () => {
       .map((state) => state.q),
     ["书架"],
   );
+  assert.equal(states.at(-1)?.phase, "success");
+
+  const staleErrorTask = controller.search("旧错误");
+  const newestSuccessTask = controller.search("最新成功");
+  getPending(pending, "最新成功").resolve(page);
+  await newestSuccessTask;
+  getPending(pending, "旧错误").reject(new Error("stale failure"));
+  await staleErrorTask;
+
+  assert.deepEqual(
+    states
+      .filter((state) => state.phase === "success")
+      .map((state) => state.q),
+    ["书架", "最新成功"],
+  );
+  assert.equal(states.filter((state) => state.phase === "error").length, 0);
   assert.equal(states.at(-1)?.phase, "success");
   controller.dispose();
 });
@@ -211,8 +227,8 @@ test("disposed controller cannot show a completed response", async () => {
 node --test search-controller.test.mjs
 ```
 
-摘要应包含 tests 2、pass 2、fail 0。`reject` 控制句柄保留给进阶错误测试；
-基础两项只精确验证成功竞态与销毁。
+摘要应包含 tests 2、pass 2、fail 0。第一项同时让旧请求迟到成功和迟到失败，证明两条分支都
+不能覆盖最新成功；第二项验证销毁后不提交完成结果。
 
 ## 8. 常见错误与排查路径
 

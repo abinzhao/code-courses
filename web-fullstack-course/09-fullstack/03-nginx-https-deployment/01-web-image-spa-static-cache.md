@@ -166,14 +166,16 @@ find apps/vue-web/dist -type f -print | sort
 
 ```dockerfile
 # syntax=docker/dockerfile:1
-FROM node:24-bookworm-slim AS build
+FROM node:24.21.0-bookworm-slim AS build
 
 ARG WEB_APP=react-web
 ENV PNPM_HOME=/pnpm
 ENV PATH=$PNPM_HOME:$PATH
 WORKDIR /workspace
 
-RUN npm install --global pnpm@12.10.1
+RUN corepack enable \
+    && corepack prepare pnpm@12.11.2 --activate \
+    && pnpm --version
 COPY . .
 RUN case "$WEB_APP" in \
       react-web|vue-web) ;; \
@@ -186,7 +188,7 @@ RUN mkdir /site \
     && test -f /site/index.html \
     && find /site -type f -print
 
-FROM nginxinc/nginx-unprivileged:stable-bookworm AS runtime
+FROM nginxinc/nginx-unprivileged:1.30.5-trixie AS runtime
 
 COPY deploy/nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /site/ /usr/share/nginx/html/

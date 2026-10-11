@@ -6,7 +6,7 @@
 | --- | --- |
 | 本课产出 | 列表读取客户端、搜索控制器、HTTP 集成测试、确定性竞态测试 |
 | 练习目录 | 沿用 `market-engineering-lab/` |
-| 固定版本 | Node.js 24.21.0、pnpm 12.10.1、Vitest 5.0.0 |
+| 固定版本 | Node.js 24.21.0、pnpm 12.11.2、Vitest 5.0.3 |
 | 核心命令 | `pnpm test -- tests/integration` 与 `pnpm test` |
 | 成功证据 | 新增 2 个测试文件、8 条集成测试通过；全章累计 16 条测试通过 |
 | 失败证据 | 删除状态检查或 generation guard 后，目标断言非零退出 |
@@ -66,7 +66,7 @@ pnpm exec vitest --version
 mkdir -p src/http src/state tests/integration
 ```
 
-Node 24 预期输出 `function function`，Vitest 输出 `vitest/5.0.0`。若旧 Node 没有全局
+Node 24 预期输出 `function function`，Vitest 输出 `vitest/5.0.3`。若旧 Node 没有全局
 `Response`，应切换到课程固定运行时；本课不额外安装一个行为不同的 HTTP polyfill 来掩盖
 环境偏差。
 
@@ -172,8 +172,8 @@ deferred 把 `resolve` 和 `reject` 暴露给测试。生产代码仍只看到�
 | 项目 | 固定值或命令 | 文件职责 / 输出 |
 | --- | --- | --- |
 | Node.js | `24.21.0` | 提供真实 `Response`、`Headers`、`URL` 与 `AbortController` |
-| pnpm | `12.10.1` | 从练习工程执行固定脚本 |
-| Vitest | `5.0.0` | 在 Node 环境运行异步集成断言 |
+| pnpm | `12.11.2` | 从练习工程执行固定脚本 |
+| Vitest | `5.0.3` | 在 Node 环境运行异步集成断言 |
 | `vitest.config.mjs` | 同时 include `unit` 与 `integration` | 发现本章两层测试 |
 | `src/http/read-listing-page.ts` | HTTP 客户端 | 连接查询、状态、body 和解析器 |
 | `src/state/search-controller.ts` | 状态控制 | 管理取消、generation、发布和 dispose |

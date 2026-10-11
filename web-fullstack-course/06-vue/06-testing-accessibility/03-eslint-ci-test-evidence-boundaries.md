@@ -79,7 +79,7 @@ Playwright（真实浏览器主路径）
 
 | 配置/命令 | 责任 | 必须条件 | 常见失败 |
 | --- | --- | --- | --- |
-| `eslint.config.mjs` | flat config | ESLint 10 | 使用旧 `.eslintrc` |
+| `eslint.config.mjs` | flat config | ESLint 10 | 并行维护旧式层叠配置 |
 | `vue-eslint-parser` | 解析 SFC 外层 | `.vue` files | 只用 TS parser |
 | `typescript-eslint` | 解析 script TS | parser/options | 版本不兼容 |
 | `vue-tsc -b` | 模板与项目引用类型 | TS6 API 兼容 | 只跑 Vite |
@@ -199,14 +199,15 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 12.10.1
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
-          cache: pnpm
+      - name: Enable pinned pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@12.11.2 --activate
+          pnpm --version
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter vue-web lint
       - run: pnpm --filter vue-web typecheck
@@ -216,7 +217,8 @@ jobs:
       - run: pnpm --filter vue-web e2e
 ```
 
-Action 主版本是教学示例，不代表已审核最新补丁；生产可固定已审查 SHA。本课不运行托管 GitHub Actions，因此只能说“工作流配置已静态检查”，不能说“CI 通过”。
+Action 固定到已审查 commit；升级时重新解析官方 tag、审查 diff 并更新旁注。本课不运行托管
+GitHub Actions，因此只能说“工作流配置已静态检查”，不能说“CI 通过”。
 
 ## 8. 常见错误与排查路径
 
@@ -259,7 +261,7 @@ Action 主版本是教学示例，不代表已审核最新补丁；生产可固�
 
 ## 11. 阶段验收
 
-- [ ] ESLint 使用 flat config，无 `.eslintrc` 主线。
+- [ ] ESLint 使用 flat config，不并行维护旧式层叠配置。
 - [ ] `.ts`、`.vue` 和 Node 配置分别有正确 parser/global。
 - [ ] 负向类型和 Lint 实验都能使门禁失败。
 - [ ] 五个命令按顺序运行且退出 0。

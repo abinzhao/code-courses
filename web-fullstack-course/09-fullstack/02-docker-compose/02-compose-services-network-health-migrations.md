@@ -55,7 +55,7 @@ sleep 5
 - 本地 `secrets/db_password.txt` 与 `secrets/api.env` 尚未提交 Git；
 - 只对个人新建 Compose project 和空 PostgreSQL 18 volume 执行本课。
 
-已有 PostgreSQL 16/17 数据目录不能直接挂给 18 镜像。本课不是主版本原地升级教程；真实旧数据应
+已有 非目标 PostgreSQL 主版本 数据目录不能直接挂给 18 镜像。本课不是主版本原地升级教程；真实旧数据应
 走受控备份恢复或 `pg_upgrade` 计划。
 
 ## 4. 核心理论
@@ -167,7 +167,7 @@ name: market-course
 
 services:
   db:
-    image: postgres:18-bookworm
+    image: postgres:18.6-bookworm
     environment:
       POSTGRES_DB: market
       POSTGRES_USER: market_owner

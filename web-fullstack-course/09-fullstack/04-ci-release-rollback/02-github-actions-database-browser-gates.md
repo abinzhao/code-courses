@@ -51,7 +51,7 @@ workflow 因此只有只读仓库权限、作业内测试凭据和本地 Docker 
 - safe logs 不打印 Cookie、CSRF、密码、连接串或请求 body。
 
 完整 workflow 使用 2026-10-11 从官方 tag 核对的 40 位 commit SHA，并以注释保留
-`checkout v4.2.2`、`setup-node v4.4.0` 和 `upload-artifact v4.6.2`。升级时重新解析 tag、审查
+`checkout v7.0.1`、`setup-node v7.1.0` 和 `upload-artifact v7.0.2`。升级时重新解析 tag、审查
 release 与权限差异，再提交新的 SHA；不能退回可移动 tag。
 
 ## 4. 核心理论
@@ -113,7 +113,7 @@ runner 可以本地 `docker build` 检查三个 Dockerfile/构建参数。没有
 | `permissions` | `contents: read` | 最小 token | Action/依赖仍执行代码 |
 | `concurrency` | workflow + ref | 取消同 ref 旧运行 | 不跨分支误取消 |
 | `timeout-minutes` | 35 | 防止挂起 | 各命令仍需自身超时 |
-| PG image | `postgres:18-bookworm` | 真实 PG18 service | 标签仍可移动 |
+| PG image | `postgres:18.6-bookworm` | 真实 PG18 service | 标签仍可移动 |
 | health options | `pg_isready` | 等待接受连接 | 不证明迁移 |
 | job env | `_test` URL、精确 origin | 临时测试配置 | 不能复用生产 |
 | frozen install | `pnpm install --frozen-lockfile` | 输入一致 | 不审计依赖安全 |
@@ -151,7 +151,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:18-bookworm
+        image: postgres:18.6-bookworm
         env:
           POSTGRES_DB: market_test
           POSTGRES_USER: market_test_user
@@ -173,15 +173,18 @@ jobs:
 
     steps:
       - name: Check out candidate commit
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install Node.js 24
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "24"
 
       - name: Install pinned pnpm
-        run: npm install --global pnpm@12.10.1
+        run: |
+          corepack enable
+          corepack prepare pnpm@12.11.2 --activate
+          pnpm --version
 
       - name: Record tool versions
         run: |
@@ -191,6 +194,12 @@ jobs:
 
       - name: Install locked dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Verify shared contracts
+        run: |
+          pnpm --filter @market/contracts typecheck
+          pnpm --filter @market/contracts test
+          pnpm --filter @market/contracts build
 
       - name: Verify PostgreSQL 18 server
         run: |
@@ -381,7 +390,7 @@ jobs:
           .
 
       - name: Upload commit-bound build outputs
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: market-builds-${{ github.sha }}
           path: |
@@ -566,7 +575,7 @@ scheme、host、port 任一不同都会改变 origin。
 - [ ] 并发 key 含 workflow/ref，总 timeout 明确。
 - [ ] PostgreSQL 18 health、数据库名和服务端版本被验证。
 - [ ] 测试凭据只属于 job，不引用生产 secret。
-- [ ] frozen install、API build、迁移两次、HTTP/PG 测试实际存在。
+- [ ] frozen install、contracts 双类型/test/build、API build、迁移两次、HTTP/PG 测试实际存在。
 - [ ] workflow 扫描 E2E 网络 Mock，并用 `--list` 阻断任一空 project。
 - [ ] React/Vue 各自 type/test/build，Chromium journey 顺序执行。
 - [ ] API/React/Vue 镜像只 build，不 login/push。

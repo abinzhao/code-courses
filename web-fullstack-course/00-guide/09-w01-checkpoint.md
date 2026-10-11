@@ -21,7 +21,7 @@
 
 - 从个人项目根目录找到并运行页面。
 - 分辨磁盘文件、浏览器 DOM 和 HTTP 响应。
-- 展示首页 200、错误路径 404 与服务停止后的连接失败。
+- 展示首页 200、错误路径 404、非 GET 请求 405 与服务停止后的连接失败。
 - 检查提交范围，记录一次本地 Git 提交。
 - 根据交接说明独立重新启动并复验。
 
@@ -66,7 +66,7 @@
 
 ```text
 market-learning/
-├── 01-first-page/
+├── market-start/
 │   ├── index.html
 │   └── server.mjs
 ├── README.md
@@ -76,21 +76,59 @@ market-learning/
 └── .gitignore
 ```
 
-教材只提供 Markdown；这份目录由学习者在个人工作区创建。服务代码使用[第一张网页第 6 节](03-computer-first-page.md)的完整版本，不重新引入另一套服务器。
+教材只提供 Markdown；这份目录由学习者在个人工作区创建。服务代码使用
+[URL、HTTP 与第一张服务页面第 7 节](03-computer-first-page/02-url-http-first-page.md#7-邻里集市集成案例)
+的完整版本，不重新引入另一套服务器。
 
 ### 执行与观察
 
 先确认当前目录是个人项目，再执行：
 
 ```bash
-cd 01-first-page
+cd market-start
 node --check server.mjs
 node server.mjs
 ```
 
-预期语法检查成功，服务监听 `127.0.0.1:3000`。浏览器访问首页并打开 Network，记录状态、响应类型和商品文本。
+预期语法检查成功，服务监听 `127.0.0.1:3000`。浏览器访问首页并打开 Network，记录状态、
+响应类型和商品文本；再访问 `/missing`，预期 404。
 
-访问 `/missing`，预期 404。按 `Ctrl+C` 后刷新，预期连接失败；再次运行 `node server.mjs`，首页应恢复 200。若失败，先查终端提示、端口和实际目录。
+服务运行时另开终端，复核首页、错误路径和方法边界。macOS 或 Linux 执行：
+
+```bash
+curl -i http://127.0.0.1:3000/
+curl -i http://127.0.0.1:3000/missing
+curl -i -X POST http://127.0.0.1:3000/
+```
+
+Windows PowerShell 执行：
+
+```powershell
+curl.exe -i http://127.0.0.1:3000/
+curl.exe -i http://127.0.0.1:3000/missing
+curl.exe -i -X POST http://127.0.0.1:3000/
+```
+
+三条命令的状态依次为 200、404、405；第三条响应头还包含 `Allow: GET`。这证明服务已响应但
+拒绝了不支持的方法，不是连接失败。
+
+按 `Ctrl+C` 停止服务后刷新，预期连接失败；再检查 3000 端口没有监听进程。macOS 或 Linux
+执行：
+
+```bash
+curl --max-time 2 -i http://127.0.0.1:3000/
+lsof -nP -iTCP:3000 -sTCP:LISTEN
+```
+
+Windows PowerShell 执行：
+
+```powershell
+curl.exe --max-time 2 -i http://127.0.0.1:3000/
+Get-NetTCPConnection -LocalPort 3000 -State Listen
+```
+
+每组第一条命令都应以连接失败结束，第二条应无输出。只终止自己启动的教学进程，不结束无法
+确认归属的进程。
 
 ### 保存一处明确改动
 
@@ -105,7 +143,7 @@ git diff
 在编辑器里修改商品描述并保存，复核文件。只暂存本次内容：
 
 ```bash
-git add 01-first-page/index.html
+git add market-start/index.html
 git diff --cached
 git commit -m "docs: clarify first listing description"
 git log --oneline -1
@@ -143,7 +181,9 @@ git log --oneline -1
 
 ## 10. 实践练习
 
-**基础：交付记录。**在个人 `learning-log.md` 记录首页、错误路径与停止后的结果。按第 6 节运行，预期分别是 200、404、连接失败；不符合时查服务与 URL。
+**基础：交付记录。**在个人 `learning-log.md` 记录首页、错误路径、非 GET 请求与停止后的结果。
+按第 6 节运行，预期分别是 200、404、405 加 `Allow: GET`、连接失败与端口无监听；不符合时
+查服务、方法、URL 与进程。
 
 **提升：只靠 README 接手。**让同伴或稍后自己按个人 README 启动。预期无需额外口头解释；路径或命令缺失时补充说明。完成标准是从停止状态恢复页面。
 
@@ -154,7 +194,8 @@ git log --oneline -1
 - [ ] 商品名、价格、描述与联系说明可读。
 - [ ] 联系链接能用鼠标和键盘激活。
 - [ ] 磁盘源文件与运行时 DOM 的区别能解释。
-- [ ] 200、404 与连接失败分别有证据。
+- [ ] 200、404、405/`Allow: GET` 与连接失败分别有证据。
+- [ ] 停止服务后 3000 端口没有监听进程。
 - [ ] 首次提交与一次小改动的范围清楚。
 - [ ] README 足以从停止状态重新启动。
 - [ ] 环境记录使用实际输出。

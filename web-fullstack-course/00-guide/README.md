@@ -4,7 +4,7 @@
 
 | 顺序 | 章节 | 成果 |
 |---|---|---|
-| 1 | [学习路线与练习方法](01-learning-path.md) | 48 周计划与能力里程碑 |
+| 1 | [学习路线与练习方法](01-learning-path.md) | 50 周计划与能力里程碑 |
 | 2 | [版本与兼容基线](02-version-baseline.md) | 能解释稳定版、LTS、锁文件和浏览器兼容 |
 | 3 | [电脑、文件与第一张网页](03-computer-first-page.md) | 第一个本地网页与可观察实验 |
 | 4 | [终端、Git 与调试习惯](04-terminal-git-debugging.md) | 可追踪的学习项目 |

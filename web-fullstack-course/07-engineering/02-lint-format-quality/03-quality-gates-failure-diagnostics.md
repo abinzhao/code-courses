@@ -53,7 +53,7 @@ pnpm exec tsc6 --version
 pnpm exec node --input-type=module -e 'import ts from "typescript"; console.log(ts.version)'
 ```
 
-预期依次包含 `3.8.0`、`v10.12.0`、`Version 7.0.2`，以及两次相同的 `6.0.x`
+预期依次包含 `3.9.10`、`v10.12.0`、`Version 7.0.2`，以及两次相同的 `6.0.x`
 兼容编译器/API 版本。任一探针失败都先修复对应安装或别名，不通过改脚本顺序掩盖。
 
 再确认错误实验开始前的工作区状态：

@@ -73,4 +73,5 @@ React 与 Vue 顺序执行相同清单，不能把一套前端的浏览器证据
 - 上一章：[02 Docker Compose](02-docker-compose.md)
 - 第一课：[Web 镜像、SPA 静态路由与缓存](03-nginx-https-deployment/01-web-image-spa-static-cache.md)
 - 下一章：[04 CI、发布与回滚](04-ci-release-rollback.md)
+- 覆盖审计：[全栈覆盖矩阵](FULLSTACK-COVERAGE.md)
 - 分卷入口：[全栈集成与交付](README.md)

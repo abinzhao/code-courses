@@ -88,7 +88,7 @@ Cookie 只保存不可预测会话标识；用户、角色、过期和撤销状�
 不可信标题：
 
 ```text
-<img src=x onerror=alert(document.domain)>
+<img src=x onerror=alert(1)>
 ```
 
 若赋给 `innerHTML`，浏览器把数据解析成标记；赋给 `textContent`，只显示原文字。自行“删除 `<script>`”不够，危险入口还包括事件属性、URL、SVG、模板和 DOM API。
@@ -546,7 +546,7 @@ document.querySelector("#bad-csrf").addEventListener(
   () => run(() => rename("listing-1", "invalid-token")),
 );
 document.querySelector("#render-text").addEventListener("click", () => {
-  const attackShape = "<img src=x onerror=alert(document.domain)>";
+  const attackShape = "<img src=x onerror=alert(1)>";
   listingOutput.textContent = attackShape;
   status.textContent = "攻击形状只作为文本显示，没有解析为HTML";
 });

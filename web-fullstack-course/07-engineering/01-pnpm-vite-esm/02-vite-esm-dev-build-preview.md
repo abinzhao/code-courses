@@ -57,7 +57,7 @@ pnpm install --frozen-lockfile
 pnpm exec vite --version
 ```
 
-预期 Node 为 `v24.21.0`、pnpm 为 `12.10.1`、Vite 为 `8.3.0`。如果 `package.json`
+预期 Node 为 `v24.21.0`、pnpm 为 `12.11.2`、Vite 为 `8.3.4`。如果 `package.json`
 不存在，先修复当前目录，不要在父目录创建第二份清单。
 
 本课假设你理解 `import`、`export` 和 DOM 基础。TypeScript 文件由 Vite 转换后送给浏览器；
@@ -112,8 +112,8 @@ TLS、生产日志和容量治理。
 ### 4.4 Vite 8 构建使用 Rolldown 术语
 
 Vite 8 当前主线以 Rolldown 组织生产构建。需要底层构建输出选项时使用
-`build.rolldownOptions`。历史文章中的 `rollupOptions` 反映旧实现或兼容上下文，不能直接当作本课程的
-Vite 8 推荐术语。
+`build.rolldownOptions`。本课程只使用当前配置合同；外部资料出现不同字段时，先核对目标 Vite
+版本和官方配置页，不把字段名直接复制进项目。
 
 构建会：
 
@@ -162,7 +162,7 @@ CSS 资源并更新 HTML。若把同一入口直接交给 Node，Node 不会因�
 
 | 项目 | 本课值 | 作用与边界 |
 | --- | --- | --- |
-| Vite | `8.3.0` | 开发、构建和本地预览 |
+| Vite | `8.3.4` | 开发、构建和本地预览 |
 | HTML 入口 | `index.html` | 生产图入口，不是普通复制文件 |
 | `<script type="module">` | `/src/main.ts` | 浏览器模块入口，由 Vite 转换 TS |
 | `import` / `export` | 静态模块边 | 帮助工具分析依赖，不自动验证业务 |
@@ -614,7 +614,7 @@ pnpm preview
 
 验收标准：
 
-- Vite 版本为 `8.3.0`；
+- Vite 版本为 `8.3.4`；
 - 源图至少含 HTML、四个 TypeScript 模块和 CSS；
 - 开发页在 `5173` 显示 `19.90` 与 `0.00`；
 - build 退出 `0`，产物文件只在练习的 `dist/`；

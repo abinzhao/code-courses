@@ -6,7 +6,7 @@
 | --- | --- |
 | 本课产出 | Vitest Node 配置、金额单元测试、Listing/Page 解析器领域测试 |
 | 练习目录 | 读者自己的 `market-engineering-lab/`，不是教材仓库 |
-| 固定版本 | Node.js 24.21.0、pnpm 12.10.1、Vitest 5.0.0 |
+| 固定版本 | Node.js 24.21.0、pnpm 12.11.2、Vitest 5.0.3 |
 | 核心命令 | `pnpm test` |
 | 成功证据 | 2 个测试文件、8 条测试通过，进程退出码为 0 |
 | 失败证据 | 金额除数改错后精确金额断言失败，恢复后同一命令转绿 |
@@ -54,12 +54,12 @@ mock 成永远成功。
 ```bash
 node --version
 pnpm --version
-pnpm add -D -E vitest@5.0.0
+pnpm add -D -E vitest@5.0.3
 pnpm exec vitest --version
 mkdir -p src/domain tests/unit tests/fixtures
 ```
 
-预期版本输出分别以 `v24.21.0`、`12.10.1` 和 `vitest/5.0.0` 为准。安装命令由 pnpm
+预期版本输出分别以 `v24.21.0`、`12.11.2` 和 `vitest/5.0.3` 为准。安装命令由 pnpm
 更新读者练习工程的清单和锁文件；教材仓库不保存这些生成物。版本命令成功只证明工具入口
 存在，不证明下面的业务测试已经运行。
 
@@ -135,7 +135,7 @@ AND value >= 0
 
 | 项目 | 本课用法 | 作用 | 边界 |
 | --- | --- | --- | --- |
-| `vitest@5.0.0` | 精确开发依赖 | 测试运行器与断言库 | 不提供真实浏览器或后端 |
+| `vitest@5.0.3` | 精确开发依赖 | 测试运行器与断言库 | 不提供真实浏览器或后端 |
 | `vitest run` | `pnpm test` | 单次运行后退出 | `vitest` 无参数会进入 watch |
 | `environment: "node"` | `vitest.config.mjs` | 使用 Node 24 的标准 API | 没有 DOM |
 | `include` | `tests/unit/**/*.test.ts` | 限定本课测试发现范围 | 路径写错会出现无测试 |
@@ -152,8 +152,8 @@ AND value >= 0
 | 项目 | 固定值或命令 | 文件职责 / 输出 |
 | --- | --- | --- |
 | Node.js | `24.21.0` | 提供测试运行时、`structuredClone` 和标准日期 API |
-| pnpm | `12.10.1` | 安装精确依赖并执行本地脚本 |
-| Vitest | `5.0.0` | `pnpm exec vitest --version` 核对实际入口 |
+| pnpm | `12.11.2` | 安装精确依赖并执行本地脚本 |
+| Vitest | `5.0.3` | `pnpm exec vitest --version` 核对实际入口 |
 | `vitest.config.mjs` | `environment: "node"`、`include` | 定义测试环境与发现范围 |
 | `src/domain/money.ts` | 领域源码 | 校验并格式化非负安全整数分 |
 | `src/domain/listing-page.ts` | 领域源码 | 把 `unknown` 解析为有效 Listing/Page |
@@ -611,7 +611,7 @@ function unsafeDate(value: string): string {
 
 提交学习证据前逐项核对：
 
-- [ ] `pnpm exec vitest --version` 输出 `vitest/5.0.0`。
+- [ ] `pnpm exec vitest --version` 输出 `vitest/5.0.3`。
 - [ ] `pnpm test` 实际执行 2 个文件、8 条测试并退出 0。
 - [ ] 金额覆盖 `0`、`1`、整元、`1990` 及五类非法值。
 - [ ] UTC 测试同时覆盖规范化、不可能日期和非 UTC 偏移。

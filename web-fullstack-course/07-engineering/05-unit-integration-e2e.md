@@ -8,7 +8,7 @@
 2. HTTP、运行时解析与异步状态连接后是否仍然成立；
 3. 浏览器加载生产构建产物后，用户能否观察到正确结果与恢复路径。
 
-你会在前三章的独立练习 `market-engineering-lab/` 中加入 Vitest 5.0.0 与
+你会在前三章的独立练习 `market-engineering-lab/` 中加入 Vitest 5.0.3 与
 Playwright 1.64.0。第四章的 `market-workspace/` 不在本章被覆盖；共享包、双框架和
 完整质量门禁将在第 07 章结业工程中统一组装。
 
@@ -27,8 +27,8 @@ Playwright 1.64.0。第四章的 `market-workspace/` 不在本章被覆盖；共
 - [构建、资源、缓存与性能预算](03-build-assets-performance.md)；
 - [TypeScript 运行时解析器教程](../04-javascript-typescript/08-typescript-domain-design/02-unknown-runtime-parsers-errors.md)。
 
-本章固定 Node.js 24.21.0、pnpm 12.10.1、Vitest 5.0.0、Playwright 1.64.0、
-Vite 8.3.0 与匹配 Playwright 的 Chromium。命令都从读者自己的
+本章固定 Node.js 24.21.0、pnpm 12.11.2、Vitest 5.0.3、Playwright 1.64.0、
+Vite 8.3.4 与匹配 Playwright 的 Chromium。命令都从读者自己的
 `market-engineering-lab/` 根目录执行；教材仓库不安装依赖、不保存锁文件和构建产物。
 
 ## 学习路线
@@ -68,7 +68,7 @@ Vite 8.3.0 与匹配 Playwright 的 Chromium。命令都从读者自己的
 
 | 命令或观察 | 合格证据 | 不能推出的结论 |
 | --- | --- | --- |
-| `pnpm exec vitest --version` | 输出 `vitest/5.0.0` | 业务断言已经运行 |
+| `pnpm exec vitest --version` | 输出 `vitest/5.0.3` | 业务断言已经运行 |
 | `pnpm test` | 领域、HTTP、解析和竞态测试实际执行且退出 0 | 浏览器产物可用 |
 | 金额除数故障注入 | 指定金额测试先红、恢复后转绿 | 所有金额币种规则齐全 |
 | 竞态故障注入 | 旧结果发布断言先红、恢复后转绿 | 服务端写操作已撤销 |
@@ -101,4 +101,5 @@ API，不使用路由拦截冒充后端，也不包含身份、授权、事务�
 
 [上一章：Workspace、组件库与 Design Tokens](04-workspace-component-library.md) ·
 [工程卷目录](README.md) ·
+[工程化覆盖矩阵](ENGINEERING-COVERAGE.md) ·
 [下一章：CI、Git 与发布](06-ci-git-release.md)

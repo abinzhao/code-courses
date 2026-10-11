@@ -21,12 +21,12 @@
 
 - 完成[第 1 章：契约联调](01-contract-integration.md)；
 - API 在目标 Node.js 24 环境可 build，migration 可重复执行；
-- `market/` 根有 pnpm `12.10.1` 生成的唯一锁文件；
+- `market/` 根有 pnpm `12.11.2` 生成的唯一锁文件；
 - Docker Engine、BuildKit 与 Compose v2 可用时才能执行 runtime 验收；
 - 本章只操作个人隔离 project 和新建 PostgreSQL 18 数据卷；
-- 已有 PostgreSQL 16/17 数据卷不得直接换 18 镜像启动。
+- 已有 非目标 PostgreSQL 主版本 数据卷不得直接换 18 镜像启动。
 
-当前课程主环境若没有 Docker，或只有 PostgreSQL 16 客户端/服务端，则 Dockerfile、YAML 和 shell
+当前课程主环境若没有 Docker，或只有 非目标 PostgreSQL 主版本 客户端/服务端，则 Dockerfile、YAML 和 shell
 仍可静态检查，但 image build、Compose config/runtime、PG18 migration、health、DNS、volume 和
 persistence 均不得记为通过。
 
@@ -83,7 +83,7 @@ persistence 均不得记为通过。
 - 数据库端口默认暴露到宿主/局域网；
 - migration 失败却绕过门直接启动 API；
 - 把 live 当 ready，或把 healthcheck 改成永远成功；
-- PostgreSQL 16/17 结果冒充 PostgreSQL 18；
+- 非目标 PostgreSQL 主版本 结果冒充 PostgreSQL 18；
 - API 重建后 Listing/session 丢失却报告持久化通过；
 - 用删除 volume 修密码、网络、health 或镜像问题；
 - 把 named volume 写成可恢复备份；
@@ -131,4 +131,5 @@ docker compose down
 [上一章：契约联调](01-contract-integration.md) ·
 [开始第 1 课](02-docker-compose/01-multi-stage-image-build-context.md) ·
 [下一章：Nginx 与 HTTPS 部署](03-nginx-https-deployment.md) ·
+[全栈覆盖矩阵](FULLSTACK-COVERAGE.md) ·
 [全栈交付卷目录](README.md)

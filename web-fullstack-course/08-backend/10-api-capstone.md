@@ -4,7 +4,7 @@
 
 把前九章的 Node.js、NestJS、DTO、PostgreSQL、事务、session、对象授权、错误契约、测试和日志
 组装成一个可机械重建的邻里集市 API。项目只在临时目录
-`/tmp/full-course-verification/batch-e/market-api-capstone` 运行，教材树不保存 package、lockfile、
+`/tmp/web-fullstack-modernization/batch-5/market-api-capstone` 运行，教材树不保存 package、lockfile、
 依赖、构建产物、`.env` 或数据库文件。
 
 本章完成：
@@ -25,7 +25,7 @@ ISO 8601。客户端不能提交 owner、buyer 或 role。
 - 已完成[第 09 章：测试、OpenAPI 与可观测性](09-testing-openapi-observability.md)及其前置章节。
 - 能区分 DTO 校验、service 业务决策、repository SQL 和数据库约束。
 - 能解释认证、对象授权、RBAC、Origin、CSRF 和 Cookie 属性的不同职责。
-- 本机目标工具为 Node.js `24.21.0`、pnpm `12.10.1`、PostgreSQL 服务端主版本 18。
+- 本机目标工具为 Node.js `24.21.0`、pnpm `12.11.2`、PostgreSQL 服务端主版本 18。
 - 已阅读[版本基线](../00-guide/02-version-baseline.md)和
   [邻里集市统一契约](../00-guide/05-project-assessment.md)。
 
@@ -155,6 +155,7 @@ ISO 8601。客户端不能提交 owner、buyer 或 role。
 
 - 上一章：[09 测试、OpenAPI 与可观测性](09-testing-openapi-observability.md)
 - 第一课：[工作区、配置与迁移启动](10-api-capstone/01-workspace-config-migration-bootstrap.md)
+- 覆盖审计：[后端覆盖矩阵](BACKEND-COVERAGE.md)
 - 分卷入口：[后端与 API 工程](README.md)
 - 下一卷：[全栈集成与交付](../09-fullstack/README.md)
 - 全书入口：[Web 全栈课程](../README.md)

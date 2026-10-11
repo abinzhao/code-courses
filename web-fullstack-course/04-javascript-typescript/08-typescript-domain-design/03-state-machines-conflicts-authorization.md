@@ -22,7 +22,7 @@
 完成后你能：
 
 1. 设计 `editing/saving/saved/conflict/error` 判别状态；
-2. 用类型化结果区分 200/201、409、401 和 403；
+2. 用类型化结果区分 200、400、409、401 和 403；
 3. 在 409 时同时保留草稿与服务端当前资源；
 4. 拒绝补丁版本和编辑基线不一致；
 5. 解释同源身份、对象授权和事务唯一性的责任边界。
@@ -43,7 +43,7 @@
 ### 4.2 HTTP 状态具有不同恢复语义
 
 - 200：已有资源更新成功；
-- 201：资源创建成功，通常配合 `Location`；
+- 400：请求字段或参数不满足契约，使用稳定 `VALIDATION` 错误并保留草稿；
 - 401：没有有效身份，应引导重新认证；
 - 403：身份已知但无权操作，不应自动重试；
 - 409：资源状态冲突，应读取当前资源并让用户处理。
@@ -69,7 +69,7 @@
 | `saved` | 服务端 Listing | 使用服务端新版本 |
 | `conflict` | 草稿、当前 Listing | 审查差异后重新提交 |
 | `error` | 草稿、代码、requestId | 按 401/403/其他处理 |
-| 201 | 已创建完整资源 | 跳转或显示成功 |
+| 400 | `VALIDATION` 错误体 | 保留草稿并定位输入问题 |
 | 409 | 当前资源或可重新读取线索 | 不盲目重试 |
 | 401/403 | 标准错误体 | 分别认证或解释权限 |
 
@@ -112,13 +112,18 @@ type SaveState =
   | {
       phase: "error";
       draft: ListingDraft;
-      code: "AUTHENTICATION_REQUIRED" | "FORBIDDEN";
+      code: "VALIDATION" | "AUTHENTICATION_REQUIRED" | "FORBIDDEN";
       requestId: string;
       message: string;
     };
 
 type SaveOutcome =
-  | { ok: true; status: 200 | 201; listing: Listing }
+  | { ok: true; status: 200; listing: Listing }
+  | {
+      ok: false;
+      status: 400;
+      error: ApiErrorBody & { code: "VALIDATION" };
+    }
   | { ok: false; status: 409; current: Listing }
   | { ok: false; status: 401 | 403; error: ApiErrorBody };
 
@@ -136,8 +141,15 @@ function beginSave(state: EditingState, patch: ListingPatch): SavingState {
 function finishSave(state: SavingState, outcome: SaveOutcome): SaveState {
   switch (outcome.status) {
     case 200:
-    case 201:
       return { phase: "saved", listing: outcome.listing };
+    case 400:
+      return {
+        phase: "error",
+        draft: state.draft,
+        code: "VALIDATION",
+        requestId: outcome.error.requestId,
+        message: outcome.error.message,
+      };
     case 409:
       return {
         phase: "conflict",
@@ -228,12 +240,17 @@ const saved = finishSave(secondSaving, {
 if (saved.phase !== "saved") throw new Error("expected saved");
 console.log(`saved:${saved.listing.id}@v${saved.listing.version}`);
 
-const created = finishSave(firstSaving, {
-  ok: true,
-  status: 201,
-  listing: version1,
+const invalid = finishSave(firstSaving, {
+  ok: false,
+  status: 400,
+  error: {
+    code: "VALIDATION",
+    message: "标题长度不合法",
+    requestId: "request-400",
+  },
 });
-console.log(`created-status=${created.phase}`);
+if (invalid.phase !== "error") throw new Error("expected validation error");
+console.log(`${invalid.code}:${invalid.requestId}`);
 
 const unauthorized = finishSave(firstSaving, {
   ok: false,
@@ -266,17 +283,18 @@ node dist/state-machine.js
 saving:v1
 conflict:server-v2,draft=阅读灯
 saved:listing-1@v3
-created-status=saved
+VALIDATION:request-400
 AUTHENTICATION_REQUIRED:request-401
 ```
 
 真实客户端还需要：
 
 1. PATCH 发送 `ListingPatch` 与同源凭据，并由 CSRF 机制保护；
-2. 200/201 响应先作为 `unknown` 解析为完整 Listing；
-3. 409 响应中的当前资源也必须解析，或按 requestId 重新 GET；
-4. 401/403 错误体经过 `parseApiError`；
-5. 请求取消不撤销服务端已提交事务，取消后仍可能需要重新读取。
+2. 200 响应先作为 `unknown` 解析为完整 Listing；
+3. 400 `VALIDATION` 保留草稿、字段错误与 requestId；
+4. 409 响应中的当前资源也必须解析，或按 requestId 重新 GET；
+5. 401/403 错误体经过 `parseApiError`；
+6. 请求取消不撤销服务端已提交事务，取消后仍可能需要重新读取。
 
 本案例只测试纯迁移，不声称真实 HTTP 已执行。
 
@@ -348,7 +366,7 @@ if (forbidden.phase !== "error" || forbidden.code !== "FORBIDDEN") {
 ## 11. 阶段验收
 
 - [ ] 状态机完整文件在两条编译器线上通过。
-- [ ] 200 与 201 进入 saved，409 进入 conflict。
+- [ ] 200 进入 saved，400 保留草稿并进入 `VALIDATION` error，409 进入 conflict。
 - [ ] 401 与 403 进入不同稳定代码的 error。
 - [ ] 冲突状态同时保留草稿和当前服务端资源。
 - [ ] 补丁版本与编辑基线不一致时拒绝。
@@ -360,7 +378,8 @@ if (forbidden.phase !== "error" || forbidden.code !== "FORBIDDEN") {
 
 **PATCH 成功一定返回 200 吗？**
 
-常见为 200 或 204；本状态机同时展示创建 201。实际客户端必须服从已发布 API 契约。
+常见为 200 或 204。本课的编辑契约返回完整资源并使用 200；创建资源的 201 属于另一条状态机，
+不能混入编辑 outcome 来放宽穷尽检查。
 
 **409 是否只用于乐观锁？**
 

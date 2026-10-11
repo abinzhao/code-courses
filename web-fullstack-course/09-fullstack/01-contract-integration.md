@@ -24,7 +24,7 @@ version 冲突和预约冲突都应有可观察证据；演示中间件、静态
 - 阅读[版本基线](../00-guide/02-version-baseline.md)与
   [邻里集市项目契约](../00-guide/05-project-assessment.md)；
 - 准备后端 `market/`、React 最终应用和 Vue 最终应用三个独立工作副本；
-- 目标工具为 Node.js 24 LTS、pnpm `12.10.1`、React `19.3`、Vue `3.5.43`、NestJS `12.1.1`；
+- 目标工具为 Node.js 24 LTS、pnpm `12.11.2`、React `19.3`、Vue `3.5.43`、NestJS `12.1.2`；
 - PostgreSQL 18 不可用时，只能完成结构、类型和静态检查，不能声称持久化、事务或并发通过。
 
 ## 四课路线
@@ -112,7 +112,7 @@ curl -i http://localhost:5173/api/v1/health/ready
 
 本章只在个人本地工作区执行。当前主环境若没有 PostgreSQL 18，则 contracts/TS/Vue/配置静态检查
 仍可执行，但真实 session 持久化、owner 数据断言、原子预约和并发结果必须标为
-`blocked-by-environment`，不能借用 PostgreSQL 16 或 Mock 结果冒充。
+`blocked-by-environment`，不能借用 非目标 PostgreSQL 主版本 或 Mock 结果冒充。
 
 生产 HTTPS、Nginx、容器、托管 CI、镜像发布和恢复属于后续章节。本章 Vite proxy 是开发入口，
 不是生产反向代理。
@@ -122,4 +122,5 @@ curl -i http://localhost:5173/api/v1/health/ready
 [上一卷：后端与 API 工程](../08-backend/README.md) ·
 [开始第 1 课](01-contract-integration/01-workspace-contract-runtime-validation.md) ·
 [下一章：Docker Compose](02-docker-compose.md) ·
+[全栈覆盖矩阵](FULLSTACK-COVERAGE.md) ·
 [全栈交付卷目录](README.md)

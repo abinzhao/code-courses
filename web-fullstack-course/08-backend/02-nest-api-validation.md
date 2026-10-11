@@ -11,8 +11,8 @@
 ## 必要前置与边界
 
 - 已完成[第 01 章：Node 运行时与 HTTP](01-node-runtime-http.md)，理解状态码、流、超时和停机。
-- 运行时为 Node.js 24 LTS，Nest 核心包固定 `12.1.1`。
-- pnpm 基线为 `12.10.1`；传统装饰器元数据示例使用 TypeScript 6 兼容编译器线。
+- 运行时为 Node.js 24 LTS，Nest 核心包固定 `12.1.2`。
+- pnpm 基线为 `12.11.2`；传统装饰器元数据示例使用 TypeScript 6 兼容编译器线。
 - 依赖版本以读者生成的 `package.json` 与锁文件为准，不手写或虚构锁文件内容。
 - 所有实验位于 `$HOME/code/market-backend-lab/nest-api`，不在教材目录安装依赖。
 - 外部正文在框架接收时仍是不可信值；只有通过 DTO 转换与校验后才能进入服务。
@@ -58,7 +58,7 @@ NestFactory + AppModule
 
 | 证据层 | 命令或观察 | 通过标准 |
 | --- | --- | --- |
-| 版本 | `node --version`、`pnpm list --depth 0` | Node 24；Nest 核心/平台均为 12.1.1 |
+| 版本 | `node --version`、`pnpm list --depth 0` | Node 24；Nest 核心/平台均为 12.1.2 |
 | 构建 | `pnpm build` | 装饰器元数据配置正确，ESM 导入可运行 |
 | DI | 临时移除 repository provider | 启动明确失败；恢复注册后成功 |
 | 有效创建 | POST 整数分商品 | 201，`priceCents` 不变，`createdAt` 为 UTC ISO |
@@ -87,4 +87,5 @@ NestFactory + AppModule
 
 [上一章：Node 运行时与 HTTP](01-node-runtime-http.md) ·
 [返回后端卷目录](README.md) ·
+[后端覆盖矩阵](BACKEND-COVERAGE.md) ·
 [下一章：SQL 数据建模](03-sql-modeling.md)

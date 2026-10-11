@@ -33,9 +33,13 @@
 
 | 顺序 | 教程 | 核心问题 | 建议时间 |
 | --- | --- | --- | ---: |
-| 1 | [地标、标题与页面结构](02-structure-links-lists/01-landmarks-headings-outline.md) | 长页面怎样提供内容地图 | 4–5 小时 |
-| 2 | [URL、链接与安全导航](02-structure-links-lists/02-urls-links-navigation.md) | 浏览器怎样计算链接目标 | 4–5 小时 |
-| 3 | [列表、图注与内容分组](02-structure-links-lists/03-lists-figures-content-groups.md) | 怎样表达集合、流程和名称值 | 4–6 小时 |
+| 1 | [页面地标与分节](02-structure-links-lists/01-landmarks-sectioning.md) | 使用页级、文章级地标和分节元素表达区域边界，并让重复地标可以区分。 | 1.5–2.5 小时 |
+| 2 | [标题大纲、阅读顺序与 ARIA](02-structure-links-lists/02-headings-reading-order-aria.md) | 用显式标题层级和 DOM 顺序表达内容关系，并把 ARIA 限制在原生语义无法覆盖的边界。 | 1.5–2.5 小时 |
+| 3 | [URL 解析与片段导航](02-structure-links-lists/03-url-resolution-fragments.md) | 拆解 URL、来源和文档基准，计算相对地址、查询和片段的最终目标。 | 1.5–2.5 小时 |
+| 4 | [原生链接与页面导航](02-structure-links-lists/04-native-links-navigation.md) | 使用 a[href]、外部协议和浏览上下文完成可预测导航，并区分链接与按钮。 | 1.5–2.5 小时 |
+| 5 | [链接安全、隐私与下载边界](02-structure-links-lists/05-link-security-privacy-downloads.md) | 控制新窗口关系、来源信息和下载提示，并拒绝不可信的可执行 URL 方案。 | 1.5–2.5 小时 |
+| 6 | [列表、描述关系与命令集合](02-structure-links-lists/06-lists-descriptions-commands.md) | 依据顺序、层级和名称值关系选择 ul、ol、menu 或 dl，并保持合法父子结构。 | 1.5–2.5 小时 |
+| 7 | [图注、引用与内容分组](02-structure-links-lists/07-figures-quotes-content-groups.md) | 使用 figure、引用、预格式文本和中性容器组织可引用或需要保留格式的内容。 | 1.5–2.5 小时 |
 
 预计总学习时间：12–16 小时。
 
@@ -189,4 +193,4 @@ URL 目标预测
 
 如果页面只能依靠视觉位置理解，或者目录链接需要反复试错才能写对，应回到对应详细教程补练。下一章会引入图片、音视频、iframe、SVG 和 Canvas，资源路径与替代内容都依赖本章的结构与 URL 基础。
 
-[上一章：文档、解析与文本](01-document-text.md) · [开始本章第一课](02-structure-links-lists/01-landmarks-headings-outline.md) · [下一章：图片、媒体与嵌入](03-images-media-embedding.md) · [返回 HTML 模块](README.md)
+[上一章：文档、解析与文本](01-document-text.md) · [开始本章第一课](./02-structure-links-lists/01-landmarks-sectioning.md) · [下一章：图片、媒体与嵌入](03-images-media-embedding.md) · [返回 HTML 模块](README.md)

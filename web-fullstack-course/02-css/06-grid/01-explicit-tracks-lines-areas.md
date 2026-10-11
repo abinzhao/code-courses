@@ -368,7 +368,8 @@ python3 -m http.server 8000
 - [MDN：minmax()](https://developer.mozilla.org/en-US/docs/Web/CSS/minmax)：核对允许的最小值与最大值。
 - [邻里集市项目契约](../../00-guide/05-project-assessment.md)：核对金额、状态与 CSS 阶段边界。
 
-本课使用成熟 Grid 主线；不把 masonry 候选语法纳入可运行验收。Safari、Firefox、旧 WebView 和真实移动设备仍需在目标支持范围内人工复验。
+本课只使用通过稳定状态门禁的 Grid 主线。Safari、Firefox、目标 WebView 和真实移动设备仍需在
+产品支持范围内人工复验。
 
 ## 我现在能做到什么
 

@@ -168,7 +168,8 @@ const listings = [
 ];
 
 export function findListing(id) {
-  return listings.find((item) => item.id === id);
+  const listing = listings.find((item) => item.id === id);
+  return listing === undefined ? undefined : { ...listing };
 }
 
 export function readListings() {
@@ -229,7 +230,8 @@ main.mjs ──> money.mjs
     └──────> catalog.mjs
 ```
 
-`money.mjs` 与 `catalog.mjs` 都不导入入口。`readListings` 返回浅拷贝记录，使调用方对顶层字段的修改不污染目录内部教学数据；真实系统仍应由后端存储并实施写权限。
+`money.mjs` 与 `catalog.mjs` 都不导入入口。`findListing` 与 `readListings` 都返回浅拷贝记录，
+使调用方对顶层字段的修改不污染目录内部教学数据；真实系统仍应由后端存储并实施写权限。
 
 浏览器补充验证可创建完整文件 `js-lab/modules/index.html`：
 
@@ -251,10 +253,11 @@ main.mjs ──> money.mjs
 从 `js-lab` 启动静态服务：
 
 ```bash
-node -e "const h=require('node:http'),f=require('node:fs'),p=require('node:path');h.createServer((q,s)=>{const x=p.join(process.cwd(),q.url==='/'?'modules/index.html':q.url);f.createReadStream(x).on('error',()=>{s.statusCode=404;s.end('not found')}).pipe(s)}).listen(4173,'127.0.0.1',()=>console.log('http://127.0.0.1:4173'))"
+node -e "const h=require('node:http'),f=require('node:fs'),p=require('node:path');const r=p.resolve('modules');h.createServer((q,s)=>{const u=new URL(q.url,'http://127.0.0.1');if(u.pathname==='/'){s.writeHead(302,{location:'/modules/index.html'});s.end();return}if(!u.pathname.startsWith('/modules/')){s.statusCode=404;s.end('not found');return}const x=p.resolve(r,u.pathname.slice(9));if(!x.startsWith(r+p.sep)){s.statusCode=403;s.end('forbidden');return}s.setHeader('content-type',x.endsWith('.mjs')?'text/javascript; charset=utf-8':'text/html; charset=utf-8');f.createReadStream(x).on('error',()=>{s.statusCode=404;s.end('not found')}).pipe(s)}).listen(4173,'127.0.0.1',()=>console.log('http://127.0.0.1:4173/modules/index.html'))"
 ```
 
-访问 `http://127.0.0.1:4173/`，Console 应出现与 Node 相同的四行输出。停止服务使用 `Control-C`。
+访问 `http://127.0.0.1:4173/modules/index.html`，Network 中 `.mjs` 响应应为
+`text/javascript`，Console 应出现与 Node 相同的四行输出。停止服务使用 `Control-C`。
 
 ## 8. 常见错误与排查路径
 

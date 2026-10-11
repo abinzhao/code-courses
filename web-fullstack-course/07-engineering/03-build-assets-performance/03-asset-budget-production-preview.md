@@ -10,7 +10,7 @@
 | 文件 | `scripts/check-assets.mjs`、`package.json` scripts 增量 |
 | 默认预算 | 单个 JavaScript gzip `<= 80 KiB`；全部 JavaScript gzip `<= 180 KiB` |
 | 故障门禁 | 缺失构建拒绝、无 JavaScript 拒绝、1 byte 阈值退出非零 |
-| 版本 | Node.js 24.21.0、pnpm 12.10.1、Vite 8.3.0；无新增运行时依赖 |
+| 版本 | Node.js 24.21.0、pnpm 12.11.2、Vite 8.3.4；无新增运行时依赖 |
 | 边界 | 本地 gzip 不等于生产 `Content-Encoding`；全部 JS 不等于首屏请求 |
 
 ## 1. 任务背景

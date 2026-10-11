@@ -84,6 +84,7 @@
 
 ## 进入下一章前
 
-如果主题变量仍按颜色名命名、important 用来解决层叠混乱，或原生控件在高对比模式下失去状态，应先修复。下一章会把本卷所有属性、规则、函数和实验能力收束到可审计参考。
+如果主题变量仍按颜色名命名、important 用来解决层叠混乱，或原生控件在高对比模式下失去状态，
+应先修复。下一章会把本卷稳定属性、规则、函数和兼容证据收束到可审计参考。
 
 [上一章：变换、过渡与可取消动画](08-transforms-transitions-animation.md) · [开始第一课](09-components-modern-css/01-custom-properties-property-themes.md) · [下一章：CSS 属性与模块参考](10-property-reference.md) · [返回 CSS 模块](README.md)

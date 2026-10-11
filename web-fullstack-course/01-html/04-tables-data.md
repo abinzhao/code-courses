@@ -28,8 +28,11 @@
 
 | 顺序 | 教程 | 核心问题 | 建议时间 |
 | --- | --- | --- | ---: |
-| 1 | [表格模型、表头关系与跨格](04-tables-data/01-table-model-headers-spans.md) | 二维数据怎样形成可解释网格 | 5–6 小时 |
-| 2 | [表格无障碍、响应式与 DOM 操作](04-tables-data/02-table-accessibility-responsive-dom.md) | 表格在不同视口和动态更新后怎样保持关系 | 5–7 小时 |
+| 1 | [二维数据模型与表格基础结构](04-tables-data/01-table-model-structure.md) | 判断二维数据需求，建立 caption、行组、行和单元格组成的完整网格。 | 2–3 小时 |
+| 2 | [表头关系、分组与显式关联](04-tables-data/02-table-header-associations.md) | 使用 scope、id 和 headers 建立简单、分组与复杂表头关系。 | 2–3 小时 |
+| 3 | [合并单元格、网格坐标与列组](04-tables-data/03-table-spans-column-groups.md) | 推演 colspan、rowspan 对坐标的影响，并用 colgroup 和 col 描述列结构。 | 2–3 小时 |
+| 4 | [响应式表格、键盘访问与打印](04-tables-data/04-responsive-table-accessibility-print.md) | 在窄屏、键盘、读屏与打印场景中保持二维关系和可见事实。 | 2–3 小时 |
+| 5 | [表格 DOM、安全更新与动态状态](04-tables-data/05-table-dom-dynamic-rows.md) | 使用表格 DOM API 安全创建、更新和删除行，并维护整数分、空状态和焦点。 | 2–3 小时 |
 
 预计总学习时间：10–13 小时。
 
@@ -213,4 +216,4 @@ DOM 生成和断言输出
 
 如果你只能画出边框，却不能从任意数据格追溯表头，或者脚本新增行后金额单位和行头丢失，应先重做网格与 DOM 练习。下一章会把静态数据输入转成表单控件和提交数据。
 
-[上一章：图片、媒体与嵌入](03-images-media-embedding.md) · [开始本章第一课](04-tables-data/01-table-model-headers-spans.md) · [下一章：表单与验证](05-forms-validation.md) · [返回 HTML 模块](README.md)
+[上一章：图片、媒体与嵌入](03-images-media-embedding.md) · [开始本章第一课](./04-tables-data/01-table-model-structure.md) · [下一章：表单与验证](05-forms-validation.md) · [返回 HTML 模块](README.md)

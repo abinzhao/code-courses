@@ -51,7 +51,7 @@ market/
 
 - 已完成本卷前五章和[后端 API 综合项目](../08-backend/10-api-capstone.md)。
 - 能从业务规则推导 DTO、数据库约束、事务、HTTP 状态、前端状态和测试。
-- 基线为 Node.js 24、pnpm 12.10.1、PostgreSQL 18、NestJS 12.1.1；
+- 基线为 Node.js 24、pnpm 12.11.2、PostgreSQL 18、NestJS 12.1.2；
   TypeScript 6 是工具兼容线，改用 TS7 时保留工具链对照证据。
 - 评审对象必须是读者拥有的全新目录、隔离数据库和本地/明确授权环境。
 - 预计实现与证据整理 24 至 40 小时，正式复审约 4 小时，现场独立修改另计 90 分钟。
@@ -142,6 +142,7 @@ PostgreSQL 18 时，可以静态检查脚本，不能判交付、恢复、容量
 
 - 上一章：[05 性能、安全与运维](05-performance-security-operations.md)
 - 第一课：[结业范围、业务闭环与证据包](06-graduation-project/01-capstone-scope-business-evidence.md)
+- 覆盖审计：[全栈覆盖矩阵](FULLSTACK-COVERAGE.md)
 - 分卷入口：[全栈联调与交付](README.md)
 - 课程级评分：[统一项目契约与阶段验收](../00-guide/05-project-assessment.md)
 - 全书入口：[Web 全栈课程](../README.md)

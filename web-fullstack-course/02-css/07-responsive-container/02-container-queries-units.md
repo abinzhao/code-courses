@@ -209,7 +209,7 @@ font-size: clamp(1.25rem, 1rem + 2cqi, 2rem);
         </article>
       </section>
     </div>
-    <pre id="report" role="status" aria-label="容器查询报告"></pre>
+    <pre id="report" aria-label="容器查询报告"></pre>
     <p>不支持容器查询时，基础上下布局仍保留全部内容。</p>
   </main>
   <script>

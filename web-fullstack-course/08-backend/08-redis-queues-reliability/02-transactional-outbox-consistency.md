@@ -286,6 +286,17 @@ MOCK 状态模型按 draft 回滚。
 在综合项目的后续扩展迁移
 `apps/api/migrations/008_transactional_outbox.sql` 中定义：
 
+基础设施管理员先在独立角色 bootstrap 中创建两个 `NOLOGIN` 角色，并分别授予专用
+dispatcher 登录身份和受控运维登录身份；应用登录不能成为任一角色的成员：
+
+```sql
+CREATE ROLE market_outbox_dispatcher NOLOGIN;
+CREATE ROLE market_outbox_operator NOLOGIN;
+```
+
+角色已存在时由基础设施变更工具判断并跳过，不通过吞掉任意 SQL 错误实现幂等。应用迁移只负责
+对象与列级权限：
+
 ```sql
 CREATE TABLE outbox_events (
   id uuid PRIMARY KEY,
@@ -329,7 +340,17 @@ GRANT INSERT (
   aggregate_version, payload
 ) ON outbox_events TO market_api;
 REVOKE ALL ON outbox_requeue_audit FROM market_api;
+REVOKE market_outbox_dispatcher FROM market_api;
 REVOKE market_outbox_operator FROM market_api;
+GRANT SELECT (
+  id, event_type, aggregate_type, aggregate_id, aggregate_version,
+  payload, occurred_at, available_at, claimed_by, claim_until,
+  published_at, failed_at, attempt_count, last_error_code
+) ON outbox_events TO market_outbox_dispatcher;
+GRANT UPDATE (
+  available_at, claimed_by, claim_until, published_at,
+  failed_at, attempt_count, last_error_code
+) ON outbox_events TO market_outbox_dispatcher;
 GRANT SELECT (id, attempt_count, failed_at)
   ON outbox_events TO market_outbox_operator;
 GRANT UPDATE (
@@ -356,6 +377,7 @@ GRANT USAGE, SELECT ON SEQUENCE outbox_requeue_audit_id_seq
 const eventId = randomUUID();
 const reservationId = randomUUID();
 const client = await pool.connect();
+let released = false;
 try {
   await client.query("BEGIN");
   const listing = await lockAvailableListing(client, input.listingId);
@@ -385,10 +407,23 @@ try {
   await client.query("COMMIT");
   return reservation;
 } catch (error) {
-  await client.query("ROLLBACK").catch(() => {});
+  try {
+    await client.query("ROLLBACK");
+  } catch (rollbackError) {
+    const unhealthy =
+      rollbackError instanceof Error
+        ? rollbackError
+        : new Error("ROLLBACK failed");
+    client.release(unhealthy);
+    released = true;
+    throw new AggregateError(
+      [error, unhealthy],
+      "reservation outbox and rollback both failed",
+    );
+  }
   throw error;
 } finally {
-  client.release();
+  if (!released) client.release();
 }
 ```
 
@@ -400,6 +435,9 @@ try {
 dispatcher 每轮在短事务中执行：
 
 ```sql
+BEGIN;
+SET LOCAL ROLE market_outbox_dispatcher;
+
 WITH candidates AS (
   SELECT id
   FROM outbox_events
@@ -417,19 +455,29 @@ SET claimed_by = $2,
     claim_until = now() + $3::interval
 FROM candidates
 WHERE event.id = candidates.id
-RETURNING event.*;
+RETURNING
+  event.id, event.event_type, event.aggregate_type,
+  event.aggregate_id, event.aggregate_version, event.payload,
+  event.occurred_at, event.attempt_count;
+
+COMMIT;
 ```
 
 `$1` 是有上限批量，`$2` 是本进程随机实例 ID，`$3` 是服务端配置的受控 interval，不来自
 HTTP。提交 claim 后逐项发布。成功标记必须验证租约所有权：
 
 ```sql
+BEGIN;
+SET LOCAL ROLE market_outbox_dispatcher;
+
 UPDATE outbox_events
 SET published_at = now(), claimed_by = NULL, claim_until = NULL,
     last_error_code = NULL
 WHERE id = $1
   AND claimed_by = $2
   AND published_at IS NULL;
+
+COMMIT;
 ```
 
 更新行数不是 1 时不能静默成功：可能租约过期并被其他实例接管，需要记录并允许幂等重复。
@@ -437,6 +485,9 @@ WHERE id = $1
 claim；第 5 次明确失败在同一语句进入人工处理终止态：
 
 ```sql
+BEGIN;
+SET LOCAL ROLE market_outbox_dispatcher;
+
 UPDATE outbox_events
 SET last_error_code = $3,
     available_at = now() + $4::interval,
@@ -448,15 +499,17 @@ WHERE id = $1
   AND claimed_by = $2
   AND published_at IS NULL
   AND failed_at IS NULL;
+
+COMMIT;
 ```
 
 `$3` 只能是 allow-list 错误码，`$4` 是服务端配置的有界退避。完整异常只进入受保护日志且经过
 脱敏。claim 不增加失败次数，所以第 5 次投递中途崩溃时，租约过期后仍可按原次数重领；队列已
 接受但确认丢失会重复投递，由下一课的业务幂等吸收。
 
-`failed_at` 非空后，普通 dispatcher 不再 claim。API runtime role 不应拥有下面的 UPDATE 与
-审计 INSERT 权限；受控操作由单独的 `market_outbox_operator` 角色执行，并要求工单中的操作者
-和原因：
+`failed_at` 非空后，普通 dispatcher 不再 claim。dispatcher 的 success/failure 更新也必须在
+`market_outbox_dispatcher` 角色下执行；API runtime role 不拥有这些 UPDATE。人工重放再切换为
+单独的 `market_outbox_operator`，并要求工单中的操作者和原因：
 
 ```sql
 BEGIN;
@@ -493,9 +546,9 @@ COMMIT;
 返回零行表示目标不是终止态或 ID 不存在，必须停止而不是伪造“已重放”。上述列级授权允许
 operator 完成 `FOR UPDATE`、受控状态更新、审计 INSERT 和 `RETURNING`；identity sequence
 另有最小权限。`market_api` 只保留事务内写新事件所需的列级 INSERT，不能直接 UPDATE outbox，
-也不是 operator 的直接或间接成员。基础设施把 `market_outbox_operator` 建为 `NOLOGIN` 组角色，
-只允许受权人员的独立运维身份切换进入；生产 migration 应先由平台创建这些角色，应用迁移不能
-自行扩大成员或赋予 superuser。
+也不是 dispatcher/operator 的直接或间接成员。基础设施把两个角色都建为 `NOLOGIN` 组角色，
+分别只授给专用 dispatcher 和受权人员的独立运维身份；生产 migration 应先由平台创建这些角色，
+应用迁移不能自行扩大成员或赋予 superuser。
 
 ### 7.4 真实 PostgreSQL 验收手册
 
@@ -520,9 +573,8 @@ PGSERVICE=market_lab psql -X -v ON_ERROR_STOP=1 -c \
 6. 在第 5 次 claim 后、发布前崩溃，确认租约到期后仍可重领且次数没有凭空增加；
 7. 让永久错误明确失败 5 次，确认 `failed_at` 非空且第 6 轮不再 claim；
 8. `market_api` 的列级 INSERT 可写新事件，但直接 UPDATE、审计 INSERT 和
-   `SET ROLE market_outbox_operator` 都被拒绝；
-9. 查询 `pg_has_role('market_api','market_outbox_operator','member')` 为 false，并核对
-   `market_api` 不是 superuser；
+   `SET ROLE market_outbox_dispatcher`、`SET ROLE market_outbox_operator` 都被拒绝；
+9. 查询 `pg_has_role` 确认 `market_api` 不是两个角色的成员，并核对它不是 superuser；
 10. operator 重放恰好写一条审计并恢复一次 claim；
 11. 不把第 5 步重复写成缺陷，下一课用业务幂等消除重复结果。
 

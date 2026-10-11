@@ -10,7 +10,7 @@
 
 - 完成 [pnpm、Vite 与 ESM](01-pnpm-vite-esm.md)，能够运行开发、构建和预览命令。
 - 完成 [Lint、格式与质量门禁](02-lint-format-quality.md)，`pnpm quality` 已通过。
-- 使用 Node.js 24.21.0、pnpm 12.10.1、Vite 8.3.0 和现代浏览器。
+- 使用 Node.js 24.21.0、pnpm 12.11.2、Vite 8.3.4 和现代浏览器。
 - 所有实验在读者自己的 `market-engineering-lab/` 中执行，不在教材目录安装依赖或生成 `dist/`。
 
 ## 学习路线
@@ -50,4 +50,4 @@
 
 `vite preview` 只用于本地检查生产构建，不是生产服务器。内容 hash 只是缓存寻址的一部分，不是安全签名。Source Map 不公开也不能保护浏览器端秘密。预算通过只说明当前构建符合这组体积上限，不说明交互速度、Core Web Vitals 或生产容量达标。
 
-[上一章：Lint、格式与质量门禁](02-lint-format-quality.md) · [下一章：Workspace、组件库与 Design Tokens](04-workspace-component-library.md) · [工程卷目录](README.md)
+[上一章：Lint、格式与质量门禁](02-lint-format-quality.md) · [下一章：Workspace、组件库与 Design Tokens](04-workspace-component-library.md) · [工程化覆盖矩阵](ENGINEERING-COVERAGE.md) · [工程卷目录](README.md)

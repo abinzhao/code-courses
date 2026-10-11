@@ -147,7 +147,7 @@ apps/lab-web/index.html
 
 | 项目 | 固定值/用法 | 证据 | 边界 |
 | --- | --- | --- | --- |
-| Vitest | `5.0.0`、Node environment | 测试文件/条数/退出码 | 无浏览器和真实网络 |
+| Vitest | `5.0.3`、Node environment | 测试文件/条数/退出码 | 无浏览器和真实网络 |
 | `restoreMocks` | `true` | 测试间替换恢复 | 不替代状态清理 |
 | `Response` | Node 24 标准对象 | status/body 真实语义 | 无服务器 |
 | deferred | 暴露 resolve/reject | 确定完成顺序 | 只用于测试 |

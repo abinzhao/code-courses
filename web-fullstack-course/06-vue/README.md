@@ -2,21 +2,20 @@
 
 > 面向有 HTML、CSS 和基础 JavaScript 经验，但没有 Vue 经验的学习者
 > 主线项目：邻里集市的搜索、发布、详情、会话、收藏、预约与 SSR
-> 教材内容快照：2026-10-11
 
 本卷不要求先读 React，也不要求先安装真实数据库。主线使用 Vue 3 SFC、
 `<script setup lang="ts">`、Composition API 和 TypeScript strict，从静态商品卡片逐步推进到
 可重建的 SPA + SSR 教学应用。完成后，学习者不仅要让页面工作，还要解释状态所有权、请求竞争、
 错误恢复、授权边界、水合不变量，以及证据没有覆盖什么。
 
-## 1. 教材结构
+## 本卷定位与教材结构
 
 Vue 卷采用与 HTML 卷一致的两层结构：
 
 ```text
 卷入口 README
-  ├── 8 个稳定章入口
-  │   └── 每章直达 3 篇详细教程
+  ├── 稳定章入口
+  │   └── 直达本章详细教程
   └── VUE-COVERAGE 覆盖矩阵
 
 详细教程
@@ -34,7 +33,7 @@ Vue 卷采用与 HTML 卷一致的两层结构：
 学习时先看章入口，依次完成三篇教程，再回到章入口做综合任务。不要只读卷目录后跳过错误实验
 和阶段验收。
 
-## 2. 八章学习路线
+## 学习路线
 
 ### 第一章：SFC、模板与商品组件
 
@@ -81,7 +80,7 @@ Vue 卷采用与 HTML 卷一致的两层结构：
 | --- | --- | --- |
 | 1 | [Router、URL 状态与导航恢复](./04-router-data/01-router-url-state-navigation.md) | 搜索、页码和商品 ID 如何支持刷新、分享、后退与前进 |
 | 2 | [路由取数、取消与错误恢复](./04-router-data/02-route-data-fetch-cancellation-errors.md) | 组件复用时怎样跟随参数取数，并区分对象 404 与服务 503 |
-| 3 | [教学登录、发布与预约冲突](./04-router-data/03-auth-publish-reservation-conflicts.md) | 怎样处理 401/403/404/409/422/503，以及两标签页预约冲突 |
+| 3 | [教学登录、发布与预约冲突](./04-router-data/03-auth-publish-reservation-conflicts.md) | 怎样处理 401/403/404/409/400/503，以及两标签页预约冲突 |
 
 阶段产出：可深链的列表和详情，以及登录、发布、预约和状态恢复主路径。建议投入 6–7 小时。
 
@@ -135,7 +134,7 @@ Vue 卷采用与 HTML 卷一致的两层结构：
 阶段产出：原始 HTML 可见、无 JavaScript 搜索可用、可安全水合的唯一结业快照。建议投入约
 16 小时。
 
-## 3. 零 Vue 基础怎样学习
+## 学习与运行
 
 “零基础”指不要求 Vue、React、Pinia、Router 或 SSR 经验；仍建议先具备 HTML 语义、CSS 基础、
 JavaScript 函数/对象/数组/Promise 和 ES module 概念。TypeScript 联合类型、泛型和 strict
@@ -153,7 +152,7 @@ JavaScript 函数/对象/数组/Promise 和 ES module 概念。TypeScript 联合
 只看到页面、只通过 Vite 转译或只复制答案，都不等于完成。遇到不熟悉的 HTML、浏览器或
 TypeScript 机制，应回到对应前置卷，不需要先读 React 实现。
 
-## 4. 工作区、SFC 与阶段边界
+### 工作区、SFC 与阶段边界
 
 教程中的应用路径属于学习者创建的项目，不是教材仓库：
 
@@ -178,32 +177,17 @@ neighborhood-market/
 | 07 | 独立实验组件/入口 | 完成后恢复业务主线 |
 | 08 | 独立 SSR 路径与唯一完整快照 | 开发 SSR 不是生产双构建 |
 
-本卷主线固定为 SFC、`<script setup lang="ts">` 和 Composition API。Options API、Vue 2
+本卷主线固定为 SFC、`<script setup lang="ts">` 和 Composition API。Options API、跨主版本
 迁移和 Nuxt 工程化不是主线；Nuxt 只在结业课说明采用条件和迁移边界。
 
-## 5. 版本与工具链边界
+### 版本与工具链边界
 
-详细版本原则见[版本基线](../00-guide/02-version-baseline.md)。语言、工具兼容线、快照锁定值和
-本机实际解析版本是四种不同证据：
+精确技术选择、核验日期和 TypeScript 兼容线统一见
+[版本基线](../00-guide/02-version-baseline.md)。语言主线、工具兼容线、锁文件与本机解析结果是
+不同证据；先保存版本探针和 `pnpm list --depth 0`，再依据对应文档判断。Vite 构建不能替代
+SFC 类型检查，历史输出也不能与当前锁文件拼成一个不存在的环境。
 
-| 项目 | 教材选择 | 使用规则 |
-| --- | --- | --- |
-| Node.js | 24 LTS | 运行前记录精确补丁；历史 Node 22 结果不能并入 Node 24 |
-| pnpm | 唯一快照重建目标 12.10.1 | 真实项目提交锁文件；历史验证使用 10.34.6 |
-| Vue | 3.5.43 | SFC 与 Composition API 主线 |
-| Vite | 8；唯一快照锁定 8.3.4 | 开发服务器和构建器，不自动执行完整模板类型检查 |
-| Vue Router | 唯一快照锁定 5.3.1 | 历史验证曾解析 5.4.0，两次环境不得合称一个版本 |
-| Pinia | 4.0.3 | 管理应用实例内共享客户端状态，不替代数据库 |
-| TypeScript | TS 7 语言主线；工具使用 `@typescript/typescript6` 6.0.2 | Vue 工具依赖旧编译器 API，安装后核对命令与锁文件 |
-| vue-tsc | 3.3.12 | 负责 `.vue` 模板类型；Vite build 不能替代它 |
-| ESLint | 10；唯一快照锁定 10.12.0 | 使用 flat config |
-| Vitest / Playwright | 唯一快照锁定 5.0.3 / 1.64.0 | 分别提供程序级与 Chromium 证据，不外推到全部环境 |
-
-章节早期的安装命令用于建立阶段工程，最终固定组合以第八章第三课的唯一快照为准。若注册表解析
-结果不同，先保存 `pnpm list --depth 0`，再依据对应版本文档判断；不要把 `latest`、版本范围、
-历史输出和当前锁文件拼成一个不存在的环境。
-
-## 6. 与 React 共享的业务契约
+## 连续项目与边界
 
 Vue 与 React 使用同一邻里集市业务复杂度、HTTP 语义、固定数据和验收场景，但不共享框架组件
 源码。完整领域说明见[邻里集市统一项目契约](../00-guide/05-project-assessment.md)。
@@ -233,7 +217,7 @@ interface Listing {
 | 写入 | 发布由服务端生成 ID；编辑携带 `version`；过期写入为 409 |
 | 收藏 | `PUT` 表示已收藏，`DELETE` 表示未收藏；目标幂等，不使用“反转一次”接口 |
 | 预约 | 浏览器不发送可信 `buyerId`；并发只能一个 201，其余为 409 |
-| 错误 | `{code,message,requestId,details?}`；401、403、404、409、422、503 含义和恢复不同 |
+| 错误 | `{code,message,requestId,details?}`；401、403、404、409、400、503 含义和恢复不同 |
 | 会话 | 同源 HttpOnly Cookie；浏览器代码不读取、不记录、不持久化凭据 |
 | 页面状态 | initial、loading、empty、error、success、unauthenticated、forbidden、not-found、validation、conflict 都有可见路径 |
 | 请求竞争 | 旧读请求取消或忽略；晚到结果不得跨商品或会话 epoch 回写 |
@@ -246,8 +230,8 @@ interface Listing {
 | --- | --- | --- |
 | `GET /listings?page=1&pageSize=20&q=` | 返回分页列表 | query 规范化、固定排序、成功空态 |
 | `GET /listings/:id` | 返回商品详情 | 不存在为 404 |
-| `POST /listings` | 返回 201 和服务端生成商品 | 401、422；失败保留草稿 |
-| `PATCH /listings/:id` | 按原 `version` 编辑 | 403、404、409、422 |
+| `POST /listings` | 返回 201 和服务端生成商品 | 401、400；失败保留草稿 |
+| `PATCH /listings/:id` | 按原 `version` 编辑 | 403、404、409、400 |
 | `POST /listings/:id/reservations` | 返回 201 和预约结果 | 不能预约自己；并发冲突为 409 |
 | `PUT /favorites/:listingId` | 收敛为已收藏 | 重复目标不增加副作用 |
 | `DELETE /favorites/:listingId` | 收敛为未收藏 | 失败保持此前确认状态 |
@@ -255,6 +239,10 @@ interface Listing {
 | `POST /auth/login` | 建立 Cookie 会话 | 无效凭据与速率限制由后端处理 |
 | `GET /auth/me` | 返回当前用户摘要 | 无会话或过期为 401 |
 | `POST /auth/logout` | 撤销会话 | Cookie 与服务端状态都要处理 |
+
+此表是后端与全栈整合后的目标契约。本卷唯一前端快照只实现十个共享验收场景实际使用的
+列表、详情、发布、预约、收藏、登录、会话查询和注销端点；编辑与注册由后端卷和全栈卷拥有，
+不得计入当前 Capstone 的已执行证据。
 
 固定数据用于让两卷结果可比：
 
@@ -283,7 +271,7 @@ ssr-html-and-hydration
 
 场景名称相同表示业务结果相同，不要求两个框架逐行翻译实现或测试。
 
-## 7. 教学 API、安全与正式集成边界
+### 教学 API、安全与正式集成边界
 
 第 3 章起使用的 Vite middleware 是本机教学 API：数据在单个 Vite 进程内存中，重启清空；
 教学登录不验证真实密码；固定 Cookie/CSRF 值只演示协议形状；没有数据库、事务、多进程一致性、
@@ -294,7 +282,7 @@ ssr-html-and-hydration
 - 前端隐藏或禁用按钮只改善体验，不提供对象授权。
 - `fetch` 取消和客户端 busy 不回滚服务端写入，也不锁住其他客户端。
 - CORS、CSRF、Cookie、CSP、TLS 和后端授权职责不同，不能互相替代。
-- 泛型 `api<T>` 是静态承诺，不是未知 JSON 的运行时 schema 校验。
+- 泛型 `api<T>` 本身只是静态承诺；最终快照为每种成功响应传入运行时 parser。
 - Pinia、KeepAlive 和 SSR seed 都不是持久化数据库。
 - 本卷没有收藏查询接口，因此刷新后收藏恢复仍是显式契约缺口。
 - 真实预约唯一性必须由后端事务和数据库约束保证。
@@ -304,7 +292,7 @@ ssr-html-and-hydration
 再按[契约联调与整合](../09-fullstack/01-contract-integration.md)操作。只删除教学插件不能证明联调
 完成。
 
-## 8. 命令矩阵
+## 命令矩阵
 
 命令默认在学习者工作区运行。章节增量工程与唯一快照的脚本略有不同，以所在教程为准：
 
@@ -330,7 +318,7 @@ ssr-html-and-hydration
 序列化、禁用 JavaScript 搜索和水合。负向类型实验必须先失败、恢复后再通过，才能证明命令真的
 检查了 SFC。
 
-## 9. 唯一 Capstone
+## 唯一 Capstone
 
 第八章第三课是本卷唯一完整最终项目快照，拥有 SPA、教学 API、路由、Pinia、测试、Playwright
 和 SSR 的全部“完整文件”块。前七章保留可独立观察的最小文件和聚焦片段，但不得再拼出第二份
@@ -355,7 +343,7 @@ ssr-html-and-hydration
 搜索仍应返回筛选 HTML。Nuxt、流式输出和生产双构建只按教程声明的范围讨论，不属于该 Vite
 开发快照的已实现能力。
 
-## 10. Vue 与 React 的有意差异
+## Vue 与 React 的有意差异
 
 两卷对齐业务结果和验收强度，不排名框架，也不共享组件源码：
 
@@ -373,82 +361,7 @@ ssr-html-and-hydration
 这些差异服务于各自自然模型；例如 Vue 不需要模拟 loader 才算等价，React 也不需要照搬 watcher。
 只要共享契约、失败状态和证据强度一致，两卷就保持业务对等。
 
-## 11. 当前验证与历史证据
-
-### 11.1 当前教材与运行验证
-
-检查日期：2026-10-11。本轮针对两层教材结构得到以下新证据：
-
-| 检查 | 当前结果 |
-| --- | --- |
-| 文件形状 | 8 个章入口、24 篇详细教程、1 个 README、1 个覆盖矩阵，共 34 个 Markdown 文件 |
-| 章入口 | 每章恰好连接同名目录下 3 篇教程 |
-| 教程契约 | 24/24 均含任务卡、编号 1–13 节、能力总结和单元导航 |
-| 覆盖矩阵 | 登记 24 条计划教程路径和 55 行知识/兼容/安全/人工边界证据 |
-| 相对链接 | Vue 卷全部 Markdown 的本地相对目标存在 |
-| 围栏 | 24 篇教程代码围栏成对 |
-| 仓库边界 | Vue 卷没有 `package.json`、锁文件、依赖、构建、coverage 或 labs 产物 |
-| 第 1–4 章阶段工程 | Node 24.19.0、pnpm 12.10.1；vue-tsc、Vite build 通过；Vitest 5 文件 32/32 |
-| 第 1–4 章 Chromium | 搜索/历史恢复、取消、503/404/401 保稿、发布、201/409 和 320px 键盘路径通过 |
-| 第 5–8 章唯一 capstone | 修复后在 Node 22.22.0 frozen install；Lint、typecheck、build 通过；Vitest 6 文件 20/20 |
-| 高级 SSR 门禁 | `advanced-boundary.test.ts` 的通过路径与三类缺口共 4 项均实际执行 |
-| SSR HTTP | 编码中文查询后得到 200/503/200/404；安全序列化、无 JS 搜索和水合 0→1 在本轮早期快照通过 |
-
-本次 README 已单独检查 24 个教程直达目标、全部相对链接、代码围栏和空白，结果均通过。
-第 1–4 章与第 5–8 章使用不同临时工程；32 项和 20 项测试不能相加后冒充一套 52 项 capstone。
-最终 store/SSR 修复版没有在 Node 24 和 Chromium 重新执行，因此对应证据仍按上表环境限定。
-
-### 11.2 2026-10-10 改写前历史运行快照
-
-以下结果来自两层改写前的 9 文件 Vue 卷，保留用于追溯，不自动继承为 2026-10-11 唯一
-capstone 的当前通过结论。
-
-历史环境为 macOS、pnpm 10.34.6；初轮 Node 22.22.0，随后用临时 Node 24.21.0 强制复查类型
-并重新构建。解析依赖为 Vue 3.5.43、Vite 8.3.4、Vue Router 5.4.0、Pinia 4.0.3、
-vue-tsc 3.3.12、`typescript -> @typescript/typescript6` 6.0.2、ESLint 10.12.0、
-typescript-eslint 8.71.1、Vitest 5.0.3、Playwright 1.64.0。
-
-| 历史执行 | 当时观察结果 |
-| --- | --- |
-| `pnpm build` | 通过；先执行 `vue-tsc -b`，再由 Vite 构建 |
-| Node 24.21.0：`pnpm exec vue-tsc -b --force`、`pnpm build` | 均通过，类型检查未复用增量结果 |
-| `pnpm lint` | ESLint 10 flat config、TS6 API 与 Vue parser 通过；该结果来自初轮 Node 22 环境 |
-| `pnpm exec vitest run` | 初轮 3 文件 15 项；金额契约修正后 Node 24 复跑 18/18 通过 |
-| `pnpm exec playwright test` | Chromium 156，2 条流程通过；该结果来自初轮 Node 22 环境 |
-| SSR HTTP 与浏览器 | 200/503/404、无 JS GET 搜索、水合 0→1 且无错误；该结果来自初轮 Node 22 环境 |
-| 第 7 章独立交互 | Teleport、Escape/焦点恢复、异步组件、KeepAlive 草稿、Transition、`shallowRef` 代表路径通过 |
-
-历史浏览器流程覆盖搜索空态、登录、发布、收藏/取消、预约、双标签页 409、404 和 503。首次
-E2E 因登录导航尚未完成而失败，修正目标 URL 等待后在不放宽业务断言的前提下通过。历史验证
-目录为 `/tmp/fullstack-vue-20261010-verification`；Node 24 工具曾通过临时 PATH 使用
-`/tmp/fullstack-course-verify-20261010-js-engineering/tools/node_modules/node/bin/node`，没有修改
-全局配置。
-
-历史结构结论“9 份 Markdown、每章 285–424 行”只描述改写前版本，已经被当前 34 文件结构
-取代。历史 Router 5.4.0、pnpm 10.34.6 和 Node 22/24 结果也不能与唯一快照中的 Router 5.3.1、
-pnpm 12.10.1 目标合并为一次运行。
-
-## 12. 尚未验证的范围
-
-2026-10-11 两层教材完成后，以下项目仍没有充分的新证据：
-
-- 修复后的唯一 capstone 尚未在 Node 24 重新运行 Lint、typecheck、20 项 Vitest、build 和
-  Chromium；当前最终修复版运行证据限定为 Node 22.22.0。
-- 尚未用一套最终快照一次性执行全部 10 个共享场景；章节阶段和 capstone 证据必须分开阅读。
-- 未验证 Safari、Firefox、真实移动设备、320 CSS px 与 200% 的全部页面组合。
-- 未使用 VoiceOver、NVDA、JAWS 或其他真实辅助技术完成端到端复测。
-- 未连接真实 Nest/PostgreSQL 后端验证密码、会话吊销、对象授权、动态 CSRF、事务、
-  数据库唯一约束、持久化、跨进程一致性或正式编辑联调。
-- 未执行生产 SSR 双构建、流式代理/中止、Nuxt 迁移、CDN 缓存、HTTPS、托管 CI、部署、
-  回滚、负载、容量和备份恢复。
-- 第 7 章计时器暂停的完整秒级观察、chunk 失败恢复、reduced-motion 全路径和性能收益没有
-  形成新的跨环境测量。
-- 没有逐项执行 24 篇教程的全部练习、扩展变体和外部资料链接可用性检查。
-
-这些缺口必须在目标环境中单独记录，不能由 Markdown 结构通过、类型通过或单个 Chromium
-结果推导为兼容、安全、可扩展或可上线。
-
-## 13. 分卷完成标准
+## 验收
 
 完成本卷时，学习者应能从空白目录独立完成：
 
@@ -461,5 +374,19 @@ pnpm 12.10.1 目标合并为一次运行。
 - 从唯一 capstone 重建应用，区分当前执行结果、历史结果和未验证范围；
 - 解释 Vue 与 React 为何业务等价但实现机制不同。
 
+## 验证范围
+
+本卷已完成阶段工程与唯一 Capstone 的代表性 SFC 类型检查、单元测试、构建、SSR 和 Chromium
+路径验证；历史快照与当前工程使用过不同环境，不能合并为一次完整执行。Safari、Firefox、
+真实移动设备、辅助技术、真实后端授权与事务、生产 SSR、托管 CI、部署与容量仍需单独验收。
+精确数量、版本、运行结果和历史边界统一见[交付与验证说明](../VALIDATION.md)。
+
+## 资料与导航
+
+- [Vue 文档](https://vuejs.org/)
+- [Vue Router](https://router.vuejs.org/)
+- [Pinia](https://pinia.vuejs.org/)
+- [Vue 教材覆盖矩阵](./VUE-COVERAGE.md)
+
 [返回全书目录](../README.md) · [开始第一章](./01-sfc-templates.md) ·
-[查看覆盖矩阵](./VUE-COVERAGE.md) · [进入工程化卷](../07-engineering/README.md)
+[进入工程化卷](../07-engineering/README.md)

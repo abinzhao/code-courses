@@ -22,7 +22,7 @@
 
 课程目标环境是 Node.js 24 LTS、PostgreSQL 18 与项目实际锁定的 `pg`。开始真实数据库实验前，
 必须记录 `node --version`、`psql --version`、服务端 `server_version`、脱敏后的连接目标和
-迁移状态。PostgreSQL 16 的成功输出不能替代 PostgreSQL 18 的运行证据。
+迁移状态。非目标 PostgreSQL 主版本的成功输出不能替代 PostgreSQL 18 的运行证据。
 
 练习文件创建在读者自己的 `market-api-lab/`，不在教材仓库安装依赖或保存 `.env`。所有连接串、
 口令、Cookie 与 token 均使用占位值；终端历史和错误日志不得出现真实凭据。
@@ -97,4 +97,5 @@ market-api-lab/
 
 [上一章：SQL 数据建模](03-sql-modeling.md) ·
 [后端卷目录](README.md) ·
+[后端覆盖矩阵](BACKEND-COVERAGE.md) ·
 [下一章：事务与并发](05-transactions-concurrency.md)

@@ -29,10 +29,18 @@
 
 | 顺序 | 教程 | 核心问题 | 建议时间 |
 | --- | --- | --- | ---: |
-| 1 | [details、dialog 与 popover](06-interactive-dom/01-native-interactive-elements.md) | 何时复用浏览器原生交互和顶层行为 | 5–6 小时 |
-| 2 | [DOM 查询、创建与修改](06-interactive-dom/02-dom-query-mutation.md) | 怎样安全地找到并改变节点 | 5–6 小时 |
-| 3 | [事件、表单与委托](06-interactive-dom/03-events-forms-delegation.md) | 一个输入怎样传播并触发状态变化 | 5–6 小时 |
-| 4 | [template 与 Web Components](06-interactive-dom/04-templates-web-components.md) | 怎样复用结构并管理组件生命周期 | 5–6 小时 |
+| 1 | [details、summary 与 toggle](06-interactive-dom/01-details-summary-toggle.md) | 复用 details、summary 的展开契约，观察 open、toggle 和命名组行为。 | 1.5–2.5 小时 |
+| 2 | [Dialog 模式、结果与焦点恢复](06-interactive-dom/02-dialog-modal-focus-results.md) | 区分 dialog 状态、顶层和模态行为，处理关闭结果、取消、初始焦点与恢复。 | 1.5–2.5 小时 |
+| 3 | [Popover、调用者与回退](06-interactive-dom/03-popover-invokers-fallback.md) | 使用 Popover、声明式调用者和脚本 API，并按能力检测提供可见回退。 | 1.5–2.5 小时 |
+| 4 | [DOM 查询、集合与导航](06-interactive-dom/04-dom-query-collections-navigation.md) | 查询当前 DOM，区分静态与动态集合，并沿节点和元素关系导航。 | 1.5–2.5 小时 |
+| 5 | [节点创建、移动、删除与安全文本](06-interactive-dom/05-dom-create-move-remove-safe-text.md) | 创建、插入、移动、替换和删除节点，并用 textContent 守住不可信文本边界。 | 1.5–2.5 小时 |
+| 6 | [属性、dataset 与状态同步](06-interactive-dom/06-dom-attributes-dataset-state-sync.md) | 同步 class、data-*、普通与布尔属性、ARIA、文字和可用性状态。 | 1.5–2.5 小时 |
+| 7 | [监听器生命周期与事件传播](06-interactive-dom/07-event-listener-lifecycle-propagation.md) | 注册和移除事件监听器，使用 once 与 AbortSignal，并预测捕获、目标和冒泡顺序。 | 1.5–2.5 小时 |
+| 8 | [事件目标、默认行为与语义事件](06-interactive-dom/08-event-target-defaults-semantic-events.md) | 区分 target 与 currentTarget、传播与默认行为，并按元素语义选择事件。 | 1.5–2.5 小时 |
+| 9 | [事件委托与合成事件](06-interactive-dom/09-event-delegation-synthetic-events.md) | 在稳定祖先上委托动态列表事件，并区分合成事件与真实用户操作。 | 1.5–2.5 小时 |
+| 10 | [Template、DocumentFragment 与克隆](06-interactive-dom/10-template-fragment-clone.md) | 解析但暂不激活 template 内容，使用 DocumentFragment 和 cloneNode() 安全复用结构。 | 1.5–2.5 小时 |
+| 11 | [自定义元素生命周期与属性同步](06-interactive-dom/11-custom-elements-lifecycle-attributes.md) | 注册自主自定义元素，管理连接、断开、采用和属性变化生命周期。 | 1.5–2.5 小时 |
+| 12 | [Shadow DOM、slot 与渐进增强](06-interactive-dom/12-shadow-dom-slots-progressive-enhancement.md) | 封装 Shadow DOM，分配 Light DOM 内容并观察 slot 变化，同时保留定义失败时的内容基线。 | 1.5–2.5 小时 |
 
 预计总学习时间：20–24 小时。
 
@@ -200,4 +208,4 @@ slot 分配结果：
 
 如果交互只能靠鼠标完成，状态只存在 class 而没有可见文字，或者你不能解释一次点击为何触发当前处理函数，应先重做对应路径。下一章会从不同读者和搜索工具的角度审计整套页面。
 
-[上一章：表单、提交与验证](05-forms-validation.md) · [开始本章第一课](06-interactive-dom/01-native-interactive-elements.md) · [下一章：无障碍、SEO 与质量](07-accessibility-seo.md) · [返回 HTML 模块](README.md)
+[上一章：表单、提交与验证](05-forms-validation.md) · [开始本章第一课](./06-interactive-dom/01-details-summary-toggle.md) · [下一章：无障碍、SEO 与质量](07-accessibility-seo.md) · [返回 HTML 模块](README.md)

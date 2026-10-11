@@ -29,10 +29,21 @@
 
 | 顺序 | 教程 | 核心问题 | 建议时间 |
 | --- | --- | --- | ---: |
-| 1 | [表单提交与成功控件](05-forms-validation/01-form-submission-successful-controls.md) | 哪些名称和值会进入一次提交 | 5–6 小时 |
-| 2 | [input 类型与值状态](05-forms-validation/02-input-types-values.md) | 不同输入任务怎样选择类型和读取值 | 6–7 小时 |
-| 3 | [表单控件、选择与分组](05-forms-validation/03-form-controls-groups.md) | 标签、分组和关联控件怎样协作 | 5–6 小时 |
-| 4 | [约束验证、错误恢复与文件](05-forms-validation/04-constraint-validation-files.md) | 无效输入怎样被发现、解释并恢复 | 6–7 小时 |
+| 1 | [表单目标、方法与编码](05-forms-validation/01-form-action-method-encoding.md) | 配置 action、method、enctype、target 和验证入口，预测浏览器如何发送表单。 | 1–2 小时 |
+| 2 | [成功控件、提交者与名称值](05-forms-validation/02-successful-controls-submitter-values.md) | 从控件树构造有序条目，区分 id、name、value、disabled、readonly 与提交者覆盖。 | 1–2 小时 |
+| 3 | [FormData、查询串与程序化提交](05-forms-validation/03-formdata-query-programmatic-submit.md) | 观察 GET 与 POST 数据，保留 FormData 多值，并区分 requestSubmit() 与 submit()。 | 1–2 小时 |
+| 4 | [input 类型与值状态模型](05-forms-validation/04-input-types-value-state.md) | 按输入任务选择 type，并区分当前值、默认值、脏值、checked 与 defaultChecked。 | 1–2 小时 |
+| 5 | [文本、数值与范围输入](05-forms-validation/05-text-number-range-inputs.md) | 为文本、邮箱、URL、搜索、电话、密码、数值和范围任务选择正确输入模型。 | 1–2 小时 |
+| 6 | [日期、时间、颜色与类型化值 API](05-forms-validation/06-date-time-color-inputs.md) | 处理日期时间和颜色输入的机器值、地区化界面与类型化 DOM API。 | 1–2 小时 |
+| 7 | [选择、文件、隐藏与命令输入](05-forms-validation/07-choice-file-command-inputs.md) | 配置 checkbox、radio、file、hidden、button 和提交类输入的名称值与默认行为。 | 1–2 小时 |
+| 8 | [showPicker 与渐进增强](05-forms-validation/08-showpicker-progressive-enhancement.md) | 把 showPicker() 作为可检测增强，并在不支持、拒绝或无脚本时保留原生输入基线。 | 1–2 小时 |
+| 9 | [标签、可见名称与 textarea](05-forms-validation/09-label-textarea.md) | 建立 label 与控件的可靠关联，并区分 textarea 的初始文本、当前值和换行。 | 1–2 小时 |
+| 10 | [选择控件、选项与按钮](05-forms-validation/10-select-option-button.md) | 处理 select、option、optgroup、多选状态和 button 的可见文字与提交值。 | 1–2 小时 |
+| 11 | [分组、建议、输出、进度与测量](05-forms-validation/11-fieldset-datalist-output-progress-meter.md) | 使用 fieldset、legend、datalist、output、progress 和 meter 表达分组与状态。 | 1–2 小时 |
+| 12 | [输入辅助、表单所有者与状态](05-forms-validation/12-input-assistance-form-state.md) | 配置输入辅助属性和 form 所有者，并区分内容属性、默认状态与当前状态。 | 1–2 小时 |
+| 13 | [约束属性与验证候选者](05-forms-validation/13-constraint-attributes-candidates.md) | 判断 willValidate 候选者，并使用 required、长度、pattern、min、max、step 和文件提示约束。 | 1–2 小时 |
+| 14 | [ValidityState、自定义错误与 invalid](05-forms-validation/14-validity-custom-errors-invalid.md) | 读取 ValidityState，管理 validationMessage 与 setCustomValidity() 生命周期，并处理 invalid 事件。 | 1–2 小时 |
+| 15 | [文件检查与服务端信任边界](05-forms-validation/15-file-checks-server-boundaries.md) | 分层处理文件提示、前端预检查和服务端最终检查，并区分验证、认证、授权与 CSRF。 | 1–2 小时 |
 
 预计总学习时间：22–26 小时。
 
@@ -230,4 +241,4 @@ FormData 与 URLSearchParams
 
 如果你只会读取 `.value`，却不能预测 FormData、解释默认值、清除 customError 或描述服务端边界，应先重做对应练习。下一章会在可靠结构和表单基础上系统学习原生交互、DOM 与事件。
 
-[上一章：表格与二维数据](04-tables-data.md) · [开始本章第一课](05-forms-validation/01-form-submission-successful-controls.md) · [下一章：原生交互、DOM 与事件](06-interactive-dom.md) · [返回 HTML 模块](README.md)
+[上一章：表格与二维数据](04-tables-data.md) · [开始本章第一课](./05-forms-validation/01-form-action-method-encoding.md) · [下一章：原生交互、DOM 与事件](06-interactive-dom.md) · [返回 HTML 模块](README.md)

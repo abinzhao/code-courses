@@ -16,7 +16,7 @@
 - 只在独立练习数据库 `market_model_lab` 运行，不连接生产或共享数据库。
 - 优先使用本机安全服务配置或交互认证，不把密码、连接字符串写入仓库、日志或截图。
 - 无法启动 PostgreSQL 18 时，记录命令、版本、连接目标和原始错误；只做不依赖数据库的静态检查。
-- 不用 PostgreSQL 16/17 的成功输出冒充 PostgreSQL 18 兼容证据。
+- 不用非目标 PostgreSQL 主版本的成功输出冒充 PostgreSQL 18 兼容证据。
 - 时间列使用 `timestamptz`；API 输出时转 UTC ISO。金额列使用整数分，不使用浮点。
 
 ## 三课学习路线
@@ -83,4 +83,5 @@
 
 [上一章：Nest API 与输入验证](02-nest-api-validation.md) ·
 [返回后端卷目录](README.md) ·
+[后端覆盖矩阵](BACKEND-COVERAGE.md) ·
 [下一章：PostgreSQL 数据访问](04-postgres-data-access.md)

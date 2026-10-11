@@ -152,9 +152,9 @@ node stream-state.js
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
     "@testing-library/user-event": "14.6.7",
-    "@types/node": "24.13.3",
-    "@types/react": "19.2.18",
-    "@types/react-dom": "19.2.7",
+    "@types/node": "24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "6.1.2",
     "eslint": "10.12.0",
     "eslint-plugin-react-hooks": "7.1.1",
@@ -421,6 +421,8 @@ export function validateDraft(draft: Draft):
 **完整文件：`neighborhood-market/apps/react-web/src/api.ts`**
 
 ```ts
+import type { Listing, Page, Reservation } from "./domain";
+
 export class ApiError extends Error {
   constructor(
     readonly status: number,
@@ -432,8 +434,114 @@ export class ApiError extends Error {
   }
 }
 
+export class ResponseValidationError extends Error {}
+
+type RecordValue = Record<string, unknown>;
+
+function record(value: unknown, label: string): RecordValue {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    throw new ResponseValidationError(`${label} 不是对象。`);
+  }
+  return value as RecordValue;
+}
+
+function text(value: unknown, label: string): string {
+  if (typeof value !== "string") {
+    throw new ResponseValidationError(`${label} 不是字符串。`);
+  }
+  return value;
+}
+
+function integer(value: unknown, label: string): number {
+  if (!Number.isSafeInteger(value)) {
+    throw new ResponseValidationError(`${label} 不是安全整数。`);
+  }
+  return value as number;
+}
+
+function nonNegativeInteger(value: unknown, label: string): number {
+  const parsed = integer(value, label);
+  if (parsed < 0) {
+    throw new ResponseValidationError(`${label} 不能为负数。`);
+  }
+  return parsed;
+}
+
+function positiveInteger(value: unknown, label: string): number {
+  const parsed = integer(value, label);
+  if (parsed < 1) {
+    throw new ResponseValidationError(`${label} 必须为正整数。`);
+  }
+  return parsed;
+}
+
+function utcInstant(value: unknown, label: string): string {
+  const parsed = text(value, label);
+  const date = new Date(parsed);
+  if (Number.isNaN(date.valueOf()) || date.toISOString() !== parsed) {
+    throw new ResponseValidationError(`${label} 不是规范 UTC 时间。`);
+  }
+  return parsed;
+}
+
+export function parseUser(value: unknown) {
+  const data = record(value, "用户响应");
+  return { id: text(data.id, "user.id"), name: text(data.name, "user.name") };
+}
+
+export function parseListing(value: unknown): Listing {
+  const data = record(value, "商品响应");
+  const status = text(data.status, "listing.status");
+  if (!["available", "reserved", "sold"].includes(status)) {
+    throw new ResponseValidationError("listing.status 非法。");
+  }
+  return {
+    id: text(data.id, "listing.id"),
+    title: text(data.title, "listing.title"),
+    description: text(data.description, "listing.description"),
+    priceCents: nonNegativeInteger(data.priceCents, "listing.priceCents"),
+    status: status as Listing["status"],
+    ownerId: text(data.ownerId, "listing.ownerId"),
+    version: positiveInteger(data.version, "listing.version"),
+    createdAt: utcInstant(data.createdAt, "listing.createdAt"),
+  };
+}
+
+export function parseListingPage(value: unknown): Page<Listing> {
+  const data = record(value, "分页响应");
+  if (!Array.isArray(data.items)) {
+    throw new ResponseValidationError("page.items 不是数组。");
+  }
+  return {
+    items: data.items.map(parseListing),
+    page: positiveInteger(data.page, "page.page"),
+    pageSize: positiveInteger(data.pageSize, "page.pageSize"),
+    total: nonNegativeInteger(data.total, "page.total"),
+  };
+}
+
+export function parseReservation(value: unknown): Reservation {
+  const data = record(value, "预约响应");
+  const status = text(data.status, "reservation.status");
+  if (!["pending", "confirmed", "cancelled"].includes(status)) {
+    throw new ResponseValidationError("reservation.status 非法。");
+  }
+  return {
+    id: text(data.id, "reservation.id"),
+    listingId: text(data.listingId, "reservation.listingId"),
+    buyerId: text(data.buyerId, "reservation.buyerId"),
+    status: status as Reservation["status"],
+    createdAt: utcInstant(data.createdAt, "reservation.createdAt"),
+  };
+}
+
+export function parseAck(value: unknown): RecordValue {
+  return record(value, "确认响应");
+}
+
 export async function api<T>(
   path: string,
+  parse: (value: unknown) => T,
   init: RequestInit = {},
 ): Promise<T> {
   const headers = new Headers(init.headers);
@@ -446,22 +554,18 @@ export async function api<T>(
     headers,
     credentials: "same-origin",
   });
-  if (response.status === 204 && response.ok) return undefined as T;
+  if (response.status === 204 && response.ok) return parse(undefined);
   const value: unknown = await response.json();
   if (!response.ok) {
-    const body = value as {
-      code?: string;
-      message?: string;
-      requestId?: string;
-    };
+    const body = record(value, "错误响应");
     throw new ApiError(
       response.status,
-      body.code ?? "HTTP_ERROR",
-      body.message ?? "请求失败。",
-      body.requestId ?? "unknown",
+      typeof body.code === "string" ? body.code : "HTTP_ERROR",
+      typeof body.message === "string" ? body.message : "请求失败。",
+      typeof body.requestId === "string" ? body.requestId : "unknown",
     );
   }
-  return value as T;
+  return parse(value);
 }
 ```
 
@@ -531,7 +635,7 @@ import {
   useState,
 } from "react";
 import type { ReactNode } from "react";
-import { api, ApiError } from "./api";
+import { api, ApiError, parseAck, parseUser } from "./api";
 import {
   favoriteReducer,
   initialFavorites,
@@ -555,6 +659,15 @@ function message(error: unknown, fallback: string) {
   return error instanceof Error ? error.message : fallback;
 }
 
+export async function resolveCurrent<T>(
+  request: Promise<T>,
+  startedAt: number,
+  currentEpoch: () => number,
+): Promise<T | null> {
+  const value = await request;
+  return startedAt === currentEpoch() ? value : null;
+}
+
 export function MarketProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [sessionLoading, setSessionLoading] = useState(true);
@@ -576,8 +689,12 @@ export function MarketProvider({ children }: { children: ReactNode }) {
     setSessionLoading(true);
     setSessionError("");
     try {
-      const next = await api<User>("/auth/me");
-      if (startedAt === epoch.current) setUser(next);
+      const next = await resolveCurrent(
+        api("/auth/me", parseUser),
+        startedAt,
+        () => epoch.current,
+      );
+      if (next) setUser(next);
     } catch (error) {
       if (startedAt !== epoch.current) return;
       if (error instanceof ApiError && error.status === 401) invalidate();
@@ -590,9 +707,13 @@ export function MarketProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const controller = new AbortController();
     const startedAt = epoch.current;
-    api<User>("/auth/me", { signal: controller.signal })
+    resolveCurrent(
+      api("/auth/me", parseUser, { signal: controller.signal }),
+      startedAt,
+      () => epoch.current,
+    )
       .then((next) => {
-        if (!controller.signal.aborted && startedAt === epoch.current) {
+        if (!controller.signal.aborted && next) {
           setUser(next);
         }
       })
@@ -615,7 +736,7 @@ export function MarketProvider({ children }: { children: ReactNode }) {
     const startedAt = epoch.current;
     dispatch({ type: "start", id });
     try {
-      await api(`/favorites/${encodeURIComponent(id)}`, {
+      await api(`/favorites/${encodeURIComponent(id)}`, parseAck, {
         method: selected ? "PUT" : "DELETE",
       });
       if (startedAt === epoch.current) {
@@ -638,7 +759,7 @@ export function MarketProvider({ children }: { children: ReactNode }) {
   }
 
   async function logout() {
-    await api("/auth/logout", { method: "POST", body: "{}" });
+    await api("/auth/logout", parseAck, { method: "POST", body: "{}" });
     invalidate();
     setSessionError("");
     setSessionLoading(false);
@@ -687,20 +808,26 @@ import {
   useLocation,
   useNavigate,
   useNavigation,
+  useNavigationType,
   useRouteError,
 } from "react-router";
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
 } from "react-router";
-import { api, ApiError } from "./api";
-import type { Listing, Page, Reservation } from "./domain";
+import {
+  api,
+  ApiError,
+  parseListing,
+  parseListingPage,
+  parseReservation,
+  parseUser,
+} from "./api";
+import type { Listing } from "./domain";
 import { money } from "./domain";
 import type { ListingInput } from "./form";
 import { validateDraft } from "./form";
 import { useMarket } from "./MarketContext";
-
-let hasMountedLayout = false;
 
 function routeTitle(pathname: string) {
   if (pathname === "/new") return "发布商品";
@@ -721,9 +848,13 @@ async function listLoader({ request }: LoaderFunctionArgs) {
   const page = positiveInt(url.searchParams.get("page"), 1);
   const params = new URLSearchParams({ q, page: String(page), pageSize: "20" });
   try {
-    const result = await api<Page<Listing>>(`/listings?${params}`, {
+    const result = await api(`/listings?${params}`, parseListingPage, {
       signal: request.signal,
     });
+    if (result.page !== page) {
+      params.set("page", String(result.page));
+      throw redirect(`/listings?${params}`);
+    }
     return { result, q };
   } catch (error) {
     if (error instanceof ApiError) {
@@ -735,8 +866,9 @@ async function listLoader({ request }: LoaderFunctionArgs) {
 
 async function detailLoader({ params, request }: LoaderFunctionArgs) {
   try {
-    return await api<Listing>(
+    return await api(
       `/listings/${encodeURIComponent(params.id ?? "")}`,
+      parseListing,
       { signal: request.signal },
     );
   } catch (error) {
@@ -747,25 +879,39 @@ async function detailLoader({ params, request }: LoaderFunctionArgs) {
   }
 }
 
-type ActionResult = Readonly<{ error?: string; success?: string }>;
+type ActionResult = Readonly<{
+  error?: string;
+  success?: string;
+  status?: number;
+  code?: string;
+  requestId?: string;
+}>;
 
 async function reserveAction({ params, request }: ActionFunctionArgs):
 Promise<ActionResult> {
   const form = await request.formData();
   if (form.get("intent") !== "reserve") return { error: "未知操作。" };
   try {
-    const reservation = await api<Reservation>(
+    const reservation = await api(
       `/listings/${encodeURIComponent(params.id ?? "")}/reservations`,
+      parseReservation,
       { method: "POST", body: "{}" },
     );
     return { success: `预约成功，预约编号：${reservation.id}` };
   } catch (error) {
-    return { error: error instanceof Error ? error.message : "预约失败。" };
+    return error instanceof ApiError
+      ? {
+          error: error.message,
+          status: error.status,
+          code: error.code,
+          requestId: error.requestId,
+        }
+      : { error: error instanceof Error ? error.message : "预约失败。" };
   }
 }
 
 async function loginAction() {
-  await api("/auth/login", { method: "POST", body: "{}" });
+  await api("/auth/login", parseUser, { method: "POST", body: "{}" });
   return redirect("/listings");
 }
 
@@ -913,14 +1059,21 @@ export function ListingForm(props: {
 
 function Layout() {
   const navigation = useNavigation();
+  const navigationType = useNavigationType();
   const location = useLocation();
   const heading = useRef<HTMLHeadingElement>(null);
+  const previousPath = useRef(location.pathname);
+  const mounted = useRef(false);
   useEffect(() => {
     document.title = `${routeTitle(location.pathname)} · 邻里集市`;
-    const shouldFocus = hasMountedLayout;
-    hasMountedLayout = true;
-    if (shouldFocus) heading.current?.focus();
-  }, [location.pathname]);
+    if (!mounted.current && navigationType !== "POP") {
+      heading.current?.focus();
+    } else if (mounted.current && previousPath.current !== location.pathname) {
+      heading.current?.focus();
+    }
+    mounted.current = true;
+    previousPath.current = location.pathname;
+  }, [location.pathname, navigationType]);
   return (
     <main>
       <h1 ref={heading} tabIndex={-1}>邻里集市</h1>
@@ -938,11 +1091,29 @@ function Layout() {
 
 function ListPage() {
   const { result, q } = useLoaderData<typeof listLoader>();
+  const navigation = useNavigation();
+  const searchInput = useRef<HTMLInputElement>(null);
+  const restoreSearchFocus = useRef(false);
+  useEffect(() => {
+    if (navigation.state !== "idle" && navigation.formMethod === "GET") {
+      restoreSearchFocus.current = true;
+    } else if (restoreSearchFocus.current) {
+      restoreSearchFocus.current = false;
+      searchInput.current?.focus();
+    }
+  }, [navigation.formMethod, navigation.state]);
+  const pageCount = Math.max(1, Math.ceil(result.total / result.pageSize));
+  function href(page: number) {
+    const query = new URLSearchParams();
+    if (q) query.set("q", q);
+    query.set("page", String(page));
+    return `/listings?${query}`;
+  }
   return (
     <section aria-label="商品列表">
       <Form method="get">
         <label htmlFor="q">搜索标题</label>
-        <input id="q" name="q" defaultValue={q} />
+        <input ref={searchInput} id="q" name="q" defaultValue={q} />
         <button>筛选</button>
       </Form>
       <p role="status">找到 {result.total} 件商品</p>
@@ -956,6 +1127,12 @@ function ListPage() {
             <FavoriteButton id={item.id} />
           </ListingCard>
         ))}
+      <nav aria-label="分页">
+        {result.page > 1 && <Link to={href(result.page - 1)}>上一页</Link>}
+        <span> 第 {result.page} / {pageCount} 页 </span>
+        {result.page < pageCount &&
+          <Link to={href(result.page + 1)}>下一页</Link>}
+      </nav>
     </section>
   );
 }
@@ -978,7 +1155,12 @@ function DetailPage() {
           预约
         </button>
       </Form>
-      {result?.error && <p role="alert">{result.error}</p>}
+      {result?.error && (
+        <p role="alert">
+          {result.status} {result.code}：{result.error}
+          {result.requestId && `（请求 ${result.requestId}）`}
+        </p>
+      )}
       {result?.success && <p role="status">{result.success}</p>}
     </section>
   );
@@ -987,7 +1169,7 @@ function DetailPage() {
 function NewPage() {
   const navigate = useNavigate();
   async function save(input: ListingInput) {
-    const created = await api<Listing>("/listings", {
+    const created = await api("/listings", parseListing, {
       method: "POST",
       body: JSON.stringify(input),
     });
@@ -1217,12 +1399,16 @@ export default function devApi(): Plugin {
             if (q === "__error") {
               return fail(503, "DEMO_FAILURE", "演示服务故障。");
             }
-            const page = Math.max(1, Number(url.searchParams.get("page")) || 1);
+            const requestedPage =
+              Math.max(1, Number(url.searchParams.get("page")) || 1);
             const pageSize = Math.min(
               100,
               Math.max(1, Number(url.searchParams.get("pageSize")) || 20),
             );
             const filtered = items.filter((item) => item.title.includes(q));
+            const pageCount =
+              Math.max(1, Math.ceil(filtered.length / pageSize));
+            const page = Math.min(requestedPage, pageCount);
             return send(200, {
               items: filtered.slice((page - 1) * pageSize, page * pageSize),
               page,
@@ -1252,14 +1438,14 @@ export default function devApi(): Plugin {
             const data = await body(req);
             const cents = data.priceCents;
             if (typeof cents !== "number" || !Number.isSafeInteger(cents)) {
-              return fail(422, "VALIDATION", "价格必须为整数分。");
+              return fail(400, "VALIDATION", "价格必须为整数分。");
             }
             const result = validateDraft({
               title: String(data.title ?? ""),
               description: String(data.description ?? ""),
               price: (cents / 100).toFixed(2),
             });
-            if (!result.ok) return fail(422, "VALIDATION", result.message);
+            if (!result.ok) return fail(400, "VALIDATION", result.message);
             const created = {
               ...result.value,
               id: crypto.randomUUID(),
@@ -1323,12 +1509,26 @@ afterEach(cleanup);
 **完整文件：`neighborhood-market/apps/react-web/src/app.test.tsx`**
 
 ```tsx
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { ListingForm } from "./App";
+import {
+  api,
+  parseListing,
+  parseListingPage,
+  ResponseValidationError,
+} from "./api";
 import { favoriteReducer, initialFavorites } from "./favorite-state";
 import { parsePrice } from "./form";
+import { MarketProvider, useMarket } from "./MarketContext";
+
+vi.mock("./api", async importOriginal => {
+  const original = await importOriginal<typeof import("./api")>();
+  return { ...original, api: vi.fn() };
+});
+
+const request = vi.mocked(api);
 
 describe("price-and-draft-contract", () => {
   it.each([
@@ -1350,6 +1550,99 @@ it("favorite-target-is-idempotent", () => {
   const once = favoriteReducer(initialFavorites, action);
   expect(favoriteReducer(once, action).ids).toEqual(["lamp-1"]);
   expect(initialFavorites.ids).toEqual([]);
+});
+
+it("runtime-response-parser-rejects-malformed-success", () => {
+  const valid = {
+    id: "lamp-1",
+    title: "台灯",
+    description: "完整字段",
+    priceCents: 3500,
+    status: "available",
+    ownerId: "seller-1",
+    version: 1,
+    createdAt: "2026-10-11T08:00:00.000Z",
+  };
+  for (const invalid of [
+    { ...valid, priceCents: -1 },
+    { ...valid, version: 0 },
+    { ...valid, createdAt: "2026-10-11" },
+  ]) {
+    expect(() => parseListing(invalid)).toThrow(ResponseValidationError);
+  }
+  expect(() => parseListingPage({
+    items: [valid],
+    page: 0,
+    pageSize: 20,
+    total: -1,
+  })).toThrow(ResponseValidationError);
+});
+
+function SessionProbe() {
+  const market = useMarket();
+  return (
+    <>
+      <output aria-label="当前用户">{market.user?.name ?? "anonymous"}</output>
+      <p role="alert">{market.sessionError}</p>
+      <button onClick={() => void market.refreshSession()}>刷新会话</button>
+      <button onClick={() => void market.logout()}>注销会话</button>
+    </>
+  );
+}
+
+it("late-session-result-is-ignored-after-real-logout", async () => {
+  request.mockReset();
+  request.mockResolvedValueOnce({ id: "current-user", name: "当前会话" });
+  render(
+    <MarketProvider>
+      <SessionProbe />
+    </MarketProvider>,
+  );
+  expect(await screen.findByLabelText("当前用户")).toHaveTextContent("当前会话");
+
+  let finish!: (value: { id: string; name: string }) => void;
+  request.mockImplementationOnce(() =>
+    new Promise(resolve => {
+      finish = resolve;
+    })
+  );
+  const user = userEvent.setup();
+  await user.click(screen.getByRole("button", { name: "刷新会话" }));
+  request.mockResolvedValueOnce({ ok: true });
+  await user.click(screen.getByRole("button", { name: "注销会话" }));
+  await waitFor(() =>
+    expect(screen.getByLabelText("当前用户")).toHaveTextContent("anonymous")
+  );
+  finish({ id: "old-user", name: "旧会话" });
+  await waitFor(() =>
+    expect(screen.getByLabelText("当前用户")).toHaveTextContent("anonymous")
+  );
+});
+
+it("late-session-rejection-does-not-cross-logout", async () => {
+  request.mockReset();
+  request.mockResolvedValueOnce({ id: "current-user", name: "当前会话" });
+  render(
+    <MarketProvider>
+      <SessionProbe />
+    </MarketProvider>,
+  );
+  expect(await screen.findByLabelText("当前用户")).toHaveTextContent("当前会话");
+
+  let reject!: (reason: unknown) => void;
+  request.mockImplementationOnce(() =>
+    new Promise((_resolve, onReject) => {
+      reject = onReject;
+    })
+  );
+  const user = userEvent.setup();
+  await user.click(screen.getByRole("button", { name: "刷新会话" }));
+  request.mockResolvedValueOnce({ ok: true });
+  await user.click(screen.getByRole("button", { name: "注销会话" }));
+  reject(new Error("旧请求失败"));
+  await waitFor(() =>
+    expect(screen.getByRole("alert")).toHaveTextContent("")
+  );
 });
 
 it("failed-publish-keeps-draft", async () => {
@@ -1420,6 +1713,14 @@ test("keyboard-primary-path", async ({ page }) => {
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/q=/);
   await expect(page.getByText("九成新台灯")).toBeVisible();
+  await expect(page.getByLabel("搜索标题")).toBeFocused();
+});
+
+test("pagination-normalizes-an-out-of-range-page", async ({ page }) => {
+  await page.goto("/listings?page=999");
+  await expect(page).toHaveURL(/page=1/);
+  await expect(page.getByRole("navigation", { name: "分页" }))
+    .toContainText("第 1 / 1 页");
 });
 
 test("reservation-conflict-across-tabs", async ({ browser }) => {
@@ -1441,7 +1742,9 @@ test("reservation-conflict-across-tabs", async ({ browser }) => {
       ...(await first.locator('[role="status"],[role="alert"]').allTextContents()),
       ...(await second.locator('[role="status"],[role="alert"]').allTextContents()),
     ].join(" ");
-    return /预约成功/.test(combined) && /已被预约/.test(combined);
+    return /预约成功/.test(combined) &&
+      /409 RESERVATION_CONFLICT/.test(combined) &&
+      /请求 [0-9a-f-]{36}/.test(combined);
   }).toBe(true);
 });
 ```
@@ -1543,11 +1846,18 @@ import type { InitialData } from "./types";
 
 export function render(requestUrl: string) {
   const q = new URL(requestUrl, "http://localhost").searchParams.get("q") ?? "";
+  const xssFixture = {
+    ...seed[0],
+    id: "xss-1",
+    title: "</script><script>globalThis.pwned=true</script>",
+  };
   const initial: InitialData = {
     q,
     items: q === "__error"
       ? []
-      : seed.filter((item) => item.title.includes(q)),
+      : q === "xss"
+        ? [xssFixture]
+        : seed.filter((item) => item.title.includes(q)),
     error: q === "__error" ? "演示数据源不可用。" : "",
   };
   return {

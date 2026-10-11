@@ -114,6 +114,8 @@ market-web-<commit-sha>/
 ```
 
 这些描述值必须由受控流程写入实际值，不能把说明文字当作生产清单。发布时间保持 UTC ISO 8601。
+本地构建只有在 index 与工作树都干净时才能绑定 `HEAD`；存在未提交或未跟踪输入时必须标为
+`local-uncommitted`，不能把不同输入伪装成该提交的制品。
 
 先从第 05 章当前已验证的 `dist` 生成本地 artifact，再模拟部署。所有删除都限定到本课固定的
 `/tmp` 目录，执行前逐项核对变量：
@@ -129,7 +131,12 @@ rm -rf "$artifact" "$release"
 mkdir -p "$artifact" "$release"
 cp -R dist/. "$artifact/"
 
-commit="$(git rev-parse HEAD 2>/dev/null || printf 'local-uncommitted')"
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1 \
+  && [ -z "$(git status --porcelain --untracked-files=normal)" ]; then
+  commit="$(git rev-parse HEAD)"
+else
+  commit="local-uncommitted"
+fi
 built_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 COMMIT="$commit" BUILT_AT="$built_at" ARTIFACT="$artifact" node --input-type=module -e '
   import { writeFileSync } from "node:fs";
@@ -225,13 +232,20 @@ JS
 必须提交以下本地证据，而不是生产成功声明：
 
 ```bash
-git rev-parse HEAD 2>/dev/null || printf 'local-uncommitted\n'
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1 \
+  && [ -z "$(git status --porcelain --untracked-files=normal)" ]; then
+  git rev-parse HEAD
+else
+  printf 'local-uncommitted\n'
+fi
 pnpm verify
 find dist -type f -print | sort
 (cd /tmp/market-artifact && shasum -a 256 -c SHA256SUMS)
 ```
 
-通过条件：制品关联真实提交；摘要通过；缺失路径会失败；发布计划采用资源先行；旧资源有保留窗口；列出托管 CI、registry、CDN headers、TLS、域名切换、生产部署和数据库恢复的未验证状态。
+通过条件：干净输入的制品关联真实提交，其他本地输入明确标为未提交；摘要通过；缺失路径会失败；
+发布计划采用资源先行；旧资源有保留窗口；列出托管 CI、registry、CDN headers、TLS、域名切换、
+生产部署和数据库恢复的未验证状态。
 
 ## 12. 常见问题
 

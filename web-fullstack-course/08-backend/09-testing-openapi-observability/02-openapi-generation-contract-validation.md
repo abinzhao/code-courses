@@ -448,7 +448,7 @@ scripts/
   check-openapi-contract.mjs
 ```
 
-若使用 `@nestjs/swagger`，先选择与 NestJS 12.1.1 兼容并在项目锁文件固定的版本，再记录：
+若使用 `@nestjs/swagger`，先选择与 NestJS 12.1.2 兼容并在项目锁文件固定的版本，再记录：
 
 ```bash
 pnpm list @nestjs/core @nestjs/swagger

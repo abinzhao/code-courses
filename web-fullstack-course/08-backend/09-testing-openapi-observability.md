@@ -19,7 +19,7 @@
 - 已完成[事务与并发](05-transactions-concurrency.md)；
 - 已完成[Redis、Outbox 与队列](08-redis-queues-reliability.md)；
 - 阅读[统一项目契约](../00-guide/05-project-assessment.md)中的状态码、整数分、UTC 和阻断项；
-- 使用 Node.js 24、NestJS 12.1.1；真实数据边界只接受隔离 PostgreSQL 18 测试库；
+- 使用 Node.js 24、NestJS 12.1.2；真实数据边界只接受隔离 PostgreSQL 18 测试库；
 - OpenAPI 基线为 3.0.3，工具具体补丁版本以项目锁文件和实际探针为准。
 
 测试中的假时钟、stub session、Mock provider、静态 OpenAPI fixture 和内存 metrics 会明确标记。
@@ -85,7 +85,7 @@ OpenAPI 契约测试复用第一课的 HTTP harness；遥测课用同一 request
 ## 证据边界
 
 真实 PostgreSQL 并发测试必须记录服务端主版本、客户端主版本、连接目标和迁移状态。目标 18
-无法启动时保留原始错误，不用 PostgreSQL 16、Mock repository 或 SQL 字符串测试冒充兼容。
+无法启动时保留原始错误，不用非目标 PostgreSQL 主版本、Mock repository 或 SQL 字符串测试冒充兼容。
 测试重复多轮提高发现概率，但安全性仍来自约束、锁和事务设计。
 
 OpenAPI 是机器可读协议承诺，不证明业务权限。可观测性是诊断证据，不应改变成功条件：不能因
@@ -97,4 +97,5 @@ OpenAPI 是机器可读协议承诺，不证明业务权限。可观测性是诊
 - 上一章：[08 Redis、Outbox 与队列](08-redis-queues-reliability.md)
 - 第一课：[单元、HTTP 与真实 PostgreSQL 测试](09-testing-openapi-observability/01-unit-http-real-postgres-tests.md)
 - 下一章：[10 API 综合项目](10-api-capstone.md)
+- 覆盖审计：[后端覆盖矩阵](BACKEND-COVERAGE.md)
 - 分卷入口：[从零建立业务后端](README.md)

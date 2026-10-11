@@ -40,7 +40,7 @@ pnpm exec playwright --version
 pnpm verify
 ```
 
-目标环境为 Node `24.21.0`、pnpm `12.10.1`、TS 7 主 CLI、TS 6 兼容 CLI/API、Playwright `1.64.0`。实际输出不同应记录差异，不要改文字伪装一致。
+目标环境为 Node `24.21.0`、pnpm `12.11.2`、TS 7 主 CLI、TS 6 兼容 CLI/API、Playwright `1.64.0`。实际输出不同应记录差异，不要改文字伪装一致。
 
 ## 4. 核心理论
 
@@ -56,7 +56,8 @@ pnpm verify
 
 默认 `contents: read` 足够检出源码。未受信 PR 不应获得生产密钥，也不能在高权限 `pull_request_target` 上安装并执行对方提交。依赖安装可能执行 lifecycle scripts，因此锁文件和来源审查不只是版本问题。
 
-`actions/checkout@v4` 等主版本 tag 可移动。教学示例保留官方主版本并明确风险；高约束仓库应把经审查的 Action 固定到真实完整 commit SHA，并建立受控更新流程，不能编造 SHA。
+Action tag 可移动。完整教学文件把当前审查版本固定到真实完整 commit SHA；升级时重新解析官方
+tag、审查差异并更新版本旁注，不能只替换注释或编造 SHA。
 
 ## 5. 元素、属性、API 或配置清单
 
@@ -126,15 +127,20 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Check out submitted commit
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Install Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "24.21.0"
 
-      - name: Install pinned pnpm
-        run: npm install --global pnpm@12.10.1
+      - name: Enable pinned pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@12.11.2 --activate
+          pnpm --version
 
       - name: Record runtime versions
         run: |
@@ -156,8 +162,32 @@ jobs:
       - name: Verify submitted source
         run: pnpm verify
 
+      - name: Bind artifact metadata to submitted commit
+        env:
+          BUILD_COMMIT: ${{ github.sha }}
+        run: |
+          BUILD_TIME="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          export BUILD_TIME
+          node -e '
+            const { writeFileSync } = require("node:fs");
+            writeFileSync("dist/RELEASE.json", JSON.stringify({
+              schemaVersion: 1,
+              commit: process.env.BUILD_COMMIT,
+              builtAt: process.env.BUILD_TIME,
+              source: "authorized-ci",
+              entry: "index.html"
+            }, null, 2) + "\n");
+          '
+          (
+            cd dist
+            find . -type f ! -name SHA256SUMS -print0 \
+              | sort -z \
+              | xargs -0 sha256sum > SHA256SUMS
+            sha256sum -c SHA256SUMS
+          )
+
       - name: Upload commit-linked build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: market-web-${{ github.sha }}
           path: dist
@@ -165,7 +195,7 @@ jobs:
 
       - name: Upload short-lived browser failure evidence
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: browser-failure-${{ github.sha }}
           path: |
@@ -199,13 +229,14 @@ jobs:
    **答案**：不能。缓存是加速层，锁文件一致性仍需验证。
 3. `pull_request_target` 为什么危险？
    **答案**：它可能带目标仓库权限；不得用它执行未受信任分支任意代码并接触密钥。
-4. `actions/checkout@v4` 是否不可变？
+4. 为什么完整 Action SHA 比版本注释更能固定实际执行代码？
    **答案**：不是，主版本 tag 可移动；严格场景固定经审查的真实 SHA。
 
 ## 10. 实践练习
 
 - **基础**：把本地命令表映射到 YAML step。验收：格式、Lint、TS7、TS6、测试、构建、预算、E2E 均有真实执行路径。
-- **进阶**：设计 pnpm store 缓存 key。验收：包含 OS、Node、pnpm、锁文件 hash，cache miss 能回退正常安装。
+- **进阶**：审计 `setup-node` 内置 pnpm 缓存身份。验收：说明它基于 runner 平台与锁文件，
+  cache miss 能回退正常安装；若团队还要求按 Node/pnpm 版本隔离，应改用显式缓存步骤并记录 key。
 - **故障注入**：令清单与锁文件不一致。验收：冻结安装失败；恢复方式是重新生成并审查锁文件，不是移除 frozen。
 
 ## 11. 阶段验收

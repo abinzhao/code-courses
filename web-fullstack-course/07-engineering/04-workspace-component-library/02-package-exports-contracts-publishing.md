@@ -8,7 +8,7 @@
 | 最小案例 | 工作区源码包只从公共入口消费，错误深导入确定失败 |
 | 集成案例 | 在系统临时目录生成 JS、`.d.ts`、CSS 和 tarball，再由独立 Vite 消费者安装 |
 | 运行位置 | 第 1 课的 `market-workspace/`；发布演练副本与消费者位于 `/tmp/` |
-| 固定工具 | Node.js `24.21.0`、pnpm `12.10.1`、Vite `8.3.0`、TS 7 `7.0.2` |
+| 固定工具 | Node.js `24.21.0`、pnpm `12.11.2`、Vite `8.3.4`、TS 7 `7.0.2` |
 | 完成时间 | 约 150 分钟 |
 | 明确边界 | 本地 pack 不是公共注册表发布；类型、parser 与 exports 都不是身份授权机制 |
 
@@ -188,7 +188,7 @@ Vue 组件包同理。纯 CSS、DOM 工厂和 contracts 没有 React/Vue 运行�
 | `tar -tf` | 查看 tarball | 发现缺失/多余文件 | 是否含源码、密钥、缓存 |
 | Node.js | `24.21.0` | 验证 ESM 运行时入口 | 包条件和扩展名 |
 | TypeScript | TS 7 `7.0.2` | 生成并消费声明 | TS 6 API 工具不是同一入口 |
-| Vite | `8.3.0` | 验证浏览器和 CSS 消费 | 它不生成库声明 |
+| Vite | `8.3.4` | 验证浏览器和 CSS 消费 | 它不生成库声明 |
 
 ## 6. 最小可运行案例
 
@@ -537,7 +537,7 @@ cd /tmp/market-clean-consumer
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "packageManager": "pnpm@12.10.1",
+  "packageManager": "pnpm@12.11.2",
   "scripts": {
     "runtime": "node src/runtime.mjs",
     "typecheck": "tsc --noEmit",
@@ -549,7 +549,7 @@ cd /tmp/market-clean-consumer
   },
   "devDependencies": {
     "@typescript/native": "npm:typescript@7.0.2",
-    "vite": "8.3.0"
+    "vite": "8.3.4"
   },
   "pnpm": {
     "overrides": {

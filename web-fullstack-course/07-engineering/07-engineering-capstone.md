@@ -4,7 +4,7 @@
 
 把前六章的安装、静态质量、工作区、构建、测试、预算和浏览器证据组装成一个可机械重建的
 `market-engineering-capstone`。项目代码只存在于四篇教程的完整文件围栏中；验证时提取到
-`/tmp/full-course-verification/batch-d/market-engineering-capstone`，不在教材树安装依赖或
+`/tmp/web-fullstack-modernization/batch-4/market-engineering-capstone`，不在教材树安装依赖或
 保存生成物。
 
 这是**本机、只读、教学工程**。Vite 插件提供的同源 API 不包含真实身份、对象授权、CSRF、
@@ -15,7 +15,7 @@
 
 - 已完成[第 06 章：Git、CI 与发布](06-ci-git-release.md)及其前置章节。
 - 能区分 Node、pnpm、Vite、TS 7、TS 6 兼容 API、ESLint、Vitest 与 Playwright 的责任。
-- 本机可使用 Node.js `24.21.0`、pnpm `12.10.1` 和现代 Chromium。
+- 本机可使用 Node.js `24.21.0`、pnpm `12.11.2` 和现代 Chromium。
 - 已阅读[统一项目契约](../00-guide/05-project-assessment.md)与
   [版本基线](../00-guide/02-version-baseline.md)。
 
@@ -59,7 +59,7 @@
 
 | 阶段 | 命令 | 必须观察 |
 | --- | --- | --- |
-| 环境 | `node --version`、`pnpm --version` | `v24.21.0`、`12.10.1` |
+| 环境 | `node --version`、`pnpm --version` | `v24.21.0`、`12.11.2` |
 | 安装 | `pnpm install`、`pnpm install --frozen-lockfile` | 锁文件只在 `/tmp` 生成，冻结重装不改变它 |
 | 编译器 | `pnpm exec tsc --version`、`pnpm exec tsc6 --version`、导入 `typescript` | TS 7 为 `7.0.2`；兼容 CLI/API 为同一实际 6.0 系列 |
 | 静态质量 | `pnpm format:check`、`pnpm lint`、`pnpm typecheck:all` | 每个门独立退出 `0` |
@@ -81,4 +81,5 @@
 - 上一章：[06 Git、CI 与发布](06-ci-git-release.md)
 - 第一课：[结业项目契约与脚手架](07-engineering-capstone/01-capstone-contract-scaffold.md)
 - 分卷入口：[现代前端工程化](README.md)
+- 覆盖矩阵：[工程化覆盖矩阵](ENGINEERING-COVERAGE.md)
 - 全书入口：[Web 全栈课程](../README.md)

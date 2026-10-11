@@ -6,7 +6,7 @@
 | --- | --- |
 | 本课产出 | 一份合并前清单、一次无覆盖 dry-run、结构化 manifest 整合脚本、外部 JSON 运行时解析器 |
 | 练习位置 | 读者自己的 `market/` 工作区；教材仓库只保存教程 |
-| 固定基线 | Node.js 24 LTS、pnpm `12.10.1`、NestJS `12.1.1`、React `19.3`、Vue `3.5.43` |
+| 固定基线 | Node.js 24 LTS、pnpm `12.11.2`、NestJS `12.1.2`、React `19.3`、Vue `3.5.43` |
 | 核心证据 | 三个应用可被包名选中、只有一份根锁文件、整数分与 UTC 契约通过、损坏 JSON 被拒绝 |
 | 建议时间 | 180 分钟 |
 | 环境标签 | **local** 工作区整合；不证明浏览器会话、PostgreSQL 18 或容器运行 |
@@ -74,7 +74,7 @@ React 卷、Vue 卷和后端卷都曾建立可独立学习的工程。如果把�
 
 ### 4.2 一份锁文件对应一个安装边界
 
-根 manifest 声明 `packageManager: "pnpm@12.10.1"`，成员通过 `workspace:*` 依赖 contracts。
+根 manifest 声明 `packageManager: "pnpm@12.11.2"`，成员通过 `workspace:*` 依赖 contracts。
 修改成员或依赖后先运行普通安装更新锁文件，再在干净状态运行 frozen 安装：
 
 ```text
@@ -151,7 +151,7 @@ Response -> unknown -> runtime parser -> Listing/PublicUser -> framework state
 | 名称 | 最小用法 | 作用 | 边界 |
 | --- | --- | --- | --- |
 | `rsync -an` | 来源目录尾部带 `/` | 只预览迁移文件 | 不证明目标构建成功 |
-| `packageManager` | `pnpm@12.10.1` | 固定包管理器入口 | 不固定 Node 与依赖图 |
+| `packageManager` | `pnpm@12.11.2` | 固定包管理器入口 | 不固定 Node 与依赖图 |
 | `workspace:*` | 应用依赖 contracts | 强制使用本地成员 | 不建立 exports |
 | `exports` | `./runtime` 等子路径 | 约束公共入口 | 不能替代依赖声明 |
 | `pnpm-lock.yaml` | 根目录唯一一份 | 固定解析图 | 必须由 pnpm 生成 |
@@ -197,6 +197,11 @@ const required = [
   "apps/vue-web/package.json",
   "packages/contracts/package.json",
   "packages/contracts/index.ts",
+  "packages/contracts/tsconfig.json",
+  "packages/contracts/runtime.ts",
+  "packages/contracts/runtime.test.ts",
+  "packages/contracts/edit.ts",
+  "packages/contracts/edit.test.ts",
 ];
 
 for (const path of required) {
@@ -222,7 +227,7 @@ async function updateJson(path, transform) {
 await updateJson("package.json", (value) => ({
   ...value,
   private: true,
-  packageManager: "pnpm@12.10.1",
+  packageManager: "pnpm@12.11.2",
   scripts: {
     ...value.scripts,
     "dev:react": "pnpm --filter @market/react-web dev",
@@ -252,6 +257,19 @@ await updateJson("packages/contracts/package.json", (value) => {
   }
   return {
     ...value,
+    scripts: {
+      ...value.scripts,
+      typecheck:
+        "tsc -p tsconfig.json --noEmit && tsc6 -p tsconfig.json --noEmit",
+      test: "vitest run",
+      build: "pnpm typecheck",
+    },
+    devDependencies: {
+      ...value.devDependencies,
+      "@typescript/native": "npm:typescript@7.0.2",
+      typescript: "npm:@typescript/typescript6@6.0.2",
+      vitest: "5.0.3",
+    },
     exports: {
       ...value.exports,
       ".": "./index.ts",
@@ -266,6 +284,28 @@ await updateJson("packages/contracts/package.json", (value) => {
 console.log(checkOnly
   ? "workspace integration check: PASS"
   : "workspace manifests integrated; review the diff before pnpm install");
+```
+
+完整文件：`market/packages/contracts/tsconfig.json`
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2025",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2025", "DOM"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "types": ["vitest/globals"]
+  },
+  "include": ["*.ts"]
+}
 ```
 
 在 `market/` 根运行：
@@ -306,6 +346,14 @@ function text(value: unknown, label: string): string {
     throw new TypeError(`${label}: expected non-empty string`);
   }
   return value;
+}
+
+function nonBlankText(value: unknown, label: string): string {
+  const result = text(value, label).trim();
+  if (result.length === 0) {
+    throw new TypeError(`${label}: expected non-blank string`);
+  }
+  return result;
 }
 
 function uuid(value: unknown, label: string): string {
@@ -407,8 +455,8 @@ export function parseSession(
   }
   return {
     user: {
-      id: text(user.id, "session.user.id"),
-      email: text(user.email, "session.user.email"),
+      id: uuid(user.id, "session.user.id"),
+      email: nonBlankText(user.email, "session.user.email"),
       role: user.role,
     },
     csrfToken,
@@ -419,16 +467,134 @@ export function parseApiError(value: unknown, requestId: string): ApiError {
   const source = value !== null && typeof value === "object" && !Array.isArray(value)
     ? value as Record<string, unknown>
     : {};
+  const fallbackRequestId = requestId.trim() || "unavailable";
   return {
-    code: typeof source.code === "string" ? source.code : "HTTP_ERROR",
-    message: typeof source.message === "string"
-      ? source.message
+    code: typeof source.code === "string" && source.code.trim()
+      ? source.code.trim()
+      : "HTTP_ERROR",
+    message: typeof source.message === "string" && source.message.trim()
+      ? source.message.trim()
       : "服务暂时不可用",
-    requestId: typeof source.requestId === "string"
-      ? source.requestId
-      : requestId,
+    requestId: typeof source.requestId === "string" && source.requestId.trim()
+      ? source.requestId.trim()
+      : fallbackRequestId,
   };
 }
+```
+
+完整文件：`market/packages/contracts/runtime.test.ts`
+
+```ts
+import { describe, expect, it } from "vitest";
+import {
+  parseApiError,
+  parseListing,
+  parseListingPage,
+  parseSession,
+} from "./runtime.js";
+
+const listing = {
+  id: "123e4567-e89b-42d3-a456-426614174001",
+  title: "二手自行车",
+  description: "可自提",
+  priceCents: 19900,
+  status: "available",
+  ownerId: "123e4567-e89b-42d3-a456-426614174000",
+  version: 1,
+  createdAt: "2026-10-11T00:00:00.000Z",
+};
+
+describe("runtime contract parsers", () => {
+  it("accepts a canonical listing", () => {
+    expect(parseListing(listing)).toEqual(listing);
+  });
+
+  it("rejects decimal cents and noncanonical UTC", () => {
+    expect(() => parseListing({ ...listing, priceCents: 19.9 })).toThrow();
+    expect(() => parseListing({
+      ...listing,
+      createdAt: "2026-10-11T08:00:00+08:00",
+    })).toThrow();
+  });
+
+  it("accepts an empty page beyond the final page", () => {
+    expect(parseListingPage({
+      items: [],
+      page: 10000,
+      pageSize: 100,
+      total: 1,
+    })).toEqual({ items: [], page: 10000, pageSize: 100, total: 1 });
+  });
+
+  it("rejects a page outside the bounded contract", () => {
+    expect(() => parseListingPage({
+      items: [],
+      page: 10001,
+      pageSize: 100,
+      total: 1,
+    })).toThrow(/listingPage\.page/);
+  });
+
+  it("rejects duplicate IDs and contradictory pagination", () => {
+    expect(() => parseListingPage({
+      items: [listing, listing],
+      page: 1,
+      pageSize: 20,
+      total: 2,
+    })).toThrow();
+    expect(() => parseListingPage({
+      items: [listing],
+      page: 2,
+      pageSize: 20,
+      total: 1,
+    })).toThrow();
+  });
+
+  it("validates session identity, email, role and CSRF shape", () => {
+    const session = {
+      user: {
+        id: listing.ownerId,
+        email: "owner@example.test",
+        role: "user",
+      },
+      csrfToken: "a".repeat(64),
+    };
+    expect(parseSession(session)).toEqual(session);
+    expect(() => parseSession({
+      ...session,
+      user: { ...session.user, id: "not-a-uuid" },
+    })).toThrow(/session\.user\.id/);
+    expect(() => parseSession({
+      ...session,
+      user: { ...session.user, email: " " },
+    })).toThrow(/session\.user\.email/);
+    expect(() => parseSession({ ...session, csrfToken: "short" })).toThrow();
+  });
+
+  it("preserves nonblank structured API error fields", () => {
+    expect(parseApiError({
+      code: "VERSION_CONFLICT",
+      message: "版本冲突",
+      requestId: "body-id",
+    }, "header-id")).toEqual({
+      code: "VERSION_CONFLICT",
+      message: "版本冲突",
+      requestId: "body-id",
+    });
+  });
+
+  it("normalizes unstructured or blank upstream error fields", () => {
+    expect(parseApiError({
+      code: "",
+      message: " ",
+      requestId: "",
+    }, "header-id")).toEqual({
+      code: "HTTP_ERROR",
+      message: "服务暂时不可用",
+      requestId: "header-id",
+    });
+  });
+});
 ```
 
 这个 parser 返回新对象，不把未声明 UI 字段带入领域。分页规则与后端查询参数一致：
@@ -448,6 +614,9 @@ pnpm --version
 pnpm install
 pnpm install --frozen-lockfile
 pnpm list -r --depth -1
+pnpm --filter @market/contracts typecheck
+pnpm --filter @market/contracts test
+pnpm --filter @market/contracts build
 pnpm --filter @market/api build
 pnpm --filter @market/react-web typecheck
 pnpm --filter @market/vue-web typecheck
@@ -455,7 +624,7 @@ pnpm build:all
 find . -name pnpm-lock.yaml -not -path "*/node_modules/*" -print
 ```
 
-预期 pnpm 为 `12.10.1`；列表中有四个成员；最后只打印根锁文件。第一次普通安装负责生成或更新
+预期 pnpm 为 `12.11.2`；列表中有四个成员；最后只打印根锁文件。第一次普通安装负责生成或更新
 锁文件，第二次 frozen 安装证明清单与锁一致。当前主机若不是 Node 24，应记录实际版本并在符合
 基线的临时环境复验，不把 Node 22 结果冒充 Node 24。
 
@@ -578,7 +747,7 @@ pnpm install --frozen-lockfile
 - [ ] dry-run 输出经过人工审查，实际迁移只包含两个应用目录。
 - [ ] 根 manifest、API 应用和后端 contracts 类型没有被覆盖。
 - [ ] `node scripts/integrate-workspace.mjs --check` 退出 0。
-- [ ] pnpm 精确为 `12.10.1`，根锁文件唯一，frozen 安装通过。
+- [ ] pnpm 精确为 `12.11.2`，根锁文件唯一，frozen 安装通过。
 - [ ] API、React、Vue 能按包名选中并执行各自 build/typecheck。
 - [ ] `priceCents`、UTC、owner、status、version 和 `409` 语义保持统一。
 - [ ] 外部 Listing、分页、session 和错误均从 `unknown` 解析。

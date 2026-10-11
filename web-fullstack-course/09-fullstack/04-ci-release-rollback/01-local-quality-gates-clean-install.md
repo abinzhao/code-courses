@@ -25,7 +25,7 @@
 完成本课后，你能够：
 
 1. 让每个 package 自己拥有 `typecheck`、`test`、`build` 等真实脚本；
-2. 固定 Node.js 24 与 pnpm 12.10.1，使用 frozen lockfile；
+2. 固定 Node.js 24 与 pnpm 12.11.2，使用 frozen lockfile；
 3. 在迁移和 HTTP 测试前拒绝非 loopback、非 `_test` 数据库；
 4. 连续运行迁移两次，验证初次应用与幂等重放；
 5. 分别检查 React `tsc6` 与 Vue `vue-tsc` 的实际源码包含范围；
@@ -38,7 +38,7 @@
 
 先完成[第 03 章](../03-nginx-https-deployment.md)，并确认个人 `market` 项目已有：
 
-- 根 `packageManager: "pnpm@12.10.1"` 与 `pnpm-lock.yaml`；
+- 根 `packageManager: "pnpm@12.11.2"` 与 `pnpm-lock.yaml`；
 - API `build`、迁移器和真实 HTTP/PostgreSQL 测试；
 - React 与 Vue 各自真实类型、Vitest、build 脚本；
 - Playwright projects `react`、`vue`，覆盖登录、发布、收藏、预约竞争、`409` 编辑冲突和退出；
@@ -52,7 +52,7 @@ pnpm --version
 git status --short
 ```
 
-预期 Node 输出 `v24.`，pnpm 精确 `12.10.1`。版本不同是待处理事实，不可手改记录。数据库版本必须
+预期 Node 输出 `v24.`，pnpm 精确 `12.11.2`。版本不同是待处理事实，不可手改记录。数据库版本必须
 通过连接后查询 `server_version_num`，`psql --version` 只证明客户端。
 
 ## 4. 核心理论
@@ -245,7 +245,7 @@ command -v rg >/dev/null || die "ripgrep is required"
 node_version="$(node --version)"
 pnpm_version="$(pnpm --version)"
 [[ "$node_version" == v24.* ]] || die "expected Node.js 24, got $node_version"
-[[ "$pnpm_version" == 12.10.1 ]] || die "expected pnpm 12.10.1, got $pnpm_version"
+[[ "$pnpm_version" == 12.11.2 ]] || die "expected pnpm 12.11.2, got $pnpm_version"
 
 : "${DATABASE_URL:?Set isolated PostgreSQL 18 test DATABASE_URL}"
 : "${APP_ORIGIN:=http://127.0.0.1:5173}"
@@ -271,6 +271,9 @@ printf 'startedAt=%s\n' "$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 printf 'node=%s pnpm=%s\n' "$node_version" "$pnpm_version"
 
 pnpm install --frozen-lockfile
+pnpm --filter @market/contracts typecheck
+pnpm --filter @market/contracts test
+pnpm --filter @market/contracts build
 pnpm --filter @market/api build
 
 (
@@ -463,6 +466,9 @@ git archive --format=tar HEAD | tar -xf - -C "$tmp"
   test ! -d apps/react-web/dist
   test ! -d apps/vue-web/dist
   pnpm install --frozen-lockfile
+  pnpm --filter @market/contracts typecheck
+  pnpm --filter @market/contracts test
+  pnpm --filter @market/contracts build
   pnpm --filter @market/api build
   pnpm --filter @market/react-web typecheck
   pnpm --filter @market/react-web test
@@ -567,7 +573,8 @@ lockfile；不允许在 CI 改成非 frozen 或删除锁文件。
 
 ### 进阶：干净归档
 
-从 `HEAD` 导出 `/tmp`，冻结安装并构建三包；比较 lock hash 与工作区。完成标准：无旧
+从 `HEAD` 导出 `/tmp`，冻结安装并验证 contracts、API 与双前端；比较 lock hash 与工作区。
+完成标准：contracts 的双类型、20 个 parser/edit/operation 测试和 build 均被执行，无旧
 `node_modules/dist`，hash 一致，命令从归档退出 0；未提交修改明确不在归档证据中。
 
 ### 故障注入：双前端 probe
@@ -577,15 +584,15 @@ lockfile；不允许在 CI 改成非 frozen 或删除锁文件。
 
 ## 11. 阶段验收
 
-- [ ] Node.js 24、pnpm 12.10.1 和 lock hash 有真实记录。
-- [ ] API/React/Vue 各自拥有真实 package scripts。
+- [ ] Node.js 24、pnpm 12.11.2 和 lock hash 有真实记录。
+- [ ] Contracts/API/React/Vue 各自拥有真实 package scripts。
 - [ ] frozen 安装失败不会被自动改成非 frozen。
 - [ ] 数据库 guard 在迁移前拒绝远程或非 `_test` URL。
 - [ ] PostgreSQL 服务端主版本 18 由连接查询证明。
 - [ ] 迁移连续两次、真实 HTTP/数据库测试通过。
 - [ ] 根 Playwright config 把 React/Vue testMatch 分别限定到两个 app 的 `e2e` 目录。
 - [ ] 静态 `--list` 证明两个 project 均非空，E2E 扫描不存在 `page.route`/`route.fulfill`/`devApi`。
-- [ ] React/Vue 各自 type/test/build，浏览器 journey 顺序执行。
+- [ ] Contracts 双类型/test/build 与 React/Vue type/test/build 均执行，浏览器 journey 顺序执行。
 - [ ] 两个 probe 都先失败、恢复后通过，最终 diff 无故障代码。
 - [ ] clean archive 不依赖旧依赖/产物或 Git ignored secret。
 - [ ] 整数分、UTC、Cookie/Origin/CSRF、对象授权、并发预约与 409 有断言。

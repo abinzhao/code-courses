@@ -2,7 +2,7 @@
 
 ## 口径
 
-本矩阵覆盖 Batch A 规定的 10 个 CSS 章节、30 篇详细教程。每行指向正文的六类可判定证据：
+本矩阵覆盖现代化批次 1 的 10 个 CSS 章节、30 篇详细教程。每行指向正文的六类可判定证据：
 
 - **理论：**第 4 节机制推导；
 - **最小案例：**第 6 节完整单文件与运行步骤；
@@ -11,7 +11,7 @@
 - **练习：**第 9 节有答案课后题与第 10 节基础/进阶/故障注入；
 - **验收：**第 11 节检查项。
 
-矩阵只做映射，不替代教程正文。兼容快照日期为 2026-10-10；Chromium 是主要自动验证环境，Safari、Firefox、真实移动设备、VoiceOver、NVDA、JAWS、真实打印机与低性能 GPU 必须按正文边界另行验证。
+矩阵只做映射，不替代教程正文。兼容快照日期为 2026-10-11；Chromium 是主要自动验证环境，Safari、Firefox、真实移动设备、VoiceOver、NVDA、JAWS、真实打印机与低性能 GPU 必须按正文边界另行验证。
 
 ## 30 篇教程映射
 
@@ -44,29 +44,29 @@
 | CSS-25 | 自定义属性替换、无效值、继承、@property 与主题契约 | [自定义属性、@property 与主题](09-components-modern-css/01-custom-properties-property-themes.md) | [§4](09-components-modern-css/01-custom-properties-property-themes.md#4-核心理论) | [§6](09-components-modern-css/01-custom-properties-property-themes.md#6-最小可运行案例) | [§7](09-components-modern-css/01-custom-properties-property-themes.md#7-邻里集市集成案例) | [§8](09-components-modern-css/01-custom-properties-property-themes.md#8-常见错误与排查路径) | [§10](09-components-modern-css/01-custom-properties-property-themes.md#10-实践练习) | [§11](09-components-modern-css/01-custom-properties-property-themes.md#11-阶段验收) |
 | CSS-26 | @layer、原生 nesting、@scope、组件边界与特异性预算 | [层叠层、原生嵌套与作用域](09-components-modern-css/02-layers-nesting-scope.md) | [§4](09-components-modern-css/02-layers-nesting-scope.md#4-核心理论) | [§6](09-components-modern-css/02-layers-nesting-scope.md#6-最小可运行案例) | [§7](09-components-modern-css/02-layers-nesting-scope.md#7-邻里集市集成案例) | [§8](09-components-modern-css/02-layers-nesting-scope.md#8-常见错误与排查路径) | [§10](09-components-modern-css/02-layers-nesting-scope.md#10-实践练习) | [§11](09-components-modern-css/02-layers-nesting-scope.md#11-阶段验收) |
 | CSS-27 | 表单控件、accent/appearance、验证时机、滚动、打印与 forced colors | [表单、滚动、打印与强制颜色](09-components-modern-css/03-forms-scroll-print-forced-colors.md) | [§4](09-components-modern-css/03-forms-scroll-print-forced-colors.md#4-核心理论) | [§6](09-components-modern-css/03-forms-scroll-print-forced-colors.md#6-最小可运行案例) | [§7](09-components-modern-css/03-forms-scroll-print-forced-colors.md#7-邻里集市集成案例) | [§8](09-components-modern-css/03-forms-scroll-print-forced-colors.md#8-常见错误与排查路径) | [§10](09-components-modern-css/03-forms-scroll-print-forced-colors.md#10-实践练习) | [§11](09-components-modern-css/03-forms-scroll-print-forced-colors.md#11-阶段验收) |
-| CSS-28 | 476 项稳定口径、模块索引、值、适用上下文与简写风险 | [稳定属性与模块索引](10-property-reference/01-stable-properties-module-index.md) | [§4](10-property-reference/01-stable-properties-module-index.md#4-核心理论) | [§6](10-property-reference/01-stable-properties-module-index.md#6-最小可运行案例) | [§7](10-property-reference/01-stable-properties-module-index.md#7-邻里集市集成案例) | [§8](10-property-reference/01-stable-properties-module-index.md#8-常见错误与排查路径) | [§10](10-property-reference/01-stable-properties-module-index.md#10-实践练习) | [§11](10-property-reference/01-stable-properties-module-index.md#11-阶段验收) |
+| CSS-28 | 452 项稳定口径、模块索引、值、适用上下文与简写风险 | [稳定属性与模块索引](10-property-reference/01-stable-properties-module-index.md) | [§4](10-property-reference/01-stable-properties-module-index.md#4-核心理论) | [§6](10-property-reference/01-stable-properties-module-index.md#6-最小可运行案例) | [§7](10-property-reference/01-stable-properties-module-index.md#7-邻里集市集成案例) | [§8](10-property-reference/01-stable-properties-module-index.md#8-常见错误与排查路径) | [§10](10-property-reference/01-stable-properties-module-index.md#10-实践练习) | [§11](10-property-reference/01-stable-properties-module-index.md#11-阶段验收) |
 | CSS-29 | at-rule、描述符、值函数、函数式选择器、合法上下文与主要教程 | [At-rule、函数与描述符](10-property-reference/02-at-rules-functions-descriptors.md) | [§4](10-property-reference/02-at-rules-functions-descriptors.md#4-核心理论) | [§6](10-property-reference/02-at-rules-functions-descriptors.md#6-最小可运行案例) | [§7](10-property-reference/02-at-rules-functions-descriptors.md#7-邻里集市集成案例) | [§8](10-property-reference/02-at-rules-functions-descriptors.md#8-常见错误与排查路径) | [§10](10-property-reference/02-at-rules-functions-descriptors.md#10-实践练习) | [§11](10-property-reference/02-at-rules-functions-descriptors.md#11-阶段验收) |
-| CSS-30 | 有限、实验、弃用、非标准能力的检测、回退、回滚与删除条件 | [有限支持、实验与回退登记](10-property-reference/03-limited-experimental-fallback-register.md) | [§4](10-property-reference/03-limited-experimental-fallback-register.md#4-核心理论) | [§6](10-property-reference/03-limited-experimental-fallback-register.md#6-最小可运行案例) | [§7](10-property-reference/03-limited-experimental-fallback-register.md#7-邻里集市集成案例) | [§8](10-property-reference/03-limited-experimental-fallback-register.md#8-常见错误与排查路径) | [§10](10-property-reference/03-limited-experimental-fallback-register.md#10-实践练习) | [§11](10-property-reference/03-limited-experimental-fallback-register.md#11-阶段验收) |
+| CSS-30 | 稳定状态门禁、目标浏览器矩阵、基础路径、行为验收与回滚 | [稳定兼容性与渐进增强](10-property-reference/03-stable-compatibility-progressive-enhancement.md) | [§4](10-property-reference/03-stable-compatibility-progressive-enhancement.md#4-核心理论) | [§6](10-property-reference/03-stable-compatibility-progressive-enhancement.md#6-最小可运行案例) | [§7](10-property-reference/03-stable-compatibility-progressive-enhancement.md#7-邻里集市集成案例) | [§8](10-property-reference/03-stable-compatibility-progressive-enhancement.md#8-常见错误与排查路径) | [§10](10-property-reference/03-stable-compatibility-progressive-enhancement.md#10-实践练习) | [§11](10-property-reference/03-stable-compatibility-progressive-enhancement.md#11-阶段验收) |
 
 ## 横切边界
 
 | ID | 知识点 | 主要教程 | 理论 | 最小案例 | 项目案例 | 错误诊断 | 练习 | 验收 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| CSS-X01 | 版本与兼容证据：规范、固定 BCD、当前解析、真实行为分层 | [有限支持与回退](10-property-reference/03-limited-experimental-fallback-register.md) | [§4](10-property-reference/03-limited-experimental-fallback-register.md#4-核心理论) | [§6](10-property-reference/03-limited-experimental-fallback-register.md#6-最小可运行案例) | [§7](10-property-reference/03-limited-experimental-fallback-register.md#7-邻里集市集成案例) | [§8](10-property-reference/03-limited-experimental-fallback-register.md#8-常见错误与排查路径) | [§10](10-property-reference/03-limited-experimental-fallback-register.md#10-实践练习) | [§11](10-property-reference/03-limited-experimental-fallback-register.md#11-阶段验收) |
-| CSS-X02 | 无障碍与用户偏好：键盘、顺序、减少动作、强制颜色 | [逻辑属性与偏好](07-responsive-container/03-logical-properties-input-safe-area-preferences.md)、[表单与强制颜色](09-components-modern-css/03-forms-scroll-print-forced-colors.md) | [§4](07-responsive-container/03-logical-properties-input-safe-area-preferences.md#4-核心理论)、[§4](09-components-modern-css/03-forms-scroll-print-forced-colors.md#4-核心理论) | [§6](07-responsive-container/03-logical-properties-input-safe-area-preferences.md#6-最小可运行案例)、[§6](09-components-modern-css/03-forms-scroll-print-forced-colors.md#6-最小可运行案例) | [§7](07-responsive-container/03-logical-properties-input-safe-area-preferences.md#7-邻里集市集成案例)、[§7](09-components-modern-css/03-forms-scroll-print-forced-colors.md#7-邻里集市集成案例) | [§8](07-responsive-container/03-logical-properties-input-safe-area-preferences.md#8-常见错误与排查路径)、[§8](09-components-modern-css/03-forms-scroll-print-forced-colors.md#8-常见错误与排查路径) | [§10](07-responsive-container/03-logical-properties-input-safe-area-preferences.md#10-实践练习)、[§10](09-components-modern-css/03-forms-scroll-print-forced-colors.md#10-实践练习) | [§11](07-responsive-container/03-logical-properties-input-safe-area-preferences.md#11-阶段验收)、[§11](09-components-modern-css/03-forms-scroll-print-forced-colors.md#11-阶段验收) |
+| CSS-X01 | 版本与兼容证据：状态元数据、版本化 BCD、当前解析、真实行为分层 | [稳定兼容性与渐进增强](10-property-reference/03-stable-compatibility-progressive-enhancement.md) | [§4](10-property-reference/03-stable-compatibility-progressive-enhancement.md#4-核心理论) | [§6](10-property-reference/03-stable-compatibility-progressive-enhancement.md#6-最小可运行案例) | [§7](10-property-reference/03-stable-compatibility-progressive-enhancement.md#7-邻里集市集成案例) | [§8](10-property-reference/03-stable-compatibility-progressive-enhancement.md#8-常见错误与排查路径) | [§10](10-property-reference/03-stable-compatibility-progressive-enhancement.md#10-实践练习) | [§11](10-property-reference/03-stable-compatibility-progressive-enhancement.md#11-阶段验收) |
+| CSS-X02 | 表单键盘路径、非颜色状态与强制颜色适配 | [表单、滚动、打印与强制颜色](09-components-modern-css/03-forms-scroll-print-forced-colors.md) | [§4](09-components-modern-css/03-forms-scroll-print-forced-colors.md#4-核心理论) | [§6](09-components-modern-css/03-forms-scroll-print-forced-colors.md#6-最小可运行案例) | [§7](09-components-modern-css/03-forms-scroll-print-forced-colors.md#7-邻里集市集成案例) | [§8](09-components-modern-css/03-forms-scroll-print-forced-colors.md#8-常见错误与排查路径) | [§10](09-components-modern-css/03-forms-scroll-print-forced-colors.md#10-实践练习) | [§11](09-components-modern-css/03-forms-scroll-print-forced-colors.md#11-阶段验收) |
 | CSS-X03 | 安全与业务边界：CSS 不承担认证、对象授权、服务端验证或交易成功 | [表单、滚动、打印与强制颜色](09-components-modern-css/03-forms-scroll-print-forced-colors.md) | [§4](09-components-modern-css/03-forms-scroll-print-forced-colors.md#4-核心理论) | [§6](09-components-modern-css/03-forms-scroll-print-forced-colors.md#6-最小可运行案例) | [§7](09-components-modern-css/03-forms-scroll-print-forced-colors.md#7-邻里集市集成案例) | [§8](09-components-modern-css/03-forms-scroll-print-forced-colors.md#8-常见错误与排查路径) | [§10](09-components-modern-css/03-forms-scroll-print-forced-colors.md#10-实践练习) | [§11](09-components-modern-css/03-forms-scroll-print-forced-colors.md#11-阶段验收) |
-| CSS-X04 | 人工验证边界：Safari、Firefox、真机、辅助技术、打印机与低性能设备 | [有限支持与回退](10-property-reference/03-limited-experimental-fallback-register.md) | [§4](10-property-reference/03-limited-experimental-fallback-register.md#4-核心理论) | [§6](10-property-reference/03-limited-experimental-fallback-register.md#6-最小可运行案例) | [§7](10-property-reference/03-limited-experimental-fallback-register.md#7-邻里集市集成案例) | [§8](10-property-reference/03-limited-experimental-fallback-register.md#8-常见错误与排查路径) | [§10](10-property-reference/03-limited-experimental-fallback-register.md#10-实践练习) | [§11](10-property-reference/03-limited-experimental-fallback-register.md#11-阶段验收) |
+| CSS-X04 | 人工验证边界：Safari、Firefox、真机、辅助技术、打印机与低性能设备 | [稳定兼容性与渐进增强](10-property-reference/03-stable-compatibility-progressive-enhancement.md) | [§4](10-property-reference/03-stable-compatibility-progressive-enhancement.md#4-核心理论) | [§6](10-property-reference/03-stable-compatibility-progressive-enhancement.md#6-最小可运行案例) | [§7](10-property-reference/03-stable-compatibility-progressive-enhancement.md#7-邻里集市集成案例) | [§8](10-property-reference/03-stable-compatibility-progressive-enhancement.md#8-常见错误与排查路径) | [§10](10-property-reference/03-stable-compatibility-progressive-enhancement.md#10-实践练习) | [§11](10-property-reference/03-stable-compatibility-progressive-enhancement.md#11-阶段验收) |
 
-## 476 属性审计
+## 452 属性审计
 
 | 项目 | 固定结果 |
 | --- | --- |
 | 审计文件 | [稳定属性与模块索引](10-property-reference/01-stable-properties-module-index.md) |
 | 边界 | `PROPERTY-AUDIT-START` 到 `PROPERTY-AUDIT-END` |
 | 提取口径 | 边界内 Markdown 表格首列反引号名称 |
-| 顺序项 | 476 |
-| 唯一项 | 476 |
-| SHA-256 | `e38b0f5d2a6a12e1cf772cb89010279737f2b3814bb57732e4fa0f1139486734`；名称逐行拼接并保留末尾换行 |
+| 顺序项 | 452 |
+| 唯一项 | 452 |
+| SHA-256 | `9c0bb7817c617cffc60788a71ed223ce7370439596926fbcc51854c478063deb`；名称逐行拼接并保留末尾换行 |
 | 基线对比 | 名称与顺序逐项一致 |
 
 模块分布：
@@ -78,14 +78,14 @@
 | 定位、浮动与对象 | 21 |
 | Flex 与通用对齐 | 20 |
 | Grid 轨道与放置 | 15 |
-| 字体与文字 | 69 |
+| 字体与文字 | 67 |
 | 背景、边框与轮廓 | 78 |
-| 滤镜、遮罩和裁剪 | 20 |
+| 滤镜、遮罩和裁剪 | 19 |
 | 动画与变换 | 46 |
 | 滚动、溢出和交互 | 51 |
 | 表格、多列、列表与生成内容 | 23 |
 | 分页、容器与 SVG | 47 |
-| 有限支持、实验和特殊呈现 | 35 |
-| **合计** | **476** |
+| 稳定增强与特殊呈现 | 14 |
+| **合计** | **452** |
 
-at-rule、描述符、函数、选择器、伪元素与 JavaScript API 不计入 476。属性口径任何增删、改名或重排都必须更新基线、哈希、本矩阵和参考章验收。
+at-rule、描述符、函数、选择器、伪元素与 JavaScript API 不计入 452。属性口径任何增删、改名或重排都必须更新基线、哈希、本矩阵和参考章验收。

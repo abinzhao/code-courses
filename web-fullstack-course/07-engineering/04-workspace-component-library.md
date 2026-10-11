@@ -11,7 +11,7 @@
 - 完成[第 01 章：pnpm、Vite 与 ESM](01-pnpm-vite-esm.md)，能区分清单、根锁文件、安装结果与运行时解析。
 - 完成[第 02 章：Lint、格式与质量门禁](02-lint-format-quality.md)，保留 `typecheck`、`typecheck:compat` 与 `typecheck:all` 三个明确入口。
 - 完成[第 03 章：构建、资源、缓存与性能预算](03-build-assets-performance.md)，知道 Vite 构建成功不等于类型、行为、无障碍或发布通过。
-- 准备 Node.js `24.21.0`、pnpm `12.10.1`、Vite `8.3.0`、TS 7 CLI `7.0.2` 与 TS 6 兼容包装包 `6.0.2`；兼容编译器/API 的实际 6.0 系列版本以锁文件和版本探针为准。
+- 准备 Node.js `24.21.0`、pnpm `12.11.2`、Vite `8.3.4`、TS 7 CLI `7.0.2` 与 TS 6 兼容包装包 `6.0.2`；兼容编译器/API 的实际 6.0 系列版本以锁文件和版本探针为准。
 - 在读者自己的练习目录创建 `market-workspace`，不要在教材目录安装依赖，也不要覆盖全书的 `apps/react-web`、`apps/vue-web` 或 `apps/api`。
 
 ## 三课路线
@@ -80,4 +80,4 @@ pnpm --filter @market/lab-web build
 
 ## 导航
 
-[上一章：构建、资源、缓存与性能预算](03-build-assets-performance.md) · [开始第 1 课](04-workspace-component-library/01-pnpm-workspace-dependency-graph.md) · [下一章：单元、集成与端到端测试](05-unit-integration-e2e.md) · [工程化卷目录](README.md)
+[上一章：构建、资源、缓存与性能预算](03-build-assets-performance.md) · [开始第 1 课](04-workspace-component-library/01-pnpm-workspace-dependency-graph.md) · [下一章：单元、集成与端到端测试](05-unit-integration-e2e.md) · [工程化覆盖矩阵](ENGINEERING-COVERAGE.md) · [工程卷目录](README.md)

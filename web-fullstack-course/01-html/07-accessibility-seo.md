@@ -26,9 +26,16 @@
 
 | 顺序 | 教程 | 核心问题 | 建议时间 |
 | --- | --- | --- | ---: |
-| 1 | [可访问名称、地标与键盘](07-accessibility-seo/01-accessible-name-landmarks-keyboard.md) | 页面元素怎样被命名、导航和激活 | 5–6 小时 |
-| 2 | [动态状态、焦点与媒体替代](07-accessibility-seo/02-dynamic-status-focus-media.md) | 页面变化怎样被看见、听见并恢复 | 5–6 小时 |
-| 3 | [元信息、SEO 与结构化数据](07-accessibility-seo/03-metadata-seo-structured-data.md) | 搜索工具怎样发现并核对真实页面 | 4–6 小时 |
+| 1 | [语义角色、地标与标题](07-accessibility-seo/01-semantic-roles-landmarks-headings.md) | 从语义元素、角色、地标和标题建立辅助技术可导航的页面结构。 | 1–2 小时 |
+| 2 | [可访问名称、描述与状态](07-accessibility-seo/02-accessible-names-descriptions-states.md) | 计算可访问名称，区分描述、状态和值，并保持可见标签与名称一致。 | 1–2 小时 |
+| 3 | [键盘、焦点与 ARIA](07-accessibility-seo/03-keyboard-focus-skip-links-aria.md) | 保持语义键盘行为、DOM 焦点顺序、可见焦点和跳过链接，并遵守 ARIA 第一规则。 | 1–2 小时 |
+| 4 | [动态通知与忙碌状态](07-accessibility-seo/04-live-regions-status-busy.md) | 使用 status、alert、live region、atomic、relevant 和 busy 公布动态结果。 | 1–2 小时 |
+| 5 | [表单、对话框与列表焦点](07-accessibility-seo/05-form-dialog-list-focus-recovery.md) | 在表单错误、Dialog 关闭和动态列表删除后选择可解释的焦点恢复路径。 | 1–2 小时 |
+| 6 | [图片、媒体与图表替代](07-accessibility-seo/06-images-media-chart-alternatives.md) | 为图片、字幕、文字稿、音频描述和 Canvas 图表提供任务等价信息。 | 1–2 小时 |
+| 7 | [缩放、触控、颜色与动效](07-accessibility-seo/07-zoom-touch-color-motion.md) | 验证文字缩放、回流、触控目标、非颜色渠道和减少动效偏好。 | 1–2 小时 |
+| 8 | [页面元信息与 Canonical](07-accessibility-seo/08-page-metadata-canonical-urls.md) | 编写可脱离上下文识别的 title 和 description，并声明与内容一致的 canonical。 | 1–2 小时 |
+| 9 | [抓取、索引、HTTP 与渲染](07-accessibility-seo/09-crawling-indexing-http-rendering.md) | 区分发现、抓取与索引，结合 robots、sitemap、链接、HTTP 状态和渲染策略交付事实。 | 1–2 小时 |
+| 10 | [结构化数据与可见内容](07-accessibility-seo/10-structured-data-visible-content.md) | 用 Microdata 或 JSON-LD 表达与可见内容一致的结构化事实，并拒绝虚构富结果。 | 1–2 小时 |
 
 预计总学习时间：14–18 小时。
 
@@ -189,6 +196,6 @@ JSON-LD 与可见正文对照：
 
 ## 进入下一章前
 
-如果页面只能依靠鼠标、颜色或视觉位置完成，或者结构化数据出现正文没有的事实，应回到对应详细教程修复。下一章把本卷整理成可检索的元素/API 索引，并练习从旧页面迁移到现代结构。
+如果页面只能依靠鼠标、颜色或视觉位置完成，或者结构化数据出现正文没有的事实，应回到对应详细教程修复。下一章把本卷整理成可检索的元素/API 索引，并练习从需求职责选择现行结构、观察解析结果和完成确定性纠错。
 
-[上一章：原生交互、DOM 与事件](06-interactive-dom.md) · [开始本章第一课](07-accessibility-seo/01-accessible-name-landmarks-keyboard.md) · [下一章：元素参考、历史与迁移](08-html-element-reference.md) · [返回 HTML 模块](README.md)
+[上一章：原生交互、DOM 与事件](06-interactive-dom.md) · [开始本章第一课](./07-accessibility-seo/01-semantic-roles-landmarks-headings.md) · [下一章：元素参考、选择与纠错](08-html-element-reference.md) · [返回 HTML 模块](README.md)

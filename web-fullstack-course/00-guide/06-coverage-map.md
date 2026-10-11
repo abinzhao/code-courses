@@ -4,25 +4,24 @@
 
 ## 0. 全书覆盖矩阵总览
 
-当前全书有 226 篇详细教程：HTML 既有 24 篇，本轮新增 202 篇。九个分卷覆盖矩阵共登记
-578 个全局唯一 ID；起步卷的 6 篇实操教程由本页、章入口和 W1 验收直接治理，不另造矩阵。
+起步卷由本页、章入口和 W1 验收直接治理；其余各卷使用独立覆盖矩阵。具体文件数量、矩阵规模
+和统计口径统一由[交付与验证说明](../VALIDATION.md)维护，本页只负责能力定位。
 
-| 范围 | 详细教程 | 覆盖 ID | 审计入口 |
-|---|---:|---:|---|
-| 00 起步实操 | 6 | 本页直接治理 | [起步卷目录](README.md) |
-| 01 HTML | 24 | 173 | [HTML 覆盖矩阵](../01-html/HTML-COVERAGE.md) |
-| 02 CSS | 30 | 34 | [CSS 覆盖矩阵](../02-css/CSS-COVERAGE.md) |
-| 03 浏览器 | 18 | 44 | [浏览器覆盖矩阵](../03-browser/BROWSER-COVERAGE.md) |
-| 04 JavaScript / TypeScript | 27 | 36 | [JS/TS 覆盖矩阵](../04-javascript-typescript/JS-TS-COVERAGE.md) |
-| 05 React | 24 | 40 | [React 覆盖矩阵](../05-react/REACT-COVERAGE.md) |
-| 06 Vue | 24 | 55 | [Vue 覆盖矩阵](../06-vue/VUE-COVERAGE.md) |
-| 07 工程化 | 22 | 74 | [工程化覆盖矩阵](../07-engineering/ENGINEERING-COVERAGE.md) |
-| 08 后端 | 31 | 54 | [后端覆盖矩阵](../08-backend/BACKEND-COVERAGE.md) |
-| 09 全栈交付 | 20 | 68 | [全栈覆盖矩阵](../09-fullstack/FULLSTACK-COVERAGE.md) |
+| 范围 | 审计入口 |
+|---|---|
+| 00 起步实操 | [起步卷目录](README.md) |
+| 01 HTML | [HTML 覆盖矩阵](../01-html/HTML-COVERAGE.md) |
+| 02 CSS | [CSS 覆盖矩阵](../02-css/CSS-COVERAGE.md) |
+| 03 浏览器 | [浏览器覆盖矩阵](../03-browser/BROWSER-COVERAGE.md) |
+| 04 JavaScript / TypeScript | [JS/TS 覆盖矩阵](../04-javascript-typescript/JS-TS-COVERAGE.md) |
+| 05 React | [React 覆盖矩阵](../05-react/REACT-COVERAGE.md) |
+| 06 Vue | [Vue 覆盖矩阵](../06-vue/VUE-COVERAGE.md) |
+| 07 工程化 | [工程化覆盖矩阵](../07-engineering/ENGINEERING-COVERAGE.md) |
+| 08 后端 | [后端覆盖矩阵](../08-backend/BACKEND-COVERAGE.md) |
+| 09 全栈交付 | [全栈覆盖矩阵](../09-fullstack/FULLSTACK-COVERAGE.md) |
 
-全书 316 篇正文、参考与覆盖矩阵的统计口径，以及静态/运行时/人工证据边界，见
-[教材结构](07-course-structure.md)和[交付与验证说明](../VALIDATION.md)。矩阵链接存在只证明
-知识点有归属；只有正文案例、练习、失败诊断和实际验收共同成立，才表示对应能力完成。
+矩阵链接存在只证明知识点有归属；只有正文案例、练习、失败诊断和实际验收共同成立，才表示
+对应能力完成。
 
 ## 1. HTML 覆盖
 
@@ -38,7 +37,7 @@
 | 表单 | 现行input类型、label、name、autocomplete、约束、select、textarea与相关元素 | [表单](../01-html/05-forms-validation.md) | 键盘完成发布，错误与字段关联 |
 | 方法与原生交互 | validity、FormData、focus、dialog、popover、details、template、slot | [交互与DOM](../01-html/06-interactive-dom.md) | 原生交互可打开、取消、恢复焦点 |
 | 无障碍与SEO | 语义、可访问名称、键盘、焦点、ARIA、元信息、检索 | [无障碍](../01-html/07-accessibility-seo.md) | 不只鼠标可用，页面信息可辨认 |
-| 全部元素类别 | 现行元素用途、关键属性、示例与限制；过时元素区别 | [完整元素索引](../01-html/08-html-element-reference.md) | 能按需求检索并正确应用 |
+| 全部元素类别 | 现行元素用途、关键属性、示例与限制 | [完整元素索引](../01-html/08-html-element-reference.md) | 能按需求检索并正确应用 |
 
 “HTML方法”来自DOM/Web API对象，而不是标签文本自身会执行函数。教程会区分内容属性、DOM属性、方法、事件和默认行为。
 
@@ -55,9 +54,11 @@
 | 自适应 | 媒体与容器查询、逻辑属性、字体与内容响应式、触控、打印 | [响应式](../02-css/07-responsive-container.md) |
 | 动效 | transform、transition、keyframes、timeline、WAAPI、3D、减少动画与降级 | [动画](../02-css/08-transforms-transitions-animation.md) |
 | 现代组件样式 | @layer、嵌套、@property、主题、表单、滚动、支持检测 | [现代CSS](../02-css/09-components-modern-css.md) |
-| 属性模块索引 | 模块化属性、关键值、行为、实例、罕见与实验特性边界 | [属性索引](../02-css/10-property-reference.md) |
+| 属性模块索引 | 稳定属性、关键值、行为、实例与目标浏览器边界 | [属性索引](../02-css/10-property-reference.md) |
 
-CSS的“全部内容”需要理解为完整知识体系与可检索属性地图。各模块不断新增草案和厂商特性；主线教授可用的稳定机制，实验项明确标注。没有“背完CSS4即可毕业”这种完成标准。
+CSS 的“全部内容”需要理解为完整知识体系与可检索属性地图。课程只收录核验日可由稳定规范、
+兼容数据和目标浏览器验证的机制；尚未进入稳定路径的能力不写入主线。没有“背完 CSS4 即可
+毕业”这种完成标准。
 
 CSS验收应包含长标题、空数据、字体变化、窄屏、200%缩放、键盘焦点与减少动画；只截一张桌面截图不够。
 

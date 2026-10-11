@@ -6,7 +6,7 @@
 | --- | --- |
 | 本课产出 | 完整 `apps/api/Dockerfile`、根 `.dockerignore`、构建上下文与镜像证据清单 |
 | 镜像目标 | build 阶段冻结安装与编译；runtime 阶段仅含部署包、迁移产物和非 root 用户 |
-| 固定基线 | Node.js 24 Debian slim、pnpm `12.10.1`、工作区根上下文 |
+| 固定基线 | Node.js 24 Debian slim、pnpm `12.11.2`、工作区根上下文 |
 | 安全边界 | `.env`、secret、证书、dump、日志不进入上下文和镜像层 |
 | 建议时间 | 150 分钟 |
 | 环境标签 | 配置可静态检查；只有真实 Docker build/inspect 才能标为 runtime 通过 |
@@ -137,7 +137,7 @@ deploy 目录还可能按 package 文件规则带入应用自有 `src/`、`test/
 
 ### 4.6 tag 与 digest
 
-`node:24-bookworm-slim` 和 `postgres:18-bookworm` 是可变 tag；同一 tag 将来可能指向修复后的不同
+`node:24.21.0-bookworm-slim` 和 `postgres:18.6-bookworm` 是可变 tag；同一 tag 将来可能指向修复后的不同
 manifest。教学配置用可读 tag 表达主线，实际发布前应在已验证平台记录并锁定
 `name@sha256:...`。不能在教材中编造 digest，也不能把本地 image ID 当跨仓库 content digest。
 
@@ -149,7 +149,7 @@ manifest。教学配置用可读 tag 表达主线，实际发布前应在已验�
 | `ARG NODE_IMAGE` | Node 24 slim tag/digest | 统一两阶段基础 | build 时仍需可信来源 |
 | `FROM ... AS build` | 构建阶段 | 安装、编译、部署 | 不作为最终镜像 |
 | `WORKDIR` | `/workspace` / `/app` | 固定相对路径 | 不创建权限策略 |
-| `corepack prepare` | pnpm `12.10.1` | 固定包管理器 | 依赖仍由锁文件固定 |
+| `corepack prepare` | pnpm `12.11.2` | 固定包管理器 | 依赖仍由锁文件固定 |
 | `COPY . .` | 根 context | 保证全部 workspace manifest 可见 | 缓存粒度较粗 |
 | `--frozen-lockfile` | filter API 子图 | 拒绝清单/锁漂移 | 不验证业务行为 |
 | `pnpm deploy --prod` | `/runtime` | 独立生产依赖 | 顶层源码/测试仍需清理，自定义产物需显式复制 |
@@ -167,10 +167,10 @@ manifest。教学配置用可读 tag 表达主线，实际发布前应在已验�
 ```dockerfile
 # syntax=docker/dockerfile:1.7
 
-ARG NODE_IMAGE=node:24-bookworm-slim
+ARG NODE_IMAGE=node:24.21.0-bookworm-slim
 
 FROM ${NODE_IMAGE} AS build
-ARG PNPM_VERSION=12.10.1
+ARG PNPM_VERSION=12.11.2
 ENV PNPM_HOME=/pnpm
 ENV PATH=${PNPM_HOME}:${PATH}
 WORKDIR /workspace
@@ -403,7 +403,7 @@ Node/pnpm 版本和目标平台。完成标准：区分 tag、digest、image ID�
 ## 11. 阶段验收
 
 - [ ] build context 明确为工作区根，Dockerfile 路径明确为 `apps/api/Dockerfile`。
-- [ ] pnpm 固定 `12.10.1`，安装使用根锁文件和 frozen 模式。
+- [ ] pnpm 固定 `12.11.2`，安装使用根锁文件和 frozen 模式。
 - [ ] build 与 runtime 两阶段职责清楚，runtime 不含编译器和前端构建。
 - [ ] `dist/main.js`、`migrate.mjs`、`migrations/` 在构建期验证。
 - [ ] deploy 后只保留生产 `node_modules`/`package.json` 再复制运行产物，构建期与镜像内均证明无顶层 `src/test/tsconfig`。

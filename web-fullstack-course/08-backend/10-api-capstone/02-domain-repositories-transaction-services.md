@@ -141,7 +141,8 @@ PATCH 不是先比较内存后无条件 UPDATE，而是把版本放进写条件�
 UPDATE listings
 SET title=$1, description=$2, price_cents=$3, version=version+1
 WHERE id=$4 AND owner_id=$5 AND version=$6
-RETURNING *
+RETURNING
+  id,title,description,price_cents,status,owner_id,version,created_at
 ```
 
 零行返回时，service 报 `409 VERSION_CONFLICT`。客户端应重新 GET、展示差异，再由用户决定是否
@@ -163,7 +164,8 @@ COMMIT
 
 同一商品的第二个请求等待第一把行锁。第一请求提交后，第二请求读取最新 `reserved` 并返回
 409。部分唯一索引仍保留，因为未来代码路径、脚本或维护任务可能绕过当前 service；SQLSTATE
-`23505` 也映射为同一业务冲突。
+`23505` 只有同时匹配 `reservations_one_active_per_listing_idx` 时才映射为同一业务冲突；其他
+唯一约束错误保持内部失败，不能猜成预约冲突。
 
 锁超时 `55P03` 只说明本次未获得锁，不证明商品已预约，因此返回可重试的 `503 BUSY`，不能
 错误映射为 409。
@@ -185,7 +187,7 @@ Redis 也不能替代数据库唯一约束。
 | 收藏 | PK `(user_id,listing_id)` | 重复 PUT 仍一行 | 不存在商品 `404` |
 | 乐观锁 | `WHERE version` | 成功后 version + 1 | 旧版本 `409` |
 | 预约行锁 | `FOR UPDATE` | 同商品请求串行 | 锁超时 `503` |
-| 有效预约唯一 | 部分唯一索引 | 数据库最多一行有效预约 | `23505 -> 409` |
+| 有效预约唯一 | 部分唯一索引 | 数据库最多一行有效预约 | 指定约束的 `23505 -> 409` |
 | transaction client | service 获取并传入 repo | 故障后全部回滚 | 跨连接会留下脏写 |
 
 事务所有权清单：
@@ -203,7 +205,7 @@ release：MarketService.reserve finally
 最小案例只观察仓储映射和数据库约束，不启动浏览器。先按第 01 课迁移测试库并加载 fixture：
 
 ```bash
-cd /tmp/full-course-verification/batch-e/market-api-capstone
+cd /tmp/web-fullstack-modernization/batch-5/market-api-capstone
 cp apps/api/.env.test.example apps/api/.env.test
 # 仅在本地编辑占位账号和密码
 cd apps/api
@@ -266,7 +268,7 @@ assert.deepEqual(
 `apps/api/test/api.test.mjs`。集成验收还直接查询：
 
 ```sql
-SELECT * FROM reservations WHERE listing_id=$1;
+SELECT id, buyer_id, status FROM reservations WHERE listing_id=$1;
 ```
 
 必须得到一行，并确认 buyer 是两个竞争者之一。随后 GET Listing 应得到：
@@ -367,7 +369,7 @@ reservation 与 Listing 状态/version 原子更新；错误也能映射为明�
 在 PostgreSQL 18 可用并完成两库迁移后执行：
 
 ```bash
-cd /tmp/full-course-verification/batch-e/market-api-capstone
+cd /tmp/web-fullstack-modernization/batch-5/market-api-capstone
 pnpm test
 ```
 

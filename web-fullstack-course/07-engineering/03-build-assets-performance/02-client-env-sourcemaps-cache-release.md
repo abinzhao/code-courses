@@ -9,7 +9,7 @@
 | 输出 | 可观察的公开变量、`base`/Source Map 诊断记录与发布顺序 |
 | 文件 | `.env.production`、`src/vite-env.d.ts`、`src/public-env.ts`、`vite.config.mjs` |
 | 运行 | `pnpm build`、`rg`/`find` 检查产物、生产预览 Network |
-| 版本 | Node.js 24.21.0、pnpm 12.10.1、Vite 8.3.0 |
+| 版本 | Node.js 24.21.0、pnpm 12.11.2、Vite 8.3.4 |
 | 边界 | mode 不是授权；本地响应不证明生产缓存、CDN、TLS、发布或回滚 |
 
 ## 1. 任务背景

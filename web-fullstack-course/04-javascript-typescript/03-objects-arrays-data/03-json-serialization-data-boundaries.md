@@ -151,7 +151,9 @@ function parseJson(text) {
   try {
     return JSON.parse(text);
   } catch (error) {
-    if (error instanceof SyntaxError) throw new Error("invalid JSON syntax");
+    if (error instanceof SyntaxError) {
+      throw new Error("invalid JSON syntax", { cause: error });
+    }
     throw error;
   }
 }

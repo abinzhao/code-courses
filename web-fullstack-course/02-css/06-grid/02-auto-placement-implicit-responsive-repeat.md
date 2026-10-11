@@ -220,7 +220,7 @@ minmax(min(100%, 14rem), 1fr)
         <p>页面仅做静态布局实验。</p>
       </article>
     </section>
-    <pre id="report" role="status" aria-label="网格放置报告"></pre>
+    <pre id="report" aria-label="网格放置报告"></pre>
   </main>
   <script>
     const catalog = document.querySelector("#catalog");
@@ -432,7 +432,8 @@ API/内存数组按明确规则排序
 - [MDN：minmax()](https://developer.mozilla.org/en-US/docs/Web/CSS/minmax)：核对轨道上下限。
 - [WCAG：Meaningful Sequence](https://www.w3.org/WAI/WCAG22/Understanding/meaningful-sequence.html)：理解视觉回填与阅读顺序风险。
 
-`auto-fit`、`auto-fill` 和基础自动放置属于现代 Grid 主线，但具体 DevTools 展示和边缘布局缺陷仍需在目标浏览器验证。Masonry 与实验阅读顺序属性不在本课稳定路径。
+`auto-fit`、`auto-fill` 和基础自动放置属于现代 Grid 主线，但具体 DevTools 展示和边缘布局缺陷
+仍需在目标浏览器验证。未通过稳定状态门禁的候选布局能力不进入本课。
 
 ## 我现在能做到什么
 

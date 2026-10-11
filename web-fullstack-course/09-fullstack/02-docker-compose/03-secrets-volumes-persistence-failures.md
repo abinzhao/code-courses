@@ -212,16 +212,97 @@ LISTING_ID="${1:?usage: COOKIE_JAR=/tmp/file $0 LISTING_ID}"
 COOKIE_JAR="${COOKIE_JAR:?set COOKIE_JAR to a protected local cookie jar}"
 API_URL="${API_URL:-http://127.0.0.1:3000/api/v1}"
 COMPOSE_FILE="${COMPOSE_FILE:-compose.yaml}"
+PROJECT_NAME=market-course
 
-if [[ ! -f "$COOKIE_JAR" ]]; then
-  printf '%s\n' "cookie jar not found" >&2
-  exit 1
+if [[ "$API_URL" != "http://127.0.0.1:3000/api/v1" ]]; then
+  printf '%s\n' "refusing API outside the fixed loopback lab" >&2
+  exit 2
+fi
+if [[ "$COMPOSE_FILE" != "compose.yaml" ||
+      ! -f "$COMPOSE_FILE" ||
+      -L "$COMPOSE_FILE" ]]; then
+  printf '%s\n' "refusing unexpected or symlink Compose file" >&2
+  exit 2
+fi
+project_root="$(pwd -P)"
+physical_compose="$project_root/compose.yaml"
+if [[ ! -O "$physical_compose" ]]; then
+  printf '%s\n' "Compose file is not owned by the current reader" >&2
+  exit 2
+fi
+
+if [[ "$COOKIE_JAR" != "/tmp/market-course-cookie.jar" ||
+      ! -f "$COOKIE_JAR" ||
+      -L "$COOKIE_JAR" ||
+      ! -O "$COOKIE_JAR" ]]; then
+  printf '%s\n' "refusing unprotected or unexpected cookie jar" >&2
+  exit 2
+fi
+file_mode() {
+  if [[ "$(uname -s)" == "Darwin" ]]; then
+    stat -f '%Lp' "$1"
+  else
+    stat -c '%a' "$1"
+  fi
+}
+if [[ "$(file_mode "$COOKIE_JAR")" != "600" ]]; then
+  printf '%s\n' "cookie jar must have mode 600" >&2
+  exit 2
 fi
 
 work_dir="$(mktemp -d)"
 trap 'rm -rf "$work_dir"' EXIT
 
-compose=(docker compose -f "$COMPOSE_FILE")
+compose=(
+  docker compose
+  --project-name "$PROJECT_NAME"
+  -f "$physical_compose"
+)
+
+services="$("${compose[@]}" config --services)"
+for required_service in api db migrate; do
+  if ! grep -Fxq "$required_service" <<<"$services"; then
+    printf 'required Compose service is absent: %s\n' "$required_service" >&2
+    exit 2
+  fi
+done
+
+before_api_id="$("${compose[@]}" ps -q api)"
+db_id="$("${compose[@]}" ps -q db)"
+migrate_id="$("${compose[@]}" ps -aq migrate)"
+for container_id in "$before_api_id" "$db_id" "$migrate_id"; do
+  if [[ -z "$container_id" ]]; then
+    printf '%s\n' "required Compose container is absent" >&2
+    exit 2
+  fi
+done
+for service_and_id in \
+  "api:$before_api_id" \
+  "db:$db_id" \
+  "migrate:$migrate_id"; do
+  service="${service_and_id%%:*}"
+  container_id="${service_and_id#*:}"
+  observed_project="$(
+    docker inspect "$container_id" \
+      --format '{{index .Config.Labels "com.docker.compose.project"}}'
+  )"
+  observed_service="$(
+    docker inspect "$container_id" \
+      --format '{{index .Config.Labels "com.docker.compose.service"}}'
+  )"
+  if [[ "$observed_project" != "$PROJECT_NAME" ||
+        "$observed_service" != "$service" ]]; then
+    printf 'refusing container outside %s/%s\n' \
+      "$PROJECT_NAME" "$service" >&2
+    exit 2
+  fi
+done
+
+if "${compose[@]}" port db 5432 >"$work_dir/db-port.txt" 2>/dev/null &&
+   [[ -s "$work_dir/db-port.txt" ]]; then
+  printf '%s\n' "database unexpectedly has a published host port" >&2
+  exit 2
+fi
 
 wait_ready() {
   local attempt
@@ -261,9 +342,6 @@ NODE
 }
 
 wait_ready
-before_api_id="$("${compose[@]}" ps -q api)"
-db_id="$("${compose[@]}" ps -q db)"
-migrate_id="$("${compose[@]}" ps -aq migrate)"
 migrate_exit="$(docker inspect "$migrate_id" --format '{{.State.ExitCode}}')"
 [[ "$migrate_exit" == "0" ]] || {
   printf '%s\n' "migration did not exit 0" >&2
@@ -313,13 +391,6 @@ api_uid="$("${compose[@]}" exec -T api id -u)"
   printf '%s\n' "api runs as root" >&2
   exit 1
 }
-
-if "${compose[@]}" port db 5432 >"$work_dir/db-port.txt" 2>/dev/null; then
-  if [[ -s "$work_dir/db-port.txt" ]]; then
-    printf '%s\n' "database unexpectedly has a published host port" >&2
-    exit 1
-  fi
-fi
 
 printf '%s\n' "compose persistence verification: PASS"
 printf 'api_recreated=%s db_unchanged=%s session_status=%s\n' \

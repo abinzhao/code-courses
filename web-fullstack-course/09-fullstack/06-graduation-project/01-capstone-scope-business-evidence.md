@@ -6,7 +6,7 @@
 | --- | --- |
 | 任务 | 冻结最终 workspace、不变量、预约状态机、outbox、双前端范围和可复验证据包 |
 | 项目位置 | 读者自己的 `market/`；教材仓库不保存应用、依赖、锁文件、证书、dump 或日志 |
-| 运行条件 | Node.js 24、pnpm 12.10.1、PostgreSQL 18；容器/浏览器/Redis 仅在实际可用时计证据 |
+| 运行条件 | Node.js 24、pnpm 12.11.2、PostgreSQL 18；容器/浏览器/Redis 仅在实际可用时计证据 |
 | 核心产出 | `evidence/verify-reservation.mjs`、20 买家并发报告、数据库唯一行断言、双前端与交付证据 |
 | 成功证据 | 业务闭环、状态机、授权、事务/outbox、幂等、React/Vue 等价路径和脱敏证据均可复现 |
 | 失败证据 | 越权、双重有效预约、部分事务、重复副作用、假成功、未执行能力被写成通过 |
@@ -92,7 +92,7 @@ market/
 ```
 
 包名固定为 `@market/api`、`@market/react-web`、`@market/vue-web`、`@market/contracts`。合并练习
-项目时先 dry-run 文件清单，结构化合并 package JSON，保持一份 pnpm 12.10.1 lock。不能用目录
+项目时先 dry-run 文件清单，结构化合并 package JSON，保持一份 pnpm 12.11.2 lock。不能用目录
 覆盖把另一应用 scripts 或测试抹掉。
 
 contracts 可以共享 DTO shape、运行时 parser、金额格式和错误 code；React/Vue 组件、router、
@@ -947,6 +947,31 @@ async function account(context, label, runId) {
   };
 }
 
+export function assertReservationOutcome({
+  created,
+  responses,
+  after,
+  buyerCount,
+}) {
+  assert.equal(Number.isSafeInteger(created.body?.version), true);
+  assert.ok(created.body.version >= 1);
+  const statuses = responses.map((response) => response.status);
+  assert.equal(statuses.filter((status) => status === 201).length, 1);
+  assert.equal(
+    statuses.filter((status) => status === 409).length,
+    buyerCount - 1,
+  );
+  for (const response of responses.filter((item) => item.status === 409)) {
+    assert.equal(response.body?.code, "RESERVATION_CONFLICT");
+    const requestId = response.requestId ?? response.body?.requestId;
+    assert.equal(typeof requestId, "string");
+    assert.ok(requestId.trim().length > 0);
+  }
+  assert.equal(Number.isSafeInteger(after.body?.version), true);
+  assert.equal(after.body?.version, created.body.version + 1);
+  return statuses;
+}
+
 export async function verifyReservation() {
   if (requiredEnv("ALLOW_ISOLATED_ASSESSMENT") !== "yes") {
     throw new Error("ALLOW_ISOLATED_ASSESSMENT must equal yes");
@@ -993,7 +1018,6 @@ export async function verifyReservation() {
   assert.equal(created.body?.priceCents, 12345);
   assert.equal(created.body?.ownerId, seller.id);
   assert.equal(created.body?.status, "available");
-  assert.equal(typeof created.body?.version, "number");
   const listingId = created.body.id;
 
   const selfReservation = await request(
@@ -1010,19 +1034,17 @@ export async function verifyReservation() {
       { method: "POST", session: buyer },
     )),
   );
-  const statuses = responses.map((response) => response.status);
-  assert.equal(statuses.filter((status) => status === 201).length, 1);
-  assert.equal(statuses.filter((status) => status === 409).length, buyerCount - 1);
-  for (const response of responses.filter((item) => item.status === 409)) {
-    assert.equal(typeof response.body?.code, "string");
-    assert.ok(response.requestId || response.body?.requestId);
-  }
 
   const after = await request(context, `listings/${listingId}`);
   assert.equal(after.status, 200);
   assert.equal(after.body?.status, "reserved");
-  assert.equal(after.body?.version, created.body.version + 1);
   assert.equal(after.body?.priceCents, 12345);
+  const statuses = assertReservationOutcome({
+    created,
+    responses,
+    after,
+    buyerCount,
+  });
 
   return {
     label: "LOCAL_ISOLATED_ASSESSMENT_FIXTURE",
@@ -1059,6 +1081,59 @@ if (
 ) {
   console.log(JSON.stringify(await verifyReservation(), null, 2));
 }
+```
+
+**完整文件：`evidence/verify-reservation.test.mjs`**
+
+```js
+import assert from "node:assert/strict";
+import test from "node:test";
+import { assertReservationOutcome } from "./verify-reservation.mjs";
+
+function validOutcome() {
+  return {
+    created: { body: { version: 4 } },
+    responses: [
+      { status: 201, body: {}, requestId: "winner-request" },
+      {
+        status: 409,
+        body: { code: "RESERVATION_CONFLICT" },
+        requestId: "loser-request",
+      },
+    ],
+    after: { body: { version: 5 } },
+    buyerCount: 2,
+  };
+}
+
+test("accepts one winner and exact reservation conflicts", () => {
+  assert.deepEqual(
+    assertReservationOutcome(validOutcome()),
+    [201, 409],
+  );
+});
+
+test("rejects a different 409 code", () => {
+  const input = validOutcome();
+  input.responses[1].body.code = "VERSION_CONFLICT";
+  assert.throws(() => assertReservationOutcome(input));
+});
+
+test("rejects an empty conflict request id", () => {
+  const input = validOutcome();
+  input.responses[1].requestId = "";
+  assert.throws(() => assertReservationOutcome(input));
+});
+
+test("rejects unsafe or nonincrementing versions", () => {
+  const unsafe = validOutcome();
+  unsafe.created.body.version = Number.MAX_SAFE_INTEGER + 1;
+  assert.throws(() => assertReservationOutcome(unsafe));
+
+  const stale = validOutcome();
+  stale.after.body.version = stale.created.body.version;
+  assert.throws(() => assertReservationOutcome(stale));
+});
 ```
 
 attestation 不能手填。以下命令必须在受信宿主运行，并从 `docker inspect` 读取当前完整
@@ -1873,7 +1948,7 @@ node - "$ATTESTATION_PATH" <<'NODE'
 const fs = require("node:fs");
 const path = process.argv[2];
 const value = JSON.parse(fs.readFileSync(path, "utf8"));
-value.hostProbeImage = "node:24-bookworm-slim";
+value.hostProbeImage = "node:24.21.0-bookworm-slim";
 fs.writeFileSync(path, JSON.stringify(value), { mode: 0o600 });
 NODE
 must_refuse_before_http mutable-host-probe-image run_verifier

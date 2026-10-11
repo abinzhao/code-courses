@@ -28,7 +28,7 @@ CSS 语法不只有 `property: value`。以下代码分别属于不同类别：
 完成后你应能：
 
 - 区分 statement at-rule 与 block at-rule；
-- 解释 `@charset`、`@import`、`@namespace` 的位置约束；
+- 解释 `@import`、`@namespace` 的位置约束；
 - 使用 media、supports、container、layer 与 scope 条件/分组规则；
 - 识别 property、font-face、counter-style、page 等规则中的描述符；
 - 区分普通属性名与同名/相近描述符；
@@ -56,7 +56,7 @@ at-rule 以 `@` 开头。部分以分号结束，如 `@import`；部分包含规
 
 常见职责：
 
-- 文件元信息和加载：`@charset`、`@import`、`@namespace`；
+- 文件加载与命名空间：`@import`、`@namespace`；
 - 条件：`@media`、`@supports`、`@container`；
 - 层叠/范围：`@layer`、`@scope`；
 - 定义：`@property`、`@keyframes`、`@font-face`、`@counter-style`；
@@ -162,7 +162,6 @@ at-rule 本身不总有直接、统一的 `CSS.supports()` 查询。可通过 CS
 
 | 规则 | 目的与合法上下文 | 最小示例 | 主要教程/边界 |
 | --- | --- | --- | --- |
-| `@charset` | 声明样式表字符编码，位置和字节序严格 | `@charset "UTF-8";` | 通常统一文件与 HTTP 为 UTF-8 |
 | `@import` | 导入样式并可指定 layer/supports/media | `@import url("base.css") layer(base);` | [规则入口](../01-syntax-cascade-selectors/01-rules-parsing-entry-points.md)；注意请求链 |
 | `@namespace` | 给类型/属性选择器绑定命名空间 | `@namespace svg url("http://www.w3.org/2000/svg");` | 常规 HTML 少用 |
 | `@media` | 按媒体类型、视口、能力和偏好条件分组 | `@media (width >= 48rem) {}` | [媒体查询](../07-responsive-container/01-media-queries-content-breakpoints.md) |
@@ -180,7 +179,6 @@ at-rule 本身不总有直接、统一的 `CSS.supports()` 查询。可通过 CS
 | `@page` | 定义页盒尺寸、边距和页边距盒 | `@page { margin: 18mm; }` | [打印](../09-components-modern-css/03-forms-scroll-print-forced-colors.md) |
 | `@position-try` | 定义锚点定位备选方案 | `@position-try --below { position-area: bottom; }` | 有限支持，保留正常流 |
 | `@view-transition` | 配置跨文档视图转场 | `@view-transition { navigation: auto; }` | 同源、导航与浏览器边界独立核对 |
-| `@function` / `@mixin` | CSS 自定义函数/复用规则演进方向 | 以当前规范为准 | 课程快照不作稳定主线 |
 
 ### 5.2 常用描述符地图
 
@@ -206,7 +204,7 @@ at-rule 本身不总有直接、统一的 `CSS.supports()` 查询。可通过 CS
 | 图像 | `linear-gradient()`、`radial-gradient()`、`conic-gradient()`、重复渐变 | 产生 CSS image | 必要信息不用纯背景图承载 |
 | 资源选择 | `url()`、`image-set()`、`cross-fade()` | 引用或组合图像资源 | 资源必须存在，类型/分辨率需核对 |
 | 尺寸/轨道 | `fit-content()`、`minmax()`、`repeat()` | 内在尺寸或 Grid 轨道 | 只用于接受相应语法的位置 |
-| 新尺寸 | `calc-size()`、`anchor-size()` | 内在尺寸插值、锚点尺寸 | 有限支持，保留传统尺寸 |
+| 锚点尺寸 | `anchor-size()` | 引用锚点尺寸 | 需要锚点上下文并保留传统尺寸 |
 | 形状/路径 | `circle()`、`ellipse()`、`inset()`、`polygon()`、`path()`、`ray()` | basic-shape 或运动路径 | 由消费属性决定合法性 |
 | 变换 | `translate()`、`rotate()`、`scale()`、`matrix()`、`perspective()` | 产生 transform function | [变换](../08-transforms-transitions-animation/01-transforms-coordinates-compositing.md) |
 | 滤镜 | `blur()`、`brightness()`、`contrast()`、`drop-shadow()`、`grayscale()`、`hue-rotate()`、`invert()`、`opacity()`、`saturate()`、`sepia()` | 组成 filter 值 | 顺序影响结果，注意绘制成本 |
@@ -225,7 +223,7 @@ at-rule 本身不总有直接、统一的 `CSS.supports()` 查询。可通过 CS
 - `:lang()` / `:dir()`：按语言或方向匹配；
 - `::part()` / `::slotted()`：用于相应 Shadow DOM 暴露边界。
 
-它们属于选择器语法，不是 476 普通属性，也不是值函数。
+它们属于选择器语法，不是 452 个普通属性，也不是值函数。
 
 ## 6. 最小可运行案例
 
@@ -345,7 +343,7 @@ at-rule 本身不总有直接、统一的 `CSS.supports()` 查询。可通过 CS
         </article>
       </section>
     </div>
-    <pre id="report" role="status" aria-label="规则与函数检测报告"></pre>
+    <pre id="report" aria-label="规则与函数检测报告"></pre>
     <p>页面没有字体下载、发布、预约或支付请求。</p>
   </main>
   <script>
@@ -415,7 +413,7 @@ python3 -m http.server 8000
 - `@import` 的请求链和层位置通过 Network/构建产物验证；
 - `@container` 不查询自身造成循环；
 - `@page` 不被当作普通元素尺寸；
-- 实验 at-rule 放在增强层，静态商品和操作不依赖它。
+- 稳定增强规则放在基础路径之后，静态商品和操作不依赖它。
 
 ## 8. 常见错误与排查路径
 
@@ -480,7 +478,7 @@ python3 -m http.server 8000
 
 - **文件：**`exercise-classification.md`。
 - **操作：**从一个样式表标出属性、描述符、at-rule、值函数和函数式选择器。
-- **预期：**每项写合法上下文和不计入 476 的理由。
+- **预期：**每项写合法上下文和不计入 452 的理由。
 - **失败观察：**列出同名但上下文不同的项目。
 - **完成标准：**分类无混项，能链接主要教程。
 
@@ -503,7 +501,7 @@ python3 -m http.server 8000
 ## 11. 阶段验收
 
 - [ ] 能区分分号型与块型 at-rule；
-- [ ] 知道 charset/import/namespace 的位置约束；
+- [ ] 知道 import/namespace 的位置约束；
 - [ ] 条件规则只作为有回退增强；
 - [ ] 描述符不计入普通属性；
 - [ ] 值函数按产出类型和消费上下文使用；
@@ -539,15 +537,18 @@ python3 -m http.server 8000
 - [CSS Counter Styles Level 3](https://www.w3.org/TR/css-counter-styles-3/)：counter-style 描述符。
 - [CSS Paged Media Level 3](https://www.w3.org/TR/css-page-3/)：page 规则和页盒。
 
-传统 media/supports/font-face/keyframes 属于成熟主线；scope、starting-style、position-try、view-transition、类型化 attr 与高级数学函数的支持各自不同。Safari、Firefox、真实字体加载、打印机和旧 WebView 未在本课自动验证。
+media、supports、font-face 与 keyframes 属于成熟主线；scope、starting-style、position-try、
+view-transition、类型化 attr 与高级数学函数仍要按目标浏览器版本验证。Safari、Firefox、
+真实字体加载、打印机和 WebView 未在本课自动验证。
 
 ## 我现在能做到什么
 
-我能把 at-rule、描述符、值函数和选择器语法放进正确上下文，并让支持检测结论不超出证据。下一课会把有限、实验、弃用和非标准能力登记为可执行回退记录。
+我能把 at-rule、描述符、值函数和选择器语法放进正确上下文，并让支持检测结论不超出证据。
+下一课会用目标矩阵、基础路径和回滚验证稳定增强。
 
 ## 单元导航
 
 - [上一课：稳定属性与模块索引](01-stable-properties-module-index.md)
 - [返回第十章入口](../10-property-reference.md)
-- [下一课：有限支持、实验与回退登记](03-limited-experimental-fallback-register.md)
+- [下一课：稳定兼容性与渐进增强](03-stable-compatibility-progressive-enhancement.md)
 - [返回 CSS 模块](../README.md)

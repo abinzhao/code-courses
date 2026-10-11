@@ -333,7 +333,7 @@ export default function devApi(): Plugin {
               typeof data.priceCents !== 'number'
               || !Number.isSafeInteger(data.priceCents)
             ) {
-              return fail(422, 'VALIDATION', '价格必须是整数分。')
+              return fail(400, 'VALIDATION', '价格必须是整数分。')
             }
             const result = validateDraft({
               title: String(data.title ?? ''),
@@ -341,7 +341,7 @@ export default function devApi(): Plugin {
               price: (data.priceCents / 100).toFixed(2),
             })
             if (!result.ok) {
-              return fail(422, 'VALIDATION', result.message)
+              return fail(400, 'VALIDATION', result.message)
             }
             const created = {
               ...result.value,
@@ -382,7 +382,7 @@ export default function devApi(): Plugin {
                 : (item.priceCents / 100).toFixed(2),
             })
             if (!result.ok) {
-              return fail(422, 'VALIDATION', result.message)
+              return fail(400, 'VALIDATION', result.message)
             }
             Object.assign(item, result.value, {
               version: item.version + 1,

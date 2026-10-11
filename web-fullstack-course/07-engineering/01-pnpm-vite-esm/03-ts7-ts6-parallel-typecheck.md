@@ -207,7 +207,7 @@ Vue 语言工具和 `vue-tsc`，并验证模板、宏、插件与构建器。不
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "packageManager": "pnpm@12.10.1",
+  "packageManager": "pnpm@12.11.2",
   "engines": {
     "node": ">=24.21.0 <25"
   },
@@ -225,7 +225,7 @@ Vue 语言工具和 `vue-tsc`，并验证模板、宏、插件与构建器。不
     "eslint": "10.12.0",
     "typescript": "npm:@typescript/typescript6@6.0.2",
     "typescript-eslint": "8.71.1",
-    "vite": "8.3.0"
+    "vite": "8.3.4"
   }
 }
 ```
@@ -694,7 +694,7 @@ pnpm preview
 
 通过标准：
 
-- Node 为 `24.21.0`，pnpm 为 `12.10.1`；
+- Node 为 `24.21.0`，pnpm 为 `12.11.2`；
 - `tsc` 精确为 `7.0.2`；
 - `tsc6` 与导入 API 版本相同，均为实际观察到的 6.0 系列；
 - Lint、两条独立类型检查、组合检查和 build 都退出 `0`；

@@ -85,7 +85,7 @@ const sql = `SELECT id FROM listings WHERE title = '${input}'`;
 
 ```sql
 -- $1 是一个值，不会变成列标识符
-SELECT * FROM listings ORDER BY $1;
+SELECT id, title FROM listings ORDER BY $1;
 ```
 
 正确方式是将外部枚举映射为预先写好的片段：
@@ -423,7 +423,7 @@ ORDER BY applied_at, name;
 ### 明确错误：字符串拼 SQL
 
 ```js
-const sql = `SELECT * FROM listings WHERE title = '${q}'`;
+const sql = `SELECT id, title FROM listings WHERE title = '${q}'`;
 ```
 
 | 五段 | 记录 |

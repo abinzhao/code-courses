@@ -5,8 +5,8 @@
 把一个空目录建设为可复现的邻里集市浏览器工程，并为后续质量门禁保留清楚的工具边界：
 
 - Node.js `24.21.0` 负责运行时；
-- pnpm `12.10.1` 负责依赖图、锁文件与脚本入口；
-- Vite `8.3.0` 负责开发服务、Rolldown 生产构建与本地预览；
+- pnpm `12.11.2` 负责依赖图、锁文件与脚本入口；
+- Vite `8.3.4` 负责开发服务、Rolldown 生产构建与本地预览；
 - TS 7 `tsc` 负责主线类型检查；
 - TS 6 `tsc6` 与包名 `typescript` 负责旧编译器 CLI/API 兼容。
 
@@ -72,7 +72,7 @@ dev、build、preview、TS 7 与 TS 6 的证据。
 | 证据层 | 命令或观察 | 通过标准 |
 | --- | --- | --- |
 | 运行时 | `node --version` | `v24.21.0` |
-| 包管理器 | `pnpm --version` | `12.10.1` |
+| 包管理器 | `pnpm --version` | `12.11.2` |
 | 干净安装 | 删除读者练习的 `node_modules` 后运行 `pnpm install --frozen-lockfile` | 退出 `0`，未改锁文件 |
 | 锁文件门禁 | 制造清单/锁文件不一致后冻结安装 | 非零退出；恢复后再次通过 |
 | 开发服务 | `pnpm dev` | `5173` 显示 `19.90` 与 `0.00`，可观察源码图 |
@@ -104,4 +104,5 @@ dev、build、preview、TS 7 与 TS 6 的证据。
 
 [上一单元：工程化卷导读（第 00 单元）](README.md) ·
 [返回工程化卷目录](README.md) ·
+[工程化覆盖矩阵](ENGINEERING-COVERAGE.md) ·
 [下一章：Lint、格式与质量门禁](02-lint-format-quality.md)

@@ -127,6 +127,7 @@ node --inspect-brk price-boundary.mjs
 | `error instanceof Error` | 判断标准错误对象 | 跨 realm 有局限，当前 Node 实验适用 |
 | `error.stack` | 调用堆栈证据 | 不直接显示给终端用户 |
 | `Error(..., { cause })` | 包装并保留原始原因 | 记录时仍做敏感信息最小化 |
+| `AggregateError` | 同时报告主操作与清理失败 | `errors` 中保留两个原始错误 |
 | `node --inspect-brk` | 启动调试会话 | 仅可信本机使用 |
 
 ## 6. 最小可运行案例
@@ -293,6 +294,37 @@ try {
 
 调用者看到 done，错误被压制。
 
+### 清理本身失败也不能抹掉主错误
+
+```js
+function withCleanup(work, cleanup) {
+  let hasPrimaryError = false;
+  let primaryError;
+  try {
+    return work();
+  } catch (error) {
+    hasPrimaryError = true;
+    primaryError = error;
+    throw error;
+  } finally {
+    try {
+      cleanup();
+    } catch (cleanupError) {
+      if (hasPrimaryError) {
+        throw new AggregateError(
+          [primaryError, cleanupError],
+          "work and cleanup both failed",
+        );
+      }
+      throw cleanupError;
+    }
+  }
+}
+```
+
+`finally` 中直接抛清理错误同样会替换正在传播的主错误。两者都失败时用 `AggregateError`
+保留两份原始证据；只有清理失败时传播清理错误。日志仍只记录安全摘要。
+
 ### 五段诊断记录
 
 | 项目 | 记录 |
@@ -327,8 +359,8 @@ try {
 
 ### 进阶
 
-写 `withResource(work)`：先输出 opened，调用同步回调，finally 输出 closed；
-成功时保留返回值，失败时保留原错误。
+写 `withResource(work, close)`：先输出 opened，调用同步回调，finally 调用 close；
+成功时保留返回值，work 失败时保留原错误，两者同时失败时用 `AggregateError` 保留二者。
 
 ### 故障注入
 
@@ -338,7 +370,7 @@ try {
 **答案标准：**
 
 - 基础三条路径分类准确；
-- 进阶成功顺序为 opened、work、closed、result，失败仍执行 closed 并抛原错；
+- 进阶成功顺序为 opened、work、closed、result；work 失败仍执行 close，双失败保留两份错误；
 - 故障注入明确比较修复前后调用者看到的值或错误。
 
 ## 11. 阶段验收
@@ -346,7 +378,7 @@ try {
 - [ ] `error-flow.mjs` 的 10 行输出与声明一致。
 - [ ] 合法、尾随文字、超额折扣和 0 分四条路径均准确。
 - [ ] catch 能处理任意抛出值，不假定都有 message。
-- [ ] finally 完成清理且不覆盖返回值或错误。
+- [ ] finally 完成清理且不覆盖返回值；双失败使用 `AggregateError` 保留主错误和清理错误。
 - [ ] 能从堆栈找到自己的 throw 行和调用者。
 - [ ] 能使用本机 inspector 观察参数并正常结束调试进程。
 - [ ] 失败消息不泄露堆栈、Cookie 或敏感响应。

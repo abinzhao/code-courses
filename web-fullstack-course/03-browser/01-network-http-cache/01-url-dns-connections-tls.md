@@ -136,6 +136,8 @@ const types = {
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
 };
+const connectionIds = new WeakMap();
+let nextConnectionId = 1;
 
 function send(res, status, type, body) {
   res.writeHead(status, {
@@ -159,6 +161,11 @@ createServer(async (req, res) => {
     }
     if (url.pathname === "/api/connection") {
       const address = await lookup(host);
+      const reusedConnection = connectionIds.has(req.socket);
+      if (!reusedConnection) {
+        connectionIds.set(req.socket, nextConnectionId);
+        nextConnectionId += 1;
+      }
       send(res, 200, "application/json; charset=utf-8", JSON.stringify({
         requestTarget: `${url.pathname}${url.search}`,
         hostHeader: req.headers.host,
@@ -166,7 +173,8 @@ createServer(async (req, res) => {
         localPort: req.socket.localPort,
         remoteAddress: req.socket.remoteAddress,
         remotePort: req.socket.remotePort,
-        reusedSocket: req.socket.server?._connections > 0,
+        connectionId: connectionIds.get(req.socket),
+        reusedConnection,
         resolvedAddress: address.address,
         protocol: `HTTP/${req.httpVersion}`,
         encrypted: Boolean(req.socket.encrypted),
@@ -189,7 +197,8 @@ createServer(async (req, res) => {
 });
 ```
 
-`reusedSocket` 只展示服务当前有活动连接，不等价于精确判定某次浏览器复用；精确连接证据以 DevTools 为准。这个字段故意暴露“观测指标也有边界”。
+`connectionId` 由服务按 socket 对象分配；同一 ID 再次出现时，`reusedConnection` 为 true。它能
+证明本服务进程观察到连接复用，但不能替代 DevTools 中的协议、代理和 Timing 证据。
 
 ### 6.2 完整文件：`public/index.html`
 
@@ -382,7 +391,10 @@ target.searchParams.set("q", userInput);
 
 ### 故障注入
 
-依次把端口改为3301、主机改为不存在的 `.invalid` 名称、把一个可访问 HTTPS 站点的主机名拼错。每次恢复后再进行下一项。答案标准：分别归类为连接、名称解析、TLS/名称或其他实际浏览器错误；不得忽略证书警告继续。
+不要修改本页输入框的同源请求。分别在新标签地址栏访问未监听的
+`http://127.0.0.1:3301/`、不存在的 `.invalid` 名称，以及一个故意拼错主机名的 HTTPS 地址。
+每次记录浏览器错误页和 Network 后关闭该标签，再回到本课首页复验。答案标准：分别归类为
+连接、名称解析、TLS/名称或其他实际浏览器错误；不得忽略证书警告继续。
 
 ## 11. 阶段验收
 

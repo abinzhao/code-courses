@@ -2,10 +2,11 @@
 
 ## 任务卡
 
-- **本课产出**：`js-lab/fetch/fetch-api.mjs`，一个启动本地 API、执行 8 组 Fetch 场景并自行关闭的完整文件。
+- **本课产出**：`js-lab/fetch/fetch-api.mjs`，一个启动本地 API、执行 12 组响应场景和 1 组关闭后网络失败并自行退出的完整文件。
 - **运行环境**：Node.js 24 LTS，使用内置 `fetch` 与 `node:http`。
 - **预计时间**：120 分钟。
-- **完成证据**：独立观察 200、400、401、404、409、500、JSON 解析失败、契约失败和服务关闭后的网络失败。
+- **完成证据**：独立观察 200、400、401、404、409、500、正文中断、JSON 解析失败、通用结构
+  契约失败、日期/ID/分页契约失败和服务关闭后的网络失败。
 
 ## 1. 任务背景
 
@@ -164,10 +165,22 @@ function parseListing(input, index) {
   }
   if (
     typeof input.createdAt !== "string" ||
-    !input.createdAt.endsWith("Z") ||
-    Number.isNaN(Date.parse(input.createdAt))
+    !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(
+      input.createdAt,
+    )
   ) {
     throw new TypeError(`items[${index}].createdAt must be a UTC timestamp`);
+  }
+  const timestamp = Date.parse(input.createdAt);
+  if (!Number.isFinite(timestamp)) {
+    throw new TypeError(`items[${index}].createdAt is not a calendar date`);
+  }
+  const normalizedCreatedAt = new Date(timestamp).toISOString();
+  const canonicalInput = input.createdAt.includes(".")
+    ? input.createdAt
+    : input.createdAt.replace("Z", ".000Z");
+  if (normalizedCreatedAt !== canonicalInput) {
+    throw new TypeError(`items[${index}].createdAt is not a calendar date`);
   }
 
   return {
@@ -178,7 +191,7 @@ function parseListing(input, index) {
     status: input.status,
     ownerId: input.ownerId,
     version: input.version,
-    createdAt: input.createdAt,
+    createdAt: normalizedCreatedAt,
   };
 }
 
@@ -202,12 +215,21 @@ function parseListingPage(input) {
   if (!Number.isSafeInteger(input.total) || input.total < 0) {
     throw new TypeError("page.total must be a non-negative integer");
   }
-  if (input.items.length > input.pageSize || input.items.length > input.total) {
+  const offset = (input.page - 1) * input.pageSize;
+  if (!Number.isSafeInteger(offset)) {
+    throw new TypeError("page offset exceeds the safe integer range");
+  }
+  const remaining = Math.max(0, input.total - offset);
+  if (input.items.length > input.pageSize || input.items.length > remaining) {
     throw new TypeError("page metadata contradicts item count");
+  }
+  const items = input.items.map(parseListing);
+  if (new Set(items.map((item) => item.id)).size !== items.length) {
+    throw new TypeError("page.items contains a duplicate listing id");
   }
 
   return {
-    items: input.items.map(parseListing),
+    items,
     page: input.page,
     pageSize: input.pageSize,
     total: input.total,
@@ -242,7 +264,16 @@ async function fetchListingPage(baseUrl, query, pathname = "/api/listings") {
   }
 
   const headerRequestId = response.headers.get("x-request-id") ?? undefined;
-  const text = await response.text();
+  let text;
+  try {
+    text = await response.text();
+  } catch (cause) {
+    throw new FetchLayerError("body", "response body could not be read", {
+      cause,
+      status: response.status,
+      requestId: headerRequestId,
+    });
+  }
   let decoded;
   try {
     decoded = JSON.parse(text);
@@ -381,11 +412,60 @@ const server = createServer((request, response) => {
     response.end("{");
     return;
   }
+  if (query === "truncated-body") {
+    const body = JSON.stringify({
+      items: listings,
+      page: 1,
+      pageSize: 20,
+      total: listings.length,
+    });
+    response.writeHead(200, {
+      "content-type": "application/json; charset=utf-8",
+      "content-length": Buffer.byteLength(body),
+      "x-request-id": requestId,
+    });
+    response.flushHeaders();
+    response.write(body.slice(0, Math.floor(body.length / 2)));
+    setTimeout(() => response.destroy(), 20);
+    return;
+  }
   if (query === "malformed-data") {
     sendJson(
       response,
       200,
       { items: "not-an-array", page: 1, pageSize: 20, total: 1 },
+      requestId,
+    );
+    return;
+  }
+  if (query === "invalid-date") {
+    sendJson(
+      response,
+      200,
+      {
+        items: [{ ...listings[0], createdAt: "2026-02-30T08:00:00.000Z" }],
+        page: 1,
+        pageSize: 20,
+        total: 1,
+      },
+      requestId,
+    );
+    return;
+  }
+  if (query === "duplicate-id") {
+    sendJson(
+      response,
+      200,
+      { items: [listings[0], listings[0]], page: 1, pageSize: 20, total: 2 },
+      requestId,
+    );
+    return;
+  }
+  if (query === "inconsistent-page") {
+    sendJson(
+      response,
+      200,
+      { items: [listings[0]], page: 2, pageSize: 20, total: 1 },
       requestId,
     );
     return;
@@ -431,8 +511,14 @@ try {
   await observe("400", () => fetchListingPage(baseUrl, "x".repeat(41)));
   await observe("404", () => fetchListingPage(baseUrl, "", "/missing"));
   await observe("500", () => fetchListingPage(baseUrl, "server-error"));
+  await observe("body", () => fetchListingPage(baseUrl, "truncated-body"));
   await observe("parse", () => fetchListingPage(baseUrl, "malformed-json"));
   await observe("contract", () => fetchListingPage(baseUrl, "malformed-data"));
+  await observe("date", () => fetchListingPage(baseUrl, "invalid-date"));
+  await observe("duplicate", () => fetchListingPage(baseUrl, "duplicate-id"));
+  await observe("pagination", () =>
+    fetchListingPage(baseUrl, "inconsistent-page"),
+  );
   await observe("401", () => fetchListingPage(baseUrl, "unauthorized"));
   await observe("409", () => fetchListingPage(baseUrl, "conflict"));
 } finally {
@@ -457,14 +543,20 @@ node fetch/fetch-api.mjs
 400:http:400:...
 404:http:404:...
 500:http:500:...
+body:body:200:...
 parse:parse:200:...
 contract:contract:200:...
+date:contract:200:...
+duplicate:contract:200:...
+pagination:contract:200:...
 401:http:401:...
 409:http:409:...
 after-close:network:-:-
 ```
 
-每次请求 ID 由本地服务生成，具体尾号以实际输出为准。脚本在场景结束后关闭服务，再发一次请求证明网络层失败；进程应自行退出。
+每次请求 ID 由本地服务生成，具体尾号以实际输出为准。`body` 场景证明收到 200 与响应头后，
+正文流仍可能中断；它保留状态、请求 ID 和底层原因。脚本在场景结束后关闭服务，再发一次请求
+证明网络层失败；进程应自行退出。
 
 ## 8. 常见错误与排查路径
 
@@ -529,7 +621,7 @@ render(data.items);
 ## 11. 阶段验收
 
 - [ ] 脚本覆盖 200、400、401、404、409、500；
-- [ ] 非法 JSON 分类为 `parse`，合法 JSON 非法字段分类为 `contract`；
+- [ ] 正文中断分类为 `body`，非法 JSON 分类为 `parse`，合法 JSON 非法字段分类为 `contract`；
 - [ ] 关闭服务后的请求分类为 `network`；
 - [ ] 0 分商品通过契约，负数或非安全整数不能通过；
 - [ ] 所有接收记录均重建已知字段，没有信任额外属性；

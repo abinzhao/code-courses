@@ -321,7 +321,7 @@ export default function devApi(): Plugin {
               typeof data.priceCents !== 'number'
               || !Number.isSafeInteger(data.priceCents)
             ) {
-              return fail(422, 'VALIDATION', '价格必须为整数分。')
+              return fail(400, 'VALIDATION', '价格必须为整数分。')
             }
             const result = validateDraft({
               title: String(data.title ?? ''),
@@ -329,7 +329,7 @@ export default function devApi(): Plugin {
               price: (data.priceCents / 100).toFixed(2),
             })
             if (!result.ok) {
-              return fail(422, 'VALIDATION', result.message)
+              return fail(400, 'VALIDATION', result.message)
             }
             const created: Listing = {
               ...result.value,
@@ -361,7 +361,7 @@ export default function devApi(): Plugin {
                 : (item.priceCents / 100).toFixed(2),
             })
             if (!result.ok) {
-              return fail(422, 'VALIDATION', result.message)
+              return fail(400, 'VALIDATION', result.message)
             }
             const updated: Listing = {
               ...item,
@@ -518,7 +518,7 @@ pnpm dev --host 0.0.0.0
 - [ ] typecheck、测试、build 退出 0。
 - [ ] 正常、empty、503、Offline、重试均有不同 UI。
 - [ ] 快速输入时旧响应不能覆盖最新 q。
-- [ ] 401/403/404/409/422/503 保持不同含义。
+- [ ] 401/403/404/409/400/503 保持不同含义。
 - [ ] Cookie 为 HttpOnly 教学会话，浏览器代码不读取凭据。
 - [ ] 固定 CSRF、内存、假登录、无事务边界均已明示。
 - [ ] 开发服务器仅绑定 `127.0.0.1`。

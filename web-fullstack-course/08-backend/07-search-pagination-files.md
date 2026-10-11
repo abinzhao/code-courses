@@ -90,4 +90,5 @@
 - 上一章：[06 认证、会话与授权](06-auth-sessions-rbac.md)
 - 第一课：[安全搜索与动态查询](07-search-pagination-files/01-safe-search-dynamic-queries.md)
 - 下一章：[08 Redis、Outbox 与队列](08-redis-queues-reliability.md)
+- 覆盖审计：[后端覆盖矩阵](BACKEND-COVERAGE.md)
 - 分卷入口：[从零建立业务后端](README.md)

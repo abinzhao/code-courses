@@ -21,7 +21,7 @@
 - [仓储契约与连接所有权](04-postgres-data-access/03-repositories-connection-ownership.md)。
 
 目标环境是 Node.js 24 LTS、课程锁定的 `pg` 和 PostgreSQL 18。真实并发运行前必须记录客户端/
-服务端主版本、脱敏连接目标、数据库名、迁移状态和夹具 ID。PostgreSQL 16、内存 Map、fake
+服务端主版本、脱敏连接目标、数据库名、迁移状态和夹具 ID。非目标 PostgreSQL 主版本、内存 Map、fake
 client 或串行 `await` 的结果都不能代替 18 上的并发证据。
 
 所有实验只能操作隔离数据库与虚构 UUID。价格继续使用整数分，数据库时间使用 `timestamptz`，
@@ -74,7 +74,7 @@ client 或串行 `await` 的结果都不能代替 18 上的并发证据。
 - [ ] 业务冲突映射为 409；权限失败、校验失败不自动重试。
 - [ ] rollback 后同时检查 reservations 与 listings，不只检查抛错。
 - [ ] 所有锁路径采用一致顺序，事务内不等待外部网络或用户。
-- [ ] 环境不满足时保留阻塞，不用 PostgreSQL 16 的输出冒充 18。
+- [ ] 环境不满足时保留阻塞，不用非目标 PostgreSQL 主版本的输出冒充 18。
 
 ## 证据边界
 
@@ -86,4 +86,5 @@ client 或串行 `await` 的结果都不能代替 18 上的并发证据。
 
 [上一章：PostgreSQL 数据访问](04-postgres-data-access.md) ·
 [后端卷目录](README.md) ·
+[后端覆盖矩阵](BACKEND-COVERAGE.md) ·
 [下一章：认证、会话与授权](06-auth-sessions-rbac.md)

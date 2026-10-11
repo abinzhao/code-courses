@@ -15,7 +15,7 @@ Prettier、ESLint、TS 7 与 TS 6 兼容检查各自可复验的红绿证据。
 
 ## 学习顺序
 
-1. [Prettier 3.8.0：格式范围、忽略规则与可审查改写](02-lint-format-quality/01-prettier-format-scope.md)
+1. [Prettier 3.9.10：格式范围、忽略规则与可审查改写](02-lint-format-quality/01-prettier-format-scope.md)
    先定义格式工具能改什么、不能改什么，保护锁文件和生成目录，并区分
    `--check` 与 `--write`。
 2. [ESLint 10 Flat Config：文件作用域与 TypeScript 兼容 API](02-lint-format-quality/02-eslint-flat-config-typescript.md)
@@ -46,7 +46,7 @@ Prettier、ESLint、TS 7 与 TS 6 兼容检查各自可复验的红绿证据。
 
 在个人 `market-engineering-lab` 中完成以下累计任务：
 
-1. 固定 Prettier `3.8.0`，建立配置和忽略文件，仅改写明确纳入范围的手写源码。
+1. 固定 Prettier `3.9.10`，建立配置和忽略文件，仅改写明确纳入范围的手写源码。
 2. 固定 ESLint `10.12.0`，用 flat config 区分浏览器 TypeScript 与 Node 脚本。
 3. 让 `src/main.ts` 展示源码内教学商品“台灯：19.90 元”，金额保持非负安全整数分。
 4. 分别注入格式漂移、未使用变量、`debugger` 和字符串金额类型错误。
@@ -61,7 +61,7 @@ Prettier、ESLint、TS 7 与 TS 6 兼容检查各自可复验的红绿证据。
 
 | 证据 | 判定标准 |
 | --- | --- |
-| 格式范围 | `prettier --version` 为 `3.8.0`；锁文件、依赖目录、构建产物和声明的生成目录未被改写 |
+| 格式范围 | `prettier --version` 为 `3.9.10`；锁文件、依赖目录、构建产物和声明的生成目录未被改写 |
 | Lint 配置 | `eslint --version` 为 `10.12.0`；`--print-config` 能证明目标文件匹配浏览器或 Node 作用域 |
 | 独立门禁 | `format:check`、`lint`、`typecheck`、`typecheck:compat`、`typecheck:all` 均可单独运行并保留退出结果 |
 | 红绿证据 | 四类故障各由所属工具报红；恢复最小改动后对应命令转绿 |
@@ -73,3 +73,4 @@ Prettier、ESLint、TS 7 与 TS 6 兼容检查各自可复验的红绿证据。
 - 上一章：[01 pnpm、Vite 与 ESM](01-pnpm-vite-esm.md)
 - 下一章：[03 构建、资源、缓存与性能预算](03-build-assets-performance.md)
 - 分卷入口：[现代前端工程化](README.md)
+- 覆盖矩阵：[工程化覆盖矩阵](ENGINEERING-COVERAGE.md)

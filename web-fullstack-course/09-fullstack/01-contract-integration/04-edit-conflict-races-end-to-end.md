@@ -156,6 +156,48 @@ export type ListingMutation = {
   priceCents: number;
 };
 
+export type OperationLease = {
+  token: symbol;
+  controller: AbortController;
+};
+
+export function createOperationGate() {
+  let active: OperationLease | null = null;
+  return {
+    get busy() {
+      return active !== null;
+    },
+    begin(label: string): OperationLease | null {
+      if (active) return null;
+      active = {
+        token: Symbol(label),
+        controller: new AbortController(),
+      };
+      return active;
+    },
+    invalidate() {
+      active?.controller.abort();
+      active = null;
+    },
+    release(lease: OperationLease): boolean {
+      if (active?.token !== lease.token) return false;
+      active = null;
+      return true;
+    },
+  };
+}
+
+export function isVersionConflict(value: unknown): boolean {
+  return (
+    value !== null &&
+    typeof value === "object" &&
+    "status" in value &&
+    value.status === 409 &&
+    "code" in value &&
+    value.code === "VERSION_CONFLICT"
+  );
+}
+
 export function draftOf(listing: Listing): ListingDraft {
   return {
     title: listing.title,
@@ -193,7 +235,11 @@ export function parseDraft(draft: ListingDraft): ListingMutation {
 
 ```ts
 import { describe, expect, it } from "vitest";
-import { parseDraft } from "./edit.js";
+import {
+  createOperationGate,
+  isVersionConflict,
+  parseDraft,
+} from "./edit.js";
 
 describe("parseDraft", () => {
   it.each(["0", "19900", "100000000"])(
@@ -234,6 +280,34 @@ describe("parseDraft", () => {
       priceCents: "12000",
     })).toThrow();
   });
+
+  it("recognizes only the stable edit-conflict code", () => {
+    expect(isVersionConflict({
+      status: 409,
+      code: "VERSION_CONFLICT",
+    })).toBe(true);
+    expect(isVersionConflict({
+      status: 409,
+      code: "RESERVATION_CONFLICT",
+    })).toBe(false);
+    expect(isVersionConflict({ status: 409, code: "" })).toBe(false);
+  });
+
+  it("invalidates an old route lease without releasing the new one", () => {
+    const gate = createOperationGate();
+    const oldLease = gate.begin("old-route");
+    expect(oldLease).not.toBeNull();
+    expect(gate.begin("duplicate")).toBeNull();
+    gate.invalidate();
+    expect(oldLease?.controller.signal.aborted).toBe(true);
+
+    const nextLease = gate.begin("new-route");
+    expect(nextLease).not.toBeNull();
+    expect(gate.release(oldLease!)).toBe(false);
+    expect(gate.busy).toBe(true);
+    expect(gate.release(nextLease!)).toBe(true);
+    expect(gate.busy).toBe(false);
+  });
 });
 ```
 
@@ -243,8 +317,9 @@ describe("parseDraft", () => {
 pnpm --filter @market/contracts test
 ```
 
-预期三个合法边界通过，六个非法金额和两个文本边界失败在断言内。若 contracts 包尚无 test script，
-按现有工程测试模式增加 Vitest 脚本，不在教材仓库生成 package 或锁文件。
+本文件贡献 12 个断言展开用例：三个合法金额、六个非法金额、一个文本边界、一个稳定冲突 code
+和一个跨路由 operation lease；上一课 runtime parser 另有 8 个用例。contracts 门应显示 20/20，
+且不能靠删除错误 code 或旧 lease 负例恢复通过。
 
 ## 7. 邻里集市集成案例
 
@@ -262,7 +337,9 @@ import {
   updateListing,
 } from "@market/contracts/client";
 import {
+  createOperationGate,
   draftOf,
+  isVersionConflict,
   parseDraft,
 } from "@market/contracts/edit";
 import type { ListingDraft } from "@market/contracts/edit";
@@ -285,11 +362,12 @@ export default function EditListingPage() {
   const [blocked, setBlocked] = useState(false);
   const [message, setMessage] = useState("");
   const generation = useRef(0);
-  const operation = useRef(false);
+  const operation = useRef(createOperationGate());
 
   useEffect(() => {
     const ownGeneration = ++generation.current;
     const controller = new AbortController();
+    operation.current.invalidate();
     setBase(null);
     setLatest(null);
     setDraft(emptyDraft);
@@ -315,6 +393,7 @@ export default function EditListingPage() {
 
     return () => {
       controller.abort();
+      operation.current.invalidate();
       generation.current += 1;
     };
   }, [id]);
@@ -322,13 +401,18 @@ export default function EditListingPage() {
   const owner = Boolean(base && auth.user?.id === base.ownerId);
 
   async function save() {
-    if (!base || !owner || blocked || operation.current) return;
+    if (!base || !owner || blocked || operation.current.busy) return;
     const ownGeneration = generation.current;
-    operation.current = true;
+    const currentOperation = operation.current.begin("save");
+    if (!currentOperation) return;
     setBusy(true);
     setMessage("");
     try {
-      const saved = await updateListing(base, parseDraft(draft));
+      const saved = await updateListing(
+        base,
+        parseDraft(draft),
+        currentOperation.controller.signal,
+      );
       if (ownGeneration !== generation.current) return;
       setBase(saved);
       setDraft(draftOf(saved));
@@ -336,8 +420,9 @@ export default function EditListingPage() {
       setBlocked(false);
       setMessage(`已保存服务器版本 ${saved.version}`);
     } catch (reason) {
-      if (ownGeneration !== generation.current) return;
-      if (reason instanceof ApiFailure && reason.status === 409) {
+      if (currentOperation.controller.signal.aborted ||
+          ownGeneration !== generation.current) return;
+      if (isVersionConflict(reason)) {
         setBlocked(true);
         setMessage("版本冲突：草稿已保留，请重读并比较最新内容");
       } else if (reason instanceof ApiFailure && reason.status === 403) {
@@ -350,29 +435,33 @@ export default function EditListingPage() {
           : "保存结果未知：请先重读");
       }
     } finally {
-      operation.current = false;
-      if (ownGeneration === generation.current) setBusy(false);
+      if (operation.current.release(currentOperation)) {
+        if (ownGeneration === generation.current) setBusy(false);
+      }
     }
   }
 
   async function reread() {
-    if (operation.current) return;
+    if (operation.current.busy) return;
     const ownGeneration = generation.current;
-    operation.current = true;
+    const currentOperation = operation.current.begin("reread");
+    if (!currentOperation) return;
     setBusy(true);
     try {
-      const next = await getListing(id);
+      const next = await getListing(id, currentOperation.controller.signal);
       if (ownGeneration !== generation.current) return;
       setLatest(next);
       setBlocked(true);
       setMessage("已读取服务器最新内容；当前草稿和提交版本均未改变");
     } catch (reason) {
-      if (ownGeneration === generation.current) {
+      if (!currentOperation.controller.signal.aborted &&
+          ownGeneration === generation.current) {
         setMessage(reason instanceof Error ? reason.message : "重读失败");
       }
     } finally {
-      operation.current = false;
-      if (ownGeneration === generation.current) setBusy(false);
+      if (operation.current.release(currentOperation)) {
+        if (ownGeneration === generation.current) setBusy(false);
+      }
     }
   }
 
@@ -494,7 +583,9 @@ import {
   updateListing,
 } from "@market/contracts/client";
 import {
+  createOperationGate,
   draftOf,
+  isVersionConflict,
   parseDraft,
 } from "@market/contracts/edit";
 import type { ListingDraft } from "@market/contracts/edit";
@@ -515,6 +606,7 @@ const busy = ref(false);
 const blocked = ref(false);
 const message = ref("");
 let generation = 0;
+const operation = createOperationGate();
 
 const owner = computed(
   () => Boolean(base.value && auth.user?.id === base.value.ownerId),
@@ -523,8 +615,10 @@ const owner = computed(
 watch(id, (nextId, _oldId, onCleanup) => {
   const ownGeneration = ++generation;
   const controller = new AbortController();
+  operation.invalidate();
   onCleanup(() => {
     controller.abort();
+    operation.invalidate();
     generation += 1;
   });
   base.value = null;
@@ -551,14 +645,17 @@ watch(id, (nextId, _oldId, onCleanup) => {
 }, { immediate: true });
 
 async function save() {
-  if (!base.value || !owner.value || blocked.value || busy.value) return;
+  if (!base.value || !owner.value || blocked.value || operation.busy) return;
   const ownGeneration = generation;
+  const currentOperation = operation.begin("save");
+  if (!currentOperation) return;
   busy.value = true;
   message.value = "";
   try {
     const saved = await updateListing(
       base.value,
       parseDraft(draft.value),
+      currentOperation.controller.signal,
     );
     if (ownGeneration !== generation) return;
     base.value = saved;
@@ -567,8 +664,9 @@ async function save() {
     blocked.value = false;
     message.value = `已保存服务器版本 ${saved.version}`;
   } catch (reason) {
-    if (ownGeneration !== generation) return;
-    if (reason instanceof ApiFailure && reason.status === 409) {
+    if (currentOperation.controller.signal.aborted ||
+        ownGeneration !== generation) return;
+    if (isVersionConflict(reason)) {
       blocked.value = true;
       message.value = "版本冲突：草稿已保留，请重读并比较最新内容";
     } else if (reason instanceof ApiFailure && reason.status === 403) {
@@ -581,26 +679,36 @@ async function save() {
         : "保存结果未知：请先重读";
     }
   } finally {
-    if (ownGeneration === generation) busy.value = false;
+    if (operation.release(currentOperation)) {
+      if (ownGeneration === generation) busy.value = false;
+    }
   }
 }
 
 async function reread() {
-  if (busy.value) return;
+  if (operation.busy) return;
   const ownGeneration = generation;
+  const currentOperation = operation.begin("reread");
+  if (!currentOperation) return;
   busy.value = true;
   try {
-    const next = await getListing(id.value);
+    const next = await getListing(
+      id.value,
+      currentOperation.controller.signal,
+    );
     if (ownGeneration !== generation) return;
     latest.value = next;
     blocked.value = true;
     message.value = "已读取服务器最新内容；当前草稿和提交版本均未改变";
   } catch (reason) {
-    if (ownGeneration === generation) {
+    if (!currentOperation.controller.signal.aborted &&
+        ownGeneration === generation) {
       message.value = reason instanceof Error ? reason.message : "重读失败";
     }
   } finally {
-    if (ownGeneration === generation) busy.value = false;
+    if (operation.release(currentOperation)) {
+      if (ownGeneration === generation) busy.value = false;
+    }
   }
 }
 
