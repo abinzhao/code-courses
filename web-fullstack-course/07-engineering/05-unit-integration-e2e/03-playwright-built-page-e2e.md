@@ -786,4 +786,4 @@ Chromium 结果外推。
 
 [本章入口](../05-unit-integration-e2e.md) ·
 [上一课：集成 HTTP、解析器与请求竞态](02-vitest-integration-http-races.md) ·
-[下一章：CI、Git 与发布](../06-ci-git-release.md)
+[下一课：Git 范围、审查与可回退提交](../06-ci-git-release/01-git-scope-reviewable-commits.md)

@@ -45,7 +45,7 @@ ESLint 10 使用 flat config。配置是按顺序组合的对象数组，每个�
 练习项目并执行三条编译器探针：
 
 ```bash
-cd ~/course-labs/market-engineering-lab
+cd "$HOME/code/market-engineering-lab"
 pnpm exec tsc --version
 pnpm exec tsc6 --version
 pnpm exec node --input-type=module -e 'import ts from "typescript"; console.log(ts.version)'

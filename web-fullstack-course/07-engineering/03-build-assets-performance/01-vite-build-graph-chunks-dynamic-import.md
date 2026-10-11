@@ -32,7 +32,7 @@
 在读者自己的练习目录执行：
 
 ```bash
-cd market-engineering-lab
+cd "$HOME/code/market-engineering-lab"
 node --version
 pnpm --version
 pnpm exec vite --version

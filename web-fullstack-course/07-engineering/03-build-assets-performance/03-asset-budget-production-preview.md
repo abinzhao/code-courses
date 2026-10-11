@@ -34,7 +34,7 @@ Vite 会显示部分构建体积，但警告阈值不一定让命令失败，也
 从读者自己的实验根检查：
 
 ```bash
-cd market-engineering-lab
+cd "$HOME/code/market-engineering-lab"
 node --version
 pnpm --version
 pnpm quality

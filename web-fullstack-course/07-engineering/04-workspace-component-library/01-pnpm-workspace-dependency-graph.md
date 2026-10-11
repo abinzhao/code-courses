@@ -766,4 +766,4 @@ find . -name pnpm-lock.yaml -print
 
 ## 单元导航
 
-[章节 hub](../04-workspace-component-library.md) · [上一单元：构建、资源、缓存与性能预算](../03-build-assets-performance.md) · [下一单元：Package Exports、运行时契约与发布](02-package-exports-contracts-publishing.md) · [工程化卷目录](../README.md)
+[章节 hub](../04-workspace-component-library.md) · [上一课：递归资源预算与生产预览](../03-build-assets-performance/03-asset-budget-production-preview.md) · [下一课：Package Exports、运行时契约与发布](02-package-exports-contracts-publishing.md) · [工程化卷目录](../README.md)

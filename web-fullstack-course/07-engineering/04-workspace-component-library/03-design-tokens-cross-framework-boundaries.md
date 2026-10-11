@@ -735,4 +735,4 @@ pnpm --filter @market/lab-web dev
 
 ## 单元导航
 
-[章节 hub](../04-workspace-component-library.md) · [上一单元：Package Exports、运行时契约与发布](02-package-exports-contracts-publishing.md) · [下一单元：单元、集成与端到端测试](../05-unit-integration-e2e.md) · [工程化卷目录](../README.md)
+[章节 hub](../04-workspace-component-library.md) · [上一课：Package Exports、运行时契约与发布](02-package-exports-contracts-publishing.md) · [下一课：用单元测试锁定领域边界](../05-unit-integration-e2e/01-vitest-unit-domain-boundaries.md) · [工程化卷目录](../README.md)

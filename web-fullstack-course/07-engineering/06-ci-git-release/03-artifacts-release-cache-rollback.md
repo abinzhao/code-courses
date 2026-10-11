@@ -33,7 +33,7 @@
 ```bash
 pnpm verify
 git rev-parse HEAD
-find apps/lab-web/dist -type f -print | sort
+find dist -type f -print | sort
 ```
 
 若目录没有 Git 提交，使用明确的本地练习标识，例如 `local-uncommitted`，不得伪造提交 SHA。`dist` 必须来自当前已检查输入，不能复用不明时间的旧目录。
@@ -115,17 +115,52 @@ market-web-<commit-sha>/
 
 这些描述值必须由受控流程写入实际值，不能把说明文字当作生产清单。发布时间保持 UTC ISO 8601。
 
-本地模拟部署：
+先从第 05 章当前已验证的 `dist` 生成本地 artifact，再模拟部署。所有删除都限定到本课固定的
+`/tmp` 目录，执行前逐项核对变量：
 
 ```bash
 artifact=/tmp/market-artifact
 release=/tmp/market-release
+case "$artifact:$release" in
+  /tmp/market-artifact:/tmp/market-release) ;;
+  *) echo "refusing unexpected release paths" >&2; exit 1 ;;
+esac
+rm -rf "$artifact" "$release"
+mkdir -p "$artifact" "$release"
+cp -R dist/. "$artifact/"
+
+commit="$(git rev-parse HEAD 2>/dev/null || printf 'local-uncommitted')"
+built_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+COMMIT="$commit" BUILT_AT="$built_at" ARTIFACT="$artifact" node --input-type=module -e '
+  import { writeFileSync } from "node:fs";
+  const manifest = {
+    schemaVersion: 1,
+    commit: process.env.COMMIT,
+    builtAt: process.env.BUILT_AT,
+    source: "local-teaching-build",
+    entry: "index.html",
+  };
+  writeFileSync(
+    `${process.env.ARTIFACT}/RELEASE.json`,
+    `${JSON.stringify(manifest, null, 2)}\n`,
+  );
+'
+(
+  cd "$artifact"
+  find . -type f ! -name SHA256SUMS -exec shasum -a 256 {} \; > SHA256SUMS
+  shasum -a 256 -c SHA256SUMS
+)
+
 mkdir -p "$release/assets"
 cp -R "$artifact/assets/." "$release/assets/"
 find "$release/assets" -type f -print | sort
+cp "$artifact/RELEASE.json" "$release/RELEASE.json"
 cp "$artifact/index.html" "$release/index.next.html"
 mv "$release/index.next.html" "$release/index.html"
 ```
+
+预期摘要校验全部为 `OK`，artifact 同时包含实际构建文件、`RELEASE.json` 和
+`SHA256SUMS`。`local-teaching-build` 明确表示它不是托管 CI 或生产制品。
 
 顺序要求：
 
@@ -190,10 +225,10 @@ JS
 必须提交以下本地证据，而不是生产成功声明：
 
 ```bash
-git rev-parse HEAD
+git rev-parse HEAD 2>/dev/null || printf 'local-uncommitted\n'
 pnpm verify
-find apps/lab-web/dist -type f -print | sort
-shasum -a 256 -c SHA256SUMS
+find dist -type f -print | sort
+(cd /tmp/market-artifact && shasum -a 256 -c SHA256SUMS)
 ```
 
 通过条件：制品关联真实提交；摘要通过；缺失路径会失败；发布计划采用资源先行；旧资源有保留窗口；列出托管 CI、registry、CDN headers、TLS、域名切换、生产部署和数据库恢复的未验证状态。

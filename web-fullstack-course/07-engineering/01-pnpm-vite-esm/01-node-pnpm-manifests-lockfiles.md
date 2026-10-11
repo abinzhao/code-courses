@@ -504,5 +504,5 @@ node src/print-listing.js
 ## 单元导航
 
 [返回本章 Hub](../01-pnpm-vite-esm.md) ·
-[上一单元：工程化卷导读](../README.md) ·
+[上一课：数据结构、复杂度、搜索与排序](../../04-javascript-typescript/09-testing-debugging-algorithms/03-data-structures-complexity-search-sort.md) ·
 [下一课：Vite、ESM、开发构建与预览](02-vite-esm-dev-build-preview.md)

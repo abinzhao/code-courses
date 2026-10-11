@@ -27,17 +27,20 @@ Git 管理的是文件快照。数据库、队列、浏览器存储、云账号�
 
 ## 3. 预备知识
 
-先复制个人练习项目，不要在教材目录执行本课 Git 写操作：
+先创建读者拥有的一次性目录，不依赖尚未学习的第 07 章结业工程，也不要在教材目录执行
+本课 Git 写操作：
 
 ```bash
-cp -R market-engineering-capstone /tmp/market-git-exercise
-cd /tmp/market-git-exercise
+exercise="$(mktemp -d /tmp/market-git-exercise.XXXXXX)"
+cd "$exercise"
 git init
 git switch -c learning/reviewable-commit
 git status --short
 ```
 
-若源目录含 `node_modules`、`dist`、测试报告或真实 `.env`，复制前先移除这些可再生或敏感内容。本课只使用教学数据，不配置远端。
+`mktemp` 输出就是本次练习的实际路径；后续命令都在该目录执行。本课只创建教学源码和测试，
+不复制 `node_modules`、`dist`、测试报告或真实 `.env`，也不配置远端。完成并保存所需证据后，
+只删除这个由自己创建且路径已经核对的临时目录。
 
 ## 4. 核心理论
 
@@ -78,7 +81,7 @@ HEAD --(git add 选择)--> index --(继续编辑)--> working tree
 
 ## 6. 最小可运行案例
 
-在 `/tmp/market-git-exercise` 建立两个文件：
+在刚才进入的 `$exercise` 目录建立两个文件：
 
 ```bash
 mkdir -p src tests notes
@@ -113,22 +116,39 @@ git show --stat --oneline HEAD
 
 ## 7. 邻里集市集成案例
 
-项目中金额修复涉及：
+继续使用本课已经创建的一次性仓库，为金额函数增加非法输入拒绝，并补相应断言：
 
-```text
-packages/contracts/src/money.ts
-packages/contracts/src/money.test.ts
+```diff
+--- a/src/money.js
++++ b/src/money.js
+@@
+-export const format = (cents) => (cents / 100).toFixed(2)
++export const format = (cents) => {
++  if (!Number.isSafeInteger(cents) || cents < 0) {
++    throw new RangeError("expected non-negative safe integer cents")
++  }
++  return (cents / 100).toFixed(2)
++}
+
+--- a/tests/money.test.js
++++ b/tests/money.test.js
+@@
+ import { strict as assert } from "node:assert";
+ import { format } from "../src/money.js";
+ assert.equal(format(1990), "19.90");
++assert.equal(format(0), "0.00");
++assert.throws(() => format(-1), RangeError);
 ```
 
-先观察全局状态，再限定路径：
+把 diff 应用到 `src/money.js` 与 `tests/money.test.js` 后，观察全局状态并限定路径：
 
 ```bash
 git status --short
-git diff -- packages/contracts/src/money.ts packages/contracts/src/money.test.ts
-git add -- packages/contracts/src/money.ts packages/contracts/src/money.test.ts
+git diff -- src/money.js tests/money.test.js
+git add -- src/money.js tests/money.test.js
 git diff --cached --name-only
 git diff --cached --check
-pnpm test -- packages/contracts/src/money.test.ts
+node tests/money.test.js
 git diff --cached
 ```
 

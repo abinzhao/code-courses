@@ -661,5 +661,5 @@ function unsafeDate(value: string): string {
 ## 单元导航
 
 [本章入口](../05-unit-integration-e2e.md) ·
-[上一章：Workspace、组件库与 Design Tokens](../04-workspace-component-library.md) ·
+[上一课：语义 Design Tokens 与跨框架边界](../04-workspace-component-library/03-design-tokens-cross-framework-boundaries.md) ·
 [下一课：集成 HTTP、解析器与请求竞态](02-vitest-integration-http-races.md)

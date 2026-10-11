@@ -45,7 +45,7 @@ fail-fast `quality`。聚合入口方便 CI，独立入口负责诊断。每个�
 [ESLint flat config](02-eslint-flat-config-typescript.md)。进入个人项目并确认基线：
 
 ```bash
-cd ~/course-labs/market-engineering-lab
+cd "$HOME/code/market-engineering-lab"
 pnpm exec prettier --version
 pnpm exec eslint --version
 pnpm exec tsc --version
@@ -225,6 +225,27 @@ export function formatCents(cents: number): string {
 }
 ```
 
+第 01 章列表入口没有 `#app`，本课切换为单商品质量探针时必须同时完整替换 `index.html`：
+
+```html
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>邻里集市质量门禁</title>
+  </head>
+  <body>
+    <main>
+      <p>本地静态教学数据</p>
+      <h1>邻里集市</h1>
+      <div id="app"></div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+```
+
 完整文件 `src/main.ts`：
 
 ```ts
@@ -267,7 +288,7 @@ app.replaceChildren(heading, price);
 执行：
 
 ```bash
-pnpm exec prettier src/money.ts src/main.ts --write
+pnpm exec prettier index.html src/money.ts src/main.ts --write
 pnpm quality
 pnpm build
 pnpm preview
@@ -505,4 +526,4 @@ pnpm pkg set 'scripts.lint=eslint . --max-warnings 0'
 
 [返回第 02 章入口](../02-lint-format-quality.md) ·
 [上一篇：ESLint 10 Flat Config](02-eslint-flat-config-typescript.md) ·
-[下一章：构建、资源、缓存与性能预算](../03-build-assets-performance.md)
+[下一课：Vite 8 构建图、Chunk 与动态导入](../03-build-assets-performance/01-vite-build-graph-chunks-dynamic-import.md)

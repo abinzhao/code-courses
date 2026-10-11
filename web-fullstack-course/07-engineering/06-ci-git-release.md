@@ -32,7 +32,7 @@
 
 ## 邻里集市综合任务
 
-在读者拥有的 `market-engineering-capstone` 一次性副本中：
+在第 05 章已运行的 `market-engineering-lab` 个人练习副本中：
 
 1. 只暂存本次金额与搜索竞态修复涉及的源码和测试。
 2. 用 staged diff 证明提交不含构建目录、环境文件和无关格式变化。

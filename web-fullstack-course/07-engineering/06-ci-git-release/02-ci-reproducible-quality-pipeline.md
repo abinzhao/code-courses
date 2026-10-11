@@ -81,7 +81,8 @@ pnpm verify
 {
   "scripts": {
     "ci:versions": "node --version && pnpm --version && tsc --version && tsc6 --version && playwright --version",
-    "verify": "pnpm build && pnpm budget && pnpm test:e2e"
+    "test": "vitest run",
+    "verify": "pnpm test && pnpm build && pnpm budget && pnpm test:e2e"
   }
 }
 ```
@@ -95,7 +96,10 @@ pnpm verify
 printf 'exit=%s\\n' "$?"
 ```
 
-预期版本探针逐项输出，聚合门退出 `0`。这只能证明当前机器的本地等价执行；runner 操作系统、网络和权限仍需真实 CI 观察。
+预期版本探针逐项输出，Vitest 在首次构建前明确执行，聚合门退出 `0`。即使当前项目的
+`build` 或 `test:e2e` 会再次间接运行测试，也保留具名 `pnpm test`，避免脚本重构后让领域、
+HTTP 或竞态测试从 CI 消失。这只能证明当前机器的本地等价执行；runner 操作系统、网络和
+权限仍需真实 CI 观察。
 
 ## 7. 邻里集市集成案例
 
@@ -156,7 +160,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: market-web-${{ github.sha }}
-          path: apps/lab-web/dist
+          path: dist
           if-no-files-found: error
 
       - name: Upload short-lived browser failure evidence
@@ -177,12 +181,12 @@ jobs:
 
 ### 错误实验：上传不存在的目录
 
-把 `path: apps/lab-web/dist` 临时改成 `path: missing-dist`，使用 YAML 解析器和工作流审查确认差异；若在授权练习仓库执行，上传步骤应因 `if-no-files-found: error` 失败。
+把 `path: dist` 临时改成 `path: missing-dist`，使用 YAML 解析器和工作流审查确认差异；若在授权练习仓库执行，上传步骤应因 `if-no-files-found: error` 失败。
 
 - **现象**：质量门可能绿，但构建制品步骤失败。
 - **证据**：上传日志指出路径没有文件，步骤为非零。
 - **原因**：工作流声明的输出路径与 Vite 实际 `outDir` 不一致。
-- **修复**：从构建日志和 `find apps/lab-web/dist -type f` 确认真实目录，恢复路径。
+- **修复**：从构建日志和 `find dist -type f` 确认真实目录，恢复路径。
 - **复验**：本地重建并列出文件；只有真实 runner 再执行成功，才能记录托管上传通过。
 
 不要把 `if-no-files-found` 改成 `ignore` 掩盖发布输入缺失。
@@ -216,7 +220,7 @@ pnpm exec tsc --version
 pnpm exec tsc6 --version
 pnpm exec playwright --version
 pnpm verify
-find apps/lab-web/dist -type f -print | sort
+find dist -type f -print | sort
 ```
 
 通过条件：本地门全部退出 `0`；工作流使用最小权限、超时和并发；制品绑定 SHA；无自动修复和生产密钥；托管状态明确写作“未执行”或附真实运行链接，不用 YAML 文件存在代替运行证据。

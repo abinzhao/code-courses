@@ -33,7 +33,7 @@
 从第一课完成后的实验根执行：
 
 ```bash
-cd market-engineering-lab
+cd "$HOME/code/market-engineering-lab"
 pnpm quality
 pnpm build
 find dist -type f -print | sort
