@@ -305,8 +305,13 @@ document.addEventListener('atlas:favorite-change', event => {
 - 事件监听可统一清理
 - 写出鼠标与键盘验收记录
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：createElement/textContent 生成节点，稳定 ID 连接数组与 DOM。标题 "<img>" 显示原文；删除不存在的 ID 不误删最后一项。
+- **进阶**：从 event.target.closest("[data-action]") 定位动作，再检查容器 contains 与行 ID。图标/文字/新行共用监听；容器外或未知动作不执行特权操作。
+- **挑战**：tablist/tab/tabpanel、aria-selected 与 roving tabindex 同步；Home/End 与方向键按方向处理。移除控件统一清理监听；鼠标切换后键盘焦点仍在选中 tab。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

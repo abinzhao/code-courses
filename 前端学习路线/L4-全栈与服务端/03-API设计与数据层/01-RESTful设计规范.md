@@ -647,8 +647,13 @@ POST /auth/refresh
 - v2 中废弃了 `GET /tasks?filter=...`，改为各自独立参数
 - 请写出 v1 和 v2 的完整 API 差异对照表，并设计客户端平滑迁移策略
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：以资源/方法/状态码描述 Todo API，POST 创建返回 201/Location；统一稳定错误码和 requestId。每端点明确身份与资源权限，不把所有错误包成 200。
+- **进阶**：筛选参数白名单，排序加唯一 ID 打破平局，cursor 绑定排序与筛选。并发插入后遍历不重复；坏 cursor/非法排序拒绝，cursor 不自动提供快照一致性。
+- **挑战**：新增必填字段是破坏变更，新增可选响应字段通常兼容但严格旧消费者需验证。v1 保留期限与 v2 双读/双写窗口明确，记录消费者迁移与回滚标准。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 
@@ -685,5 +690,5 @@ RESTful 不是教条。它是一套经过 20 年验证的 Web API 设计最佳�
 <!-- course-nav:start -->
 ---
 
-[上一篇：03-Worker Threads 与集群](../02-Node.js后端基础/03-Worker-Threads与集群.md) · [课程地图](../../README.md) · [下一篇：02-tRPC 端到端类型安全](./02-tRPC端到端类型安全.md)
+[上一篇：事件循环延迟、内存与运行时诊断](../02-Node.js后端基础/06-事件循环延迟-内存与运行时诊断.md) · [课程地图](../../README.md) · [下一篇：02-tRPC 端到端类型安全](./02-tRPC端到端类型安全.md)
 <!-- course-nav:end -->

@@ -527,8 +527,13 @@ const d = myGet(obj, 'a.b.d', '默认');  // d 类型：string（路径不存在
 2. 配置 `.github/workflows/ci.yml`（或同等的 CI 配置），包含类型检查步骤。
 3. 写一段文档说明：当 CI 类型检查失败时，如何根据错误提示定位和修复。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：strict=true，module/moduleResolution 与实际 Node 或 bundler 匹配，构建目录独立。tsc --noEmit 先检查，再实际运行输出；emit 成功不代表能解析运行时模块。
+- **进阶**：类型层按点路径递归索引并传播 undefined，运行时 get 保留默认值语义。未知路径编译拒绝或返回明确 fallback，深度设边界避免类型递归爆炸。
+- **挑战**：hook 调用整个项目 typecheck，不能把暂存文件名传给 tsc 绕开 tsconfig。CI 使用锁文件并保留独立类型 job；故意错类型时失败，修复后通过。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

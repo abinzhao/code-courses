@@ -741,8 +741,13 @@ export async function POST(request: NextRequest) {
 - **Rate Limiting**：使用 Redis、平台限流服务或 Durable Object 等共享存储实现滑动窗口；禁止把进程内 `Map` 当作生产限流状态
 - **API 版本管理**：通过 Proxy 实现 `/api/v1/` 和 `/api/v2/` 的路由，`v1` 返回简单 JSON，`v2` 返回带 `{ version: '2.0', data: ... }` 的包装格式。不创建 `v1/v2` 文件夹，纯 Proxy rewrite 实现
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：Route Handler 按 GET/POST/PUT/DELETE 校验内容与 ID，内存数据仅教学用。日志字段白名单，await params；404/405/422 与正常响应都有验证。
+- **进阶**：密码用慢哈希，JWT 验签并检查 exp/iss/aud，creatorId 取当前身份。最终 Handler 再鉴权授权；一分钟后拒绝，他人 ID 拒绝，不能仅依赖 Proxy 存在 token。
+- **挑战**：共享限流原子更新，定义存储失败政策；rewrite 保持原方法/正文，避免循环。并发多实例验证总窗口限额，v1/v2 消费者得到不同契约。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

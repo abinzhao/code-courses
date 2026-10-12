@@ -566,8 +566,13 @@ ARIA 只在"原生 HTML 无法表达语义"时才使用。错误的 ARIA 比没�
 
 记录至少 3 个问题，写下你会怎么修。不需要实际改代码。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：导航用真实 href 的 a；搜索用 button 和 aria-label，装饰图标隐藏于无障碍树。Tab、Enter、Space 与浏览器打开新标签行为都应按元素语义工作。
+- **进阶**：打开时记住触发点、移入焦点，关闭还原；背景用 inert 阻止交互并正确管理 aria-hidden。Tab/Shift+Tab 循环且 Esc 关闭；无焦点元素时聚焦 dialog。
+- **挑战**：逐项记录可访问名称、键盘阻塞和对比度；自动报告之外手工走主旅程。提交至少三个有元素定位和修复建议的问题，不用 Lighthouse 分数代替完整审计。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

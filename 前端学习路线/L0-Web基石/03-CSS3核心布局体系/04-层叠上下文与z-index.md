@@ -670,8 +670,13 @@
 
 验证：C 永远无法显示在 D 之上。然后用 Layers 面板截取 3D 视图证明这一点。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：先画层叠上下文树再比较同级 z-index；普通 static 元素不生效，但 flex/grid item 有例外。子节点的大 z-index 不能越过低层级父上下文。
+- **进阶**：统一 overlay 根和层级变量，每次打开分配顺序；避免祖先 overflow 裁剪，可用 portal 或 top layer。关闭顶层后还原焦点并核对背景不能误点。
+- **挑战**：明确 A 与 D 是可比较的同级上下文且 A 排在 D 下方，才有 C 无法越过 D 的结论。移出 A 或改变 A 层级会改变结果；Layers 不等价于层叠树。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

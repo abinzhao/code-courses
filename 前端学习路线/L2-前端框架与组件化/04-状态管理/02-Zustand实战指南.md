@@ -527,8 +527,13 @@ A：Zustand 是"集中式"（一个/几个大 store），Jotai/Recoil 是"原子
 - 用 `useSyncExternalStoreWithSelector` 手动实现一个选择器对比 Zustand 的默认选择器
 - 写出你的分析结论（300 字以内）
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：按 ID 去重收藏，persist 加版本/校验，action 给 devtools 名称。刷新恢复，坏数据回退，退出账号清用户范围收藏；LocalStorage 不保存秘密。
+- **进阶**：金额用整数分，优惠按最大满足门槛取一个，数量范围校验；auth/cart 明确订阅。100/200 门槛、角色变化和注销后折扣即时正确。
+- **挑战**：selector 返回稳定值或 shallow 比较，记录 unrelated update 是否触发消费者。手写 selector 仅是实验；相等比较不能隐藏实际变化或无限制造新快照。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

@@ -1084,8 +1084,13 @@ document.head.appendChild(testScript);
 3. 基于 30 天 RUM 数据建立性能基线，设定告警规则
 4. 编写一份《前端可观测性白皮书》，包含：可观测性体系架构图、指标定义、告警规则、故障响应 SOP、隐私合规措施
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：web-vitals 采集并发送本地接收端；sendBeacon 返回 true 仅排队成功，要核对服务端实际记录。Synthetic 与本地采样不是同一人群，INP 缺测不填零。
+- **进阶**：包装 fetch/XHR 保持原语义并只采白名单耗时，卸载还原；FCP 不等于业务白屏结束。去重 metric.id，明确 PV/UV/错误率分母，拒绝敏感 URL 参数。
+- **挑战**：管道按 metric/路由/设备/版本聚合分位数，原始样本与聚合规则可追溯。30天基线需真实采集；mock 看板仅证明计算/查询链，不证明生产告警阈值合理。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

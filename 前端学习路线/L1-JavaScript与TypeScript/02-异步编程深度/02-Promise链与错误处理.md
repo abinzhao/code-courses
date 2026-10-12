@@ -442,8 +442,13 @@ batchRequest(urls, 3).then(results => console.log('全部完成', results));
 
 提示：用一个索引记录"下一个该发的 URL"，每个请求完成时检查是否还有待发的 URL。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：每层 then 返回下一步 Promise，末尾 catch 分类、finally 清 loading。登录失败时不获取资料；渲染错误也进入错误路径，不能漏 return 造成提前完成。
+- **进阶**：Promise.resolve 接受普通值/thenable；按索引存结果，计数归零 resolve，首个拒绝 reject。空输入立刻 resolve([])，完成顺序不同仍保持输入顺序。
+- **挑战**：limit 为正整数，启动有限 worker，完成后取下一索引。延迟夹具证明峰值不超 limit、结果顺序稳定；明确 fail-fast 或收集错误政策，失败时不能永久卡住。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

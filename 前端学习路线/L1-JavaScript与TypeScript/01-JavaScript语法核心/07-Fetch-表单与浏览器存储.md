@@ -339,8 +339,13 @@ Web 平台 Fetch 不支持 GET/HEAD body。使用查询参数表达读取条件�
 4. 处理同一文章反复收藏/取消的合并规则。
 5. 提供清理和重试界面。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：URLSearchParams 编码 keyword/page，检查 response.ok 与 MIME 后解析 JSON；signal 传入 fetch。分别测 401、500、HTML 响应、坏 JSON 与取消，取消不伪装成服务器失败。
+- **进阶**：schema 版本与字段校验后才恢复；坏 JSON/未知版本走默认值或明确迁移。storage 事件只通知其他文档，同页需自行更新；拒绝存储时仍可继续临时使用。
+- **挑战**：IndexedDB 保存 operationId、articleId、最终意图与状态；同文章收藏/取消合并，但已发送操作不能随意删除。重复同步由服务端幂等，失败可重试且不无限循环。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

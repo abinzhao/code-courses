@@ -551,8 +551,13 @@ A：推荐按业务域拆分（user、product、cart、order），每个 store �
 - 提供一个全局的撤销/重做功能（undo/redo），支持最多 10 步撤销
 - 在 DevTools 中能看到 undo/redo 的 action
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：state 保存 todos，getter 派生筛选/未完成数，action 更新。持久化带 schema 与错误恢复；删除和切完成后数量一致，不直接解构丢失响应性。
+- **进阶**：列表与编辑草稿分开，批量操作按 ID，删除二次确认。服务端拒绝不污染列表，重试保留输入；$subscribe 日志脱敏，卸载停止不必要订阅。
+- **挑战**：插件注入 lastUpdated，undo/redo 保存有限快照并排除恢复操作再次入栈。新修改清 redo，跨 store 快照粒度明确，持久化与撤销不能互相无限触发。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

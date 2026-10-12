@@ -648,8 +648,13 @@ CREATE INDEX idx_post_tags_tag_id ON post_tags(tag_id);
 - 用户有收货地址（一个用户多个地址）
 - 写出建表 SQL，定义好主键、外键和必要索引
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：movies 用主键与 rating/year 检查约束，虚构 seed 固定可重放；WHERE 筛科幻/年份，再 ORDER BY rating DESC,id。按导演 GROUP BY 统计，空值行为明确。
+- **进阶**：评论与标签先各自聚合再 join，避免多对多乘积让评论数重复。递归 CTE 明确根/深度/环路策略；无评论文章也应保留。
+- **挑战**：订单与明细分表，金额整数分或 numeric，明细保存下单快照；多分类用连接表，地址按用户绑定。外键与唯一约束保护不变量，索引依据实际查询。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 
@@ -682,5 +687,5 @@ CREATE INDEX idx_post_tags_tag_id ON post_tags(tag_id);
 <!-- course-nav:start -->
 ---
 
-[上一篇：03-数据校验与错误处理](../03-API设计与数据层/03-数据校验与错误处理.md) · [课程地图](../../README.md) · [下一篇：02 Prisma ORM 实战](./02-Prisma-ORM实战.md)
+[上一篇：SSE、WebSocket 与断线恢复](../03-API设计与数据层/05-SSE-WebSocket与断线恢复.md) · [课程地图](../../README.md) · [下一篇：02 Prisma ORM 实战](./02-Prisma-ORM实战.md)
 <!-- course-nav:end -->

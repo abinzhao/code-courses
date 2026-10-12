@@ -966,8 +966,13 @@ A：`Authorization: Bearer <token>` 是 API 认证的标准方式，尤其适合
 3. 至少实施以下一项升级：将 JWT 从 localStorage 迁移到 httpOnly Cookie + 内存、添加 Token 轮换机制、实现 OAuth 2.0 PKCE
 4. 在 CI 中加入认证流程的自动化安全测试（暴力破解防护测试、Token 过期测试、CSRF 攻击测试）
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：用虚构余额/偏好，服务端 token+Origin 校验，两个本地来源发请求。不同端口跨源但可能同站，不能用它证明 SameSite 跨站；记录 Cookie/Origin 与状态变化。
+- **进阶**：慢哈希、验签、短访问 token、轮换 refresh 与撤销记录；前端刷新 single-flight。多个 401 只刷新一次，失败清状态，登出后 refresh 拒绝，不能假定已签 access token 自动撤销。
+- **挑战**：画登录/刷新/退出数据流，逐风险映射控制/成本/复测。PKCE 防授权码截获但不独立解决 XSS/CSRF；升级后旧会话迁移与失效窗口明确。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

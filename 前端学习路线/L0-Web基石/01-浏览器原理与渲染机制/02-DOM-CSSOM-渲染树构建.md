@@ -332,8 +332,13 @@ A：HTML 规范明确要求 defer 脚本按声明顺序执行，所有主流浏�
 3. 用 `setTimeout` 动态插入 `<link>` 标签（延迟 2 秒后插入），观察 FOUC 时长
 4. 总结 FOUC 的产生条件，以及如何避免
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：记录脚本执行、DOMContentLoaded、load 与资源 Timing；外部样式可阻塞后续经典脚本。只增加 CSS 行数未必产生可测延迟，可在本地服务给响应加有界延迟。
+- **进阶**：经典 defer 按文档顺序执行且在 DOMContentLoaded 前；async 就绪即执行，不保证相互顺序。反复改变下载延迟，检查访问 h1 时是否已经完成解析。
+- **挑战**：延迟插入 stylesheet 更容易观察未样式化内容；body 末尾的 link 不保证一定产生 FOUC。用 trace 证明首次绘制与样式生效时刻，未出现也记录条件。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

@@ -814,15 +814,20 @@ server {
 
 ### 挑战练习：生产级架构
 
-1. 使用 PM2 cluster mode 启动 4 个 Next.js 实例（`pm2 start npm --name myblog -i 4 -- start`）
+1. 在隔离环境启动 4 个明确监听 `3001`—`3004` 的 Next.js 进程，使用各实例的 `PORT` 配置；进程管理器运行实际 Node 入口，不能假定对 `npm` 包装命令使用 cluster 参数就正确建立共享监听
 2. 在 Nginx 中配置 `upstream` 负载均衡，分发到这 4 个实例
 3. 配置 `limit_req` 限流规则（API 每秒 10 次请求，超过返回 429）
-4. 研究并配置 Brotli 压缩（比 Gzip 压缩率高 20%）
+4. 研究 Brotli 模块可用性，在相同资源和压缩成本条件下对比 Gzip 的实际体积与耗时，不预设固定收益比例
 5. 编写 Nginx 日志分析脚本，统计 Top 10 访问 URL、4xx/5xx 错误率和平均响应时间
 6. 模拟一次 Nginx 故障：kill 掉 Nginx 进程，写一个 systemd watchdog 让它自动恢复
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：本地高端口 proxy_pass 到真实应用，nginx -t 先检查；hash 静态资源长缓存，HTML/认证页面不同策略。刷新嵌套路由与请求头透传均验证。
+- **进阶**：用受支持 OS/Node，最小开放端口与 HTTPS；证书续期、反代和安全头逐项 curl 验证。扫描只针对自有域名，评级不能代替应用授权与补丁管理。
+- **挑战**：四个应用用明确端口 3001-3004，upstream 指向它们，限流返回 429。Brotli 收益实测，日志脱敏；systemd Restart 演练仅隔离服务，重启后检查恢复。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

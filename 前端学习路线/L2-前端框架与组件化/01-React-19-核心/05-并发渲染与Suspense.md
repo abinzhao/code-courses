@@ -536,8 +536,13 @@ React 会**并行**尝试渲染所有子组件。如果一个子组件"挂起"�
 ### 挑战：流式渲染（Streaming）模拟
 用 React 19 的 Suspense 模拟流式渲染效果：页面由一个"立即显示"的标题区域和三个"延迟加载"的内容块组成。三个内容块分别在不同时间点 resolve（1s/2s/3s），每块加载完成后立即显示，不等待其他块。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：lazy 在模块顶层定义，fallback 保留卡片尺寸，并用 ErrorBoundary 处理导入失败。Suspense 等待组件代码，不自动等待 img 下载。
+- **进阶**：Promise 由缓存/数据层稳定提供，不能每次 render 新建；Tab 切换用 transition 并分别设 Suspense。测试慢响应、失败与快速切换，旧 Tab 数据不串入新 Tab。
+- **挑战**：给三个稳定 Promise 设 1/2/3s 延迟并独立边界，记录各块出现时间。客户端渐进显示属于教学模拟，真实 SSR streaming 还需服务端 HTML 流证据。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

@@ -684,9 +684,13 @@ pnpm --filter @atlas/web dev
 
 验收标准是：一个只修改文档的 PR 不触发全量构建；一个修改共享 UI 的 PR 能覆盖所有消费者应用。
 
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
----
-
+- **基础**：workspace 配 apps/*、packages/*，依赖使用 workspace:*；根统一安装。改 shared 后两个消费者测试都变化，不能借提升依赖隐式访问未声明的包。
+- **进阶**：配置/纯业务/UI/应用按职责拆包，消费者只走 exports。禁止 ../shared/src 逃逸；独立 pack 安装暴露缺产物与漏依赖。
+- **挑战**：基于 Git 变更构建反向依赖集合，共享配置变化触发全部相关消费者。测试新文件、删除包和基线 SHA 缺失时的保守全量回退，不只按目录过滤。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 
@@ -717,5 +721,5 @@ pnpm --filter @atlas/web dev
 <!-- course-nav:start -->
 ---
 
-[上一篇：02 CommonJS 与互操作性](./02-CommonJS与互操作性.md) · [课程地图](../../README.md) · [下一篇：01 JSX、组件、Props 与 State](../../L2-前端框架与组件化/01-React-19-核心/01-JSX-组件-Props-State.md)
+[上一篇：02 CommonJS 与互操作性](./02-CommonJS与互操作性.md) · [课程地图](../../README.md) · [下一篇：npm、package.json 与脚本生命周期](./04-npm-package-json与脚本生命周期.md)
 <!-- course-nav:end -->

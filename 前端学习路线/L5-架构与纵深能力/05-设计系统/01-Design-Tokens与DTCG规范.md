@@ -715,8 +715,13 @@ Style Dictionary 可以在一个配置中同时输出两套主题的 CSS 变量�
 3. 编写 GitHub Action：当 `tokens/*.json` 发生变更时，自动运行 `style-dictionary build`，并在 PR 中评论产物 diff
 4. 扩展产物输出，增加 Android（XML）和 iOS（Swift）格式的 Token 文件
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：tokens 使用 $type/$value 与语义别名，Style Dictionary 版本/transform 配置匹配。构建 CSS/SCSS/TS 并在页面验证，未知别名/循环引用导致明确失败。
+- **进阶**：原始值与语义值分离，主题输出同名变量不同取值，Tailwind 映射按锁定版本。亮暗主题全组件切换，焦点/错误/disabled 对比度不能遗漏。
+- **挑战**：导出格式与工具支持核对后再构建，CI 展示 token 与产物差异。平台颜色/字体格式分别适配，不能把 JSON 直接复制为 Swift/XML；手工改生成文件不可持续。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

@@ -800,7 +800,7 @@ A：从技术原理上完全相同——都是代码与数据的边界被打破�
 
 1. 在本地的留言板应用中（上面的 `server.js`），用浏览器访问并测试至少 5 种不同的 XSS 攻击向量
 2. 记录哪些向量成功执行了、哪些被框架或浏览器挡住了
-3. 为所有输出点添加 `escapeHtml()` 编码，重新测试所有向量，确认全部失效
+3. 按输出上下文修复：普通文本使用 `textContent` 或 HTML 文本编码，富文本使用净化器，URL 验证协议与来源；避免将不可信数据插入内联 JavaScript/CSS。重新测试同一组向量，记录执行是否被阻止和正常内容是否保留
 4. 在 React 中创建一个富文本评论组件，分别演示：有 DOMPurify 净化 和 没有净化 两种情况下的 XSS 结果
 
 ### 进阶练习：从零配置生产级 CSP
@@ -818,8 +818,13 @@ A：从技术原理上完全相同——都是代码与数据的边界被打破�
 3. 在代码审查 Checklist 中增加"是否涉及 dangerouslySetInnerHTML / v-html / innerHTML / document.write"，要求每个使用点都必须说明安全理由并附带 DOMPurify 净化
 4. 建立 CSP 违规告警机制：当生产环境出现 CSP 违规时，自动发送告警到团队的飞书/Slack 频道
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：在本地靶场记录来源→sink→执行 marker；普通文本用 textContent，富文本用合适净化，URL 单独校验 scheme。escapeHtml 只对应 HTML 文本上下文，不覆盖 JS/CSS/URL。
+- **进阶**：先 Report-Only 收集并分类违规，nonce 每响应随机且不信任用户提供。强制后正常脚本工作、注入脚本失败；无 48h 真实采集不得写成已观察。
+- **挑战**：用实际浏览器 marker 回归 DOM/存储/反射 XSS；ZAP baseline 被动扫描不等于自动覆盖主动 XSS。每个危险 sink 有理由与控制，报告拒绝/执行两种证据。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

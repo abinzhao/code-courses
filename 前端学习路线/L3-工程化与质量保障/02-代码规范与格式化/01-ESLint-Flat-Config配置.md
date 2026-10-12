@@ -605,12 +605,17 @@ export default [
 2. 两个子项目 A（后台管理系统）和 B（H5 活动页）分别引用共享配置，并叠加各自的差异化规则：
 
    - 项目 A：严格控制 `any`、禁止 `console`、开启所有 strict 规则
-   - 项目 B：放宽 `console`、允许 `any`、关闭 `exhaustive-deps`
+   - 项目 B：仅对开发调试文件放宽 `console`，对遗留适配文件设置有理由的类型规则例外；保留 `rules-of-hooks` 与 `exhaustive-deps`
 
 3. 根目录 `package.json` 中配置 `lint` 和 `lint:fix`，通过 `pnpm -r lint` 运行所有子项目的检查
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：Flat Config 分 files 指定 browser/node globals，prefer-const 只要求不再赋值的 let 改 const。用独立违规夹具证明 no-console warn 与错误规则退出行为。
+- **进阶**：按依赖兼容表迁移 parser/plugins，保留有语义价值的规则。逐个修真实问题再运行 lint，不能删规则或仅升级版本来宣称迁移成功。
+- **挑战**：共享配置按数组导出，应用按 files 追加覆盖；React exhaustive-deps 不应为活动页整体关闭。制造两个项目不同规则夹具，根递归 lint 能定位正确包。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

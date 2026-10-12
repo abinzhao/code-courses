@@ -495,8 +495,13 @@ onUnmounted(() => abortController?.abort())
 - 这些状态通过作用域插槽 / render props 暴露给子插槽
 - 实现后，用同一个 `<SearchPanel>` 渲染「用户搜索」和「订单搜索」两个完全不同的页面
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：Card 只负责壳与 slots，用户/商品/文章内容由消费者组合。用三个实例证明无类型分支膨胀；默认插槽为空仍保持合法结构与可访问名称。
+- **进阶**：ListManager 管状态/分页，render props 输出 UI；异步结果按请求序号处理。空列表、失败重试、刷新和末页各有测试，重复加载不新增重复 ID。
+- **挑战**：SearchPanel 保存 query/filter/sort 并暴露状态与动作，不理解订单/用户业务字段。两个消费者独立运行，改变筛选重置分页，不能共享意外全局状态。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

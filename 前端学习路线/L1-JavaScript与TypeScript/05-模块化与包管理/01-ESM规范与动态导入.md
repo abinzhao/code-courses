@@ -497,8 +497,13 @@ sidebar.onClick(async (name) => {
 2. 懒加载的 chunk 之间有没有依赖关系？chunk 大小约多少？
 3. 写一份 300 字以内的分析报告，描述你观察到的加载策略和优化手段。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：每文件显式 export/import，HTML 只有 type=module 入口；通过本地 HTTP 加载。删除一个导出应出现明确模块错误，模块默认严格模式且不泄露到 window。
+- **进阶**：登记 key→import 函数，缓存进行中的 Promise，失败后允许重试。相同 key 并发只加载一次，未知 key 拒绝；动态模块路径不能直接接受用户任意输入。
+- **挑战**：记录首屏和一次实际操作触发的 chunk 请求、Initiator、缓存头。开发服务器模块数不等于生产 chunk 数；观察结论只适用于所录版本与路径。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

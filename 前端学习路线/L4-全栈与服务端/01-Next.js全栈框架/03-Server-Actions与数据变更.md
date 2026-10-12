@@ -743,8 +743,13 @@ export function MessageList({ initialMessages }: { initialMessages: Message[] })
 - 乐观更新 + 分页：删除一条留言后，如果当前页数据不够，从下一页"借"一条补上
 - 使用 `useTransition` 包裹搜索，让搜索输入时有 loading 状态但不阻塞页面
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：action 验证输入/身份，返回可序列化 state，useActionState(previousState,formData) 匹配签名。成功 revalidatePath，空留言无写入，错误保留表单值。
+- **进阶**：每表单子树 useFormStatus，乐观删除按 ID 对账，失败回滚。编辑 ID 单一来源；并发其他成功不能被旧快照覆盖，服务端资源授权不可省略。
+- **挑战**：校验 page/pageSize/keyword 并限制成本，查询宜用 GET/loader，练习 Action 保留明确契约。删除后重新取权威页，不本地乱借下一页；快速搜索只接纳最新结果。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

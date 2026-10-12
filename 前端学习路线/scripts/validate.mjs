@@ -93,6 +93,30 @@ function maskCode(text) {
     .replace(/`[^`\n]*`/g, preserveLines);
 }
 
+const anchorsByFile = new Map();
+let relativeLinkCount = 0;
+let anchorLinkCount = 0;
+
+function anchors(file) {
+  if (anchorsByFile.has(file)) return anchorsByFile.get(file);
+  const text = readFileSync(file, 'utf8').replace(/```[\s\S]*?```/g, '');
+  const result = new Set();
+  const counts = new Map();
+  for (const match of text.matchAll(/^#{1,6}\s+(.+?)(?:\s+#+)?$/gm)) {
+    const title = match[1].replace(/<[^>]*>/g, '').replace(/\[([^\]]+)]\([^)]*\)/g, '$1');
+    const slug = title.toLowerCase().replace(/[^\p{L}\p{N}\p{M}\s_-]/gu, '')
+      .replace(/\s/g, '-');
+    const count = counts.get(slug) ?? 0;
+    counts.set(slug, count + 1);
+    result.add(count ? `${slug}-${count}` : slug);
+  }
+  for (const match of text.matchAll(/<(?:a|span|div|h[1-6])\b[^>]*\b(?:id|name)=["']([^"']+)["']/g)) {
+    result.add(match[1]);
+  }
+  anchorsByFile.set(file, result);
+  return result;
+}
+
 for (const file of markdownFiles) {
   const text = readFileSync(file, 'utf8');
   const prose = maskCode(text);
@@ -114,26 +138,34 @@ for (const file of markdownFiles) {
   for (const match of prose.matchAll(linkPattern)) {
     const target = match[1];
     if (
-      target.startsWith('#') ||
       /^(?:https?:|mailto:|tel:|data:|file:|computer:)/.test(target)
     ) {
       continue;
     }
 
-    const [rawPath] = target.split('#');
-    if (!rawPath) continue;
+    relativeLinkCount += 1;
+    const [rawPath, rawAnchor] = target.split('#');
 
     let decodedPath;
+    let decodedAnchor;
     try {
       decodedPath = decodeURIComponent(rawPath);
+      decodedAnchor = rawAnchor ? decodeURIComponent(rawAnchor) : '';
     } catch {
       errors.push(`${displayPath}:${lineNumber(text, match.index)}: 链接编码无效 ${target}`);
       continue;
     }
 
-    const resolvedTarget = resolve(dirname(file), decodedPath);
+    const resolvedTarget = decodedPath ? resolve(dirname(file), decodedPath) : file;
     if (!existsSync(resolvedTarget)) {
       errors.push(`${displayPath}:${lineNumber(text, match.index)}: 链接目标不存在 ${target}`);
+      continue;
+    }
+    if (decodedAnchor && extname(resolvedTarget) === '.md') {
+      anchorLinkCount += 1;
+      if (!anchors(resolvedTarget).has(decodedAnchor)) {
+        errors.push(`${displayPath}:${lineNumber(text, match.index)}: 锚点不存在 ${target}`);
+      }
     }
   }
 }
@@ -150,15 +182,21 @@ for (const file of lessonFiles) {
   }
 
   if (strict) {
-    const markers = [
-      '<!-- course-meta:start -->',
-      '<!-- atlas-task:start -->',
-      '<!-- course-nav:start -->',
-    ];
-    for (const marker of markers) {
-      if (!text.includes(marker)) {
-        errors.push(`${displayPath}: 严格模式缺少 ${marker}`);
+    const managed = ['course-meta', 'atlas-task', 'course-nav'];
+    if (text.includes('<!-- exercise-guidance:')) managed.push('exercise-guidance');
+    for (const name of managed) {
+      const starts = [...text.matchAll(new RegExp(`<!-- ${name}:start -->`, 'g'))];
+      const ends = [...text.matchAll(new RegExp(`<!-- ${name}:end -->`, 'g'))];
+      if (starts.length !== 1 || ends.length !== 1 || starts[0]?.index >= ends[0]?.index) {
+        errors.push(`${displayPath}: 托管块 ${name} 必须唯一且正确闭合`);
       }
+    }
+    const exercises = text.split('## 实操作业').at(-1).split('<!-- atlas-task:start -->')[0];
+    if (!/参考/.test(exercises) || !/验收/.test(exercises)) {
+      errors.push(`${displayPath}: 缺少作业参考与验收`);
+    }
+    for (const tier of ['基础', '进阶', '挑战']) {
+      if (!text.includes(tier)) errors.push(`${displayPath}: 缺少 ${tier} 作业`);
     }
   }
 
@@ -174,6 +212,7 @@ if (strict && (!existsSync(atlasPackage) || !statSync(atlasPackage).isFile())) {
 
 console.log(`Markdown: ${markdownFiles.length}`);
 console.log(`课程正文: ${lessonFiles.length}`);
+console.log(`相对链接: ${relativeLinkCount}；锚点链接: ${anchorLinkCount}`);
 console.log(`模式: ${strict ? 'strict' : 'content'}`);
 console.log(`警告: ${warnings.length}`);
 

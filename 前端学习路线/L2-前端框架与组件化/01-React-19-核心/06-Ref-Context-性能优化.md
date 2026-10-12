@@ -579,8 +579,13 @@ function OptimizedApp() {
 ### 挑战：优化已有的"慢"应用
 找一个你之前写的列表/表单类型组件，用 React DevTools Profiler 录制操作过程，根据火焰图定位渲染瓶颈并优化。记录优化前后 `actualDuration` 的变化，写一份简短的分析说明。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：非受控 input 用 ref 或 FormData 读值；memo 的 props 保持稳定。主题 Context 消费者仍会更新，不能保证所有输入不渲染；Profiler 核对实际消费者边界。
+- **进阶**：窗口范围与 overscan 控制 DOM，观察尾部 sentinel 加下一页，request key 防重复。测试最后页、网络失败和滚动位置恢复，聚焦行不能被回收而丢焦点。
+- **挑战**：固定数据/设备记录实际交互，先定位重渲染与昂贵计算。逐项改进并对比 actualDuration 分布；一次 render 次数下降不能证明用户延迟一定改善。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

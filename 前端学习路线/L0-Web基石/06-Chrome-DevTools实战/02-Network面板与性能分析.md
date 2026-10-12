@@ -468,8 +468,13 @@ Performance 录制后，看 FPS 线是否有明显下跌。如果有，在 Overv
 3. 优化后再次运行 Lighthouse，记录新的分数
 4. 写一段 200 字的总结：你做了什么优化、分数提升了多少、最大的感悟是什么
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：区分资源大小与传输大小、DOMContentLoaded 与 load；Network 保留重载记录。缓存或压缩使大小不同，不能把所有请求字节相加当内存占用。
+- **进阶**：固定网络/CPU 设置录制；Bottom-up/Call tree 找主要耗时，长任务看总时长和调用栈。Lighthouse 是实验条件结果，与主线程 trace 互相印证。
+- **挑战**：每次只改一个瓶颈，相同条件重复测并报告分布。分数未升也保留数据；成功条件应包括具体资源/延迟改善和正常功能未回归。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

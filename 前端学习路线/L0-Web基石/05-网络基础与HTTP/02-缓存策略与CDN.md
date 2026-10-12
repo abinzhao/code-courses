@@ -433,8 +433,13 @@ HTML 是入口文件，里面引用了 JS/CSS 的链接。如果你缓存了旧 
 3. 查看 HTML 的缓存策略
 4. 写一段 200 字的分析，说明这个网站的缓存策略好在哪里，有什么可以改进的
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：对照 fresh、stale、ETag 与 revalidation 的含义解释 200/304/from cache；no-cache 允许存储但要求验证，no-store 才是不存储指令。
+- **进阶**：哈希 JS/CSS 长缓存，HTML 每次验证；curl -I 核对头，带 If-None-Match 核对 304。修改内容要产生新文件名并让 HTML 引用新路径。
+- **挑战**：逐类记录缓存头、哈希、Vary 与用户数据范围。不能把 CDN HIT 等同于浏览器缓存；登录数据需检查 private/no-store，分析建议不能仅按缓存时长大小排序。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

@@ -789,8 +789,13 @@ describe('buildQuery', () => {
 - 对这个有限练习达到 100% 覆盖率的四项指标
 - 手工引入一个错误实现，确认至少一个测试会失败
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：先规定空串、maxLen 与缩略号是否计入长度；至少五例分别覆盖三函数。camelToKebab 的连续大写与 Unicode 策略明确，错误参数不能产生静默奇怪字符串。
+- **进阶**：mock 网络依赖但断言实际 URL、响应映射与错误 cause；每例清 mock。状态 500 与网络拒绝分别测试，不能只断言 mock 被调用而忽略返回契约。
+- **挑战**：Emitter 用 Map/Set 管监听，once 在调用前注销避免重入重复；emit 可取快照防回调删订阅干扰。覆盖 off 不存在/重复注册/异常策略，故意破坏 once 后至少一例失败。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

@@ -318,8 +318,13 @@ console.log({ completedLessons });
 
 每个问题保留“现象—证据—原因—修复—验证”记录。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：用 h1、button 和状态文本节点；click 中更新计数并用 textContent 显示。连续点击两次应显示 2；Tab 后 Enter/Space 同样有效，320px 无溢出。
+- **进阶**：数组保存稳定 ID、标题与 completed，增删改后统一渲染。添加两条并完成一条应显示 1/2；删除全部显示空态；输入 HTML 字符串仍是文本。
+- **挑战**：一次只注入一种故障：404 看 Network、语法/选择器错误看 Console、交互语义看无障碍树、溢出看盒模型。修复后重复相同操作并证明症状消失。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

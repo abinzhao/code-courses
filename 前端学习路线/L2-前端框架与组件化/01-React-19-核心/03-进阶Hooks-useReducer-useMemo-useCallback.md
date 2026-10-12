@@ -564,8 +564,13 @@ React 内部保证 `dispatch` 函数在组件整个生命周期内引用不变�
 ### 挑战：微型 Redux
 用 `useReducer` + `Context` 实现一个具备中间件（middleware）机制的微型状态管理库。要求：支持 `combineReducers` 合并多个 reducer、支持日志中间件（打印每次 action 和前后状态）。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：reducer 对 add/like/delete 返回新对象，ID 定位且未知 action/ID 有规则。点赞只改变目标项；reducer 不请求网络、不写存储、不生成不稳定外部副作用。
+- **进阶**：输入立即更新，deferred query 控制昂贵筛选，memo 只缓存纯计算。Profiler 证明成本减少；useDeferredValue 不减少网络请求数，虚拟化需独立实现。
+- **挑战**：combineReducers 将 action 分发到各 reducer，中间件 next 组成固定链；日志只在外层记录。测试顺序、错误和前后状态，教学实现不等同完整 Redux 生态。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

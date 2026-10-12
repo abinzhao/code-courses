@@ -8,7 +8,13 @@
   "scripts": {
     "validate": "node scripts/validate.mjs",
     "validate:strict": "node scripts/validate.mjs --strict",
+    "lessons:refresh": "node scripts/enrich-lessons.mjs",
     "atlas:start": "npm --prefix projects/atlas start",
-    "atlas:test": "npm --prefix projects/atlas test"
+    "atlas:test": "npm --prefix projects/atlas test",
+    "security:test": "npm --prefix projects/security-lab test",
+    "extension:test": "npm --prefix projects/browser-extension test",
+    "extension:check": "npm --prefix projects/browser-extension run check",
+    "curriculum:test": "node --test scripts/tests/*.test.mjs",
+    "test:all": "npm run curriculum:test && npm run atlas:test && npm run security:test && npm run extension:test && npm run extension:check"
   }
 }

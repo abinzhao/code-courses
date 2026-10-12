@@ -734,8 +734,13 @@ document.getElementById('load-btn').addEventListener('click', loadTodos);
 2. 在 Snippets 中创建另一个名为 "性能快照" 的 snippet，功能：用 `performance.getEntriesByType('resource')` 输出所有资源的名称、类型、传输大小和耗时，按耗时从大到小排序后 `console.table` 输出
 3. 在任意网页运行这两个 snippet，截图结果
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：Console 的 $$ 是 DevTools 工具，不是网页标准 API；复制成脚本时用 querySelectorAll。console.timeEnd 名称匹配；表格仅输出练习页非敏感字段。
+- **进阶**：在异常点暂停，检查数据结构、变量作用域、调用栈和事件入口；只修违反契约的那一处。重试/重复点击仍可用，不能通过 catch 吞掉错误消除红字。
+- **挑战**：图片 snippet 输出 currentSrc/alt/尺寸，资源 snippet 读取 PerformanceEntry。恢复临时边框；跨源资源详细 Timing 受 Timing-Allow-Origin 限制。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

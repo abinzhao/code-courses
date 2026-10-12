@@ -408,8 +408,13 @@ console.log(memoizedCalc.heavyCalculation(1, 2)); // 直接返回 3（不打印�
 console.log(memoizedCalc.heavyCalculation(2, 3)); // 实际执行计算 → 5
 ```
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：set 中核对 key/type 后 Reflect.set 并返回布尔值；非法 port 应抛出或返回失败且原值不变。未知字段与删除策略明确，不能把字符串 "3000" 自动当 number。
+- **进阶**：依赖用 WeakMap→Map→Set 收集；重新运行前清旧依赖，stop 后不再触发。computed 缓存按失效标记刷新，数组 length/索引和批处理要有专项边界测试。
+- **挑战**：缓存方法名+参数并保留 this；对象参数按身份还是内容须先定规则。设置大小上限，原对象变更需失效策略；相同参数命中次数通过计算计数证明。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

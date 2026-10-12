@@ -560,8 +560,13 @@ git commit --no-verify -m "wip: 临时保存"
    - commit message 格式要求
    - 常见错误的修复方式
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：配置统一 Prettier，保存格式化与 CLI --check 一致。只给本次练习文件格式化，第二次运行无变化；Windows/macOS 快捷键按编辑器环境调整。
+- **进阶**：lint-staged 只处理暂存文件，typecheck 按整个项目运行；hook 与 commitlint 在隔离练习仓库验证。错误提交被阻断，修复后通过，CI 仍独立检查。
+- **挑战**：共享包只包含配置、声明必要 peer deps，两个消费者干净安装。使用说明给真实 scripts 和常见失败修复；CI 不依赖编辑器插件或本机全局工具。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

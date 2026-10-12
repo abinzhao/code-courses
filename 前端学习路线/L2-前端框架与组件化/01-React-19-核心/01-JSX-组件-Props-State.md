@@ -530,8 +530,13 @@ React 控制台会报 `Encountered two children with the same key` 警告。Reac
 ### 挑战：可编辑列表
 在进阶的基础上，给每个待办项加上"编辑"按钮，点击后文本变为可编辑的 `<input>`，按回车或点击外部确认修改，按 Esc 取消。注意焦点管理。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：setCount(c=>Math.max(0,Math.min(99,c+delta)))，重置为 0。测试 0 减一、99 加一和快速连点；不能只把边界按钮变灰而让状态函数仍越界。
+- **进阶**：每项稳定 ID、priority 与 createdAt，筛选派生而不修改原列表。新增高/中各一条后筛选高仅一条；价格或日期格式不要在 state 重复存派生值。
+- **挑战**：编辑草稿与已保存内容分离，Enter/blur 提交、Esc 回滚，并避免 Enter 后 blur 重复提交。开始编辑聚焦 input，结束返回对应按钮；空标题有错误提示。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 
@@ -564,5 +569,5 @@ React 控制台会报 `Encountered two children with the same key` 警告。Reac
 <!-- course-nav:start -->
 ---
 
-[上一篇：03 pnpm 与 Monorepo 入门](../../L1-JavaScript与TypeScript/05-模块化与包管理/03-pnpm与Monorepo入门.md) · [课程地图](../../README.md) · [下一篇：02 Hooks 核心：useState 与 useEffect 深度解析](./02-Hooks核心-useState-useEffect.md)
+[上一篇：SemVer、锁文件与依赖排障](../../L1-JavaScript与TypeScript/05-模块化与包管理/05-SemVer-锁文件与依赖排障.md) · [课程地图](../../README.md) · [下一篇：02 Hooks 核心：useState 与 useEffect 深度解析](./02-Hooks核心-useState-useEffect.md)
 <!-- course-nav:end -->

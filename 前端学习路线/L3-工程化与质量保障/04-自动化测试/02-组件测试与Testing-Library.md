@@ -822,8 +822,13 @@ const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
 - 最终提交的 mock
 - 至少用到 `getByRole`、`userEvent`、`waitFor`、`findBy` 四种 API
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：按 role/name 找按钮并 userEvent 操作，断言显示值；本练习允许负数，与其他限制计数器契约分开。重复操作和重置测试不读组件内部 state。
+- **进阶**：可控 Promise 保持 loading，再 resolve []/数据或 reject；findBy 等待结果。测试失败重试与旧查询返回，不能固定 sleep 猜异步何时结束。
+- **挑战**：以用户步骤测试前进/返回、校验与提交，手机用虚构测试值。返回后输入保留，非法步骤不能绕过验证，提交中重复点击只发送一次。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

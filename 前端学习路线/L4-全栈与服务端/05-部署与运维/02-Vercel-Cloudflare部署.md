@@ -584,8 +584,8 @@ D1 基于 SQLite，是嵌入式数据库，不支持客户端连接池。它通�
 1. 配置至少 3 个环境变量（数据库地址、API Key、站点 URL），区分为 production 和 preview 不同值
 2. 集成 `@vercel/analytics` 和 `@vercel/speed-insights`，部署后查看 Web Vitals 数据
 3. 创建 `vercel.json`，添加至少 2 条重定向规则和 2 条安全头配置
-4. 绑定额外的自定义域名（如果有的话；没有可用 freenom 或测试子域名）
-5. 模拟一次"紧急回滚"：部署一个故意出错的版本，然后回滚到上一个版本
+4. 绑定自己实际控制的域名或测试子域名；没有时使用平台提供的预览域名
+5. 仅在隔离预览环境模拟一次回滚：部署有界故障版本，再恢复上一个已验证版本，检查页面、API 与数据兼容
 
 ### 挑战练习：Cloudflare 边缘部署
 
@@ -595,8 +595,13 @@ D1 基于 SQLite，是嵌入式数据库，不支持客户端连接池。它通�
 4. 在 Cloudflare 上创建 D1 数据库，创建一个 `comments` 表，在 Workers 中实现评论的读写 API
 5. 写一份 Vercel vs Cloudflare 的体验对比（部署速度、配置复杂度、文档质量等）
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：预览 commit/URL 与生产区分，构建日志核对框架适配和运行时。实际访问公开页与 API；远端未执行只完成配置时标记待验证。
+- **进阶**：Secret 放服务端环境，公开变量单独列；域名用实际控制的测试子域名。故障仅放预览版本，回滚后检查版本、数据与安全头，不能破坏真实生产来演示。
+- **挑战**：static export 只承载静态功能，动态 API 另用 Workers/Pages Functions；D1 与 PostgreSQL 差异记录。迁移、授权、读写和错误真实执行，平台未开通不能宣称上线通过。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

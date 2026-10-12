@@ -155,10 +155,10 @@ export default async function DashboardPage() {
 }
 ```
 
-在 `next build` 输出中，SSR 页面会标注 `λ`（lambda）：
+在 `next build` 输出中查看每条路由的渲染说明。当前版本通常用 `ƒ` 表示按需动态渲染；具体符号以本次构建输出的图例为准：
 
 ```
-λ  (Dynamic)  server-rendered on demand
+ƒ  (Dynamic)  server-rendered on demand
 ```
 
 #### 3.2 强制指定渲染策略
@@ -550,7 +550,7 @@ Next.js 16 通过可选的 `cacheComponents: true` 提供 PPR 行为，不再使
 
 ### 基础练习：识别渲染策略
 
-创建一个 Next.js 项目，实现以下三个页面，然后用 `next build` 观察输出中的 `○`（静态）和 `λ`（动态）标记：
+创建一个 Next.js 项目，实现以下三个页面，然后用 `next build` 的图例辨认静态和动态路由，并在生产模式重复请求验证缓存行为：
 - `/about`：纯文本页面，无任何数据请求
 - `/time`：显示当前服务端时间（使用 `new Date().toISOString()`）
 - `/profile`：使用 `cookies()` 读取假 token，基于 token 显示不同内容
@@ -570,10 +570,15 @@ Next.js 16 通过可选的 `cacheComponents: true` 提供 PPR 行为，不再使
 - 订单统计图表（2000ms，模拟慢查询）
 - 系统通知列表（500ms）
 
-用 `<Suspense>` 包裹每个区域，确保页面在 100ms 内就能显示标题 + 骨架屏，各区域独立流式加载。在浏览器 Network 面板中观察 Content-Type 为 `text/html; charset=utf-8` 的流式响应。
+用 `<Suspense>` 包裹每个区域，先显示标题与骨架，再独立显示完成的区域。记录响应块到达和 DOM 出现时刻；模拟的 100ms 数据延迟不等于端到端页面耗时保证。用 Network 与浏览器录制共同验证流式行为，仅看到 HTML Content-Type 不足以证明流式输出。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：await cookies 的请求依赖会影响动态行为；new Date 本身不保证每次请求重算。用生产 build 与重复请求核对渲染/缓存策略，构建符号以当前版本图例为准。
+- **进阶**：在固定缓存配置下记录生成时间、revalidate 与请求时刻；开发模式不能作为 ISR 证据。刷新 action 验证权限，失效不总意味着下一时刻立即同步重建。
+- **挑战**：三个异步 server component 独立 Suspense，记录 HTML chunk 到达与 DOM 出现顺序。100ms 是模拟数据延迟不是端到端 SLA，代理缓冲可能影响流式可见性。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

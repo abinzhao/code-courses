@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "Atlas 本地采集练习",
+  "version": "0.1.0",
+  "description": "点击采集当前页面的标题与选中文字，仅保存到本机。",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "action": { "default_popup": "popup.html" }
+}

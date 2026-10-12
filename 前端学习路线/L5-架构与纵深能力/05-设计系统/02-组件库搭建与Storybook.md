@@ -1154,8 +1154,13 @@ Changesets 读取 `.changeset/` 目录下所有未消费的 markdown 文件，�
 4. 配置 GitHub Actions：合并 PR 时自动运行 Storybook 交互测试 → 构建 → 发布
 5. 在 Storybook 中集成 `@storybook/addon-a11y`，为每个组件添加无障碍检查，修复检查出的问题
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：Button 语义 button，loading 保留名称且防重复点击；library 输出与 exports/type 声明一致。独立消费者验证 ESM/CJS/.d.ts，源码 Story 可运行不代表包可安装。
+- **进阶**：Modal/Select 测焦点/键盘与关闭，changeset 按真实 API 变化计版本。version 后 changelog 与包版本一致，破坏变更不能用 patch 掩盖。
+- **挑战**：主题 token 覆盖全部状态，a11y 自动检查加人工键盘。先 pack 独立安装，registry/Storybook 发布需个人授权资源；CI 测试失败不进入发布阶段。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

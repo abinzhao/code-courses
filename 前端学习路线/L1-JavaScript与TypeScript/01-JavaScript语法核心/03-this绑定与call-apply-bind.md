@@ -489,8 +489,13 @@ debouncedSend.call(tracker, '事件B');
 debouncedSend.call(tracker, '事件C');
 ```
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：成员调用 this 为接收者，call/apply/bind 显式绑定；箭头继承定义时 this。提取方法后无接收者，在严格模式 this 为 undefined，读取 this.name 会抛错。
+- **进阶**：logPerson 用普通函数读取 this，分别 call(alice)/apply(bob)。bind 返回新函数且不会立刻调用；箭头版不能用 call 改变词法 this。
+- **挑战**：外层普通函数保存本次 this/args，timer 内 fn.apply(context,args)。虚拟计时验证最后一次参数和接收者、节流首尾策略；提供 cancel 后不能继续触发。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

@@ -324,8 +324,13 @@ Computed 面板用于查看：
 3. 验证导航、卡片、图标与文本方向。
 4. 记录哪些视觉属性不能机械替换。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：先比较来源/重要性/层，再比较特异性和顺序；同层同特异性后声明胜出。逐条预测与 Computed 对照，important 的层顺序和普通声明相反。
+- **进阶**：声明 layer 次序，用低特异性 class 和语义变量暴露主题覆盖。主题切换后所有按钮颜色一致，工具层只覆盖其职责，组件不依赖 ID 或 important。
+- **挑战**：把 margin-left/right 换为 margin-inline，检查导航与图标。方向箭头可镜像，品牌/照片通常不镜像；长英文和阿拉伯文均不能撑破布局。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

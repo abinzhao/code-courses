@@ -906,8 +906,13 @@ Prisma 默认通过 `@prisma/client` 内置连接池，不需要额外配置。�
 - `POST /api/posts/:id/comments`——创建评论
 - `DELETE /api/comments/:id`——删除评论
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：schema 与运行时配置匹配已锁 Prisma 版本，生成 client 后操作 todos。userId 外键与必填约束明确；空库迁移、创建、查询、更新和删除都实际验证。
+- **进阶**：likes(userId,postId) 唯一防重复，标签查询先定频度规则；全文检索参数通过 tagged $queryRaw。搜索恶意输入不改变 SQL 结构，不能拼接 SQL 字符串。
+- **挑战**：请求先鉴权/校验/资源授权再调用数据层，slug/id 统一；分页上限固定。测试 401/403/404/422/500 与重复写，不能仅返回 ORM 原始对象。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

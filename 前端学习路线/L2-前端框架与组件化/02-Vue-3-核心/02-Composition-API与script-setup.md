@@ -805,8 +805,13 @@ A：`position: fixed` 只解决相对于视口的定位问题，但元素仍然�
 - 支持自动消失（watch + setTimeout）
 - 支持 success / error / warning / info 四种类型
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：Props 初始值复制成表单草稿，提交 emit 新对象；defineModel 明确类型。编辑不直接改父数据，取消不污染原值，姓名/邮箱/角色均有合法值验证。
+- **进阶**：拖拽以 ID 排序，选择集合独立于展示顺序；watch 只持久化必要数据。刷新后顺序恢复，删除已选项同步移除 ID，并提供键盘排序替代。
+- **挑战**：provide 统一通知动作和列表，Teleport 放 DOM 容器，按 ID 管 timer。四类通知有文本语义，卸载清 timer，移除通知后旧 timer 不影响其他条目。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

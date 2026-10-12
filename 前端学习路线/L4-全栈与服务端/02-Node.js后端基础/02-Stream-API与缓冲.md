@@ -550,8 +550,13 @@ node csv2json.js data.csv output.json
 
 最终输出为一个按时间排序的错误统计报告。要求使用 `pipeline`（Promise 版本）串联。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：若 readline 按行解析，先明确只支持不含引号/嵌入换行的简化 CSV；完整 CSV 用成熟 parser。处理 chunk 跨行、空文件、末行无换行，pipeline 失败清临时输出。
+- **进阶**：目标是固定本地上游，过滤 hop-by-hop 头、传状态/MIME，客户端断开时取消上游。慢上下游有背压和超时；不能开放任意 URL 形成 SSRF/开放代理。
+- **挑战**：解码器跨 chunk 保留半行，解析后对象模式过滤，聚合有时间窗口/内存上限。坏行策略明确；结果按分钟排序，流中异常拒绝 pipeline 而非吞掉。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

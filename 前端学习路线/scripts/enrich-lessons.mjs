@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join, relative, resolve, sep } from 'node:path';
+import { basename, dirname, join, relative, resolve, sep } from 'node:path';
+import { guidance } from './lesson-exercise-guidance.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const levelNames = {
@@ -134,9 +135,12 @@ const lessonFiles = walk(root)
 for (let index = 0; index < lessonFiles.length; index += 1) {
   const file = lessonFiles[index];
   let text = readFileSync(file, 'utf8');
+  const existingMeta = text.match(/<!-- course-meta:start -->[\s\S]*?<!-- course-meta:end -->/)?.[0];
+  const existingTask = text.match(/<!-- atlas-task:start -->[\s\S]*?<!-- atlas-task:end -->/)?.[0];
   text = removeManagedBlock(text, 'course-meta');
   text = removeManagedBlock(text, 'atlas-task');
   text = removeManagedBlock(text, 'course-nav');
+  text = removeManagedBlock(text, 'exercise-guidance');
   text = text.replace(/\n下一步：\[[^\]]+]\([^)]+\)\s*$/m, '');
   text = text.replace(
     /(?:\n---[ \t]*\n(?:[ \t]*\n)*)+(?=## 本节小结)/,
@@ -159,7 +163,7 @@ for (let index = 0; index < lessonFiles.length; index += 1) {
     ? `[${getTitle(readFileSync(previous, 'utf8'))}](${relativeLink(file, previous)})`
     : '无，从本课开始';
 
-  const meta = [
+  const meta = existingMeta ?? [
     '<!-- course-meta:start -->',
     '> **课程元数据**',
     `> - 层级：${level} ${levelNames[level]}`,
@@ -171,7 +175,7 @@ for (let index = 0; index < lessonFiles.length; index += 1) {
     '<!-- course-meta:end -->',
   ].join('\n');
 
-  const atlasTask = [
+  const atlasTask = existingTask ? `${existingTask}\n\n---\n\n` : [
     '<!-- atlas-task:start -->',
     '## Atlas 项目任务',
     '',
@@ -211,16 +215,54 @@ for (let index = 0; index < lessonFiles.length; index += 1) {
   ].join('\n');
 
   const titleEnd = text.indexOf('\n', text.indexOf('# '));
-  text = `${text.slice(0, titleEnd + 1)}\n${meta}\n${text.slice(titleEnd + 1).replace(/^\n+/, '\n')}`;
+  text = `${text.slice(0, titleEnd + 1)}\n${meta}\n\n${text.slice(titleEnd + 1).replace(/^\n+/, '')}`;
 
   const summaryIndex = text.lastIndexOf('\n## 本节小结');
   if (summaryIndex === -1) {
     throw new Error(`${relative(root, file)} 缺少 ## 本节小结`);
   }
-  text = `${text.slice(0, summaryIndex)}\n${atlasTask}${text.slice(summaryIndex)}`;
+  const beforeSummary = text.slice(0, summaryIndex).trimEnd()
+    .replace(/(?:\n[ \t]*---\s*)+$/, '').trimEnd();
+  const answers = guidance[basename(file)];
+  const exerciseGuidance = answers ? [
+    '<!-- exercise-guidance:start -->',
+    '### 作业参考与验收',
+    '',
+    ...answers.map((answer, index) => `- **${['基础', '进阶', '挑战'][index]}**：${answer}`),
+    '<!-- exercise-guidance:end -->',
+    '',
+  ].join('\n') : '';
+  text = `${beforeSummary}\n\n${exerciseGuidance}${atlasTask}${text.slice(summaryIndex).replace(/^\n+/, '')}`;
   text = `${text.trimEnd()}\n\n${navigation}`;
 
   writeFileSync(file, text, 'utf8');
 }
+
+const indexLines = [
+  '# 完整课程索引',
+  '',
+  `共 ${lessonFiles.length} 篇课程。目录按层级与编号排列，实际学习先后以每课“先修”和[能力路径](./全栈能力与学习路径.md)为准。`,
+  '',
+  '[课程地图](./README.md) · [阶段考核](./阶段考核/README.md) · [专项考核](./阶段考核/专项考核.md) · [毕业项目](./阶段考核/毕业项目.md)',
+  '',
+];
+let currentLevel;
+let currentCategory;
+for (const file of lessonFiles) {
+  const level = getLevel(file);
+  const category = basename(dirname(file));
+  if (level !== currentLevel) {
+    indexLines.push(`## ${level} ${levelNames[level]}`, '');
+    currentLevel = level;
+  }
+  if (category !== currentCategory) {
+    indexLines.push(`### ${category}`, '');
+    currentCategory = category;
+  }
+  indexLines.push(`- [${getTitle(readFileSync(file, 'utf8'))}](${relativeLink(join(root, '课程索引.md'), file)})`);
+  const next = lessonFiles[lessonFiles.indexOf(file) + 1];
+  if (!next || dirname(next) !== dirname(file)) indexLines.push('');
+}
+writeFileSync(join(root, '课程索引.md'), `${indexLines.join('\n').trimEnd()}\n`, 'utf8');
 
 console.log(`已更新 ${lessonFiles.length} 篇课程`);

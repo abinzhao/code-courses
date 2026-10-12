@@ -470,8 +470,13 @@ HTTP/3 基于 QUIC（UDP），不需要 TCP 三次握手。但 QUIC 内置了 TL
 3. 使用 Chrome Performance 面板录制两次（一次带资源提示，一次不带）
 4. 对比两次录制的差异，用 Timing 面板数据量化优化效果
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：画出解析、连接、TLS 与 HTTP 顺序；HTTP/3 使用 QUIC 而非 TCP。证书验证与加密作用分开解释，连接复用时部分步骤不会重新发生。
+- **进阶**：同页面冷/热条件重复测量；DNS 缓存、连接复用和会话恢复会让 Timing 某段缺失。缺失不等于零成本，国内/国外标签不能代替实际网络证据。
+- **挑战**：preconnect 指向实际关键来源并匹配 crossorigin，dns-prefetch 仅预解析。对比相同条件的连接 Timing 与首屏，过多预连接也可能浪费资源。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

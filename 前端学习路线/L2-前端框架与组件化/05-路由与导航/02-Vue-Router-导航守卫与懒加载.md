@@ -969,8 +969,13 @@ onMounted(async () => {
 
 在进阶作业基础上：① 实现**角色权限**：管理员（admin）可见所有页面，普通用户（user）只能访问首页和产品列表，不能访问产品编辑页，用 `meta.roles` + `beforeEach` 实现；② 用**命名视图**改造首页布局——首页同时展示侧栏统计面板（`<router-view name="stats">`）和主内容区（默认 `<router-view>`）；③ 产品列表改为从 JSONPlaceholder 获取（`https://jsonplaceholder.typicode.com/posts`），详情页在路由守卫中判断 `id` 是否在 1-100 范围内，超出则重定向到 404；④ 给登录用户增加 **Session 模拟**：刷新页面时检查 `localStorage` 中的 token 是否存在且未过期（设置 30 分钟有效期）。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：Hash 模式刷新无需 history rewrite，组件用动态 import。route.params.id 是字符串，先解析校验；非法 ID 显示 404 而不是空白。
+- **进阶**：beforeEach 排除登录页避免死循环；afterEach 更新 title，未保存离开需确认。参数更新时防止旧请求回填，取消离开保留草稿。
+- **挑战**：meta.roles 控制 UI，服务端授权另行完成；named view 的 key 与布局匹配。30 分钟过期用实际时间判定，坏存储清理，测试角色拒绝与 1/100/101 边界。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 
@@ -1003,5 +1008,5 @@ onMounted(async () => {
 <!-- course-nav:start -->
 ---
 
-[上一篇：01 — React Router 数据加载与嵌套路由](./01-React-Router-数据加载与嵌套路由.md) · [课程地图](../../README.md) · [下一篇：01-Vite 核心原理与配置](../../L3-工程化与质量保障/01-构建工具链/01-Vite-核心原理与配置.md)
+[上一篇：01 — React Router 数据加载与嵌套路由](./01-React-Router-数据加载与嵌套路由.md) · [课程地图](../../README.md) · [下一篇：表单、上传与乐观更新](../06-复杂业务界面/01-表单-上传与乐观更新.md)
 <!-- course-nav:end -->

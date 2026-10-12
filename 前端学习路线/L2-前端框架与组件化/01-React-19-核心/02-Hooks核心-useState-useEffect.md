@@ -452,8 +452,13 @@ React 18/19 的 Strict Mode 在**开发环境**下会故意挂载→卸载→再
 ### 挑战：自定义 Hook 封装
 把窗口大小监听、定时器、数据请求分别封装为自定义 Hook：`useWindowSize`、`useInterval`、`useFetch`。要求类型安全、正确处理清理、支持依赖变化自动刷新。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：effect 创建 interval 并返回 clearInterval；状态从新 Date 读取真实时间。卸载再挂载只有一个有效 timer；后台节流后恢复不能按 tick 次数累加误报时间。
+- **进阶**：500ms timer 清理，请求采用 signal 或序号守卫；query 更新时旧结果与旧 finally 都不可覆盖新状态。慢旧请求、快新请求、卸载与失败分别验证。
+- **挑战**：监听、计时和请求 Hook 各有清理；useInterval 的最新 callback 与调度周期分开管理。依赖改变重订阅，卸载后无监听/timer，泛型请求另做运行时数据校验。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

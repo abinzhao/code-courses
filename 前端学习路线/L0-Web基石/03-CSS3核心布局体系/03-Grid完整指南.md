@@ -589,8 +589,13 @@ Grid 的核心布局能力已被主流现代浏览器广泛支持，但子网格
 2. 产品页布局（header + 主图 | 详情 + 相关推荐 + footer）
 3. 登录页布局（居中表单，header 和 footer 最小化）
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：用 repeat(n,minmax(0,1fr)) 在断点切换 4/3/2 列，图片 aspect-ratio:1 和 object-fit:cover。长标题与图片加载前后不改变预定格子宽度。
+- **进阶**：特色文章 span 2 列/行，小屏重置 span 为 1；视觉排序保持阅读顺序。测试 1、2、7 篇文章和长内容，不让空轨道造成横向滚动。
+- **挑战**：同一 DOM 的 header/main/aside/footer 切换 template-areas；所有命名区域必须形成矩形。视觉改变后 Tab 顺序仍按 DOM，应与使用旅程一致。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

@@ -725,8 +725,13 @@ on:
 
 验证方式：提交 PR，确认预览链接在 PR 评论区生效，且能正常访问。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：PR 触发、最小 contents:read、受支持 Node、明确 pnpm 与 frozen-lockfile。lint 成功才 build；先在本地运行同命令，远端未执行时保持待验证。
+- **进阶**：Node22/24 matrix，缓存 keyed by lockfile/工具版本，concurrency 按 PR 分组。故意测试失败应阻断依赖 build；缓存不能掩盖依赖不完整。
+- **挑战**：构建产物上传/下载使用同一 artifact 名称，预览任务仅持有最小凭据。fork PR 不得到部署 secrets，不使用提权触发器执行不可信代码；评论步骤需额外权限。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

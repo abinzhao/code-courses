@@ -747,8 +747,13 @@ React Router 本身不负责状态持久化。你需要把关键数据存到 `lo
 
 基于进阶作业的架构，将 Todo 应用改造为博客应用，增加：① **面包屑导航**（首页 > 文章列表 > 文章详情）；② **loader 实战**：文章列表和详情改用 loader 从 JSONPlaceholder 获取（`https://jsonplaceholder.typicode.com/posts` 作为文章列表，`/posts/:id` 作为单篇详情）；③ **ErrorBoundary**：页面级别的 `errorElement`，加载失败时展示友好错误页；④ **布局切换**：文章编辑页 `/articles/edit/:id` 使用独立布局（无侧栏，全宽编辑区）。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：布局用 Outlet，列表/详情用稳定 ID 查找，NavLink 活跃状态明确。直接刷新详情、未知 ID 和父路径均测试；生产服务器需 history fallback。
+- **进阶**：演示身份只用虚构数据，登录回跳限定同源相对路径；localStorage 不算真实认证。action 写完后 revalidate loader，过期身份与损坏存储不能循环重定向。
+- **挑战**：loader 接收 request.signal、检查 HTTP 状态、失败交 errorElement；面包屑来自匹配路由。详情 404/断网、编辑独立布局和快速导航取消均可复现。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

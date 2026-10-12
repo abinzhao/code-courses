@@ -525,8 +525,13 @@ CSS 变量本身不触发重绘。但如果变量值改变导致大量元素重�
 
 扩展实战中暗色模式的例子，实现三种主题：浅色、深色、高对比度。用一个下拉选择框（`<select>`）让用户切换主题。要求**纯 CSS 实现**（提示：`:has()` + 不同选项对应不同变量组）。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：在 :root 定义语义颜色、间距和圆角；卡片 var(--token,fallback) 引用。删除某个变量后回退生效，单改 token 能影响所有消费者。
+- **进阶**：先声明 reset,base,components,utilities；普通 utilities 后层覆盖 components，普通未分层声明优先。再用 important 实验层序反转，记录规则来源。
+- **挑战**：用 :has(select option[value="dark"]:checked) 等选择变量组；不支持 :has 时提供默认可读主题。键盘改变 select 后三套颜色均更新，不能只改变背景。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

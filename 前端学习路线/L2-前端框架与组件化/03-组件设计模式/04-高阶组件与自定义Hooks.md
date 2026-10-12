@@ -746,8 +746,13 @@ const { data: orders } = useFetch(
 3. 将这套方案同时用 React Hook 和 Vue Composable 实现
 4. 对比两个版本在「声明式依赖」上的实现差异
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：把行为抽 Hook/composable，渲染仍由组件负责，保留同一权限契约。比较重构前后允许/拒绝状态；代码更短不是唯一成功标准。
+- **进阶**：上次请求结束后才排下一次 timer，stop/卸载取消 timer 与在途工作。慢请求下峰值并发为 1，一次失败后按规则继续，更新 interval 不创建双循环。
+- **挑战**：in-flight Map 缓存进行中的 Promise，finally 清理；B 的 key 依赖 A 成功数据。测试两个消费者共用请求、A 失败不发 B、用户变化清除旧依赖结果。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

@@ -393,8 +393,13 @@ HTTPS = HTTP + TLS/SSL 加密层。HTTP 是明文传输，任何中间人都能�
 1. 在 Network 面板中开启 Protocol 列，观察你常访问的 5 个网站各使用什么 HTTP 版本
 2. 打开 Chrome 的 `chrome://net-export/`，导出网络日志，观察 HTTP/2 连接中的 Stream ID——不同的请求如何在同一个连接中通过不同的 Stream ID 复用
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：先用方法、状态码和 Content-Type 判断请求语义，区分 204 无正文、304 复用缓存与 4xx/5xx。保留完整头部来源，不把状态码等同于业务成功。
+- **进阶**：Network 记录实际 method、路径、请求/响应头与 Queueing/TTFB/Download；TTFB 包含网络与服务端等成本，不能直接称为服务器计算时间。
+- **挑战**：Protocol 列核对 h2/h3/http1.1；在隔离资料的无敏感请求上导出日志。多路复用共享连接，但拥塞与队头阻塞机制不同；未协商 h3 不等于浏览器不支持。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

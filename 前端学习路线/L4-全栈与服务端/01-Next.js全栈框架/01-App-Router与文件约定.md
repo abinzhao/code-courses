@@ -637,8 +637,13 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 - 直接访问 `/photo/[id]` 时展示完整的独立页面
 - 提示：使用 `(.)photo/[id]/page.tsx` 实现拦截，`photo/[id]/page.tsx` 实现独立页
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：layout/page/loading/not-found 按路由边界放置，await params，读取响应检查状态。未知 id 调 notFound；列表慢响应显示骨架，服务端失败不泄漏堆栈。
+- **进阶**：路由组不增加 URL，独立布局避免地址冲突；@stats 是命名 slot 并提供 default。软导航与硬刷新均检查，不能只测已保留的 slot 状态。
+- **挑战**：完整 photo 路由与拦截 modal 共存；(.)/(..) 按路由 segment 而非磁盘层数选择。软点击弹窗、刷新独立页、关闭/后退恢复画廊，直接访问也正确。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 
@@ -672,5 +677,5 @@ App Router 是 Next.js 最重要的一次架构升级，核心变化是 **Server
 <!-- course-nav:start -->
 ---
 
-[上一篇：构建、测试与部署自动化：前端 CI/CD 全链路实战](../../L3-工程化与质量保障/05-CICD流水线/02-构建-测试-部署自动化.md) · [课程地图](../../README.md) · [下一篇：02 SSR / ISR / PPR 渲染策略](./02-SSR-ISR-PPR渲染策略.md)
+[上一篇：pack、版本管理与发布演练](../../L3-工程化与质量保障/06-npm包与SDK工程/02-pack-版本管理与发布演练.md) · [课程地图](../../README.md) · [下一篇：02 SSR / ISR / PPR 渲染策略](./02-SSR-ISR-PPR渲染策略.md)
 <!-- course-nav:end -->

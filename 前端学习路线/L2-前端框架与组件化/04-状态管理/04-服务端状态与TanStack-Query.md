@@ -746,8 +746,13 @@ A：不一定。如果已经使用 RTK Query，通常不必再引入另一套服
 - 乐观更新的写法有什么不同？
 - Vue Query 的 ComputedRef 对 queryKey 的自动追踪是加分还是困惑来源？
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：queryKey 工厂区分列表参数和详情 ID，mutation 成功 invalidate；乐观删除先取消查询并保存快照。失败恢复正确项，不能用一份旧列表覆盖其他并发成功。
+- **进阶**：queryKey 包含 debounce 后关键词，getNextPageParam 依据服务端 cursor。切关键词清相应列表位置，末页停止，断网重试不重复条目。
+- **挑战**：两框架共用 API/key 工厂和同样失败用例；Vue Query 的响应式 key 与 React 重新渲染传 key 分开解释。乐观对账契约应一致，不以框架差异忽略并发。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

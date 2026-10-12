@@ -574,8 +574,13 @@ A：没有硬性规定，但一般把"更基础、更全局"的放外层。例�
 
 用 React Context 和 Vue provide/inject 各实现一遍以上两个练习包（通知 + 权限），写一个 200 字以内的架构对比总结，重点说明你在两个框架中遇到的不同问题。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：状态与动作 Context 分开能减少只消费动作组件更新，数量消费者还需独立值/selector。三个通知按 ID 计时移除；未读数变化有测试，不假定普通 Context 有字段级订阅。
+- **进阶**：角色派生 UI 权限，权限 Context 与表单局部状态分离。切 viewer/editor/admin 核对行为；消费权限的组件必然可能更新，不要求所有组件绝对零重渲染。
+- **挑战**：用同一通知与角色用例比较：React 订阅 Context value，Vue 对读取的响应式字段跟踪。记录实际 render/effect，而不是只比较语法或行数。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

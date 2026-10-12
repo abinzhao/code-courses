@@ -472,8 +472,13 @@ const styleLoader = isDev ? 'style-loader' : MiniCssExtractPlugin.loader
 
 找一个已有的 Webpack 项目（或其他开源项目），尝试将其迁移到 Rspack。记录迁移过程中遇到的不兼容 Loader/Plugin，并找到对应的 Rspack 替代方案。总结迁移成本评估模板。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：React/TS 转译、SCSS loaders、HTML 与 devServer 逐项配置；类型检查独立执行。HMR 保留状态，资源路径与代理正常，缺依赖应在干净安装暴露。
+- **进阶**：相同入口/代码/优化配置和硬件测多次冷构建、热更新与 gzip 体积。报中位数和差异，清缓存方式一致，不能把 devServer 启动当完整生产构建。
+- **挑战**：先列真实 loader/plugin 兼容清单，选择一个路由切片迁移。对比产物、source map、动态 chunk 与测试；保留回退入口，未验证插件标明未知。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

@@ -567,8 +567,13 @@ footer {
 - 输入框区域固定底部
 - 消息气泡用 `auto margin` 实现左右对齐（自己的消息靠右，对方消息靠左）
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：用 flex、菜单组与操作组的 auto margin 分配空闲空间；若要求菜单几何中心，左右组不等宽时需另设对称区域。长 Logo/菜单下检查缩窄策略。
+- **进阶**：flex-wrap 与 flex:1 1 280px 控制换行，卡片内部 column 且按钮 margin-top:auto。320px 只能一列，“至少三列”仅适用于有足够空间的容器。
+- **挑战**：根容器有明确高度，消息区 flex:1、min-height:0、overflow:auto；气泡用 margin-inline-start/end:auto。长消息不挤走输入框，键盘焦点可进入滚动区。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

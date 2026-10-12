@@ -645,8 +645,13 @@ depends_on:
 3. 使用 `docker compose watch` 实现开发时的热重载
 4. 研究 Docker Buildx 的多平台构建（同时构建 amd64 和 arm64 镜像）
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：Dockerfile 安装锁定依赖、构建、非 root 启动；dockerignore 排除秘密与本机产物。镜像实际启动检查页面/API，不能仅证明 build 完成。
+- **进阶**：多阶段复制 standalone、static/public，Compose 服务用内部 DNS 而非 localhost。readiness 等 DB 可用，持久卷重启数据保留；Redis 故障有明确降级。
+- **挑战**：开发 watch 与生产镜像分离，CI 发布同一已验证 artifact；buildx 检查目标架构。只在自己环境演练，rollback 与持久数据兼容不能靠重建镜像保证。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 
@@ -681,5 +686,5 @@ Docker 是现代部署的基石。核心就三件事：
 <!-- course-nav:start -->
 ---
 
-[上一篇：03 迁移、事务与索引](../04-数据库基础/03-迁移-事务与索引.md) · [课程地图](../../README.md) · [下一篇：02-Vercel / Cloudflare 部署](./02-Vercel-Cloudflare部署.md)
+[上一篇：数据建模、隔离级别与查询计划](../04-数据库基础/04-数据建模-隔离级别与查询计划.md) · [课程地图](../../README.md) · [下一篇：02-Vercel / Cloudflare 部署](./02-Vercel-Cloudflare部署.md)
 <!-- course-nav:end -->

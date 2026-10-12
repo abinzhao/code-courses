@@ -648,8 +648,13 @@ Vue 中 `provide` 传递 `reactive` 或 `ref` 对象，天然保持引用稳定�
 - 支持表单级别的 `onFinish` 回调和字段级别的 `rules` 校验
 - 提示：自定义 Hook/Composable 如何与 Compound Components 配合？
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：根保存展开 ID 集合，Header 用 button+aria-expanded/controls，Panel ID 唯一。单开与多开切换正确；子组件脱离根容器应给明确错误。
+- **进阶**：根 Context/provide 共享选中路径，子菜单独立展开；hover 同时提供键盘/click 路径。深层 Item 正确高亮祖先，Esc 与方向键不把焦点留在隐藏项。
+- **挑战**：Form.Item 挂载注册、卸载注销字段，Submit 读取 submitting。重复字段 ID 拒绝，异步校验按版本对账；两表单同页互不串值。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

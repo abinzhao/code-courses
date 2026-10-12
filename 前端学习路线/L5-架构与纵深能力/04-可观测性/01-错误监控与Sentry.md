@@ -719,8 +719,13 @@ Sentry.init({
 4. 实现自定义 Metrics 上报：结算成功率、搜索空结果率、页面加载失败率
 5. 在 Sentry Dashboard 中创建团队共享的监控看板
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：在隔离项目故意触发有界错误，核对 event/breadcrumb/tags/release；先脱敏再发送。SDK 初始化与 framework 错误边界按锁定版本配置，未开通平台标未验证。
+- **进阶**：release SHA 与上传 map/产物一致，验证错误反解到源行，再确保公开产物不含 map。上传 token 只在 CI，告警实际触发记录，删除本地 map 不是反解成功的证据。
+- **挑战**：事件/日志/旅程与业务指标关联，定义 P0/P1/P2 影响与响应责任。采样与噪声控制明确；只有异常事件不能计算业务成功率，需总请求/旅程分母。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 
@@ -753,5 +758,5 @@ Sentry.init({
 <!-- course-nav:start -->
 ---
 
-[上一篇：React Native 与 Electron 概览](../03-跨端开发/02-React-Native与Electron概览.md) · [课程地图](../../README.md) · [下一篇：02-RUM 性能监控与埋点](./02-RUM性能监控与埋点.md)
+[上一篇：移动与桌面端：离线、权限与系统边界](../03-跨端开发/04-移动桌面端-离线与权限边界.md) · [课程地图](../../README.md) · [下一篇：02-RUM 性能监控与埋点](./02-RUM性能监控与埋点.md)
 <!-- course-nav:end -->

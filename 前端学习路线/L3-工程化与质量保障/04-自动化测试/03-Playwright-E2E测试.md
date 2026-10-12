@@ -606,8 +606,13 @@ Playwright 默认放在 `test-results/`。在 CI 中，把这个目录作为构�
 - `login.spec.ts`：用刚注册的账号登录 → 验证跳转 → 验证登录态
 - `profile.spec.ts`：登录后修改个人信息 → 保存 → 验证修改成功 → 退出登录
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：优先本地 Todo，role/label 定位添加、完成、删除。断言 DOM 状态和列表计数；每例清数据，不能依赖公开站点写入或上个测试结果。
+- **进阶**：route 只 mock API，页面行为真实执行；搜索与分页断言请求参数和渲染。失败保留 trace，截图是辅助证据，不能用截图替代行为断言。
+- **挑战**：三个 spec 独立准备测试身份或使用明确 fixture，不跨 spec 假定顺序。登录态只用于授权范围，修改后重新读取确认持久化，退出后资源访问被拒绝。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

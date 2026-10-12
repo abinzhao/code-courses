@@ -521,8 +521,13 @@ function createResumableUpload(file, uploadUrl, chunkSize = 1024 * 1024, onProgr
 
 提示：将文件切片（`file.slice()`），逐个上传每一片。暂停时停止发送下一片，恢复时继续。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：设 controller 与 timer，finally 清 timer，保留原有 signal 的取消。区分 timeout 与用户取消；HTTP 500 不等于 fetch 网络拒绝，仍需 response.ok 检查。
+- **进阶**：切 Tab 时 abort 旧请求并递增序号；返回前核对当前 Tab/序号。A 慢 B 快时只显示 B，卸载后不更新，错误和 loading 都遵循同一守卫。
+- **挑战**：每个分片有 ID/大小/摘要和重试状态，暂停停止新调度，取消 abort 在途请求。恢复先核对服务端清单，重复片幂等，最终合并由服务端重新验证完整文件。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

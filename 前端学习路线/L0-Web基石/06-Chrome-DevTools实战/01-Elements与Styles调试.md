@@ -462,8 +462,13 @@ Styles 面板显示的是你写的 CSS（`width: 50%`），Computed 面板显示
 3. 使用 `:hov` 功能找到至少一个按钮的 hover 效果，并记录下来
 4. 使用取色器（Eye Dropper）提取页面的主色调（Hex 值）
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：记录实际元素而非假定一定是 nav；Computed 测宽高和四层盒模型。页面缩放、border-box 与继承规则写入记录，工具内修改刷新后通常消失。
+- **进阶**：按未匹配、被覆盖、失效声明和盒模型逐项定位。每改一条规则先预测结果；回源文件后刷新验证，不能把 DevTools 临时修改作为已交付代码。
+- **挑战**：记录字体、间距、shadow 和 hover 来源，用自己的练习页复现同类布局。强制 :hover 时同时检查键盘焦点；色值需连同对比度和背景一起解释。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

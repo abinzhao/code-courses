@@ -685,16 +685,16 @@ const worker = new Worker('./worker.ts');
 
 ## 实操作业
 
-### 基础练习：Worker 密码哈希工具
+### 基础练习：Worker 字符串摘要工具
 
-写一个 CLI 工具，接收一个密码文件（每行一个密码），用 Worker Threads 并行计算每个密码的 SHA-256 哈希值并输出结果文件。要求：
+写一个 CLI 工具，接收虚构字符串文件（每行一个字符串），用 Worker Threads 并行计算 SHA-256 摘要并输出结果文件。这个实验演示计算调度，不能用于密码存储；密码应使用 Argon2id、scrypt 等慢哈希并配置盐和成本。要求：
 
 - 文件行数超过 CPU 核心数时平均分配给每个 Worker
 - Worker 使用 `crypto` 模块（Worker 中可以正常使用）
 - 主线程汇总并写入结果文件
 
 ```bash
-node hash-passwords.js passwords.txt hashed.txt
+node hash-lines.js fixtures.txt hashed.txt
 ```
 
 ### 进阶练习：cluster + Worker 混合架构
@@ -729,8 +729,13 @@ node hash-passwords.js passwords.txt hashed.txt
 - 处理流程：缩放 → 锐化 → 添加水印 → 转 WebP
 - 使用 Worker Thread 池异步处理，不阻塞 HTTP 事件循环
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：使用虚构普通字符串计算摘要演示并行，按索引汇总顺序；SHA-256 不用于密码存储。空行/坏输入与 worker 退出有明确失败，线程数和总量受限。
+- **进阶**：cluster 进程与线程池共享总 CPU/队列预算；校验 n 且上限有界。队列满返回 429/503，客户端取消释放任务，不能每请求新建 worker 或无界排队。
+- **挑战**：上传校验内容/体积，任务 ID 绑定身份，状态与结果需跨进程共享。重启、任务失败、未知/他人 ID 和结果清理均验证；进程内 Map 不能代表多实例可靠任务状态。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 
@@ -772,5 +777,5 @@ Node.js 单线程模型对 I/O 密集型任务很高效，但 CPU 密集型任�
 <!-- course-nav:start -->
 ---
 
-[上一篇：02-Stream API 与缓冲](./02-Stream-API与缓冲.md) · [课程地图](../../README.md) · [下一篇：01-RESTful 设计规范](../03-API设计与数据层/01-RESTful设计规范.md)
+[上一篇：02-Stream API 与缓冲](./02-Stream-API与缓冲.md) · [课程地图](../../README.md) · [下一篇：HTTP 服务、请求边界与超时](./04-HTTP服务-请求边界与超时.md)
 <!-- course-nav:end -->

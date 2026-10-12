@@ -565,9 +565,13 @@ CommonJS 对 JSON 有历史兼容行为；ESM 更强调显式模块类型和安�
 - 不允许业务代码直接引用 `dist` 内部文件。
 - 至少测试一次默认导入、具名导入和入口不存在时的错误提示。
 
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
----
-
+- **基础**：date/filter/logger 各 module.exports，入口 require 相对路径。至少一个直接导出函数；验证依赖方得到函数而非误写 exports=fn 后的空对象。
+- **进阶**：type=module 中 .js 为 ESM，.cjs 为 CJS，createRequire(import.meta.url) 提供同步 require。显式文件后缀和默认/具名互操作实际运行验证。
+- **挑战**：exports 按 import/require/types 指向真实产物，npm pack 后独立消费者安装。CJS 与 ESM 都实际调用，未公开深层路径拒绝，不能只测试仓库源码相对路径。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

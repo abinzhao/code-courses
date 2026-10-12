@@ -532,7 +532,7 @@ node rename.js ./images photo_
 写一个命令行工具，功能：
 - 读取 `.env` 文件，用 `crypto` 的 AES-256-GCM 加密
 - 提供 `encrypt` 和 `decrypt` 两个子命令
-- 加密密钥从环境变量 `SECRET_KEY` 读取，不存在时用 `crypto.randomBytes(32)` 生成并打印
+- 加密密钥从明确的本地密钥文件或环境变量 `SECRET_KEY` 读取，缺失时拒绝执行；可另设初始化命令，以排他写入和仅当前用户可读权限生成测试密钥文件，禁止打印密钥
 
 ```bash
 node secret.js encrypt .env .env.enc
@@ -543,8 +543,13 @@ node secret.js decrypt .env.enc .env
 
 用 `child_process.fork` 实现：扫描一个目录下的所有 `.png` 文件，将文件列表分发给多个子进程并行处理（调用系统的图片压缩工具如 `pngquant` 或 `sharp` 库）。主进程汇总每个子进程的处理结果，打印总耗时和每个文件的压缩率。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：先 readdir/stat 形成源→目标清单，拒绝重名与非预期文件，dry-run 先展示。不存在目录友好失败；只在虚构夹具上执行，部分失败要给已完成列表。
+- **进阶**：AES-GCM 每次随机 nonce，保存版本/nonce/tag/ciphertext；无密钥时拒绝或安全创建本地测试密钥文件，绝不打印密钥。篡改 tag/ciphertext 解密失败且不产生明文输出。
+- **挑战**：任务池限制进程数，以参数数组调用工具而非 shell 拼接；先检测工具与输出冲突。子进程错误/超时有结果，主进程不会把部分成功标成全部成功。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

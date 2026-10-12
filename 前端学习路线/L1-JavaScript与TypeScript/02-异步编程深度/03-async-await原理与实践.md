@@ -489,8 +489,13 @@ queue.add(() => fetch('/api/normal-2'),    0).then(() => console.log('普通2'))
 queue.add(() => fetch('/api/important'),   5).then(() => console.log('重要'));
 ```
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：每次 await 的依赖与原 then 链一致；独立请求才并行。catch 内有恢复或重新抛出，finally 管理 loading；不能捕获后返回 undefined 冒充成功。
+- **进阶**：sleep 返回计时 Promise；重试只针对可恢复且可安全重放的操作，有次数上限与退避。最后一次失败抛原始原因，取消时清定时器并立即结束。
+- **挑战**：队列分 pending/running，稳定优先级与 FIFO，完成或拒绝都释放槽。验证 concurrency 上限、任务抛错继续推进、空队列 idle 与等待任务取消。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

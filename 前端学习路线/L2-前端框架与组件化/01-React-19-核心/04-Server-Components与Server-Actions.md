@@ -537,8 +537,13 @@ Server Action 不需要手动定义路由、不需要手写 fetch、支持渐进
 ### 挑战：带乐观更新的留言板
 在进阶的基础上，实现乐观更新（Optimistic Update）：评论先立即出现在列表中（用临时 ID），同时发起 Server Action；成功后替换临时 ID；失败后回滚并提示错误。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：服务端读取本地 JSON，点赞交互拆为 use client 子组件，仅传可序列化 props。检查客户端 bundle 无文件系统模块或服务端秘密，列表失败有恢复入口。
+- **进阶**：Server Action 在服务端校验输入与身份，useActionState 使用 previousState/formData 签名；useFormStatus 在表单子树内。空留言不写入，成功后排序与缓存一致。
+- **挑战**：临时 ID 标记 pending，服务器返回稳定 ID 后对账，失败移除并保留草稿。并发成功次序不同也不重复；乐观 UI 不替代服务端幂等。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 

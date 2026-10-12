@@ -433,8 +433,13 @@ export default defineConfig({
 
 编写一个 Vite 自定义插件，功能：将 `console.log` 替换为带文件名和行号的日志输出。提示：使用 `transform` 钩子和正则匹配。
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：resolve.alias 与 TS paths 对齐，server.port=3333；代理明确是否去掉 /api 前缀。浏览器请求 /api/posts 得到 JSON；代理只用于开发不自动进入生产。
+- **进阶**：同锁文件与相同缓存条件比较 SWC，Less 注入仅变量避免重复 CSS。Vite 会自动发现预构建依赖，include 用于实际未发现项，不预设 lodash-es 一定有瀑布。
+- **挑战**：transform 使用 AST 或明确限制教学正则的输入范围，返回 source map。字符串/comment 中的 console.log 不应误改，生产关闭插件，行号由实际源位置计算。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 
@@ -468,5 +473,5 @@ Vite 通过「开发用 esbuild 按需编译 + 生产用 Rollup 完整打包」�
 <!-- course-nav:start -->
 ---
 
-[上一篇：02 — Vue Router 导航守卫与懒加载](../../L2-前端框架与组件化/05-路由与导航/02-Vue-Router-导航守卫与懒加载.md) · [课程地图](../../README.md) · [下一篇：02-Rspack 与 Webpack 对比](./02-Rspack与Webpack对比.md)
+[上一篇：复杂列表、焦点与虚拟化](../../L2-前端框架与组件化/06-复杂业务界面/02-复杂列表-焦点与虚拟化.md) · [课程地图](../../README.md) · [下一篇：02-Rspack 与 Webpack 对比](./02-Rspack与Webpack对比.md)
 <!-- course-nav:end -->

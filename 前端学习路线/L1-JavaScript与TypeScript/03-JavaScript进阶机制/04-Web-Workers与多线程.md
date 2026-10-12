@@ -401,8 +401,13 @@ const uploadState = {
 };
 ```
 
----
+<!-- exercise-guidance:start -->
+### 作业参考与验收
 
+- **基础**：worker 接收 jobId/n，主线程匹配结果；约束 n 和任务数，显示 loading/error/cancel。计算中按钮仍响应，worker 异常或 terminate 后 UI 恢复。
+- **进阶**：从小数据开始，线程数和总字节设上限，TypedArray buffer 转移前记录所有权。合并后与单线程排序结果一致，报告复制/合并成本，不保证核心越多越快。
+- **挑战**：Worker 算摘要，服务端确认已存在的分片，上传有限并发并最多重试三次。摘要只能识别内容不能授予文件访问；取消/断网/重启后进度正确恢复。
+<!-- exercise-guidance:end -->
 <!-- atlas-task:start -->
 ## Atlas 项目任务
 
@@ -435,5 +440,5 @@ const uploadState = {
 <!-- course-nav:start -->
 ---
 
-[上一篇：03-内存管理与垃圾回收](./03-内存管理与垃圾回收.md) · [课程地图](../../README.md) · [下一篇：01-基础类型与类型推断](../04-TypeScript类型系统/01-基础类型与类型推断.md)
+[上一篇：03-内存管理与垃圾回收](./03-内存管理与垃圾回收.md) · [课程地图](../../README.md) · [下一篇：编码、二进制、日期与正则边界](./05-编码-二进制-日期与正则边界.md)
 <!-- course-nav:end -->
