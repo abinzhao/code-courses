@@ -1,5 +1,15 @@
 # 01-RESTful 设计规范
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L4 全栈与服务端
+> - 先修：[03-Worker Threads 与集群](../02-Node.js后端基础/03-Worker-Threads与集群.md)
+> - 建议用时：180-300 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[MDN Web Docs](https://developer.mozilla.org/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 REST 架构风格的核心约束：资源导向、无状态、统一接口
@@ -639,6 +649,25 @@ POST /auth/refresh
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L4 里程碑](../../projects/atlas/milestones/L4.md)
+- 本课任务：按 L4 里程碑把“RESTful 设计规范”接入 Atlas 全栈版本，明确服务端信任边界、数据契约、失败响应和回滚方式。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 RESTful API 设计的核心是 **资源建模** 和 **HTTP 语义的正确使用**：
@@ -652,3 +681,9 @@ RESTful API 设计的核心是 **资源建模** 和 **HTTP 语义的正确使用
 RESTful 不是教条。它是一套经过 20 年验证的 Web API 设计最佳实践，当你的 API 被第三方调用、被前端团队对接时，一致的 RESTful 规范能极大减少沟通成本和集成 Bug。
 
 下一节我们将学习 tRPC，看看在前后端都是 TypeScript 的全栈场景中，如何实现**端到端类型安全**。
+
+<!-- course-nav:start -->
+---
+
+[上一篇：03-Worker Threads 与集群](../02-Node.js后端基础/03-Worker-Threads与集群.md) · [课程地图](../../README.md) · [下一篇：02-tRPC 端到端类型安全](./02-tRPC端到端类型安全.md)
+<!-- course-nav:end -->

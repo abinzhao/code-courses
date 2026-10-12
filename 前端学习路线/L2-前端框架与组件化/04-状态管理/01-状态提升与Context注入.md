@@ -1,5 +1,15 @@
 # 01 — 状态提升与 Context 注入
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L2 前端框架与组件化
+> - 先修：[高阶组件与自定义 Hooks](../03-组件设计模式/04-高阶组件与自定义Hooks.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[MDN Web Docs](https://developer.mozilla.org/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 判断何时该提升状态、何时该让状态留在原地
@@ -519,13 +529,13 @@ A：**只提升到需要这状态的组件的最近公共祖先**。不要一上
 A：Context 是 React 内建的依赖注入机制，适合低频率的全局配置（主题、语言、用户信息）。Redux/Zustand 是专门的状态管理库，有选择器、中间件、DevTools 等完整生态，适合高频更新的业务状态。
 
 **Q3：useMemo 优化 Context value 一定能解决问题吗？**
-A：不。useMemo 只是让 value 引用不变。但如果 Context 的消费者自己渲染成本高（比如有很多子组件），还是会慢。终极方案是：拆分 Context + 在消费者下面用 React.memo。
+A：不。`useMemo` 只能在依赖不变时复用 value 引用，减少无关的 Context 广播；真正需要读取已变化值的消费者仍会渲染。根据更新频率拆分 Context、缩小消费者范围、使用选择器型状态库，或在昂贵子树上有证据地使用 `memo`，都可能是方案。
 
 **Q4：Vue 的 provide/inject 有没有类似 Context 的性能陷阱？**
-A：没有 Provider value 引用问题。但如果你 provide 了一个很大的 reactive 对象，修改其中任一属性时，所有 inject 了该对象中任一属性的组件都会更新。建议：按功能维度拆分 provide 的键，而不是把所有东西塞进一个大对象。
+A：机制不同。注入同一个 `reactive` 对象的组件只会因渲染期间实际读取的响应式属性变化而更新，并非对象任一属性变化都让所有注入者重渲染。但过大的共享对象仍会模糊所有权和依赖边界，建议按功能拆分 key，并让提供方集中维护修改逻辑。
 
 **Q5：为什么我的 Context 消费者不更新？**
-A：最常见的原因：Provider 和消费者之间有一个 `shouldComponentUpdate` / `React.memo` 阻断了。Context 本身不受中间组件的 memo 影响，但如果是消费者自己或消费者的子组件没更新，检查是不是它们的 props 也没变。
+A：Context 更新不会被中间组件的 `shouldComponentUpdate` 或 `React.memo` 阻断。先检查消费者是否读取了同一个 Context 实例、Provider 的 `value` 是否真的按 `Object.is` 比较发生变化，以及是否原地修改对象后仍传回同一引用。若消费者更新但昂贵子组件没变化，再检查子组件自己的 props 与 memo 比较逻辑。
 
 **Q6：能不能用 Context 替代 props？**
 A：不推荐。props 是最简单、最可预测的数据传递方式。Context 滥用会导致组件耦合、测试困难、重构成本高。用这个优先级：本地 state → props 传递 → 状态下沉 → Context → 状态管理库。
@@ -566,6 +576,25 @@ A：没有硬性规定，但一般把"更基础、更全局"的放外层。例�
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L2 里程碑](../../projects/atlas/milestones/L2.md)
+- 本课任务：按 L2 里程碑把“状态提升与 Context 注入”应用到 Atlas 组件化版本，明确组件 API、状态归属、加载与错误状态，并添加行为测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 | 要点 | 一句话 |
@@ -576,3 +605,9 @@ A：没有硬性规定，但一般把"更基础、更全局"的放外层。例�
 | 拆分策略 | 按更新频率拆 Context：状态 / 动作 / 派生 |
 | Vue provide/inject | 天然响应式，无引用问题，用 readonly 强制单向流 |
 | 选型优先级 | 本地 state → props → 下沉 → Context → 状态库 |
+
+<!-- course-nav:start -->
+---
+
+[上一篇：高阶组件与自定义 Hooks](../03-组件设计模式/04-高阶组件与自定义Hooks.md) · [课程地图](../../README.md) · [下一篇：02 — Zustand 实战指南](./02-Zustand实战指南.md)
+<!-- course-nav:end -->

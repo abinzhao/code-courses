@@ -1,5 +1,15 @@
 # GitHub Actions 入门：前端 CI/CD 第一步
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L3 工程化与质量保障
+> - 先修：[04-测试策略与覆盖率](../04-自动化测试/04-测试策略与覆盖率.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[GitHub Actions](https://docs.github.com/actions)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 CI/CD 的核心概念和在前端项目中的价值
@@ -139,8 +149,11 @@ on:
 # 3. env：全局环境变量，所有 Job 都能使用
 # ============================================
 env:
-  NODE_VERSION: '20'
-  PNPM_VERSION: '9'
+  NODE_VERSION: '24'
+  PNPM_VERSION: '10'
+
+# 2026-10 基线：Node 24 为当前 LTS，Node 22 处于维护期。
+# Node 18/20 已结束官方支持，不应继续作为新项目的常规 CI 基线。
 
 # ============================================
 # 4. jobs：定义需要执行的任务
@@ -198,7 +211,7 @@ jobs:
       # fail-fast: false 表示即使某个版本失败，其他版本继续跑
       fail-fast: false
       matrix:
-        node-version: [18, 20, 22]
+        node-version: [22, 24]
 
     steps:
       - name: 拉取代码
@@ -401,13 +414,11 @@ jobs:
       fail-fast: false         # 某个组合失败不取消其他组合
       max-parallel: 6          # 最大并行数，开源仓库限制 20
       matrix:
-        # 组合 1：Node 18 + ubuntu
-        # 组合 2：Node 18 + windows
-        # 组合 3：Node 20 + ubuntu
-        # 组合 4：Node 20 + windows
-        # 组合 5：Node 22 + ubuntu
-        # 组合 6：Node 22 + windows
-        node-version: [18, 20, 22]
+        # 组合 1：Node 22 + ubuntu
+        # 组合 2：Node 22 + windows
+        # 组合 3：Node 24 + ubuntu
+        # 组合 4：Node 24 + windows
+        node-version: [22, 24]
         os: [ubuntu-latest, windows-latest]
 
     runs-on: ${{ matrix.os }}
@@ -418,14 +429,14 @@ jobs:
 
   # 排除不需要的组合
   exclude:
-    # Windows + Node 18 的组合跳过
-    - node-version: 18
+    # Windows + Node 22 的组合跳过
+    - node-version: 22
       os: windows-latest
 
   # 额外添加特定组合
   include:
-    # 单独加一组 Node 23 的实验性测试
-    - node-version: 23
+    # 单独加一组 Node 26 的前瞻兼容测试（当前版本，不作为发布基线）
+    - node-version: 26
       os: ubuntu-latest
       experimental: true      # 自定义变量，可在 Step 中用 matrix.experimental 引用
 ```
@@ -456,8 +467,8 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: '20'
-  PNPM_VERSION: '9'
+  NODE_VERSION: '24'
+  PNPM_VERSION: '10'
 
 # 取消同一 PR 的旧运行，节省 Runner 资源
 concurrency:
@@ -501,7 +512,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [18, 20, 22]
+        node-version: [22, 24]
 
     steps:
       - uses: actions/checkout@v4
@@ -603,9 +614,9 @@ PR 提交到 main
       │
       ▼
   ┌──────────┐    ┌──────────────────┐
-  │  Lint    │    │  Test (Node 18)  │
-  │ 检查代码  │    │  Test (Node 20)  │  ← 三个 Node 版本并行跑
-  │ 规范     │    │  Test (Node 22)  │
+  │  Lint    │    │  Test (Node 22)  │
+  │ 检查代码  │    │  Test (Node 24)  │  ← 当前与维护期 LTS 并行跑
+  │ 规范     │    │                  │
   └────┬─────┘    └────────┬─────────┘
        │                   │
        └──────┬────────────┘
@@ -697,7 +708,7 @@ on:
 
 在基础之上：
 
-1. 用 Matrix 在 Node 18、20、22 三个版本上并行跑单元测试
+1. 用 Matrix 在 Node 22、24 两个受支持的 LTS 版本上并行跑单元测试
 2. 配置 pnpm 缓存加速安装
 3. 设置 `concurrency` 取消重复运行
 4. Lint 失败或测试失败时，Build 不执行（用 `needs`）
@@ -716,6 +727,25 @@ on:
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L3 里程碑](../../projects/atlas/milestones/L3.md)
+- 本课任务：把“GitHub Actions 入门：前端 CI/CD 第一步”接入 Atlas 工程链路，形成可重复命令和失败门禁，并保存一次故意失败与恢复的证据。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - **CI/CD 的核心**：把重复的人工检查变成自动化流程，每次代码提交都经过 Lint → Test → Build 的验证
@@ -726,4 +756,12 @@ on:
 - **Secrets 管理敏感信息**：Token、密钥等放在 GitHub Secrets 中，不硬编码在 YAML 里
 - **needs 控制执行顺序**：让 Lint 和 Test 先跑，通过后才执行 Build，合理编排 Job 依赖
 
+版本参考：[Node.js Release Schedule](https://github.com/nodejs/Release#release-schedule)
+
 下一节将深入前端项目的完整部署链路：从 PR 预览部署到生产环境自动发布，以及 E2E 测试的 CI 集成。
+
+<!-- course-nav:start -->
+---
+
+[上一篇：04-测试策略与覆盖率](../04-自动化测试/04-测试策略与覆盖率.md) · [课程地图](../../README.md) · [下一篇：构建、测试与部署自动化：前端 CI/CD 全链路实战](./02-构建-测试-部署自动化.md)
+<!-- course-nav:end -->

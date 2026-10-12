@@ -1,5 +1,15 @@
 # 04-层叠上下文与 z-index
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L0 Web 基石
+> - 先修：[03-Grid 完整指南](./03-Grid完整指南.md)
+> - 建议用时：90-150 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[MDN CSS](https://developer.mozilla.org/docs/Web/CSS)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解层叠上下文（Stacking Context）的概念和层叠顺序规则
@@ -662,6 +672,25 @@
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L0 里程碑](../../projects/atlas/milestones/L0.md)
+- 本课任务：把“层叠上下文与 z-index”应用到 Atlas 的 HTML/CSS 交互界面，覆盖窄屏、键盘操作和至少一个失败状态。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - **层叠上下文**是 z-index 的"作用域"，上下文之间互不穿透
@@ -670,3 +699,9 @@
 - 弹窗组件必须挂载到 `<body>` 末尾，避免被父级层叠上下文限制
 - `isolation: isolate` 是专门用于创建层叠上下文的属性，无副作用
 - Chrome DevTools 的 Layers 面板是调试层叠问题的终极武器
+
+<!-- course-nav:start -->
+---
+
+[上一篇：03-Grid 完整指南](./03-Grid完整指南.md) · [课程地图](../../README.md) · [下一篇：05 排版、颜色、图片与基础动画](./05-排版-颜色-图片与基础动画.md)
+<!-- course-nav:end -->

@@ -1,65 +1,75 @@
-# 04 Middleware 与 Route Handlers
+# 04 Proxy（旧称 Middleware）与 Route Handlers
+
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L4 全栈与服务端
+> - 先修：[03 Server Actions 与数据变更](./03-Server-Actions与数据变更.md)
+> - 建议用时：180-300 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[Next.js](https://nextjs.org/docs)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
 
 ## 学习目标
 
-- 理解 Middleware 的执行时机和适用场景
-- 掌握 `middleware.ts` 文件的配置和 `config.matcher` 路径匹配
-- 能实现常见的 Middleware 场景：认证校验、国际化路由、A/B 测试、bot 拦截
+- 理解 Proxy 的执行时机和适用场景
+- 掌握 `proxy.ts` 文件的配置和 `config.matcher` 路径匹配
+- 能实现常见的 Proxy 场景：认证校验、国际化路由、A/B 测试、bot 拦截
 - 掌握 Route Handlers 的文件约定和 HTTP 方法
 - 熟练使用 `NextRequest` 和 `NextResponse` 操作请求/响应
 - 能配置 CORS、处理 Cookie、实现流式响应
-- 实现一个带 JWT 认证的完整 API 系统 + 全局认证中间件
+- 实现一个带 JWT 认证的 API，并理解 Proxy 只负责请求前置判断、业务端点仍需独立授权
 
 ---
 
 ## 内容讲解
 
-### 一、Middleware 是什么？
+### 一、Proxy 是什么？
 
-Middleware（中间件）是在**请求到达页面/API 之前**执行的代码。它在 Next.js 的 Edge Runtime（基于 Web API 的轻量运行时）中运行，位于 CDN 边缘节点，因此执行速度非常快。
+Proxy 是 Next.js 16 对旧 `middleware` 文件约定的重命名，用于在路由渲染前执行重定向、重写和请求头处理。Next.js 16 的 Proxy 默认使用 **Node.js Runtime**；部署平台可以把它放在独立网络边界或靠近 CDN 的位置，但不能假设它必然运行在边缘节点。
 
 ```
-用户请求 → Middleware（边缘节点）→ 页面/API
+用户请求 → Proxy（独立请求边界）→ 页面/API
                 ↑
           可以：重定向、重写、添加 Header、返回 401
-          不能：访问数据库、使用 Node.js API、长时间运行
+          避免：重业务查询、长期状态、把它当作唯一授权层
 ```
 
-#### Middleware vs Server Components vs Route Handler
+#### Proxy vs Server Components vs Route Handler
 
-| 特性 | Middleware | Server Component | Route Handler |
+| 特性 | Proxy | Server Component | Route Handler |
 |------|-----------|-----------------|---------------|
 | 运行时机 | 请求到达前 | 页面渲染时 | API 请求时 |
-| 运行环境 | Edge Runtime | Node.js Runtime | 两者可选 |
-| 能访问数据库 | ❌ | ✅ | ✅ |
+| 运行环境 | Next.js 16 默认 Node.js Runtime | Node.js Runtime | 按路由配置与平台能力 |
+| 能访问数据库 | 技术上可以，但不建议放重查询 | ✅ | ✅ |
 | 能操作 Cookie | ✅（读和设置） | ✅（只读） | ✅ |
 | 能重定向 | ✅ | ✅（redirect） | ✅ |
 | 适合场景 | 全局逻辑 | 页面数据获取 | REST API |
 
-> **避坑提示**：Middleware 运行在 Edge Runtime 中，**不能使用 Node.js 原生 API**（`fs`、`net`、`crypto` 的非 Web Crypto 部分等）。需要这些能力时，把逻辑放到 Route Handler 中。
+> **边界提示**：Proxy 适合廉价、确定、无持久状态的前置判断。即使 Node.js API 可用，也不应把复杂数据访问和资源级授权全部放在 Proxy；matcher 或路由调整可能绕过它，Server Function、Route Handler 和数据访问层必须自行认证授权。
 
 ---
 
-### 二、middleware.ts 的配置
+### 二、proxy.ts 的配置
 
 #### 2.1 基础结构
 
 ```ts
-// middleware.ts —— 必须放在项目根目录（与 app/ 同级，不是 app/ 内）
+// proxy.ts —— 必须放在项目根目录（与 app/ 同级，不是 app/ 内）
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // request：包含了当前请求的所有信息
   // 这个函数在每个匹配的请求到达页面/API 之前执行
 
-  console.log(`[Middleware] ${request.method} ${request.nextUrl.pathname}`);
+  console.log(`[Proxy] ${request.method} ${request.nextUrl.pathname}`);
 
   // 继续到下一个处理环节（页面或 API）
   return NextResponse.next();
 }
 
-// config.matcher：指定哪些路径触发 middleware
+// config.matcher：指定哪些路径触发 proxy
 export const config = {
   matcher: [
     /*
@@ -74,7 +84,7 @@ export const config = {
 };
 ```
 
-> **避坑提示**：`middleware.ts` 必须放在**项目根目录**（和 `package.json` 同级），而不是 `app/` 目录中。每个项目只能有一个 `middleware.ts`。
+> **避坑提示**：`proxy.ts` 必须放在**项目根目录**（和 `package.json` 同级），而不是 `app/` 目录中。每个项目只能有一个 `proxy.ts`。
 
 #### 2.2 matcher 匹配规则
 
@@ -104,10 +114,10 @@ export const config = {
 
 #### 3.1 认证校验
 
-最常用的 Middleware 场景：检查用户是否登录，未登录跳转到登录页。
+最常用的 Proxy 场景：检查用户是否登录，未登录跳转到登录页。
 
 ```ts
-// middleware.ts
+// proxy.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
@@ -115,7 +125,7 @@ import type { NextRequest } from 'next/server';
 const PROTECTED_ROUTES = ['/dashboard', '/profile', '/settings', '/api/admin'];
 const PUBLIC_ROUTES = ['/login', '/register', '/api/auth'];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // ① 公开路由直接放行
@@ -129,31 +139,17 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // ③ 读取 Cookie 中的 token
-  const token = request.cookies.get('auth_token')?.value;
+  // ③ 只检查是否存在会话 Cookie，用于优化导航体验
+  const hasSession = request.cookies.has('__Host-session');
 
-  // ④ token 不存在 → 重定向到登录页，并附带当前 URL 用于登录后跳回
-  if (!token) {
+  // ④ Cookie 不存在 → 重定向到登录页，并附带当前 URL 用于登录后跳回
+  if (!hasSession) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('callbackUrl', pathname);  // 登录后跳回原页面
     return NextResponse.redirect(loginUrl);
   }
 
-  // ⑤ 简单验证 token（生产环境用 JWT 验证库）
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1])); // 解码 JWT payload
-    // 可以在这里检查过期时间、权限等
-    if (payload.exp && payload.exp * 1000 < Date.now()) {
-      const loginUrl = new URL('/login', request.url);
-      return NextResponse.redirect(loginUrl);
-    }
-  } catch {
-    // token 无效
-    const loginUrl = new URL('/login', request.url);
-    return NextResponse.redirect(loginUrl);
-  }
-
-  // ⑥ 验证通过，继续到页面
+  // ⑤ 继续到页面。页面/Server Function/数据访问层仍要验证会话与权限。
   return NextResponse.next();
 }
 
@@ -167,7 +163,7 @@ export const config = {
 根据请求头中的 `Accept-Language` 自动跳转到对应语言路径：
 
 ```ts
-// middleware.ts
+// proxy.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
@@ -193,7 +189,7 @@ function getLocale(request: NextRequest): string {
   return DEFAULT_LOCALE;
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // 如果 URL 已经包含语言前缀，跳过
@@ -217,8 +213,8 @@ export function middleware(request: NextRequest) {
 通过 Cookie 将用户随机分到不同实验组：
 
 ```ts
-// middleware.ts
-export function middleware(request: NextRequest) {
+// proxy.ts
+export function proxy(request: NextRequest) {
   // 只在首页执行 A/B 测试
   if (request.nextUrl.pathname !== '/') {
     return NextResponse.next();
@@ -268,13 +264,14 @@ export default async function HomePage() {
 #### 3.4 Bot 拦截
 
 ```ts
-// middleware.ts
+// proxy.ts
 const BLOCKED_USER_AGENTS = ['Bytespider', 'YisouSpider', 'PetalBot'];
 const BLOCKED_IPS = ['123.45.67.89'];  // 已知恶意 IP
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const userAgent = request.headers.get('user-agent') || '';
-  const ip = request.headers.get('x-forwarded-for') || request.ip || '';
+  // 只能在确认平台会清洗该请求头后信任它
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '';
 
   // 检查 User-Agent
   if (BLOCKED_USER_AGENTS.some(bot => userAgent.includes(bot))) {
@@ -528,17 +525,17 @@ export async function POST(request: NextRequest) {
 
 ---
 
-### 七、实战：JWT 认证 + 全局中间件 + API 路由
+### 七、实战：JWT 认证 + Proxy 前置判断 + API 路由
 
 完整的认证系统实现：
 
 ```ts
 // lib/auth.ts —— JWT 工具函数
-import { SignJWT, jwtVerify } from 'jose';  // Edge Runtime 兼容的 JWT 库
+import { SignJWT, jwtVerify } from 'jose';
 
-const SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'dev-secret-change-in-production'
-);
+const secretText = process.env.JWT_SECRET;
+if (!secretText) throw new Error('缺少 JWT_SECRET');
+const SECRET = new TextEncoder().encode(secretText);
 
 // 生成 JWT
 export async function createToken(payload: { userId: number; role: string }) {
@@ -561,7 +558,7 @@ export async function verifyToken(token: string) {
 ```
 
 ```ts
-// middleware.ts —— 全局认证中间件
+// proxy.ts —— 请求前置判断
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { verifyToken } from '@/lib/auth';
@@ -570,7 +567,7 @@ import { verifyToken } from '@/lib/auth';
 const PROTECTED_API = '/api/';
 const AUTH_API = '/api/auth/';  // 登录注册接口不需要认证
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // 只对 /api 路径生效（排除 auth 接口）
@@ -591,7 +588,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.json({ error: '令牌无效或已过期' }, { status: 401 });
   }
 
-  // 将用户信息注入请求头（API Route 中可以读取）
+  // 将已验证声明注入内部请求头，供下游减少重复解析。
+  // 下游仍需执行资源级授权，且不能直接信任客户端原始同名 Header。
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-user-id', String(payload.userId));
   requestHeaders.set('x-user-role', payload.role);
@@ -611,10 +609,10 @@ export const config = {
 import { NextRequest, NextResponse } from 'next/server';
 import { createToken } from '@/lib/auth';
 
-// 模拟用户数据库
+// 仅用于展示流程；真实系统必须使用密码哈希和持久化用户表
 const USERS = [
-  { id: 1, email: 'admin@example.com', password: 'admin123', role: 'admin' },
-  { id: 2, email: 'user@example.com', password: 'user123', role: 'user' },
+  { id: 1, email: 'admin@example.com', passwordHash: '<argon2id-hash>', role: 'admin' },
+  { id: 2, email: 'user@example.com', passwordHash: '<argon2id-hash>', role: 'user' },
 ];
 
 export async function POST(request: NextRequest) {
@@ -625,9 +623,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: '邮箱和密码不能为空' }, { status: 400 });
   }
 
-  // 查找用户
-  const user = USERS.find(u => u.email === email && u.password === password);
-  if (!user) {
+  // 查找用户并用成熟密码库验证哈希；verifyPassword 是服务端封装
+  const user = USERS.find(u => u.email === email);
+  if (!user || !(await verifyPassword(user.passwordHash, password))) {
     return NextResponse.json({ error: '邮箱或密码错误' }, { status: 401 });
   }
 
@@ -646,13 +644,12 @@ export async function POST(request: NextRequest) {
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
-  // middleware 已注入的用户信息
-  const userId = request.headers.get('x-user-id');
-  const userRole = request.headers.get('x-user-role');
+  // 端点重新建立认证上下文，不能把 Proxy 当作唯一安全边界
+  const auth = await requireAuth(request);
 
   return NextResponse.json({
     message: '这是受保护的接口',
-    user: { id: userId, role: userRole },
+    user: { id: auth.userId, role: auth.role },
     data: { /* 用户专属数据 */ },
   });
 }
@@ -661,9 +658,9 @@ export async function GET(request: NextRequest) {
 **请求流程：**
 
 ```
-POST /api/auth/login       → Middleware 放行（AUTH_API）→ 登录接口 → 返回 JWT
+POST /api/auth/login       → Proxy 放行（AUTH_API）→ 登录接口 → 返回 JWT
 
-GET  /api/profile           → Middleware 拦截 → 验证 JWT → 注入 x-user-id → 返回数据
+GET  /api/profile           → Proxy 拦截 → 验证 JWT → 注入 x-user-id → 返回数据
      Authorization: Bearer <token>
 ```
 
@@ -671,15 +668,13 @@ GET  /api/profile           → Middleware 拦截 → 验证 JWT → 注入 x-us
 
 ## 常见问题
 
-### Q1：Middleware 和 Route Handler 里的 `request` 有什么区别？
+### Q1：Proxy 和 Route Handler 里的 `request` 有什么区别？
 
-都是 `NextRequest` 类型，但在 Middleware 中你可以修改 `requestHeaders` 并传递给下游。在 Route Handler 中，headers 已经被 Middleware 处理过了。在 Middleware 中通过 `NextResponse.next({ request: { headers } })` 设置的 headers，Route Handler 可以通过 `request.headers.get()` 读取。
+都是 `NextRequest` 类型，但在 Proxy 中你可以修改 `requestHeaders` 并传递给下游。在 Route Handler 中，headers 已经被 Proxy 处理过了。在 Proxy 中通过 `NextResponse.next({ request: { headers } })` 设置的 headers，Route Handler 可以通过 `request.headers.get()` 读取。
 
-### Q2：为什么 Middleware 里不能查数据库？
+### Q2：Proxy 里能查数据库吗？
 
-Middleware 运行在 Edge Runtime，Node.js 的数据库驱动（如 `pg`、`mysql2`、Prisma 的 Node.js 模式）依赖 Node.js 原生 API，Edge Runtime 不支持。如果需要查库做认证，有两种方案：
-1. 在 Middleware 中发 HTTP 请求到 `/api/auth/verify` 接口验证
-2. 把认证逻辑移到各个 Route Handler 或 Server Component 中
+Next.js 16 的 Proxy 默认使用 Node.js Runtime，因此“完全不能查库”已经不是正确规则。但 Proxy 会覆盖大量请求，数据库查询会放大延迟和故障面。推荐只做 Cookie/签名令牌的轻量判断，把会话查询和资源级授权放进 Server Function、Route Handler 或数据访问层。
 
 ### Q3：`route.ts` 和 Server Action 什么时候用哪个？
 
@@ -714,7 +709,7 @@ export async function POST(request: NextRequest) {
 3. 确认没有同时设置 `Allow-Origin: *` 和 `Allow-Credentials: true`
 4. 在 Vercel/Netlify 等平台可能需要在平台层面额外配置 CORS
 
-### Q7：Middleware 中能直接返回 JSON 吗？
+### Q7：Proxy 中能直接返回 JSON 吗？
 
 可以。`return NextResponse.json({ error: '...' }, { status: 401 })`。这通常用于 API 接口的认证失败。对于页面请求，更常见的是 `NextResponse.redirect('/login')`。
 
@@ -722,40 +717,67 @@ export async function POST(request: NextRequest) {
 
 ## 实操作业
 
-### 基础练习：简单 API + Middleware 日志
+### 基础练习：简单 API + Proxy 日志
 
 实现一个 `/api/todos` 的 CRUD API：
 - `GET /api/todos`：返回 Todo 列表（内存数组）
 - `POST /api/todos`：创建 Todo
 - `PUT /api/todos/[id]`：更新 Todo
 - `DELETE /api/todos/[id]`：删除 Todo
-- 在 `middleware.ts` 中记录每个请求的 method、pathname 和时间戳到控制台
+- 在 `proxy.ts` 中记录每个请求的 method、pathname 和时间戳到控制台
 
 ### 进阶练习：JWT 认证系统
 
 在基础练习的基础上增加认证：
 - `/api/auth/register`：注册接口（邮箱 + 密码，存内存）
 - `/api/auth/login`：登录接口，返回 JWT token
-- Middleware 保护 `/api/todos` 接口，未登录返回 401
+- Proxy 保护 `/api/todos` 接口，未登录返回 401
 - 每个 Todo 记录 creatorId，用户只能操作自己的 Todo
 - 实现 token 过期处理（设置为 1 分钟，测试过期后返回错误信息）
 
 ### 挑战练习：Rate Limiting + API 版本管理
 
 实现两个高级功能：
-- **Rate Limiting**：在 Middleware 中基于 IP 实现简单的请求频率限制（内存 Map，60 秒内最多 30 次请求），超出返回 429
-- **API 版本管理**：通过 Middleware 实现 `/api/v1/` 和 `/api/v2/` 的路由，`v1` 返回简单 JSON，`v2` 返回带 `{ version: '2.0', data: ... }` 的包装格式。不创建 `v1/v2` 文件夹，纯 Middleware rewrite 实现
+- **Rate Limiting**：使用 Redis、平台限流服务或 Durable Object 等共享存储实现滑动窗口；禁止把进程内 `Map` 当作生产限流状态
+- **API 版本管理**：通过 Proxy 实现 `/api/v1/` 和 `/api/v2/` 的路由，`v1` 返回简单 JSON，`v2` 返回带 `{ version: '2.0', data: ... }` 的包装格式。不创建 `v1/v2` 文件夹，纯 Proxy rewrite 实现
+
+---
+
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L4 里程碑](../../projects/atlas/milestones/L4.md)
+- 本课任务：按 L4 里程碑把“Proxy（旧称 Middleware）与 Route Handlers”接入 Atlas 全栈版本，明确服务端信任边界、数据契约、失败响应和回滚方式。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
 
 ---
 
 ## 本节小结
 
-Middleware 和 Route Handlers 是 Next.js 全栈能力的关键拼图：
+Proxy 和 Route Handlers 是 Next.js 全栈能力的关键拼图：
 
-1. **Middleware 用于请求前置处理**：认证、国际化、A/B 测试——任何"在渲染之前"执行的逻辑
+1. **Proxy 用于轻量请求前置处理**：重定向、重写、Header、粗粒度会话判断
 2. **Route Handlers 用于 REST API**：对外暴露的接口，支持完整的 HTTP 方法和请求/响应控制
-3. **两者互补**：Middleware 做"门卫"（拦截和路由），Route Handler 做"服务员"（处理具体业务）
+3. **两者互补**：Proxy 做"门卫"（拦截和路由），Route Handler 做"服务员"（处理具体业务）
 
-记住 Middleware 的限制：Edge Runtime、不能查数据库、适合轻量级操作。需要重量级操作时，让 Middleware 放行到 Route Handler 或 Server Component 中处理。
+记住 Proxy 的边界：不要保存进程内状态，不要承担重业务查询，也不要作为唯一授权层。需要权威数据和资源级权限时，让 Route Handler、Server Function 或数据访问层重新验证。
 
-到此，L4「Next.js 全栈框架」的四篇核心教程全部完成。你已经掌握了 App Router 路由、四种渲染策略、Server Actions 数据变更、Middleware 和 Route Handlers——这些是 Next.js 生产开发中最常用的 80% 能力。
+到此，L4「Next.js 全栈框架」的四篇核心教程全部完成。你已经掌握了 App Router 路由、四种渲染策略、Server Actions 数据变更、Proxy 和 Route Handlers——这些是 Next.js 生产开发中最常用的 80% 能力。
+
+官方参考：[Next.js Proxy](https://nextjs.org/docs/app/api-reference/file-conventions/proxy) · [Next.js 16 Upgrade Guide](https://nextjs.org/docs/app/guides/upgrading/version-16)
+
+<!-- course-nav:start -->
+---
+
+[上一篇：03 Server Actions 与数据变更](./03-Server-Actions与数据变更.md) · [课程地图](../../README.md) · [下一篇：01-Node.js 运行时与内置模块](../02-Node.js后端基础/01-Node.js运行时与内置模块.md)
+<!-- course-nav:end -->

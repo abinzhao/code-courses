@@ -1,5 +1,15 @@
 # 02-组件库搭建与 Storybook
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L5 架构与纵深能力
+> - 先修：[01-Design Tokens 与 DTCG 规范](./01-Design-Tokens与DTCG规范.md)
+> - 建议用时：180-300 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[W3C Design Tokens](https://www.designtokens.org/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 掌握组件库设计的四项核心原则：一致 API、可组合、可访问、可主题化
@@ -1146,13 +1156,38 @@ Changesets 读取 `.changeset/` 目录下所有未消费的 markdown 文件，�
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L5 里程碑](../../projects/atlas/milestones/L5.md)
+- 本课任务：按 L5 里程碑在 Atlas 中建立“组件库搭建与 Storybook”的可量化基线、改进方案、前后证据和长期治理规则。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 组件库的搭建不是"把组件写出来扔到 npm 上"。从架构视角看，你需要在四个层次上建立能力：
 
 1. **API 设计层**：一致、最小、类型安全的 Props 设计。用户不读文档也能猜出怎么用——这才是好的 API
 2. **工程化层**：Vite library mode 的双格式构建（ESM + CJS）、external 依赖隔离、`.d.ts` 自动生成。这些配置直接决定了你发布的是一个"专业的库"还是一个"能用但浑身 bug 的代码包"
-3. **文档层**：Storybook 不是锦上添花——它是组件库的说明书。Story 覆盖所有变体和状态，交互测试防止回归，autodocs 让文档和代码永不脱节
+3. **文档层**：Storybook 是组件库的可执行说明书。Story 应覆盖受支持的变体和关键状态，交互测试用于发现回归；autodocs 能从类型和注释生成基础内容，但示例、约束和迁移说明仍需评审，不能保证文档自动保持完整
 4. **版本层**：Changesets 把版本管理从"人工判断改了什么"变成"机器分析改了什么"。每次 `changeset add` 描述的是"对用户意味着什么"，这比 Git commit message 更适合生成 CHANGELOG
 
 最终原则：**组件库的消费者是其他开发者。你要像设计产品一样设计组件库的 API——因为你的 API 就是他们的开发体验。**
+
+<!-- course-nav:start -->
+---
+
+[上一篇：01-Design Tokens 与 DTCG 规范](./01-Design-Tokens与DTCG规范.md) · [课程地图](../../README.md) · [下一篇：01-技术选型决策框架](../06-架构治理/01-技术选型决策框架.md)
+<!-- course-nav:end -->

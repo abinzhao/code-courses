@@ -1,5 +1,15 @@
 # 03 — async/await 原理与实践
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L1 JavaScript 与 TypeScript
+> - 先修：[02 — Promise 链与错误处理](./02-Promise链与错误处理.md)
+> - 建议用时：120-180 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[TypeScript](https://www.typescriptlang.org/docs/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 `async` 函数的本质：它只是返回 Promise 的语法糖
@@ -481,6 +491,25 @@ queue.add(() => fetch('/api/important'),   5).then(() => console.log('重要'));
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L1 里程碑](../../projects/atlas/milestones/L1.md)
+- 本课任务：把“async/await 原理与实践”落实为 Atlas 中可独立导入的模块或纯函数，补充正常、边界、异常三类自动测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - `async` 函数本质是返回 Promise 的语法糖——函数内部 return 的值自动变成 `Promise.resolve(值)`
@@ -490,3 +519,9 @@ queue.add(() => fetch('/api/important'),   5).then(() => console.log('重要'));
 - 循环中想串行 await，用 `for...of`；`forEach` 不支持 await
 - 没有依赖关系的多个 await 应该用 `Promise.all` 并行执行
 - 并发请求数量控制（batchRequest 模式）是生产环境中的常见需求
+
+<!-- course-nav:start -->
+---
+
+[上一篇：02 — Promise 链与错误处理](./02-Promise链与错误处理.md) · [课程地图](../../README.md) · [下一篇：04 — AbortController 与并发控制](./04-AbortController与并发控制.md)
+<!-- course-nav:end -->

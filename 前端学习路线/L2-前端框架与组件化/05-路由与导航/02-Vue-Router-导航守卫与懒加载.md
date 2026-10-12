@@ -1,5 +1,15 @@
 # 02 — Vue Router 导航守卫与懒加载
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L2 前端框架与组件化
+> - 先修：[01 — React Router 数据加载与嵌套路由](./01-React-Router-数据加载与嵌套路由.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[Vue](https://vuejs.org/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 掌握 Vue Router 的核心概念：`createRouter`、`createWebHistory`、`createWebHashHistory`
@@ -961,6 +971,25 @@ onMounted(async () => {
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L2 里程碑](../../projects/atlas/milestones/L2.md)
+- 本课任务：按 L2 里程碑把“Vue Router 导航守卫与懒加载”应用到 Atlas 组件化版本，明确组件 API、状态归属、加载与错误状态，并添加行为测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - **Vue Router 4** 与 Vue 3 深度集成，路由参数天然响应式，不需要额外处理更新逻辑。
@@ -970,3 +999,9 @@ onMounted(async () => {
 - **导航守卫**是 Vue Router 的核心竞争力：三级体系贯穿 `beforeEach`（全局）→ `beforeEnter`（路由级）→ `beforeRouteEnter/Update/Leave`（组件级），配合 `meta` 实现灵活的权限控制。
 - **懒加载**：`component: () => import('...')` 零配置代码分割，Vite / Webpack 自动处理。
 - **避坑核心**：别在 Options API 中解构 `$route`、`beforeRouteEnter` 中 `this` 不可用、`beforeEnter` 不覆盖子路由导航、History 模式部署要配 Nginx fallback、`<script setup>` 中不能用 `beforeRouteEnter`。
+
+<!-- course-nav:start -->
+---
+
+[上一篇：01 — React Router 数据加载与嵌套路由](./01-React-Router-数据加载与嵌套路由.md) · [课程地图](../../README.md) · [下一篇：01-Vite 核心原理与配置](../../L3-工程化与质量保障/01-构建工具链/01-Vite-核心原理与配置.md)
+<!-- course-nav:end -->

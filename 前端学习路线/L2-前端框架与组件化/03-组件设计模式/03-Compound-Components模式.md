@@ -1,5 +1,15 @@
 # Compound Components 模式
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L2 前端框架与组件化
+> - 先修：[受控与非受控组件](./02-受控与非受控组件.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[MDN Web Docs](https://developer.mozilla.org/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 Compound Components（复合组件）的设计思想：父子组件通过隐式上下文通信
@@ -640,6 +650,25 @@ Vue 中 `provide` 传递 `reactive` 或 `ref` 对象，天然保持引用稳定�
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L2 里程碑](../../projects/atlas/milestones/L2.md)
+- 本课任务：按 L2 里程碑把“Compound Components 模式”应用到 Atlas 组件化版本，明确组件 API、状态归属、加载与错误状态，并添加行为测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - **Compound Components** 的核心是「一组组件通过隐式 Context 共享状态，使用方自由组合渲染结构」
@@ -648,3 +677,9 @@ Vue 中 `provide` 传递 `reactive` 或 `ref` 对象，天然保持引用稳定�
 - 典型应用：Select/Option、Tabs/Tab、Accordion/Item、Menu/MenuItem、Form/FormItem
 - 相比配置驱动的 API，Compound Components 在**灵活性**上有决定性优势——使用方可以任意排列、插入、包装子组件
 - 结合 Hook/Composable 可以在 Compound Components 中进一步解耦逻辑，形成「逻辑层（Hook）→ Context 层（状态分发）→ UI 层（用户组合）」的三层架构
+
+<!-- course-nav:start -->
+---
+
+[上一篇：受控与非受控组件](./02-受控与非受控组件.md) · [课程地图](../../README.md) · [下一篇：高阶组件与自定义 Hooks](./04-高阶组件与自定义Hooks.md)
+<!-- course-nav:end -->

@@ -1,5 +1,15 @@
 # 02-tRPC 端到端类型安全
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L4 全栈与服务端
+> - 先修：[01-RESTful 设计规范](./01-RESTful设计规范.md)
+> - 建议用时：180-300 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[tRPC](https://trpc.io/docs)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 tRPC 的核心理念：靠 TypeScript 类型实现前后端类型安全
@@ -576,12 +586,12 @@ tRPC 基于 JSON 序列化（即使用了 superjson），不适合传输二进�
 
 它们不冲突：表单提交用 Server Actions，复杂数据查询和列表操作用 tRPC。
 
-### Q6：tRPC 的 middleware 和 Next.js middleware 有什么区别？
+### Q6：tRPC middleware 和 Next.js Proxy 有什么区别？
 
-- **Next.js middleware**（`middleware.ts`）：在请求到达路由前执行，适合鉴权重定向、A/B 测试
+- **Next.js Proxy**（Next.js 16 的 `proxy.ts`）：在请求到达路由前执行，适合重定向、重写和粗粒度会话判断
 - **tRPC middleware**：在 tRPC Procedure 执行前后执行，适合提取上下文、日志、权限校验
 
-两者配合使用：Next.js middleware 做请求级别的保护，tRPC middleware 做 Procedure 级别的精细化控制。
+两者可以配合：Next.js Proxy 做请求前置处理，tRPC middleware 做 Procedure 级别的认证和资源授权。不能只依赖 Proxy 保护业务数据。
 
 ### Q7：`useQuery` 和 `useMutation` 的数据怎么缓存和刷新？
 
@@ -625,6 +635,25 @@ tRPC 本身几乎没有性能开销——它本质上就是把函数调用序列
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L4 里程碑](../../projects/atlas/milestones/L4.md)
+- 本课任务：按 L4 里程碑把“tRPC 端到端类型安全”接入 Atlas 全栈版本，明确服务端信任边界、数据契约、失败响应和回滚方式。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 tRPC 的核心价值是**用 TypeScript 类型消除前后端之间的人为同步成本**：
@@ -638,3 +667,9 @@ tRPC 的核心价值是**用 TypeScript 类型消除前后端之间的人为同�
 tRPC 不代表要抛弃 REST，它们是互补关系：**内部用 tRPC（类型安全），外部用 REST（通用兼容）**。对于前后端都是 TypeScript 的全栈项目，tRPC 是目前开发体验最好的方案。
 
 下一节我们将学习数据校验与错误处理，深入 Zod 的高级用法和全链路错误处理模式。
+
+<!-- course-nav:start -->
+---
+
+[上一篇：01-RESTful 设计规范](./01-RESTful设计规范.md) · [课程地图](../../README.md) · [下一篇：03-数据校验与错误处理](./03-数据校验与错误处理.md)
+<!-- course-nav:end -->

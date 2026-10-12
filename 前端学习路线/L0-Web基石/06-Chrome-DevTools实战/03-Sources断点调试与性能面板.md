@@ -1,5 +1,15 @@
 # 03 — Sources 断点调试与 Console 进阶
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L0 Web 基石
+> - 先修：[02 — Network 面板与性能分析](./02-Network面板与性能分析.md)
+> - 建议用时：90-150 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[Chrome DevTools](https://developer.chrome.com/docs/devtools/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 掌握 Sources 面板的文件树导航和工作区（Workspace）映射
@@ -726,6 +736,25 @@ document.getElementById('load-btn').addEventListener('click', loadTodos);
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L0 里程碑](../../projects/atlas/milestones/L0.md)
+- 本课任务：在 Atlas 中构造与“Sources 断点调试与 Console 进阶”相关的可观察场景，使用 DevTools 或请求日志记录现象、时间线和结论。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - Sources 面板不只是看代码的地方，**Workspace 映射**让你在 DevTools 中改代码并直接保存到本地文件
@@ -734,3 +763,9 @@ document.getElementById('load-btn').addEventListener('click', loadTodos);
 - Console 不只是 `console.log` 的天下——**console.table、console.group、console.time、$0-$4** 让你在排查问题时少写很多代码
 - **Snippets** 是你的浏览器内置脚本工具箱，常用操作写一次，多次复用
 - Application 面板让你不再"盲"着操作本地存储：Cookie、LocalStorage、SessionStorage、IndexedDB 一目了然，双击即可编辑
+
+<!-- course-nav:start -->
+---
+
+[上一篇：02 — Network 面板与性能分析](./02-Network面板与性能分析.md) · [课程地图](../../README.md) · [下一篇：00 控制流、数组、对象与常用内置对象](../../L1-JavaScript与TypeScript/01-JavaScript语法核心/00-控制流-数组-对象与常用内置对象.md)
+<!-- course-nav:end -->

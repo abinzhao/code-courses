@@ -1,5 +1,15 @@
 # 01 — React Router 数据加载与嵌套路由
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L2 前端框架与组件化
+> - 先修：[04 — 服务端状态与 TanStack Query](../04-状态管理/04-服务端状态与TanStack-Query.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[React](https://react.dev/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解前端路由的本质：Hash 模式 vs History 模式的区别与适用场景
@@ -739,6 +749,25 @@ React Router 本身不负责状态持久化。你需要把关键数据存到 `lo
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L2 里程碑](../../projects/atlas/milestones/L2.md)
+- 本课任务：按 L2 里程碑把“React Router 数据加载与嵌套路由”应用到 Atlas 组件化版本，明确组件 API、状态归属、加载与错误状态，并添加行为测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - **路由本质**：SPA 通过监听 URL 变化切换内容，Hash 模式不需要服务器配置，History 模式 URL 更干净但需要服务器 fallback。
@@ -747,3 +776,9 @@ React Router 本身不负责状态持久化。你需要把关键数据存到 `lo
 - **懒加载**：`React.lazy(() => import('...'))` + `<Suspense fallback={...}>` 降低首屏 JS 体积。
 - **loader / action 模式**：把数据请求从组件移回路由层，组件直接拿数据，告别手动 loading 管理。
 - **避坑核心**：History 模式要配 Nginx fallback、useParams 返回值是字符串、navigate 不能放 render 里、createBrowserRouter 要配 RouterProvider。
+
+<!-- course-nav:start -->
+---
+
+[上一篇：04 — 服务端状态与 TanStack Query](../04-状态管理/04-服务端状态与TanStack-Query.md) · [课程地图](../../README.md) · [下一篇：02 — Vue Router 导航守卫与懒加载](./02-Vue-Router-导航守卫与懒加载.md)
+<!-- course-nav:end -->

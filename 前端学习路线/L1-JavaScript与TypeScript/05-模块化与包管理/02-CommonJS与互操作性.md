@@ -1,5 +1,15 @@
 # 02 CommonJS 与互操作性
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L1 JavaScript 与 TypeScript
+> - 先修：[01 ESM 规范与动态导入](./01-ESM规范与动态导入.md)
+> - 建议用时：120-180 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[TypeScript](https://www.typescriptlang.org/docs/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 CommonJS 的加载、执行和缓存机制
@@ -555,6 +565,28 @@ CommonJS 对 JSON 有历史兼容行为；ESM 更强调显式模块类型和安�
 - 不允许业务代码直接引用 `dist` 内部文件。
 - 至少测试一次默认导入、具名导入和入口不存在时的错误提示。
 
+
+---
+
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L1 里程碑](../../projects/atlas/milestones/L1.md)
+- 本课任务：把“CommonJS 与互操作性”落实为 Atlas 中可独立导入的模块或纯函数，补充正常、边界、异常三类自动测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - CommonJS 通过 `require()` 运行时同步加载模块，`module.exports` 是真正的导出值。
@@ -563,3 +595,9 @@ CommonJS 对 JSON 有历史兼容行为；ESM 更强调显式模块类型和安�
 - ESM 调用 CommonJS 通常使用默认导入；CommonJS 调用 ESM 通常使用动态 `import()`。
 - `exports` 条件可以让一个包同时服务 ESM 和 CommonJS，但要警惕双包导致的重复实例。
 - 互操作性问题的根因通常来自模块类型、导出形态、入口条件和运行环境，而不是某一行 import 写法。
+
+<!-- course-nav:start -->
+---
+
+[上一篇：01 ESM 规范与动态导入](./01-ESM规范与动态导入.md) · [课程地图](../../README.md) · [下一篇：03 pnpm 与 Monorepo 入门](./03-pnpm与Monorepo入门.md)
+<!-- course-nav:end -->

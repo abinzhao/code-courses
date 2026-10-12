@@ -1,5 +1,15 @@
 # 04 — AbortController 与并发控制
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L1 JavaScript 与 TypeScript
+> - 先修：[03 — async/await 原理与实践](./03-async-await原理与实践.md)
+> - 建议用时：120-180 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[TypeScript](https://www.typescriptlang.org/docs/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 AbortController 和 AbortSignal 是什么，为什么需要它们
@@ -513,6 +523,25 @@ function createResumableUpload(file, uploadUrl, chunkSize = 1024 * 1024, onProgr
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L1 里程碑](../../projects/atlas/milestones/L1.md)
+- 本课任务：把“AbortController 与并发控制”落实为 Atlas 中可独立导入的模块或纯函数，补充正常、边界、异常三类自动测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - `AbortController` 让异步操作可以被主动取消——不再被动等待
@@ -522,3 +551,9 @@ function createResumableUpload(file, uploadUrl, chunkSize = 1024 * 1024, onProgr
 - 竞态条件的本质是"旧结果覆盖新结果"，AbortController 可以真正取消旧请求
 - 搜索建议输入框 = debounce（防抖）+ AbortController（取消旧请求），是前端最高频的组合模式
 - 复用 AbortController 会出错：每次新请求都必须创建新的实例
+
+<!-- course-nav:start -->
+---
+
+[上一篇：03 — async/await 原理与实践](./03-async-await原理与实践.md) · [课程地图](../../README.md) · [下一篇：01-迭代器与生成器](../03-JavaScript进阶机制/01-迭代器与生成器.md)
+<!-- course-nav:end -->

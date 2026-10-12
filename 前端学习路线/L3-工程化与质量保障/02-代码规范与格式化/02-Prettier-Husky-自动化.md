@@ -1,5 +1,15 @@
 # 02 Prettier + Husky 自动化流水线
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L3 工程化与质量保障
+> - 先修：[01 ESLint Flat Config 配置](./01-ESLint-Flat-Config配置.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[Prettier](https://prettier.io/docs/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 Prettier 的 Opinionated 设计哲学及其与 ESLint 的分工边界
@@ -172,7 +182,7 @@ export default [
 ];
 ```
 
-> **铁律**：`eslint-config-prettier`（即 `prettierConfig`）永远放在 export default 数组的**最后一个元素**，这样它才能覆盖前面所有配置可能引入的格式规则。
+> **顺序规则**：Flat Config 后面的配置会覆盖前面的配置，因此 `prettierConfig` 应放在所有需要关闭格式规则的配置之后，通常就是数组末尾。如果后面又追加配置，要确认没有重新启用与 Prettier 冲突的规则，并用 `eslint-config-prettier` 检查。
 
 #### 3.3 验证集成是否正确
 
@@ -552,6 +562,25 @@ git commit --no-verify -m "wip: 临时保存"
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L3 里程碑](../../projects/atlas/milestones/L3.md)
+- 本课任务：把“Prettier + Husky 自动化流水线”接入 Atlas 工程链路，形成可重复命令和失败门禁，并保存一次故意失败与恢复的证据。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - Prettier 的理念是 **Opinionated**——少配置、少争议，把精力留给真正重要的事
@@ -562,3 +591,9 @@ git commit --no-verify -m "wip: 临时保存"
 - `pre-commit` Hook 触发 lint-staged，`commit-msg` Hook 触发 commitlint
 - Conventional Commits 格式：`type(scope): subject`，支持自动生成 CHANGELOG 和版本号
 - VS Code 的 `.vscode/settings.json` 和 `extensions.json` 提交到仓库，全团队自动受益
+
+<!-- course-nav:start -->
+---
+
+[上一篇：01 ESLint Flat Config 配置](./01-ESLint-Flat-Config配置.md) · [课程地图](../../README.md) · [下一篇：01 — 分支策略与工作流](../03-Git协作流/01-分支策略与工作流.md)
+<!-- course-nav:end -->

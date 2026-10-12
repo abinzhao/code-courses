@@ -1,5 +1,15 @@
 # 03 进阶 Hooks：useReducer、useMemo、useCallback 等
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L2 前端框架与组件化
+> - 先修：[02 Hooks 核心：useState 与 useEffect 深度解析](./02-Hooks核心-useState-useEffect.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[React](https://react.dev/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 掌握 `useReducer` 的用法，知道什么时候用它替代多个 `useState`
@@ -184,10 +194,10 @@ function Parent() {
 function Parent() {
   const [count, setCount] = useState(0);
 
-  // useCallback 保证 handleClick 引用不变（依赖数组为空）
+  // 在依赖未变化且 React 未丢弃缓存时复用函数引用
   const handleClick = useCallback(() => {
     console.log('clicked');
-  }, []); // 空依赖 → 引用永远不变
+  }, []);
 
   // 如果需要读取最新的 count
   const handleClickWithCount = useCallback(() => {
@@ -556,6 +566,25 @@ React 内部保证 `dispatch` 函数在组件整个生命周期内引用不变�
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L2 里程碑](../../projects/atlas/milestones/L2.md)
+- 本课任务：按 L2 里程碑把“进阶 Hooks：useReducer、useMemo、useCallback 等”应用到 Atlas 组件化版本，明确组件 API、状态归属、加载与错误状态，并添加行为测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - `useReducer` 是复杂状态逻辑的最佳容器，reducer 是纯函数，天然可测试
@@ -565,3 +594,9 @@ React 内部保证 `dispatch` 函数在组件整个生命周期内引用不变�
 - `useImperativeHandle` 暴露子组件方法，但应优先使用 props + state
 - `useLayoutEffect` 同步执行在绘制前，`useEffect` 异步执行在绘制后
 - `useDeferredValue` / `useTransition` 是 React 并发特性的入口，标记非紧急更新
+
+<!-- course-nav:start -->
+---
+
+[上一篇：02 Hooks 核心：useState 与 useEffect 深度解析](./02-Hooks核心-useState-useEffect.md) · [课程地图](../../README.md) · [下一篇：04 Server Components 与 Server Actions](./04-Server-Components与Server-Actions.md)
+<!-- course-nav:end -->

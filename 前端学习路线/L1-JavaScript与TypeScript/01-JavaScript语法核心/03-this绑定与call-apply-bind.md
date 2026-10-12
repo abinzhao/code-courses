@@ -1,5 +1,15 @@
 # 03 JavaScript this 绑定与 call/apply/bind
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L1 JavaScript 与 TypeScript
+> - 先修：[02 JavaScript 函数、作用域与闭包](./02-函数-作用域-闭包.md)
+> - 建议用时：120-180 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[TypeScript](https://www.typescriptlang.org/docs/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 掌握 `this` 的 4 种绑定规则及其优先级
@@ -481,6 +491,25 @@ debouncedSend.call(tracker, '事件C');
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L1 里程碑](../../projects/atlas/milestones/L1.md)
+- 本课任务：把“JavaScript this 绑定与 call/apply/bind”落实为 Atlas 中可独立导入的模块或纯函数，补充正常、边界、异常三类自动测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - **4 种绑定规则**：默认（全局/undefined）→ 隐式（对象调用）→ 显式（call/apply/bind）→ new
@@ -490,4 +519,8 @@ debouncedSend.call(tracker, '事件C');
 - **this 丢失**：函数从对象"摘下来"就丢绑定 → 用箭头函数或 bind 解决
 - **手写 bind**：核心理念是返回一个用 `apply` 桥接的新函数，同时处理 `new` 场景和原型链
 
-下一步：[04 原型链与继承](./04-原型链与继承.md)
+<!-- course-nav:start -->
+---
+
+[上一篇：02 JavaScript 函数、作用域与闭包](./02-函数-作用域-闭包.md) · [课程地图](../../README.md) · [下一篇：04 JavaScript 原型链与继承](./04-原型链与继承.md)
+<!-- course-nav:end -->

@@ -1,5 +1,15 @@
 # 03 pnpm 与 Monorepo 入门
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L1 JavaScript 与 TypeScript
+> - 先修：[02 CommonJS 与互操作性](./02-CommonJS与互操作性.md)
+> - 建议用时：120-180 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[TypeScript](https://www.typescriptlang.org/docs/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解包管理器、依赖图和 lockfile 的作用
@@ -674,6 +684,28 @@ pnpm --filter @atlas/web dev
 
 验收标准是：一个只修改文档的 PR 不触发全量构建；一个修改共享 UI 的 PR 能覆盖所有消费者应用。
 
+
+---
+
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L1 里程碑](../../projects/atlas/milestones/L1.md)
+- 本课任务：把“pnpm 与 Monorepo 入门”落实为 Atlas 中可独立导入的模块或纯函数，补充正常、边界、异常三类自动测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - pnpm 通过 lockfile、内容寻址存储和严格依赖结构提高安装一致性和磁盘利用率。
@@ -681,3 +713,9 @@ pnpm --filter @atlas/web dev
 - `workspace:*`、`pnpm --filter` 和递归脚本是日常工作流的三个关键工具。
 - 生产项目应明确源码、构建产物、公共入口和发布版本之间的关系。
 - 当共享代码和协同变更带来的收益超过仓库治理成本时，Monorepo 才是合理选择。
+
+<!-- course-nav:start -->
+---
+
+[上一篇：02 CommonJS 与互操作性](./02-CommonJS与互操作性.md) · [课程地图](../../README.md) · [下一篇：01 JSX、组件、Props 与 State](../../L2-前端框架与组件化/01-React-19-核心/01-JSX-组件-Props-State.md)
+<!-- course-nav:end -->

@@ -1,5 +1,15 @@
 # 03 — DNS、TCP、TLS 握手过程
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L0 Web 基石
+> - 先修：[02 — 缓存策略与 CDN](./02-缓存策略与CDN.md)
+> - 建议用时：90-150 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[HTTP Semantics](https://httpwg.org/specs/rfc9110.html)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 DNS 解析的完整流程，以及每一层 DNS 缓存的作用
@@ -462,6 +472,25 @@ HTTP/3 基于 QUIC（UDP），不需要 TCP 三次握手。但 QUIC 内置了 TL
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L0 里程碑](../../projects/atlas/milestones/L0.md)
+- 本课任务：在 Atlas 中构造与“DNS、TCP、TLS 握手过程”相关的可观察场景，使用 DevTools 或请求日志记录现象、时间线和结论。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - DNS 解析是"域名 → IP"的翻译过程，每一层都有缓存加速
@@ -471,3 +500,9 @@ HTTP/3 基于 QUIC（UDP），不需要 TCP 三次握手。但 QUIC 内置了 TL
 - 一次 HTTPS 请求 = DNS → TCP → TLS → HTTP → 渲染
 - `dns-prefetch` 提前解析域名，`preconnect` 提前建好全链路
 - Chrome Timing 面板是分析请求性能的第一手工具
+
+<!-- course-nav:start -->
+---
+
+[上一篇：02 — 缓存策略与 CDN](./02-缓存策略与CDN.md) · [课程地图](../../README.md) · [下一篇：01 — Elements 与 Styles 调试](../06-Chrome-DevTools实战/01-Elements与Styles调试.md)
+<!-- course-nav:end -->

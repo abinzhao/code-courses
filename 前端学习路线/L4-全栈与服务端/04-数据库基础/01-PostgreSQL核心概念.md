@@ -1,5 +1,15 @@
 # 01 PostgreSQL 核心概念
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L4 全栈与服务端
+> - 先修：[03-数据校验与错误处理](../03-API设计与数据层/03-数据校验与错误处理.md)
+> - 建议用时：180-300 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[PostgreSQL 18](https://www.postgresql.org/docs/18/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解关系型数据库的核心概念：表、行、列、主键、外键、索引、视图
@@ -467,15 +477,15 @@ SELECT * FROM category_tree ORDER BY depth, id;
 | `TEXT` | 无长度限制的文本 | 文章内容、Markdown |
 | `VARCHAR(n)` | 有长度限制的变长字符串 | 用户名、标题、邮箱 |
 | `BOOLEAN` | true / false / null | 开关状态、是否删除 |
-| `TIMESTAMP` | 日期时间（无时区） | ⚠️ 不推荐，用 TIMESTAMPTZ |
-| `TIMESTAMPTZ` | 日期时间（带时区） | 创建时间、更新时间（推荐） |
+| `TIMESTAMP` | 不绑定具体时区的日期时间 | 每天 09:00、门店营业时间等“墙上时间” |
+| `TIMESTAMPTZ` | 表示时间线上的确定时刻 | 创建时间、更新时间、审计事件 |
 | `UUID` | 全局唯一标识符 | 分布式系统的主键 |
 | `JSONB` | 二进制 JSON，支持索引 | 灵活的动态字段、配置数据 |
 | `DECIMAL(p,s)` | 精确小数 | 金额、价格（不能用 FLOAT） |
 
 > **避坑提示**：
 > 1. **金额千万别用 FLOAT**——`0.1 + 0.2 != 0.3` 的浮点精度问题会算错钱。用 `DECIMAL(10,2)` 或整数存"分"。
-> 2. **TIMESTAMP vs TIMESTAMPTZ**：永远用 `TIMESTAMPTZ`。不带时区的时间存储会丢失时区信息，导致跨时区时时间对不上。PostgreSQL 内部始终以 UTC 存储 TIMESTAMPTZ，展示时按会话时区转换。
+> 2. **TIMESTAMP vs TIMESTAMPTZ**：表示真实发生时刻时优先用 `TIMESTAMPTZ`，输入会换算为 UTC，输出按会话时区转换；它不会保留原始时区名称。表示与具体时区无关的本地日期时间时可以用 `TIMESTAMP`。跨地区日程若还要保留“America/New_York”等规则，通常需另存 IANA 时区标识。
 
 ---
 
@@ -640,6 +650,25 @@ CREATE INDEX idx_post_tags_tag_id ON post_tags(tag_id);
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L4 里程碑](../../projects/atlas/milestones/L4.md)
+- 本课任务：按 L4 里程碑把“PostgreSQL 核心概念”接入 Atlas 全栈版本，明确服务端信任边界、数据契约、失败响应和回滚方式。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - **关系型数据库**的核心是表/行/列，数据有严格的结构约束（schema）
@@ -649,3 +678,9 @@ CREATE INDEX idx_post_tags_tag_id ON post_tags(tag_id);
 - **CTE（WITH）** 让复杂查询可读可维护，递归 CTE 能处理树形数据
 - **数据类型选择**直接影响数据正确性：金额用 DECIMAL，时间用 TIMESTAMPTZ
 - **索引**是用空间换时间——现在只需要知道它的存在，第三篇会深入
+
+<!-- course-nav:start -->
+---
+
+[上一篇：03-数据校验与错误处理](../03-API设计与数据层/03-数据校验与错误处理.md) · [课程地图](../../README.md) · [下一篇：02 Prisma ORM 实战](./02-Prisma-ORM实战.md)
+<!-- course-nav:end -->

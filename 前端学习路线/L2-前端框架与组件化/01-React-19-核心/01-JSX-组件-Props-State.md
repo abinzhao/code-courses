@@ -1,5 +1,15 @@
 # 01 JSX、组件、Props 与 State
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L2 前端框架与组件化
+> - 先修：[03 pnpm 与 Monorepo 入门](../../L1-JavaScript与TypeScript/05-模块化与包管理/03-pnpm与Monorepo入门.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[React](https://react.dev/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 JSX 的本质：它不是 HTML，而是 `React.createElement` 的语法糖
@@ -215,7 +225,7 @@ const handleClick = () => {
 };
 ```
 
-> **避坑提示**：如果你基于当前 state 计算新 state，**永远用函数式更新**，否则闭包陷阱会给你意想不到的结果。
+> **避坑提示**：当下一个 state 依赖上一个 state，尤其是同一事件中连续更新或异步回调更新时，使用函数式更新。直接设置一个与旧值无关的常量或事件输入值时，不需要强行写成函数。
 
 #### 4.3 不可变更新
 
@@ -522,12 +532,37 @@ React 控制台会报 `Encountered two children with the same key` 警告。Reac
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L2 里程碑](../../projects/atlas/milestones/L2.md)
+- 本课任务：按 L2 里程碑把“JSX、组件、Props 与 State”应用到 Atlas 组件化版本，明确组件 API、状态归属、加载与错误状态，并添加行为测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
-- JSX 是 `React.createElement` 的语法糖，编译产物是一棵 VNode 树
-- 函数组件 = 返回 JSX 的纯函数，Props 是只读的
-- `useState` 返回 `[value, setter]`，setter 的更新是异步批处理的
-- 不可变更新是 React 的基石：永远创建新值，不要修改原值
+- JSX 会被编译为 JSX runtime 调用并产生 React element 描述
+- React 要求组件渲染保持纯净，Props 是只读的
+- `useState` 返回 `[value, setter]`；setter 将更新加入队列，当前渲染中的 state 不会立即改变
+- 更新对象或数组 state 时创建新引用，不直接修改现有 state
 - 条件渲染首选三元，注意 `&&` 的 0 陷阱
-- 列表渲染必须给稳定唯一的 `key`，永远别用 `index`
+- 列表渲染要给同级元素稳定的 `key`；只有列表固定且不会插入、删除、排序时才考虑用 `index`
 - 事件传参用箭头函数包裹，不要直接调用
+
+<!-- course-nav:start -->
+---
+
+[上一篇：03 pnpm 与 Monorepo 入门](../../L1-JavaScript与TypeScript/05-模块化与包管理/03-pnpm与Monorepo入门.md) · [课程地图](../../README.md) · [下一篇：02 Hooks 核心：useState 与 useEffect 深度解析](./02-Hooks核心-useState-useEffect.md)
+<!-- course-nav:end -->

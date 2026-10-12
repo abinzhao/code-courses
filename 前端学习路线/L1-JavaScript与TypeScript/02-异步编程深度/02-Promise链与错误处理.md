@@ -1,5 +1,15 @@
 # 02 — Promise 链与错误处理
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L1 JavaScript 与 TypeScript
+> - 先修：[01 — 事件循环与任务队列](./01-事件循环与任务队列.md)
+> - 建议用时：120-180 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[TypeScript](https://www.typescriptlang.org/docs/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 Promise 的本质：一个代表未来值的容器
@@ -434,6 +444,25 @@ batchRequest(urls, 3).then(results => console.log('全部完成', results));
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L1 里程碑](../../projects/atlas/milestones/L1.md)
+- 本课任务：把“Promise 链与错误处理”落实为 Atlas 中可独立导入的模块或纯函数，补充正常、边界、异常三类自动测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - Promise 是异步操作的容器，状态从 pending 变为 fulfilled 或 rejected 后不可逆
@@ -442,3 +471,9 @@ batchRequest(urls, 3).then(results => console.log('全部完成', results));
 - `Promise.all` 用于"全部成功才继续"，`Promise.allSettled` 用于"需要知道每个的结果"
 - `Promise.race` 适合超时控制，`Promise.any` 适合多备用源取最快成功的
 - 带超时和重试的请求是生产环境中几乎必用的模式
+
+<!-- course-nav:start -->
+---
+
+[上一篇：01 — 事件循环与任务队列](./01-事件循环与任务队列.md) · [课程地图](../../README.md) · [下一篇：03 — async/await 原理与实践](./03-async-await原理与实践.md)
+<!-- course-nav:end -->

@@ -1,5 +1,15 @@
 # 01-Design Tokens 与 DTCG 规范
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L5 架构与纵深能力
+> - 先修：[02-RUM 性能监控与埋点](../04-可观测性/02-RUM性能监控与埋点.md)
+> - 建议用时：180-300 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[W3C Design Tokens](https://www.designtokens.org/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解设计系统的三大分层（Tokens → Components → Patterns）及其协作关系
@@ -707,6 +717,25 @@ Style Dictionary 可以在一个配置中同时输出两套主题的 CSS 变量�
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L5 里程碑](../../projects/atlas/milestones/L5.md)
+- 本课任务：按 L5 里程碑在 Atlas 中建立“Design Tokens 与 DTCG 规范”的可量化基线、改进方案、前后证据和长期治理规则。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 Design Tokens 不是"把颜色常量放到 JSON 里"这么简单。它的核心价值在于三点：
@@ -716,3 +745,9 @@ Design Tokens 不是"把颜色常量放到 JSON 里"这么简单。它的核心�
 3. **自动化**：通过 Style Dictionary 将 Token 定义自动转换为各平台产物，消除手工翻译的错误和不一致
 
 从架构视角看，Token 体系是设计系统的地基。地基不稳，之上建的组件库和页面模式就会不断出现"这里颜色怎么和设计稿不一样"的问题。先花半天建好 Token 体系，后面组件库的开发效率会成倍提升。
+
+<!-- course-nav:start -->
+---
+
+[上一篇：02-RUM 性能监控与埋点](../04-可观测性/02-RUM性能监控与埋点.md) · [课程地图](../../README.md) · [下一篇：02-组件库搭建与 Storybook](./02-组件库搭建与Storybook.md)
+<!-- course-nav:end -->

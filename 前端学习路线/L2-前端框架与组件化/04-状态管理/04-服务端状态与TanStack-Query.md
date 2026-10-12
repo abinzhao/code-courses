@@ -1,5 +1,15 @@
 # 04 — 服务端状态与 TanStack Query
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L2 前端框架与组件化
+> - 先修：[03 — Pinia 实战指南](./03-Pinia实战指南.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[MDN Web Docs](https://developer.mozilla.org/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 分清客户端状态和服务端状态的根本区别
@@ -697,16 +707,16 @@ A：不会。TanStack Query 内部会去重——相同的 queryKey，只要第�
 A：在 onMutate 中保存旧数据快照，在 onError 中用 `queryClient.setQueryData(key, context.previous)` 回滚缓存，同时在 onSettled 中 `invalidateQueries` 以确保最终与服务端一致。上面的代码示例已经是完整的三步。
 
 **Q5：查询键里放对象会不会导致无限重新请求？**
-A：QueryKey 用严格的引用比较。如果对象是每次渲染新建的（`{ category: 'elec' }`），每次都是新的引用，Query 会认为 key 变了。解决方案：要么把对象的引用稳定下来（useMemo），要么把值拆成基本类型：`['products', category]`。
+A：不会仅因为对象引用变化就重新请求。TanStack Query 会对可序列化的 queryKey 做确定性哈希，因此 `['products', { category: 'elec' }]` 在对象值相同时会得到相同键，对象属性顺序也不影响结果；数组项的顺序则会影响。避免把函数、DOM 节点等不可稳定序列化的值放进查询键，并把所有会改变查询结果的参数都纳入键。
 
 **Q6：useInfiniteQuery 和传统分页怎么选？**
 A：移动端 / 社交媒体式"下拉加载更多"→ useInfiniteQuery；后台管理系统式"页码 + 上一页/下一页" → useQuery + placeholderData: keepPreviousData。前者适合探索式浏览，后者适合精确定位。
 
 **Q7：Vue Query 和 React Query 的 API 有差异吗？**
-A：核心 API 100% 一致。区别在于 Vue 中 queryKey 可以放 ref/computedRef（自动追踪），以及 mutation 的 `isPending`、`isSuccess` 等是 ComputedRef，template 中自动解包，script 中需要 `.value`。
+A：两者共享 query、mutation、缓存失效等核心概念，但框架适配层的包名、响应式类型、选项签名和版本迁移细节并非完全一致。Vue Query 的 queryKey 可包含 `ref`/`computedRef` 并自动追踪，返回状态通常是 Ref/ComputedRef；template 中会自动解包，script 中需要 `.value`。跨框架迁移时要核对对应版本文档和类型定义。
 
 **Q8：已经用了 Redux，还需要 TanStack Query 吗？**
-A：如果用了 Redux Toolkit 的 RTK Query，功能上覆盖了 TanStack Query（都是服务端状态缓存）。如果不是 RTK Query，那还是要的——Redux 管理服务端状态需要手写大量 boilerplate。或者直接迁移到 RTK Query 也是一种选择。
+A：不一定。如果已经使用 RTK Query，通常不必再引入另一套服务端缓存。普通 Redux 也能管理请求状态，但需要自行设计缓存、去重、失效和重试；当这些成本变高时，再评估 TanStack Query 或迁移到 RTK Query，避免在同一数据域并存两套缓存。
 
 ---
 
@@ -738,6 +748,25 @@ A：如果用了 Redux Toolkit 的 RTK Query，功能上覆盖了 TanStack Query
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L2 里程碑](../../projects/atlas/milestones/L2.md)
+- 本课任务：按 L2 里程碑把“服务端状态与 TanStack Query”应用到 Atlas 组件化版本，明确组件 API、状态归属、加载与错误状态，并添加行为测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 | 要点 | 一句话 |
@@ -749,3 +778,9 @@ A：如果用了 Redux Toolkit 的 RTK Query，功能上覆盖了 TanStack Query
 | 分页 | useInfiniteQuery（无限滚动）或 useQuery + keepPreviousData（传统分页） |
 | React vs Vue | API 一致，Vue 版 queryKey 支持 ComputedRef 自动追踪 |
 | 架构建议 | TanStack Query（服务端） + Zustand/Pinia（客户端）= 黄金组合 |
+
+<!-- course-nav:start -->
+---
+
+[上一篇：03 — Pinia 实战指南](./03-Pinia实战指南.md) · [课程地图](../../README.md) · [下一篇：01 — React Router 数据加载与嵌套路由](../05-路由与导航/01-React-Router-数据加载与嵌套路由.md)
+<!-- course-nav:end -->

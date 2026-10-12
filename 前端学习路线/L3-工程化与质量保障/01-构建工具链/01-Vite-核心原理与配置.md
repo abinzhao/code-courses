@@ -1,5 +1,15 @@
 # 01-Vite 核心原理与配置
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L3 工程化与质量保障
+> - 先修：[02 — Vue Router 导航守卫与懒加载](../../L2-前端框架与组件化/05-路由与导航/02-Vue-Router-导航守卫与懒加载.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[Vite](https://vite.dev/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 Vite 基于 ESM 的开发模式设计哲学
@@ -425,6 +435,25 @@ export default defineConfig({
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L3 里程碑](../../projects/atlas/milestones/L3.md)
+- 本课任务：把“Vite 核心原理与配置”接入 Atlas 工程链路，形成可重复命令和失败门禁，并保存一次故意失败与恢复的证据。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 Vite 通过「开发用 esbuild 按需编译 + 生产用 Rollup 完整打包」的双引擎架构，解决了传统打包工具开发体验和构建产出的矛盾。你需要重点掌握：
@@ -435,3 +464,9 @@ Vite 通过「开发用 esbuild 按需编译 + 生产用 Rollup 完整打包」�
 4. **alias 配置需要 tsconfig.json 同步**，这是新人最容易踩的坑
 
 下一节我们将深入 Rspack 和 Webpack，理解传统打包工具的设计思路和现代演进。
+
+<!-- course-nav:start -->
+---
+
+[上一篇：02 — Vue Router 导航守卫与懒加载](../../L2-前端框架与组件化/05-路由与导航/02-Vue-Router-导航守卫与懒加载.md) · [课程地图](../../README.md) · [下一篇：02-Rspack 与 Webpack 对比](./02-Rspack与Webpack对比.md)
+<!-- course-nav:end -->

@@ -1,0 +1,14 @@
+{
+  "name": "frontend-learning-route",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22 <25"
+  },
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "validate:strict": "node scripts/validate.mjs --strict",
+    "atlas:start": "npm --prefix projects/atlas start",
+    "atlas:test": "npm --prefix projects/atlas test"
+  }
+}

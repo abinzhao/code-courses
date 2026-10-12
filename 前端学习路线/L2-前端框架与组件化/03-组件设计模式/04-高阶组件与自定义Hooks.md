@@ -1,5 +1,15 @@
 # 高阶组件与自定义 Hooks
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L2 前端框架与组件化
+> - 先修：[Compound Components 模式](./03-Compound-Components模式.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[MDN Web Docs](https://developer.mozilla.org/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解高阶组件（HOC）的经典应用场景：日志注入、权限控制、Loading 包裹
@@ -653,7 +663,7 @@ export function useFetch(key, fetcher, options = {}) {
 - **少写了依赖**：闭包捕获了过期值，逻辑判断基于旧状态
 - **多写了依赖**：effect 执行次数超过必要，可能造成死循环
 
-使用 `eslint-plugin-react-hooks` 的 `exhaustive-deps` 规则可以自动检测依赖缺失。永远不要用 `// eslint-disable-next-line` 禁用它。
+使用 `eslint-plugin-react-hooks` 的 `exhaustive-deps` 规则检测依赖缺失。先通过拆分 Effect、函数式更新、把非响应式逻辑移出组件或使用 Effect Event 等方式消除警告；确有外部系统订阅等特殊约束时，才做最小范围禁用，并写明依赖为何故意固定以及如何验证。
 
 **Q3：为什么 useEventListener 用 ref 存 handler 而不是直接传？**
 
@@ -661,7 +671,7 @@ export function useFetch(key, fetcher, options = {}) {
 
 **Q4：Vue Composable 和 React Hook 哪个更容易写出 bug？**
 
-React Hook 的闭包陷阱和依赖数组是常见出 bug 的地方。Vue Composable 因为自动依赖追踪，这类问题几乎不存在。但 Vue 的 `ref` `.value` 包裹和 `reactive` 的解构限制也有自己的心智负担。两个框架各有坑点，没有绝对的「更好写」。
+React Hook 的闭包和依赖数组是常见缺陷来源。Vue Composable 会自动追踪同步执行期间读取的响应式依赖，减少手写依赖，但异步读取、失去响应性的解构和清理副作用仍可能出错。两个框架的风险位置不同，不能只凭依赖数组判断哪个更可靠。
 
 **Q5：useFetch 的缓存应该在模块级还是组件级？**
 
@@ -738,6 +748,25 @@ const { data: orders } = useFetch(
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L2 里程碑](../../projects/atlas/milestones/L2.md)
+- 本课任务：按 L2 里程碑把“高阶组件与自定义 Hooks”应用到 Atlas 组件化版本，明确组件 API、状态归属、加载与错误状态，并添加行为测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - **HOC** 是 React 早期逻辑复用的方案，本质是「包装组件返回新组件」
@@ -747,3 +776,9 @@ const { data: orders } = useFetch(
 - **Vue Composable** 与 React Hook 本质相同（抽取逻辑），差异在于响应式模型（自动追踪 vs 手动依赖）
 - **useFetch 的核心设计**：竞态保护（requestId）+ 缓存（模块级 Map）+ 重试（递归）+ refresh/retry 语义区分
 - **原则**：能用 Hook 解决的场景，绝不写 HOC
+
+<!-- course-nav:start -->
+---
+
+[上一篇：Compound Components 模式](./03-Compound-Components模式.md) · [课程地图](../../README.md) · [下一篇：01 — 状态提升与 Context 注入](../04-状态管理/01-状态提升与Context注入.md)
+<!-- course-nav:end -->

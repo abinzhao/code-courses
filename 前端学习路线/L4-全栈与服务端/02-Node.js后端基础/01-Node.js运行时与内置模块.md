@@ -1,5 +1,15 @@
 # 01-Node.js 运行时与内置模块
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L4 全栈与服务端
+> - 先修：[04 Proxy（旧称 Middleware）与 Route Handlers](../01-Next.js全栈框架/04-Proxy与Route-Handlers.md)
+> - 建议用时：180-300 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[Node.js](https://nodejs.org/docs/latest-v24.x/api/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 Node.js 的底层架构：V8 引擎 + libuv 事件循环
@@ -36,7 +46,7 @@ Node.js 不是一门语言，它是 **JavaScript 的服务器端运行时**。�
 - **V8**：Google 开发的高性能 JS 引擎，负责解析和执行 JavaScript 代码
 - **libuv**：跨平台的异步 I/O 库，提供事件循环（Event Loop）和线程池
 
-Node.js 的单线程指的是 **JavaScript 代码在单个主线程上执行**。但 I/O 操作（文件读写、网络请求）由 libuv 的线程池异步处理，不会阻塞 JS 线程。
+Node.js 的单线程指的是 **JavaScript 代码默认在单个主线程上执行**。异步网络 I/O 通常交给操作系统事件通知机制；文件系统、部分 DNS、压缩和密码学任务会使用 libuv 线程池。两条路径完成后都由事件循环调度回调，不能笼统地说“所有 I/O 都在线程池里运行”。
 
 ```javascript
 // 这段代码演示了 Node.js 的异步本质
@@ -53,16 +63,13 @@ console.log('2. 继续执行');
 // 输出顺序：1 → 2 → 3
 ```
 
-### 二、Node.js 事件循环的 6 个阶段
+### 二、Node.js 事件循环的主要阶段
 
-浏览器的事件循环只有 **宏任务队列** 和 **微任务队列** 两层。Node.js 的事件循环更精细，分为 6 个阶段，每个阶段维护一个 FIFO 回调队列：
+浏览器和 Node.js 都有任务与微任务调度，但浏览器还要协调渲染，Node.js 则由 libuv 组织多个阶段。下面是面向应用开发者的简化模型：
 
 ```
    ┌───────────────────────────┐
-┌─>│        timers（定时器）      │  setTimeout / setInterval 的回调
-│  └─────────────┬─────────────┘
-│  ┌─────────────┴─────────────┐
-│  │   pending callbacks（待定）  │  延迟到下一轮迭代的 I/O 回调（如 TCP 错误）
+┌─>│   pending callbacks（待定）  │  延迟到下一轮迭代的 I/O 回调（如 TCP 错误）
 │  └─────────────┬─────────────┘
 │  ┌─────────────┴─────────────┐
 │  │     idle, prepare（闲置）    │  内部使用，你接触不到
@@ -74,11 +81,13 @@ console.log('2. 继续执行');
 │  │        check（检查）         │  setImmediate 的回调在这里执行
 │  └─────────────┬─────────────┘
 │  ┌─────────────┴─────────────┐
-└──┤     close callbacks（关闭）   │  socket.on('close') 等关闭事件
+│  │     close callbacks（关闭）   │  socket.on('close') 等关闭事件
+│  └─────────────┬─────────────┘
+└──┤        timers（定时器）       │  Node.js 20+ 在 poll 之后运行到期定时器
    └───────────────────────────┘
 ```
 
-**每个阶段在执行完后、切换到下一阶段之前，都会清空微任务队列**（`process.nextTick` 回调和其他微任务如 `Promise.then`）。
+从 libuv 1.45 / Node.js 20 起，到期定时器主要在 `poll` 阶段之后运行；进程首次进入事件循环前仍可能先处理一次定时器。`process.nextTick` 队列在当前操作完成后优先处理，随后处理 Promise 微任务。不要把这张简图当作所有平台和所有上下文下的逐指令执行顺序。
 
 #### 关键对比：`process.nextTick` vs `setImmediate`
 
@@ -89,11 +98,13 @@ setImmediate(() => console.log('setImmediate'));
 process.nextTick(() => console.log('nextTick'));
 Promise.resolve().then(() => console.log('Promise'));
 
-// 输出：
+// 稳定部分：
 // nextTick        ← 微任务，当前阶段结束后立即执行
 // Promise         ← 微任务，排在 nextTick 之后
-// setTimeout      ← 进入 timers 阶段执行
-// setImmediate    ← 进入 check 阶段执行
+//
+// 不稳定部分：
+// 顶层代码中的 setTimeout 与 setImmediate 顺序受进程调度和运行上下文影响，
+// 两种顺序都可能出现，不能把其中一次运行结果写成固定规则。
 ```
 
 | 特性 | `process.nextTick` | `setImmediate` |
@@ -450,7 +461,7 @@ $ node cli-word-count.js ./前端学习路线
 
 ### Q1：`process.nextTick` 和 `Promise.then` 谁先执行？
 
-`process.nextTick` 先执行。Node.js 的微任务队列有两层：`nextTick` 队列优先级高于 `Promise` 队列。每执行完一个「宏任务阶段」，先清空所有 `nextTick`，再清空所有 Promise 微任务。
+在 CommonJS 顶层和普通回调中，当前操作完成后通常先处理 `nextTick` 队列，再处理 Promise 微任务。ES Module 顶层本身运行在异步模块求值上下文中，示例顺序可能不同；判断时必须注明 CJS/ESM 和调用位置。
 
 ### Q2：ESM 中怎么获取 `__dirname`？
 
@@ -464,7 +475,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 ### Q3：`fs.readFile` 和 `fs.createReadStream` 有什么区别？
 
-`readFile` 一次性把文件全部加载到内存，适合小文件（<100MB）。`createReadStream` 流式读取，逐块处理，适合大文件（下一节会详细讲 Stream）。
+`readFile` 一次性把完整内容保存在内存中；`createReadStream` 分块读取并支持背压。不存在通用的“100MB 安全线”，应根据并发数、容器内存、文件大小分布和处理方式确定阈值。
 
 ### Q4：`Buffer.alloc` 和 `Buffer.allocUnsafe` 怎么选？
 
@@ -476,7 +487,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 ### Q6：为什么 `setTimeout(fn, 0)` 不是真的 0ms？
 
-Node.js（和浏览器）的 `setTimeout` 有最小延迟限制：当嵌套层级 > 5 时，最小延迟为 4ms。`setTimeout(fn, 0)` 的实际延迟是 1ms（Node.js 的默认最小值）。
+Node.js 会把小于 `1`、大于 `2147483647` 或 `NaN` 的 delay 归一为 `1ms`。这只是允许执行的最早阈值，不是精确执行时间；事件循环中的其他工作仍会继续推迟回调。浏览器“嵌套定时器 4ms clamp”属于 HTML 规范，不能直接套到 Node.js。
 
 ### Q7：`path.resolve` 在生产配置中怎么用最安全？
 
@@ -534,14 +545,41 @@ node secret.js decrypt .env.enc .env
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L4 里程碑](../../projects/atlas/milestones/L4.md)
+- 本课任务：按 L4 里程碑把“Node.js 运行时与内置模块”接入 Atlas 全栈版本，明确服务端信任边界、数据契约、失败响应和回滚方式。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 Node.js 的核心竞争力来自「V8 执行 JS + libuv 驱动异步 I/O」的双引擎架构。你需要重点掌握：
 
-1. **事件循环 6 阶段**：timers → pending → idle/prepare → poll → check → close，每个阶段结束后清空微任务
-2. **`nextTick` 优先于 `Promise`**，两者都在每个宏任务阶段之间执行
+1. **事件循环阶段是简化模型**：Node.js 20+ 的定时器主要在 poll 之后运行，顺序还受调用上下文影响
+2. **`nextTick` 与 Promise 要结合 CJS/ESM 和调用位置分析**，不要背单一输出
 3. **`fs` 三种 API 风格**：新项目统一用 `fs/promises`
 4. **`path.join` 拼接、`path.resolve` 解析**，后者用 `__dirname` 做基准最安全
 5. **`Buffer` 是 Node.js 处理二进制的核心**，所有 I/O 操作底层都是 Buffer
 
 下一节我们将深入 Stream API，理解 Node.js 为何被称为「流式数据处理之王」。
+
+官方参考：[Node.js Event Loop](https://nodejs.org/learn/asynchronous-work/event-loop-timers-and-nexttick) · [Timers API](https://nodejs.org/api/timers.html)
+
+<!-- course-nav:start -->
+---
+
+[上一篇：04 Proxy（旧称 Middleware）与 Route Handlers](../01-Next.js全栈框架/04-Proxy与Route-Handlers.md) · [课程地图](../../README.md) · [下一篇：02-Stream API 与缓冲](./02-Stream-API与缓冲.md)
+<!-- course-nav:end -->

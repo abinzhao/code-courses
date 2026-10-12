@@ -1,5 +1,15 @@
 # 02 — Network 面板与性能分析
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L0 Web 基石
+> - 先修：[01 — Elements 与 Styles 调试](./01-Elements与Styles调试.md)
+> - 建议用时：90-150 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[Chrome DevTools](https://developer.chrome.com/docs/devtools/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 读懂 Network 面板的请求列表，能用过滤器快速筛选目标请求
@@ -460,6 +470,25 @@ Performance 录制后，看 FPS 线是否有明显下跌。如果有，在 Overv
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L0 里程碑](../../projects/atlas/milestones/L0.md)
+- 本课任务：在 Atlas 中构造与“Network 面板与性能分析”相关的可观察场景，使用 DevTools 或请求日志记录现象、时间线和结论。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - Network 面板是你理解"页面加载过程中发生了什么"的核心工具，**Timing 瀑布图**让每个请求的生命周期一览无余
@@ -469,3 +498,9 @@ Performance 录制后，看 FPS 线是否有明显下跌。如果有，在 Overv
 - Performance 面板的 **Flame Chart** 让你的性能瓶颈可视化，50ms 以上的长任务是需要重点消灭的对象
 - **FCP、LCP、TTI、TBT、CLS** 是五个最重要的用户体验指标，Lighthouse 会对它们做综合评分
 - Lighthouse 不只是打分，**Opportunities 和 Diagnostics** 才是最值得读的部分——它告诉你具体怎么改
+
+<!-- course-nav:start -->
+---
+
+[上一篇：01 — Elements 与 Styles 调试](./01-Elements与Styles调试.md) · [课程地图](../../README.md) · [下一篇：03 — Sources 断点调试与 Console 进阶](./03-Sources断点调试与性能面板.md)
+<!-- course-nav:end -->

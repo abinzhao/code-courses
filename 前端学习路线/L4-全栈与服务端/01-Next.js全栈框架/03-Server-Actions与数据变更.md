@@ -1,5 +1,15 @@
 # 03 Server Actions 与数据变更
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L4 全栈与服务端
+> - 先修：[02 SSR / ISR / PPR 渲染策略](./02-SSR-ISR-PPR渲染策略.md)
+> - 建议用时：180-300 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[Next.js](https://nextjs.org/docs)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 Server Actions 的概念：在服务端执行的异步函数
@@ -30,7 +40,7 @@ Server Actions 把这条链路简化成：
 用户在浏览器填表单 → <form action={serverAction}> → 服务端直接处理 → 自动更新 UI
 ```
 
-**核心思想**：表单就是 API。不需要手动写 fetch、useState 管理状态、try/catch 处理错误。Server Action 是一个标记了 `"use server"` 的异步函数，在服务端执行，但可以被客户端组件直接调用。
+**核心思想**：表单可以直接调用服务端函数，不再需要手写 `fetch` 请求层。Server Action 仍然是公开的网络入口，输入验证、身份认证、授权、错误映射和幂等性都不能省略。它是在服务端执行、可由 React 组件触发的异步 Server Function。
 
 ---
 
@@ -64,30 +74,33 @@ export async function deletePost(id: number) {
 }
 ```
 
-#### 2.2 方式二：函数级别（内联到组件文件）
+#### 2.2 方式二：函数级别（内联到服务端组件）
 
 ```tsx
-// app/components/CreatePostForm.tsx —— 客户端组件
-"use client";
+// app/posts/new/page.tsx —— 服务端组件
+import { revalidatePath } from 'next/cache';
 
-import { useActionState } from 'react';
-
-export function CreatePostForm() {
-  // 在客户端组件内部定义一个 Server Action
-  async function handleSubmit(prevState: any, formData: FormData) {
+export default function CreatePostPage() {
+  // 内联 Server Action 必须定义在服务端组件中
+  async function createPost(formData: FormData) {
     "use server";
-    // ↑ 函数体内的 "use server"：这个函数是 Server Action
+
     const title = formData.get('title') as string;
 
     if (!title || title.length < 3) {
-      return { error: '标题至少 3 个字符' };
+      throw new Error('标题至少 3 个字符');
     }
 
-    // 服务端操作...
-    return { success: true, message: '发布成功' };
+    await db.post.create({ data: { title } });
+    revalidatePath('/posts');
   }
 
-  // ...
+  return (
+    <form action={createPost}>
+      <input name="title" />
+      <button type="submit">创建文章</button>
+    </form>
+  );
 }
 ```
 
@@ -95,10 +108,10 @@ export function CreatePostForm() {
 |------|----------------------|------------------------|
 | 声明位置 | 文件顶部 | 异步函数体内第一行 |
 | 复用性 | 高（可跨组件导入） | 低（仅在该组件内） |
-| 参数 | 自定义（FormData 或普通参数） | prevState + FormData + ... |
-| 适用场景 | 通用 CRUD 操作 | 表单提交（配合 useActionState） |
+| 参数 | 可序列化参数或 `FormData` | 可序列化参数或 `FormData` |
+| 适用场景 | 需要复用或供客户端组件导入 | 依赖当前服务端组件上下文的局部操作 |
 
-> **避坑提示**：函数级别的 `"use server"` 只能在**客户端组件**中使用，且 `"use server"` 必须写在函数体第一行。如果把 `"use server"` 写在函数签名前面（`"use server" async function fn() {}`），不会生效。
+> **避坑提示**：函数级别的 `"use server"` 只能内联在**服务端组件**中，且必须写在异步函数体第一行。客户端组件需要调用 Server Action 时，应从文件顶部带 `"use server"` 的独立模块导入。`useActionState` 所要求的 `prevState` 参数来自 Hook 包装，不是内联指令本身的规则。
 
 ---
 
@@ -147,7 +160,7 @@ export default function NewPostPage() {
 ```
 
 两点重要变化：
-1. 不需要 `e.preventDefault()`——Server Action 天然是非阻塞的异步提交
+1. 使用 `<form action={...}>` 时不需要自己编写 `onSubmit` 或调用 `e.preventDefault()`
 2. `<input name="xxx">` 的值自动通过 FormData 传入，不需要 `useState` 管理
 
 #### 3.2 渐进增强：即使 JS 没加载也能提交
@@ -161,14 +174,14 @@ Server Action 表单是**纯 HTML form** 的增强版。如果 JS 还没加载�
 `useActionState` 是 React 19 引入的 Hook，专为 Server Action 设计。它帮你管理"提交前状态 → 提交中 → 提交结果"这条链路。
 
 ```tsx
-"use client";
+// app/actions/messages.ts
+"use server";
 
-import { useActionState } from 'react';
-
-// Server Action：接收上一次的状态 + 表单数据
-async function submitMessage(prevState: { error?: string; success?: string }, formData: FormData) {
-  "use server";
-
+// useActionState 会把上一次状态作为第一个参数传入
+export async function submitMessage(
+  prevState: { error?: string; success?: string },
+  formData: FormData
+) {
   const content = formData.get('content') as string;
 
   // 服务端验证
@@ -184,6 +197,14 @@ async function submitMessage(prevState: { error?: string; success?: string }, fo
 
   return { success: '留言发布成功！' };
 }
+```
+
+```tsx
+// app/messages/MessageForm.tsx
+"use client";
+
+import { useActionState } from 'react';
+import { submitMessage } from '@/app/actions/messages';
 
 export function MessageForm() {
   // useActionState(action, initialState)
@@ -283,7 +304,7 @@ export function MyForm() {
 ```tsx
 "use client";
 
-import { useOptimistic, useState, useRef } from 'react';
+import { startTransition, useOptimistic, useState } from 'react';
 import { deleteMessage } from '@/app/actions/messages';
 
 interface Message {
@@ -296,6 +317,8 @@ interface Props {
 }
 
 export function MessageList({ initialMessages }: Props) {
+  const [error, setError] = useState('');
+
   // useOptimistic(数据源, 更新函数)
   const [optimisticMessages, addOptimistic] = useOptimistic(
     initialMessages,
@@ -304,29 +327,39 @@ export function MessageList({ initialMessages }: Props) {
       currentMessages.filter(msg => msg.id !== deletedId)
   );
 
-  async function handleDelete(id: number) {
-    // ① 先乐观更新 UI（立刻移除这条留言）
-    addOptimistic(id);
+  function handleDelete(id: number) {
+    startTransition(async () => {
+      // ① 先乐观更新 UI（立刻移除这条留言）
+      addOptimistic(id);
+      setError('');
 
-    // ② 再调用 Server Action 执行真实删除
-    await deleteMessage(id);
-    // 如果 deleteMessage 抛出异常，React 会自动回滚 optimisticMessages
+      // ② 再调用 Server Action 执行真实删除
+      try {
+        await deleteMessage(id);
+      } catch (cause) {
+        // 当前乐观覆盖会在 Action 结束后消失；这里仍要向用户解释失败原因
+        setError(cause instanceof Error ? cause.message : '删除失败');
+      }
+    });
   }
 
   return (
-    <ul className="space-y-2">
-      {optimisticMessages.map(msg => (
-        <li key={msg.id} className="border rounded p-3 flex justify-between items-center">
-          <span>{msg.content}</span>
-          <button
-            onClick={() => handleDelete(msg.id)}
-            className="text-red-500 hover:underline text-sm"
-          >
-            删除
-          </button>
-        </li>
-      ))}
-    </ul>
+    <>
+      {error && <p role="alert">{error}</p>}
+      <ul className="space-y-2">
+        {optimisticMessages.map(msg => (
+          <li key={msg.id} className="border rounded p-3 flex justify-between items-center">
+            <span>{msg.content}</span>
+            <button
+              onClick={() => handleDelete(msg.id)}
+              className="text-red-500 hover:underline text-sm"
+            >
+              删除
+            </button>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 ```
@@ -336,22 +369,22 @@ export function MessageList({ initialMessages }: Props) {
 ```
 用户点击"删除" → addOptimistic(id) → UI 立即移除该条目
                                     → deleteMessage(id) 发送到服务端
-                                        ├── 成功：不需要额外操作（UI 已更新）
-                                        └── 失败：React 自动回滚，条目恢复
+                                        ├── 成功：服务端刷新权威数据
+                                        └── 失败：乐观覆盖消失，并显示错误
 ```
 
-> **避坑提示**：`useOptimistic` 的回滚依赖 Server Action **抛出异常**。如果你的 Server Action 用 `return { error }` 而不是 `throw Error`，乐观更新不会自动回滚——你需要手动处理。
+> **避坑提示**：`useOptimistic` 提供的是 Action 执行期间的临时 UI 覆盖，不是事务系统。成功后要用服务端返回值或重新验证后的数据确认结果；失败时要捕获并展示错误。对于删除、付款等操作，服务端仍需提供幂等保护。
 
 ---
 
-### 七、revalidatePath / revalidateTag / redirect
+### 七、revalidatePath / revalidateTag / updateTag / redirect
 
 这三个 API 是 Server Action 的"三板斧"，用于处理数据变更后的副作用：
 
 ```tsx
 "use server";
 
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag, updateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export async function updatePost(id: number, formData: FormData) {
@@ -361,12 +394,15 @@ export async function updatePost(id: number, formData: FormData) {
   revalidatePath('/posts');             // 清除 /posts 整页缓存
   revalidatePath('/posts/[id]', 'page'); // 清除动态路由页面的缓存
 
-  // ② revalidateTag：清除指定标签的缓存（数据级别，更精细）
-  // 前提：fetch 时设置了 next: { tags: ['posts'] }
-  revalidateTag('posts');
-  revalidateTag(`post-${id}`);
+  // ② updateTag：Server Action 中立即刷新，提供 read-your-writes
+  updateTag('posts');
+  updateTag(`post-${id}`);
 
-  // ③ redirect：服务端重定向（必须在 try/catch 外部调用）
+  // ③ revalidateTag(tag, 'max')：允许先返回旧值再后台刷新
+  // 适合不要求提交后立刻读到新值的内容
+  revalidateTag('related-posts', 'max');
+
+  // ④ redirect：服务端重定向（必须在 try/catch 外部调用）
   redirect('/posts');
 }
 ```
@@ -413,7 +449,7 @@ export async function deletePost(postId: number) {
     throw new Error('无权删除');
   }
 
-  // ③ CSRF 保护：Next.js 内置（同源 POST 请求自动带 Origin/Referer 头校验）
+  // ③ 请求来源校验：框架会执行 Origin/Host 检查，但不能替代业务授权
 
   // ④ 输入清理：
   // - Server Action 不能接受函数、类实例、Symbol 等不可序列化参数
@@ -426,7 +462,7 @@ export async function deletePost(postId: number) {
 1. **身份验证**：每个修改数据的 Server Action 都检查 session
 2. **授权验证**：确认用户有权操作该数据
 3. **输入验证**：不要信任 `formData.get()` 返回的值
-4. **CSRF**：Next.js 内置保护，只要用 POST 方法 + 同源请求即可
+4. **请求来源与部署配置**：保留框架的 Origin/Host 检查；跨域代理需显式配置允许来源
 5. **不要暴露敏感信息**：错误信息不要包含数据库结构、文件路径等
 
 ---
@@ -661,7 +697,7 @@ export function MessageList({ initialMessages }: { initialMessages: Message[] })
 
 ### Q4：乐观更新失败后数据会丢失吗？
 
-不会。`useOptimistic` 是纯 UI 层的状态覆盖——如果 Server Action 抛出异常，React 会丢弃乐观状态，恢复到 `initialMessages`（服务端传来的原始数据）。原始数据始终保留在服务端组件传下来的 props 中。
+`useOptimistic` 不会直接修改服务端权威数据。Action 结束后，乐观覆盖会被新的权威状态替代；如果操作失败，应保留原始数据、显示错误，并确认缓存重新验证没有把失败操作误认为成功。
 
 ### Q5：为什么 `redirect()` 在 try/catch 里不生效？
 
@@ -669,15 +705,15 @@ export function MessageList({ initialMessages }: { initialMessages: Message[] })
 
 ### Q6：Server Action 的返回值有什么限制？
 
-返回值必须是**可序列化**的普通对象（JSON-safe）。不能返回 `Date`、`Map`、`Set`、`Symbol`、函数、类实例等。需要日期时返回 ISO 字符串，客户端再 `new Date()` 解析。
+返回值必须符合 React Server Function 的序列化协议。除普通对象和基础类型外，React 还支持 `Date`、`FormData`、`Map`、`Set`、`ArrayBuffer` 等明确列出的类型；普通函数、React 元素和自定义类实例不能跨边界传递。不要用“JSON-safe”替代真实协议判断。
 
 ### Q7：多个 Server Action 可以放在同一个文件吗？
 
-可以，且这是推荐做法。一个 `"use server"` 文件可以导出多个 Server Action。Next.js 会为整个文件生成一个 API 端点，多个 Action 共享。
+可以。一个 `"use server"` 文件可以导出多个 Server Action，适合按业务领域集中维护。不要依赖框架内部生成的请求地址或把它当成稳定的 REST 端点；外部系统需要调用时应使用 Route Handler。
 
 ### Q8：Server Action 怎么处理并发提交（用户快速点击两次）？
 
-`useActionState` 天然是串行的——在 `isPending` 为 `true` 期间，表单的 `action` 不会被再次触发（因为按钮被 `disabled` 了）。如果你没用 `useActionState`，可以手动用 `useTransition` 的 `isPending` 来控制。
+同一个 `useActionState` 实例会按顺序处理排队的 Action，但它不会自动禁止用户再次提交。是否禁用按钮取决于你的 UI 实现；服务端还必须用唯一键、版本号或幂等键防止重复写入，不能只依赖 `isPending`。
 
 ---
 
@@ -709,12 +745,37 @@ export function MessageList({ initialMessages }: { initialMessages: Message[] })
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L4 里程碑](../../projects/atlas/milestones/L4.md)
+- 本课任务：按 L4 里程碑把“Server Actions 与数据变更”接入 Atlas 全栈版本，明确服务端信任边界、数据契约、失败响应和回滚方式。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 Server Actions 是 Next.js 最重要的开发者体验升级之一。三条关键原则：
 
 1. **表单就是 API**：`<form action={serverAction}>` 代替了 `onSubmit + fetch` 的旧模式
-2. **乐观更新是体验的核心**：`useOptimistic` 让用户感觉操作无延迟，但要确保 Server Action 抛出异常时自动回滚
+2. **乐观更新需要权威状态收敛**：`useOptimistic` 提供即时反馈，成功和失败都必须回到服务端权威数据
 3. **安全是 Server Action 的责任**：每个写操作都要验证身份和权限，不能假设"只有前端会调用"
 
-掌握了 Server Actions + useActionState + useOptimistic 这个组合，你就有了 Next.js 处理数据变更的标准工具箱。下一节我们学习 Middleware 和 Route Handlers，构建完整的 API 层。
+掌握了 Server Actions + useActionState + useOptimistic 这个组合，你就有了 Next.js 处理数据变更的基础工具箱。下一节学习 Proxy（旧称 Middleware）和 Route Handlers，构建完整的请求边界。
+
+<!-- course-nav:start -->
+---
+
+[上一篇：02 SSR / ISR / PPR 渲染策略](./02-SSR-ISR-PPR渲染策略.md) · [课程地图](../../README.md) · [下一篇：04 Proxy（旧称 Middleware）与 Route Handlers](./04-Proxy与Route-Handlers.md)
+<!-- course-nav:end -->

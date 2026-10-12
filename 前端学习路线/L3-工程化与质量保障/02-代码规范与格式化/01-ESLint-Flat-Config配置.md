@@ -1,5 +1,15 @@
 # 01 ESLint Flat Config 配置
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L3 工程化与质量保障
+> - 先修：[04-环境变量与多环境构建](../01-构建工具链/04-环境变量与多环境构建.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[ESLint](https://eslint.org/docs/latest/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 ESLint 的三层价值：静态分析、代码风格约束、潜在错误检测
@@ -601,6 +611,25 @@ export default [
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L3 里程碑](../../projects/atlas/milestones/L3.md)
+- 本课任务：把“ESLint Flat Config 配置”接入 Atlas 工程链路，形成可重复命令和失败门禁，并保存一次故意失败与恢复的证据。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - ESLint 的核心价值是**静态分析**——在编码阶段拦截错误、统一最佳实践
@@ -610,3 +639,9 @@ export default [
 - TypeScript 项目用 `typescript-eslint` 全家桶，React 额外加 `eslint-plugin-react` + `eslint-plugin-react-hooks`
 - 自定义规则的优先级：数组后面的配置覆盖前面的，`files` 越具体的越靠后
 - 全局 `ignores` 独占一个对象，放在数组最前面
+
+<!-- course-nav:start -->
+---
+
+[上一篇：04-环境变量与多环境构建](../01-构建工具链/04-环境变量与多环境构建.md) · [课程地图](../../README.md) · [下一篇：02 Prettier + Husky 自动化流水线](./02-Prettier-Husky-自动化.md)
+<!-- course-nav:end -->

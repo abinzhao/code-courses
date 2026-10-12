@@ -1,5 +1,15 @@
 # 03-Grid 完整指南
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L0 Web 基石
+> - 先修：[02-Flexbox 完整指南](./02-Flexbox完整指南.md)
+> - 建议用时：90-150 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[MDN CSS](https://developer.mozilla.org/docs/Web/CSS)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 掌握 Grid 容器的核心属性，能快速搭建二维网格布局
@@ -346,17 +356,17 @@ Grid 可以让元素重叠——这在传统布局中很难做到：
 .caption { z-index: 2; align-self: end; background: rgba(0,0,0,0.5); color: white; padding: 10px; }
 ```
 
-#### 6.3 自适应列数（终极响应式）
+#### 6.3 自适应列数
 
 ```css
-/* 最强大的响应式Grid写法 */
+/* 常用的响应式 Grid 写法 */
 .responsive-grid {
   display: grid;
-  /* 每列最小 250px，最大 1fr，自动计算列数 */
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  /* 窄于 250px 时允许列收缩到容器宽度，其他情况每列至少 250px */
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
   gap: 20px;
 }
-/* 不需要任何 @media 查询！从 320px 到 4K 都完美适配 */
+/* 卡片列数可随可用空间变化；复杂布局仍可能需要容器查询或媒体查询 */
 ```
 
 ### 七、实战：响应式后台管理布局
@@ -542,13 +552,13 @@ Grid 可以让元素重叠——这在传统布局中很难做到：
 `fr` 分配的是**减去 gap 和固定列后的剩余空间**；`%` 是容器宽度的百分比（不考虑 gap）。用 `1fr 1fr` 配合 `gap: 20px` 不会有溢出，用 `50% 50%` 配合 `gap` 就会撑破。
 
 **Q4：Grid 兼容性怎么样？**
-所有现代浏览器 100% 支持，包括移动端。IE11 有部分支持（需要 `-ms-` 前缀），但现在的项目基本可以忽略 IE11。
+Grid 的核心布局能力已被主流现代浏览器广泛支持，但子网格、masonry 等较新特性的支持范围不同。应按项目的浏览器基线检查具体属性；若仍需支持 IE11，它实现的是较早规范，不能靠简单添加 `-ms-` 前缀获得等价行为。
 
 **Q5：怎么让 Grid 的一个格子内容超出后显示省略号？**
 和 Flexbox 同理：给该元素设置 `min-width: 0`、`overflow: hidden`、`text-overflow: ellipsis`、`white-space: nowrap`。
 
 **Q6：可以用 Grid 实现瀑布流吗？**
-原生还不支持（`masonry` 布局是实验性功能）。实际项目中用 JavaScript 库（如 Masonry.js）或 CSS Columns（`column-count`）来近似实现。
+原生 masonry 的实现状态和语法仍可能因浏览器而异，使用前应检查项目目标版本并准备渐进增强。需要稳定跨浏览器时，可使用经过验证的 JavaScript 布局库；CSS Columns 能形成视觉瀑布流，但阅读顺序是按列排列，使用前要验证键盘和辅助技术体验。
 
 **Q7：`grid-template-areas` 比直接用 grid-column/grid-row 好在哪？**
 可读性。ASCII 图一眼就能看清布局结构，后续维护时不用心算行列号。团队项目中尤其推荐。
@@ -581,10 +591,35 @@ Grid 可以让元素重叠——这在传统布局中很难做到：
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L0 里程碑](../../projects/atlas/milestones/L0.md)
+- 本课任务：把“Grid 完整指南”应用到 Atlas 的 HTML/CSS 交互界面，覆盖窄屏、键盘操作和至少一个失败状态。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
-- Grid 是二维布局的终极方案，**`grid-template-columns` + `fr`** 是最常用的组合
-- `repeat(auto-fit, minmax(250px, 1fr))` 是实现响应式网格的最强写法
+- Grid 适合同时控制行与列的二维布局，**`grid-template-columns` + `fr`** 是常用组合
+- `repeat(auto-fit, minmax(min(250px, 100%), 1fr))` 是一种无需固定断点的响应式网格写法
 - `grid-template-areas` 让布局可视化，推荐在中小项目中优先使用
 - Grid 管页面大结构，Flexbox 管组件内排列——两者配合效果最佳
 - 掌握 Grid 后，你会发现以前用 float + clearfix 的布局方式简直是石器时代
+
+<!-- course-nav:start -->
+---
+
+[上一篇：02-Flexbox 完整指南](./02-Flexbox完整指南.md) · [课程地图](../../README.md) · [下一篇：04-层叠上下文与 z-index](./04-层叠上下文与z-index.md)
+<!-- course-nav:end -->

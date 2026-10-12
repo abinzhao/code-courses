@@ -1,5 +1,15 @@
 # 03-Playwright E2E 测试
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L3 工程化与质量保障
+> - 先修：[02-组件测试与 Testing Library](./02-组件测试与Testing-Library.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[Playwright](https://playwright.dev/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 E2E 测试在测试体系中的定位和价值
@@ -598,6 +608,25 @@ Playwright 默认放在 `test-results/`。在 CI 中，把这个目录作为构�
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L3 里程碑](../../projects/atlas/milestones/L3.md)
+- 本课任务：把“Playwright E2E 测试”接入 Atlas 工程链路，形成可重复命令和失败门禁，并保存一次故意失败与恢复的证据。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - E2E 测核心流程，不是万金油；维护成本高，只测业务关键路径
@@ -605,6 +634,12 @@ Playwright 默认放在 `test-results/`。在 CI 中，把这个目录作为构�
 - 选择器优先级：`getByRole` > `getByLabel` > `getByPlaceholder` > `getByText` > `getByTestId` > CSS
 - Playwright 自动等待元素可交互，不要用 `sleep` 代替
 - 网络拦截三场景：mock 响应、验证请求、模拟异常
-- `trace: 'retain-on-failure'` + Trace Viewer = 调试终极方案
+- `trace: 'retain-on-failure'` + Trace Viewer 是定位失败的重要证据，必要时结合视频、截图、Console、Network 和服务端日志
 - 多浏览器用 `projects` 配置，至少覆盖 Chromium
 - E2E 测试数据必须独立、可重置，不能用生产数据
+
+<!-- course-nav:start -->
+---
+
+[上一篇：02-组件测试与 Testing Library](./02-组件测试与Testing-Library.md) · [课程地图](../../README.md) · [下一篇：04-测试策略与覆盖率](./04-测试策略与覆盖率.md)
+<!-- course-nav:end -->

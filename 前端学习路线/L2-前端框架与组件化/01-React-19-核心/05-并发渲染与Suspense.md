@@ -1,5 +1,15 @@
 # 05 并发渲染与 Suspense
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L2 前端框架与组件化
+> - 先修：[04 Server Components 与 Server Actions](./04-Server-Components与Server-Actions.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[React](https://react.dev/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 React 18/19 并发渲染（Concurrent Rendering）的本质和设计动机
@@ -528,6 +538,25 @@ React 会**并行**尝试渲染所有子组件。如果一个子组件"挂起"�
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L2 里程碑](../../projects/atlas/milestones/L2.md)
+- 本课任务：按 L2 里程碑把“并发渲染与 Suspense”应用到 Atlas 组件化版本，明确组件 API、状态归属、加载与错误状态，并添加行为测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - 并发渲染让 React 的渲染可中断、可恢复、可丢弃，通过时间切片实现
@@ -537,3 +566,9 @@ React 会**并行**尝试渲染所有子组件。如果一个子组件"挂起"�
 - `useTransition` 标记非紧急更新（`startTransition` + `isPending`）
 - `startTransition` 是独立函数版本，无 `isPending`
 - 最佳实践：ErrorBoundary 套 Suspense 套内容，三态（loading/error/success）集中管理
+
+<!-- course-nav:start -->
+---
+
+[上一篇：04 Server Components 与 Server Actions](./04-Server-Components与Server-Actions.md) · [课程地图](../../README.md) · [下一篇：06 Ref、Context 与性能优化](./06-Ref-Context-性能优化.md)
+<!-- course-nav:end -->

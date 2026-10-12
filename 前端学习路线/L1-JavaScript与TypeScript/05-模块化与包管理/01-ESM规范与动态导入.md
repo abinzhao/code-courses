@@ -1,5 +1,15 @@
 # 01 ESM 规范与动态导入
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L1 JavaScript 与 TypeScript
+> - 先修：[05-tsconfig 配置与工程化集成](../04-TypeScript类型系统/05-tsconfig配置与工程化集成.md)
+> - 建议用时：120-180 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[TypeScript](https://www.typescriptlang.org/docs/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解模块化的发展历史：IIFE → CommonJS → AMD → UMD → ESM
@@ -398,11 +408,11 @@ npx serve .
 
 **Q1: 为什么 ESM 的 import 必须写 `.js` 后缀，而 CommonJS 的 require 可以不写？**
 
-Node.js 的 `require()` 有自动补全机制（尝试 `.js`、`.json`、`.node`、目录下的 `index.js`），而浏览器没有文件系统概念，ESM 必须给完整路径。即使使用打包工具，保持 `.js` 后缀也是最佳实践。
+Node.js 的 CommonJS `require()` 会尝试扩展名和目录入口；Node.js 原生 ESM 对相对/绝对文件导入采用 URL 风格解析，通常要求写出扩展名。浏览器中的相对 ESM 也是 URL，请求路径必须能直接映射到资源；裸包名则需要 import map 或打包工具。打包器可能提供扩展名补全，是否保留 `.js` 应遵循目标运行时和项目约定。
 
 **Q2: `export default` 和具名导出选哪个？**
 
-没有绝对标准，业界惯例是：**工具函数用具名导出**（方便 Tree Shaking 和按需引入），**组件/类用默认导出**（一个文件一个主角）。但团队项目统一即可。
+没有统一答案。具名导出便于自动补全、批量重构和一个模块导出多个成员；默认导出适合模块确实只有一个主入口，某些框架文件约定也要求它。现代打包器通常能对两者做 Tree Shaking，前提是使用静态 ESM 且副作用标记正确。优先遵循框架约定并在团队内保持一致。
 
 **Q3: `import()` 返回的 Promise 的 then 回调里拿到的模块对象结构是怎样的？**
 
@@ -489,6 +499,25 @@ sidebar.onClick(async (name) => {
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L1 里程碑](../../projects/atlas/milestones/L1.md)
+- 本课任务：把“ESM 规范与动态导入”落实为 Atlas 中可独立导入的模块或纯函数，补充正常、边界、异常三类自动测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - 模块化从 IIFE → CJS → AMD → UMD → ESM 一路演化，ESM 是官方标准
@@ -497,3 +526,9 @@ sidebar.onClick(async (name) => {
 - `import()` 动态导入返回 Promise，用于按需加载和代码分割
 - `<script type="module">` 自带 defer + 严格模式 + 模块作用域
 - 迁移传统项目到 ESM：所有 `window.xxx` → `export`，所有全局引用 → `import`
+
+<!-- course-nav:start -->
+---
+
+[上一篇：05-tsconfig 配置与工程化集成](../04-TypeScript类型系统/05-tsconfig配置与工程化集成.md) · [课程地图](../../README.md) · [下一篇：02 CommonJS 与互操作性](./02-CommonJS与互操作性.md)
+<!-- course-nav:end -->

@@ -1,5 +1,15 @@
 # 01-错误监控与 Sentry
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L5 架构与纵深能力
+> - 先修：[React Native 与 Electron 概览](../03-跨端开发/02-React-Native与Electron概览.md)
+> - 建议用时：180-300 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[OpenTelemetry](https://opentelemetry.io/docs/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解可观测性三大支柱（Logging / Metrics / Tracing）在前端场景下的定位和边界
@@ -711,6 +721,25 @@ Sentry.init({
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L5 里程碑](../../projects/atlas/milestones/L5.md)
+- 本课任务：按 L5 里程碑在 Atlas 中建立“错误监控与 Sentry”的可量化基线、改进方案、前后证据和长期治理规则。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 错误监控不是"装个 SDK 就完事"。从架构视角看，你需要建立三个层次的认知：
@@ -720,3 +749,9 @@ Sentry.init({
 3. **运营层**：错误分级让你知道哪些值得叫醒你，告警规则让你在用户还没大规模反馈之前就发现故障
 
 最后记住一个原则：**每一条错误日志都是用户的一次糟糕体验。你不会希望自己是最后知道的那个人。**
+
+<!-- course-nav:start -->
+---
+
+[上一篇：React Native 与 Electron 概览](../03-跨端开发/02-React-Native与Electron概览.md) · [课程地图](../../README.md) · [下一篇：02-RUM 性能监控与埋点](./02-RUM性能监控与埋点.md)
+<!-- course-nav:end -->

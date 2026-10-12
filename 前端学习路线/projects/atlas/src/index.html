@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Atlas 前端学习路线贯穿项目"
+    />
+    <title>Atlas 知识协作平台</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到主内容</a>
+
+    <header class="site-header">
+      <div class="shell header-inner">
+        <div>
+          <p class="eyebrow">Atlas</p>
+          <h1>知识协作平台</h1>
+        </div>
+        <p id="summary" class="summary" aria-live="polite"></p>
+      </div>
+    </header>
+
+    <main id="main-content" class="shell">
+      <form id="search-form" class="toolbar" role="search">
+        <label>
+          <span>搜索文章</span>
+          <input
+            id="keyword"
+            name="keyword"
+            type="search"
+            autocomplete="off"
+            placeholder="标题或摘要"
+          />
+        </label>
+
+        <label>
+          <span>状态</span>
+          <select id="status" name="status">
+            <option value="all">全部</option>
+            <option value="published">已发布</option>
+            <option value="draft">草稿</option>
+          </select>
+        </label>
+
+        <button type="submit">筛选</button>
+      </form>
+
+      <section aria-labelledby="article-list-title">
+        <div class="section-heading">
+          <h2 id="article-list-title">文章</h2>
+          <p id="result-count"></p>
+        </div>
+
+        <p id="request-status" role="status" aria-live="polite"></p>
+        <ul id="article-list" class="article-list"></ul>
+      </section>
+    </main>
+
+    <template id="article-template">
+      <li class="article-card">
+        <article>
+          <header>
+            <div>
+              <p class="article-status"></p>
+              <h3><a class="article-link" href="#"></a></h3>
+            </div>
+            <button
+              class="favorite-button"
+              type="button"
+              data-action="favorite"
+              aria-pressed="false"
+            >
+              收藏
+            </button>
+          </header>
+          <p class="article-summary"></p>
+          <footer>
+            <ul class="tag-list" aria-label="文章标签"></ul>
+            <p class="article-meta"></p>
+          </footer>
+        </article>
+      </li>
+    </template>
+  </body>
+</html>

@@ -1,5 +1,15 @@
 # 04-Web Workers 与多线程
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L1 JavaScript 与 TypeScript
+> - 先修：[03-内存管理与垃圾回收](./03-内存管理与垃圾回收.md)
+> - 建议用时：120-180 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[TypeScript](https://www.typescriptlang.org/docs/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 Web Workers 的作用：把计算密集型任务从主线程剥离，避免 UI 卡顿
@@ -393,6 +403,25 @@ const uploadState = {
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L1 里程碑](../../projects/atlas/milestones/L1.md)
+- 本课任务：把“Web Workers 与多线程”落实为 Atlas 中可独立导入的模块或纯函数，补充正常、边界、异常三类自动测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - Web Worker 的本质是**在独立线程运行 JS**，解决主线程被计算任务阻塞导致的 UI 卡顿
@@ -402,3 +431,9 @@ const uploadState = {
 - Service Worker 是网络代理层，核心能力是拦截请求和缓存，支持离线访问
 - 真实场景中，Worker 最适合大文件哈希、大批量排序/搜索、图片处理、Excel 生成等计算密集型任务
 - 用完的 Worker 应及时 `terminate()`，避免空闲 Worker 占用内存
+
+<!-- course-nav:start -->
+---
+
+[上一篇：03-内存管理与垃圾回收](./03-内存管理与垃圾回收.md) · [课程地图](../../README.md) · [下一篇：01-基础类型与类型推断](../04-TypeScript类型系统/01-基础类型与类型推断.md)
+<!-- course-nav:end -->

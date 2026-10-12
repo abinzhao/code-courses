@@ -1,5 +1,15 @@
 # 02-DOM-CSSOM-渲染树构建
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L0 Web 基石
+> - 先修：[01-浏览器架构与多进程模型](./01-浏览器架构与多进程模型.md)
+> - 建议用时：90-150 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[Chromium Design Documents](https://www.chromium.org/developers/design-documents/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解浏览器如何将 HTML 文本解析为 DOM Tree
@@ -324,6 +334,25 @@ A：HTML 规范明确要求 defer 脚本按声明顺序执行，所有主流浏�
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L0 里程碑](../../projects/atlas/milestones/L0.md)
+- 本课任务：在 Atlas 中构造与“DOM-CSSOM-渲染树构建”相关的可观察场景，使用 DevTools 或请求日志记录现象、时间线和结论。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - HTML 字节流经过分词和树构建，最终生成 DOM Tree；CSS 文件被解析为 CSSOM Tree
@@ -331,3 +360,9 @@ A：HTML 规范明确要求 defer 脚本按声明顺序执行，所有主流浏�
 - CSS 是「阻塞渲染」的资源——CSSOM 未就绪，渲染树就不会构建
 - 普通 `<script>` 阻塞 HTML 解析；`defer` 延迟到 DOM 解析完成后执行且保证顺序；`async` 下载完立即执行且不保证顺序
 - 理解 DOM → CSSOM → Render Tree 的全流程，是后续学习布局和性能优化的基础
+
+<!-- course-nav:start -->
+---
+
+[上一篇：01-浏览器架构与多进程模型](./01-浏览器架构与多进程模型.md) · [课程地图](../../README.md) · [下一篇：03-布局-绘制-合成流水线](./03-布局-绘制-合成流水线.md)
+<!-- course-nav:end -->

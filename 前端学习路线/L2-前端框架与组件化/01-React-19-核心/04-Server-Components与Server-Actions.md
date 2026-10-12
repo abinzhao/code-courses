@@ -1,5 +1,15 @@
 # 04 Server Components 与 Server Actions
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L2 前端框架与组件化
+> - 先修：[03 进阶 Hooks：useReducer、useMemo、useCallback 等](./03-进阶Hooks-useReducer-useMemo-useCallback.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[React](https://react.dev/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 React Server Components（RSC）的核心概念和设计动机
@@ -16,26 +26,26 @@
 
 ### 1. React Server Components（RSC）：为什么需要它？
 
-传统 React 应用的所有组件都在浏览器里运行，这意味着：
+传统纯 CSR 应用的组件主要在浏览器里运行，这意味着：
 
 ```
 浏览器下载 → JS Bundle → 解析 → 渲染 → 显示
               ↑ 可能包含大量不参与交互的组件代码
 ```
 
-RSC 的核心思想很简单：**把不需要交互的组件留在服务端渲染**，只把结果（HTML/VNode）和交互组件（客户端组件）的代码送给浏览器。
+RSC 的核心思想是：**把不需要交互的组件留在服务端执行**。框架把 Server Component 的结果编码为 RSC Payload（也称 Flight 数据），并只为客户端组件发送浏览器所需的 JavaScript；首屏是否同时生成 HTML 取决于框架是否组合了 SSR。
 
 ```
-服务端执行 RSC → 生成序列化结果 → 浏览器只接收渲染结果 + 客户端组件 JS
-                                    ↑ Bundle 体积大幅减少
+服务端执行 RSC → 生成 RSC Payload ─┬→ 可选 SSR 生成首屏 HTML
+                                  └→ 客户端组件引用与所需 JS
 ```
 
 | 对比维度 | 传统 CSR | RSC |
 |---------|---------|-----|
 | 组件执行地点 | 浏览器 | 浏览器 + 服务端 |
-| JS Bundle 大小 | 大（所有组件代码） | 小（只包含客户端组件） |
-| 数据请求 | 客户端 fetch，有瀑布请求 | 服务端直接读数据库，无瀑布 |
-| SEO | 差（空白 HTML） | 好（服务端返回完整 HTML） |
+| JS Bundle 大小 | 取决于客户端依赖 | 服务端组件代码不进入客户端 Bundle |
+| 数据请求 | 容易在 Effect 中形成瀑布 | 可贴近数据源读取，但嵌套顺序请求仍可能形成瀑布 |
+| 首屏 HTML / SEO | CSR、预渲染和 SSR 结果不同 | 通常由框架结合 SSR/静态生成提供 |
 | 交互能力 | 全部可用 | 仅客户端组件可交互 |
 
 ---
@@ -78,13 +88,13 @@ function Counter() {
 | 能力 | 服务端组件 | 客户端组件 |
 |------|----------|----------|
 | 访问数据库/文件系统 | ✅ | ❌ |
-| Hooks（useState、useEffect 等） | ❌ | ✅ |
+| 客户端状态/副作用 Hook（useState、useEffect 等） | ❌ | ✅ |
 | 事件处理（onClick 等） | ❌ | ✅ |
 | 浏览器 API（localStorage 等） | ❌ | ✅ |
-| async/await 直接写在组件里 | ✅ | ❌ |
+| 组件函数本身声明为 async | ✅ | ❌（事件处理器等普通函数仍可 async） |
 | 传递 props 给客户端组件 | ✅（需可序列化） | ✅ |
 | 接收 children | ✅ | ✅ |
-| `"use server"` 指令 | ✅ | ❌ |
+| 定义内联 Server Function | ✅ | ❌（客户端组件只能导入模块级 Server Function） |
 
 > **避坑提示**：服务端组件不能引入和使用客户端特有的东西。如果你在服务端组件里写了 `useState` 或 `useEffect`，编译阶段就会报错。同样，客户端组件不能直接引入数据库模块。
 
@@ -100,8 +110,7 @@ function Counter() {
 
 import { useState } from 'react';
 
-// 这个文件及其子组件（如果没有额外声明 "use server"）
-// 都会在客户端执行
+// 这个文件及其静态导入会进入客户端模块图
 export default function InteractiveForm() {
   const [name, setName] = useState('');
   return <input value={name} onChange={e => setName(e.target.value)} />;
@@ -110,7 +119,7 @@ export default function InteractiveForm() {
 
 关键规则：
 - `"use client"` 标记的是**客户端边界**，该文件以及它引入的所有文件都会被打包到客户端
-- 服务端组件可以把客户端组件作为子组件传递（`children`），从而突破边界限制
+- 服务端组件可以把已经渲染的服务端内容作为 `children` 传给客户端组件
 - 一个文件不能同时是服务端组件和客户端组件
 
 #### 3.2 "use server"：声明服务器行为
@@ -123,11 +132,15 @@ export async function createUser(formData: FormData) {
   const name = formData.get('name');
   await db.user.create({ data: { name } });
 }
+```
 
-// 方式二：在组件内部的内联函数
+客户端组件需要调用时，从模块级 `"use server"` 文件导入：
+
+```tsx
+"use client";
 import { createUser } from './actions';
 
-function Form() {
+function CreateUserForm() {
   // 直接在 action 属性上调用
   return (
     <form action={createUser}>
@@ -135,6 +148,20 @@ function Form() {
       <button type="submit">创建用户</button>
     </form>
   );
+}
+```
+
+内联写法只能出现在服务端组件中：
+
+```tsx
+export default function CreateUserPage() {
+  async function createUser(formData: FormData) {
+    "use server";
+    const name = formData.get('name');
+    await db.user.create({ data: { name } });
+  }
+
+  return <form action={createUser}>{/* fields */}</form>;
 }
 ```
 
@@ -150,7 +177,15 @@ Server Actions 让你直接从 `<form>` 的 `action` 属性调用服务端函数
 
 import { revalidatePath } from 'next/cache';
 
-export async function addComment(formData: FormData) {
+export type CommentActionState = {
+  error?: string;
+  success?: boolean;
+};
+
+export async function addComment(
+  previousState: CommentActionState,
+  formData: FormData
+): Promise<CommentActionState> {
   // 直接在服务端操作数据库
   const content = formData.get('content') as string;
   const author = formData.get('author') as string;
@@ -190,7 +225,7 @@ function SubmitButton() {
 
 export default function CommentForm() {
   // useActionState：管理 Server Action 的执行状态
-  const [state, formAction] = useActionState(addComment, { error: null });
+  const [state, formAction, isPending] = useActionState(addComment, {});
 
   return (
     <form action={formAction}>
@@ -201,6 +236,7 @@ export default function CommentForm() {
         <textarea name="content" placeholder="写评论..." required />
       </div>
       <SubmitButton />
+      {isPending && <span aria-live="polite">正在提交</span>}
       {state?.error && <p className="error">{state.error}</p>}
       {state?.success && <p className="success">评论发表成功！</p>}
     </form>
@@ -214,6 +250,8 @@ export default function CommentForm() {
 | `useFormStatus()` | 读取表单提交状态 | `{ pending, data, method, action }` |
 
 > **避坑提示**：`useFormStatus` 必须作为表单组件内部的**子组件**来调用，不能直接在包含 `<form>` 的同一个组件里调用——它读取的是**最近祖先** `<form>` 的状态。
+
+> **安全边界**：Server Function 的参数由客户端控制。每个写操作都必须在服务端重新做输入校验、身份认证和资源级授权，不能因为函数写在服务端文件里就默认调用者可信。
 
 ---
 
@@ -456,11 +494,11 @@ export default function CommentList({ comments: initialComments }) {
 
 **Q1：RSC 和 SSR 有什么区别？**
 
-SSR（Server-Side Rendering）是在服务端把组件渲染成 HTML 字符串发给浏览器，但**组件仍然会被打包到客户端 JS 中**进行"水合"（hydration）。RSC 的组件代码**根本不会**发送到客户端，只发送渲染结果。
+SSR 描述的是“如何生成首屏 HTML”，RSC 描述的是“哪些组件在服务端执行以及如何跨边界传输结果”。客户端组件参与 SSR 后仍需发送 JavaScript 进行水合；纯 Server Component 的实现代码不会进入客户端 Bundle。两者可以组合使用，不是互斥方案。
 
 **Q2：服务端组件不能用什么？**
 
-不能用 Hooks（useState、useEffect 等任何 useXxx）、不能绑定事件处理器（onClick 等）、不能用浏览器 API（localStorage、navigator 等）、不能用 Context（Provider/useContext）、不能使用仅客户端可用的第三方库。
+不能使用依赖客户端状态和副作用的 Hook（如 `useState`、`useEffect`），不能绑定浏览器事件处理器，不能访问 `localStorage`、`navigator` 等浏览器 API，也不能直接消费客户端 Context。不能把规则简化成“任何 `useXxx` 都不能用”，因为 React 的 `use` API可在支持的服务端场景读取 Promise。
 
 **Q3：同一个文件同时是服务端和客户端组件？**
 
@@ -472,7 +510,7 @@ Server Action 不需要手动定义路由、不需要手写 fetch、支持渐进
 
 **Q5：`useActionState` 和 `useState` + 手动 fetch 比有什么优势？**
 
-`useActionState` 与 Server Actions 深度集成，自动处理 pending 状态、表单重置、渐进增强。不需要手动管理 loading/error 状态，也不需要写 useEffect + fetch 的样板代码。
+`useActionState` 会保存 Action 返回状态，并提供 `isPending`；结合表单 Action 时可支持渐进增强。它不会替你定义错误结构、业务校验或所有表单重置策略，这些仍需显式设计。
 
 **Q6：客户端组件怎么获取服务端数据？**
 
@@ -480,7 +518,7 @@ Server Action 不需要手动定义路由、不需要手写 fetch、支持渐进
 
 **Q7：`revalidatePath` 和 `revalidateTag` 的区别？**
 
-`revalidatePath('/comments')` 按 URL 路径清除缓存；`revalidateTag('comments')` 按标签清除缓存（需要 fetch 时设置 `next: { tags: ['comments'] }`）。路径方式更简单，标签方式更灵活。
+`revalidatePath('/comments')` 按 URL 路径重新验证；`revalidateTag('comments', 'max')` 把标签数据标记为 stale，并采用 stale-while-revalidate。Next.js 16 的单参数 `revalidateTag` 已弃用；Server Action 提交后要求立即读到新值时应使用 `updateTag('comments')`。
 
 **Q8：什么时候该用 `"use client"`？**
 
@@ -501,12 +539,37 @@ Server Action 不需要手动定义路由、不需要手写 fetch、支持渐进
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L2 里程碑](../../projects/atlas/milestones/L2.md)
+- 本课任务：按 L2 里程碑把“Server Components 与 Server Actions”应用到 Atlas 组件化版本，明确组件 API、状态归属、加载与错误状态，并添加行为测试。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
-- RSC 的核心价值：减少客户端 JS 体积、服务端直连数据源、消除瀑布请求
-- `"use client"` 标记客户端边界，"use server" 标记服务器行为
-- 服务端组件：不能用 Hooks、不能绑事件、不能访问浏览器 API
+- RSC 的核心价值：让部分组件代码不进入客户端 Bundle，并允许组件贴近服务端数据源
+- `"use client"` 标记客户端模块边界，`"use server"` 标记 Server Function，不是 Server Component 标记
+- 服务端组件不能使用客户端状态、副作用、事件处理和浏览器 API
 - Server Actions 让表单处理从 `onSubmit + fetch` 变成 `<form action={fn}>` 的声明式范式
-- `useActionState` 管理 Server Action 状态，`useFormStatus` 读取表单提交状态
+- `useActionState` 管理 Action 返回状态和 pending，`useFormStatus` 读取父表单提交状态
 - 数据流：Server Component → 序列化 props → Client Component
 - 原则：尽可能把代码留在服务端，只在需要交互时用 `"use client"`
+
+<!-- course-nav:start -->
+---
+
+[上一篇：03 进阶 Hooks：useReducer、useMemo、useCallback 等](./03-进阶Hooks-useReducer-useMemo-useCallback.md) · [课程地图](../../README.md) · [下一篇：05 并发渲染与 Suspense](./05-并发渲染与Suspense.md)
+<!-- course-nav:end -->

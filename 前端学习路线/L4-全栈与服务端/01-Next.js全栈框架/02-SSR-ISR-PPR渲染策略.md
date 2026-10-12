@@ -1,5 +1,15 @@
 # 02 SSR / ISR / PPR 渲染策略
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L4 全栈与服务端
+> - 先修：[01 App Router 与文件约定](./01-App-Router与文件约定.md)
+> - 建议用时：180-300 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[Next.js](https://nextjs.org/docs)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 Next.js 四种渲染策略（SSG / SSR / ISR / PPR）的区别和适用场景
@@ -15,6 +25,8 @@
 ## 内容讲解
 
 ### 一、四种渲染策略全景
+
+> **Next.js 16 模式说明**：本章前半部分的 `dynamic`、路由段 `revalidate` 和传统 SSG/ISR 分类适用于未开启 Cache Components 的项目。开启 `cacheComponents: true` 后，应改用 `use cache`、`cacheLife`、`cacheTag`、`Suspense` 和运行时数据边界，不能混用被替代的路由段配置。
 
 Next.js 在 App Router 中提供了四种渲染策略，形成了一个从"完全静态"到"完全动态"的光谱：
 
@@ -221,8 +233,8 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 // 在 Server Action 或 Route Handler 中使用
 import { revalidateTag, revalidatePath } from 'next/cache';
 
-// 按标签：清除所有标记了 'products' 的缓存
-revalidateTag('products');
+// 按标签：标记为 stale，下一次访问先返回旧值并后台刷新
+revalidateTag('products', 'max');
 
 // 按路径：只清除 /products/1 的缓存
 revalidatePath('/products/1');
@@ -286,20 +298,18 @@ export default function DashboardPage() {
 
 ---
 
-### 六、PPR：Partial Prerendering（Next.js 16 实验性特性）
+### 六、PPR：通过 Cache Components 实现部分预渲染
 
-PPR 是 Next.js 16 引入的实验性特性，把页面分成两部分：
+Next.js 16 使用可选的 **Cache Components** 模式实现部分预渲染。开启后，框架在构建期生成静态 HTML 外壳，并要求无法预渲染的子树显式放入 Suspense：
 - **静态外壳（Static Shell）**：构建时预渲染，加载极快
 - **动态内容（Dynamic Holes）**：运行时用 Suspense 流式注入
 
 ```tsx
-// next.config.ts —— 开启 PPR
+// next.config.ts —— 开启 Cache Components
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  experimental: {
-    ppr: 'incremental',  // 渐进式启用 PPR
-  },
+  cacheComponents: true,
 };
 
 export default nextConfig;
@@ -309,8 +319,12 @@ export default nextConfig;
 // app/product/[id]/page.tsx
 import { Suspense } from 'react';
 
-// 静态外壳：布局、标题、导航，构建时渲染
-export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+// 静态外壳不读取运行时 params，只把 Promise 交给 Suspense 内的动态子树
+export default function ProductPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   return (
     <div>
       <Header />    {/* 静态：导航栏 */}
@@ -318,14 +332,20 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       <main>
         {/* 动态洞：库存和价格实时变化 */}
         <Suspense fallback={<PriceSkeleton />}>
-          <Price productId={(await params).id} />
+          <Price params={params} />
         </Suspense>
         <Suspense fallback={<StockSkeleton />}>
-          <Stock productId={(await params).id} />
+          <Stock params={params} />
         </Suspense>
       </main>
     </div>
   );
+}
+
+async function Price({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const price = await getLivePrice(id);
+  return <strong>{price}</strong>;
 }
 ```
 
@@ -335,7 +355,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
 | 动态内容 | 无（完全静态） | Suspense 洞中动态渲染 |
 | 适用场景 | 完全不变化的内容 | 大部分静态 + 少量动态 |
 
-> **避坑提示**：PPR 仍然是实验性特性，生产环境谨慎使用。但它的设计方向是正确的——未来大部分页面的最佳实践都是 "PPR 模式"。
+> **避坑提示**：旧的 `experimental.ppr` / `ppr: 'incremental'` 配置已被迁移路径取代。启用 `cacheComponents` 后，开发和构建阶段会检查未缓存异步数据是否位于 Suspense 内；按路由逐步迁移并用构建输出确认静态外壳。
 
 ---
 
@@ -510,15 +530,15 @@ export default function DashboardPage() {
 
 ### Q4：什么时候用 ISR 而不是 SSR？
 
-如果数据更新的实时性要求不是"秒级"（比如产品信息、文章内容），ISR 比 SSR 更好：响应快（静态文件）、服务器压力小、CDN 友好。只有当内容必须**每次请求都 100% 最新**（如股票价格、竞拍出价）时才用 SSR。
+当业务允许一个明确的陈旧窗口（如文章、商品描述）时，ISR 通常能降低渲染成本并提高缓存命中率。需要按用户、Cookie 或请求参数生成内容，或者每次请求都要重新访问数据源时，再考虑动态 SSR。SSR 只表示本次请求会在服务端渲染，并不保证上游数据源、`fetch` 或 CDN 没有缓存；股票和竞拍等实时数据通常还需要客户端订阅、轮询以及明确的一致性策略。
 
 ### Q5：Streaming SSR 和 SSR 的性能差异有多大？
 
-用 TTFB（首字节时间）衡量：传统 SSR 可能 2-3 秒才有第一个字节，Streaming SSR 在 100-200ms 就能开始发送 HTML（静态壳）。用户感知的差异非常明显——就像看到一个骨架屏 vs 白屏的区别。
+Streaming SSR 可以先发送已经就绪的 HTML 和 Suspense fallback，不必等待所有数据完成，因此常能改善首字节和首次可见反馈。收益没有固定毫秒数，取决于数据依赖、网络、运行区域和代理缓冲；应同时测量 TTFB、FCP、LCP，以及用户是否更早看到有意义内容。
 
 ### Q6：PPR 现在能用在生产环境吗？
 
-Next.js 16 的 PPR（`ppr: 'incremental'`）仍然是实验性特性。生产环境建议先使用 SSG + ISR + Streaming SSR 的组合，等 PPR 稳定后再迁移。
+Next.js 16 通过可选的 `cacheComponents: true` 提供 PPR 行为，不再使用 `experimental.ppr`。是否启用取决于部署平台支持、现有缓存配置和迁移成本；先在单条路由验证构建输出、缓存失效和请求时数据，再逐步扩大范围。
 
 ### Q7：`fetch` 缓存和 ISR 的 `revalidate` 是什么关系？
 
@@ -554,6 +574,25 @@ Next.js 16 的 PPR（`ppr: 'incremental'`）仍然是实验性特性。生产环
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L4 里程碑](../../projects/atlas/milestones/L4.md)
+- 本课任务：按 L4 里程碑把“SSR / ISR / PPR 渲染策略”接入 Atlas 全栈版本，明确服务端信任边界、数据契约、失败响应和回滚方式。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 渲染策略是 Next.js 最核心的面试点和实战点。关键记忆三句话：
@@ -563,3 +602,11 @@ Next.js 16 的 PPR（`ppr: 'incremental'`）仍然是实验性特性。生产环
 3. **SSR + Streaming 是动态的优雅**：用 Suspense 边界拆解慢组件，用户不用等整个页面
 
 这个决策框架用熟了，大多数业务场景你都能第一反应选对策略。下一节我们学习 Server Actions——Next.js 处理表单和数据变更的新范式。
+
+官方参考：[Next.js Cache Components](https://nextjs.org/docs/app/getting-started/cache-components) · [Next.js 16 Upgrade Guide](https://nextjs.org/docs/app/guides/upgrading/version-16)
+
+<!-- course-nav:start -->
+---
+
+[上一篇：01 App Router 与文件约定](./01-App-Router与文件约定.md) · [课程地图](../../README.md) · [下一篇：03 Server Actions 与数据变更](./03-Server-Actions与数据变更.md)
+<!-- course-nav:end -->

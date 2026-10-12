@@ -1,5 +1,15 @@
 # 03-Worker Threads 与集群
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L4 全栈与服务端
+> - 先修：[02-Stream API 与缓冲](./02-Stream-API与缓冲.md)
+> - 建议用时：180-300 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[Node.js](https://nodejs.org/docs/latest-v24.x/api/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 Node.js 单线程模型的边界：I/O 强、CPU 弱
@@ -721,6 +731,25 @@ node hash-passwords.js passwords.txt hashed.txt
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L4 里程碑](../../projects/atlas/milestones/L4.md)
+- 本课任务：按 L4 里程碑把“Worker Threads 与集群”接入 Atlas 全栈版本，明确服务端信任边界、数据契约、失败响应和回滚方式。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 Node.js 单线程模型对 I/O 密集型任务很高效，但 CPU 密集型任务需要「借用外力」。三种并行方案的选择：
@@ -739,3 +768,9 @@ Node.js 单线程模型对 I/O 密集型任务很高效，但 CPU 密集型任�
 4. **通信优先用 postMessage**，只在性能敏感且需要极低延迟的场景才用 `SharedArrayBuffer`+`Atomics`
 
 至此，你已掌握 Node.js 后端的三大核心能力：事件循环与文件 I/O（01）、流式数据处理（02）、并行与集群（03）。
+
+<!-- course-nav:start -->
+---
+
+[上一篇：02-Stream API 与缓冲](./02-Stream-API与缓冲.md) · [课程地图](../../README.md) · [下一篇：01-RESTful 设计规范](../03-API设计与数据层/01-RESTful设计规范.md)
+<!-- course-nav:end -->

@@ -1,5 +1,15 @@
 # 02 Prisma ORM 实战
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L4 全栈与服务端
+> - 先修：[01 PostgreSQL 核心概念](./01-PostgreSQL核心概念.md)
+> - 建议用时：180-300 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[Prisma](https://www.prisma.io/docs/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解 ORM 的价值：把数据库操作从"写 SQL 字符串"提升到"类型安全的函数调用"
@@ -598,7 +608,7 @@ CREATE TABLE "User" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 ```
 
-> **避坑提示**：`prisma migrate reset` 会删除数据库中所有数据。开发环境用它没问题，**永远不要在生产环境执行**。
+> **避坑提示**：`prisma migrate reset` 会删除数据库或 schema 中的数据，只能在确认可丢弃的开发数据库中使用。测试与生产环境使用 `prisma migrate deploy` 应用已提交迁移；若生产迁移失败，应按备份、修复迁移和 `migrate resolve` 流程处理，不能重置数据库。
 
 ---
 
@@ -898,6 +908,25 @@ Prisma 默认通过 `@prisma/client` 内置连接池，不需要额外配置。�
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L4 里程碑](../../projects/atlas/milestones/L4.md)
+- 本课任务：按 L4 里程碑把“Prisma ORM 实战”接入 Atlas 全栈版本，明确服务端信任边界、数据契约、失败响应和回滚方式。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - **ORM** 把 SQL 操作升级为类型安全的函数调用，消除 SQL 注入风险
@@ -907,3 +936,9 @@ Prisma 默认通过 `@prisma/client` 内置连接池，不需要额外配置。�
 - **关联过滤**（some/every/none）可以在查询条件中过滤关联记录的存在性和特征
 - **Prisma Migrate** 将 Schema 变更转化为版本控制的 SQL 迁移文件
 - **事务**保证多个写入操作的原子性——要么全成功，要么全回滚
+
+<!-- course-nav:start -->
+---
+
+[上一篇：01 PostgreSQL 核心概念](./01-PostgreSQL核心概念.md) · [课程地图](../../README.md) · [下一篇：03 迁移、事务与索引](./03-迁移-事务与索引.md)
+<!-- course-nav:end -->

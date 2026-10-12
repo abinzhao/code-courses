@@ -1,5 +1,15 @@
 # 02-组件测试与 Testing Library
 
+<!-- course-meta:start -->
+> **课程元数据**
+> - 层级：L3 工程化与质量保障
+> - 先修：[01-Vitest 单元测试实战](./01-Vitest单元测试实战.md)
+> - 建议用时：150-240 分钟
+> - 技术基线：2026-10，详见[技术基线与来源](../../技术基线与来源.md)
+> - 一手资料：[Testing Library](https://testing-library.com/docs/)
+> - 完成要求：运行示例、完成至少基础作业、提交验证记录
+<!-- course-meta:end -->
+
 ## 学习目标
 
 - 理解组件测试的核心哲学：测行为，不测实现
@@ -138,7 +148,7 @@ describe('Greeting 组件', () => {
 
 | | 找不到时 | 使用场景 |
 |---|---|---|
-| `getBy...` | 抛异常 | 断言元素**肯定存在** |
+| `getBy...` | 抛异常 | 同步断言元素**此刻存在** |
 | `queryBy...` | 返回 null | 断言元素**不存在** |
 | `findBy...` | reject Promise | 断言元素**最终会出现**（异步） |
 
@@ -172,7 +182,7 @@ fireEvent.click(button)
 await userEvent.click(button)
 ```
 
-**结论：永远优先用 userEvent。** `fireEvent` 只在一种场景有用——你需要触发某个 userEvent 不支持的特殊事件（比如 `animationEnd`）。
+**结论：测试点击、输入、Tab 等用户操作时，优先使用 `userEvent`。** 当 `userEvent` 不支持目标事件（如 `animationEnd`）、需要精确测试单个底层 DOM 事件，或测试环境无法完成完整交互序列时，再使用 `fireEvent`。
 
 ---
 
@@ -299,7 +309,7 @@ await screen.findByText('Alice', {}, { timeout: 3000 })
 | 内部方法是否被调用 | 用户操作后的结果 |
 | Redux/Vuex store 的内部状态 | 状态变化后的 UI 表现 |
 
-**对于第三方库：** 永远不测试第三方库的内部逻辑。你不需要测 `useState` 的 `setState` 是否触发了重渲染，那是 React 团队的职责。你只需要测试：你的组件在 React 提供的能力之上，表现是否符合预期。
+**对于第三方库：** 不重复验证第三方库已经承诺的内部逻辑。你不需要测 `useState` 的 `setState` 是否触发重渲染，那是 React 团队的职责；但要测试应用与第三方库之间的集成契约，例如适配器参数、错误回退和升级后仍需成立的关键行为。
 
 ---
 
@@ -814,12 +824,37 @@ const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
 
 ---
 
+<!-- atlas-task:start -->
+## Atlas 项目任务
+
+- 项目起点：[Atlas 贯穿项目](../../projects/atlas/README.md)
+- 阶段目标：[L3 里程碑](../../projects/atlas/milestones/L3.md)
+- 本课任务：把“组件测试与 Testing Library”接入 Atlas 工程链路，形成可重复命令和失败门禁，并保存一次故意失败与恢复的证据。
+- 起始验证：在 `前端学习路线` 目录运行 `npm run atlas:test`。
+- 自动检查：为本课新增或修改的行为补充测试；无法自动化的浏览器行为必须保留截图、Network、Performance 或无障碍树证据。
+
+### 项目验收
+
+- [ ] 正常路径可以从统一入口复现
+- [ ] 空值、错误或权限边界至少覆盖一项
+- [ ] 相关自动测试通过，且没有删除既有断言
+- [ ] 记录一个“现象—原因—验证—结论”
+<!-- atlas-task:end -->
+
+---
+
 ## 本节小结
 
 - 组件测试的黄金法则：测行为，不测实现
 - 查询优先级：`getByRole` > `getByLabelText` > `getByText` > `getByTestId`
 - `getBy` 断言存在，`queryBy` 断言不存在，`findBy` 等待异步出现
-- **永远用 `userEvent.setup()` 而不是 `fireEvent`**
+- 用户点击、输入和键盘操作优先用 `userEvent.setup()`；底层或暂不支持的事件再用 `fireEvent`
 - 异步用 `findBy`、`waitFor`、`waitForElementToBeRemoved`
 - 不测内部 state、不测第三方库、不测实现细节
 - React 和 Vue 的 Testing Library 写法 90% 一致，差异只在 `render` 传参
+
+<!-- course-nav:start -->
+---
+
+[上一篇：01-Vitest 单元测试实战](./01-Vitest单元测试实战.md) · [课程地图](../../README.md) · [下一篇：03-Playwright E2E 测试](./03-Playwright-E2E测试.md)
+<!-- course-nav:end -->
